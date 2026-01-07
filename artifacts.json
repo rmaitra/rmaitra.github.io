@@ -16,7 +16,7 @@
                 "field":"department",
                 "width":"14%",
                 "type":"department-link",
-                "sortable": true
+                "sortable":true
             },
             {
                 "header":"Commissioner",
@@ -255,7 +255,7 @@
                 "field":"title",
                 "width":"25%",
                 "type":"program-link",
-                "sortable": true
+                "sortable":true
             },
             {
                 "header":"Description",
@@ -588,13 +588,14 @@
                 ]
             }
         ]
-    },{
-        "title": "About Minnesota Government",
-        "description": "Learn about the structure and history of Minnesota's government.",
-        "subtitle": "About Minnesota Government",
-        "footer": "Sample text content - Last updated January 2026",
-        "type": "text",
-        "src": "./text.html",
-        "data":""
     },
+    {
+        "title":"About Minnesota Government",
+        "description":"Learn about the structure and history of Minnesota's government.",
+        "subtitle":"About Minnesota Government",
+        "footer":"Sample text content - Last updated January 2026",
+        "type":"text",
+        "src":"./text.html",
+        "data":""
+    }
 ]
