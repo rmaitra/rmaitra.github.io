@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minnesota Explained</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: white;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: none;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .back-button.visible {
+            display: block;
+        }
+
+        .navbar-content {
+            flex: 1;
+        }
+
+        .navbar-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+        }
+
+        .navbar-subtitle {
+            font-size: 1em;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .cards-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(42, 82, 152, 0.15);
+            border-color: #2a5298;
+        }
+
+        .card-title {
+            color: #2a5298;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-link {
+            color: #2a5298;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .card-link:after {
+            content: " →";
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #2a5298;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #d32f2f;
+        }
+
+        .error-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .table-view {
+            display: none;
+        }
+
+        .table-view.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            background: white;
+            overflow: hidden;
+            height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-wrapper {
+            overflow-y: auto;
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead {
+            background: #f8f9fa;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #667eea;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        th.sortable:hover {
+            background: #e9ecef;
+        }
+
+        th.sortable::after {
+            content: '⇅';
+            position: absolute;
+            right: 8px;
+            opacity: 0.3;
+            font-size: 14px;
+        }
+
+        th.sortable.sort-asc::after {
+            content: '↑';
+            opacity: 1;
+            color: #2a5298;
+        }
+
+        th.sortable.sort-desc::after {
+            content: '↓';
+            opacity: 1;
+            color: #2a5298;
+        }
+
+        th.filterable {
+            position: relative;
+        }
+
+        .filter-toggle {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            padding: 2px 6px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.2s;
+        }
+
+        .filter-toggle:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .filter-toggle.active {
+            background: #667eea;
+            color: white;
+        }
+
+        th.filterable.sortable {
+            padding-right: 60px;
+        }
+
+        .filter-dropdown {
+            display: none;
+            margin-top: 5px;
+        }
+
+        .filter-dropdown.active {
+            display: block;
+        }
+
+        .filter-dropdown select {
+            width: 100%;
+            padding: 4px 8px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            font-size: 11px;
+            background: white;
+            color: #2c3e50;
+            cursor: pointer;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .filter-dropdown select:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .filter-active-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            margin-left: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: #f8f9ff;
+            transition: background 0.2s ease;
+        }
+
+        .department-name {
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .department-name a {
+            color: #1e3c72;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .department-name a:hover {
+            color: #667eea;
+            text-decoration: underline;
+        }
+
+        .program-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+        }
+
+        .program-link {
+            color: #2a5298;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .program-link:hover {
+            text-decoration: underline;
+        }
+
+        .commissioner-name {
+            color: #2c3e50;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .commissioner-powers {
+            color: #444;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .employees {
+            font-weight: 600;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .no-data {
+            color: #adb5bd;
+            font-style: italic;
+        }
+
+        .website-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 13px;
+            word-break: break-all;
+            transition: color 0.2s ease;
+        }
+
+        .website-link:hover {
+            color: #1e3c72;
+            text-decoration: underline;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .category-tag {
+            background: #edf2f7;
+            color: #4a5568;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px 20px;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid #e9ecef;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-title {
+                font-size: 1.5em;
+            }
+
+            .navbar-subtitle {
+                font-size: 0.9em;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <button class="back-button" id="backButton" onclick="showCards()">← Back</button>
+        <div class="navbar-content">
+            <h1 class="navbar-title">Minnesota Explained</h1>
+            <p class="navbar-subtitle" id="navbarSubtitle">Explore Minnesota State Government</p>
+        </div>
+    </nav>
+
+    <div id="cardsView" class="cards-container">
+        <div id="loadingState" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading data...</p>
+        </div>
+        <div id="errorState" class="error" style="display: none;">
+            <div class="error-title">Failed to Load Data</div>
+            <p id="errorMessage"></p>
+        </div>
+        <div class="cards-grid" id="cardsContainer"></div>
+    </div>
+
+    <div id="tableView" class="table-view">
+        <div class="container">
+            <div class="table-wrapper">
+                <table>
+                    <thead id="tableHead"></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            <footer id="tableFooter"></footer>
+        </div>
+    </div>
+
+    <script>
+        let artifacts = [];
+        let currentArtifactIndex = null;
+        let sortColumn = null;
+        let sortDirection = 'asc';
+        let activeFilters = {}; // { columnIndex: selectedValue }
+        let filterDropdownStates = {}; // { columnIndex: true/false }
+
+        // Replace this URL with your GitHub Gist raw URL or other data source
+        const DATA_URL = 'https://gist.githubusercontent.com/rmaitra/0f4072a94498f580f81ae835af8a10b6/raw/1040946d247591accc632e43f612c7c750bef731/artifacts.json';
+
+        /* 
+         * Column structure example:
+         * {
+         *   header: "Column Name",     // Display name
+         *   field: "field_name",       // Data field name
+         *   width: "20%",              // Column width
+         *   type: "text",              // text, number, link, department-link, program-link, categories, index
+         *   sortable: true,            // Enable sorting for this column
+         *   filterable: true           // Enable filtering for this column
+         * }
+         */
+
+        // Fetch data from remote source
+        async function loadData() {
+            try {
+                const response = await fetch(DATA_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                artifacts = await response.json();
+                
+                // Hide loading, show cards
+                document.getElementById('loadingState').style.display = 'none';
+                renderCards();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 
+                    'Could not load data. Please check the data URL and try again. Error: ' + error.message;
+            }
+        }
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+            
+            artifacts.forEach((artifact, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => showTable(index);
+                
+                card.innerHTML = `
+                    <h2 class="card-title">${artifact.title}</h2>
+                    <p class="card-description">${artifact.description}</p>
+                    <span class="card-link">View Details</span>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        function showTable(index) {
+            const artifact = artifacts[index];
+            currentArtifactIndex = index;
+            sortColumn = null;
+            sortDirection = 'asc';
+            activeFilters = {};
+            filterDropdownStates = {};
+            
+            document.getElementById('navbarSubtitle').textContent = artifact.subtitle;
+            document.getElementById('backButton').classList.add('visible');
+            document.getElementById('cardsView').style.display = 'none';
+            document.getElementById('tableView').classList.add('active');
+            
+            renderDynamicTable(artifact);
+        }
+
+        function showCards() {
+            document.getElementById('cardsView').style.display = 'block';
+            document.getElementById('tableView').classList.remove('active');
+            document.getElementById('backButton').classList.remove('visible');
+            document.getElementById('navbarSubtitle').textContent = 'Explore Minnesota State Government';
+        }
+
+        function renderDynamicTable(artifact) {
+            const tableHead = document.getElementById('tableHead');
+            const tableBody = document.getElementById('tableBody');
+            const tableFooter = document.getElementById('tableFooter');
+            
+            // Filter data based on active filters
+            let displayData = [...artifact.data];
+            Object.keys(activeFilters).forEach(colIndex => {
+                const filterValue = activeFilters[colIndex];
+                if (filterValue !== '') {
+                    const column = artifact.columns[colIndex];
+                    displayData = displayData.filter(row => {
+                        const value = row[column.field];
+                        if (column.type === 'categories') {
+                            return value && value.includes(filterValue);
+                        }
+                        return String(value || '').toLowerCase() === filterValue.toLowerCase();
+                    });
+                }
+            });
+            
+            // Sort data if a sort column is selected
+            if (sortColumn !== null) {
+                displayData = sortData(displayData, artifact.columns[sortColumn], sortDirection);
+            }
+            
+            // Render header
+            const headerRow = document.createElement('tr');
+            artifact.columns.forEach((col, colIndex) => {
+                const th = document.createElement('th');
+                if (col.width) th.style.width = col.width;
+                
+                // Create header content wrapper
+                const headerContent = document.createElement('div');
+                headerContent.style.position = 'relative';
+                
+                // Add header text
+                const headerText = document.createElement('span');
+                headerText.textContent = col.header;
+                headerContent.appendChild(headerText);
+                
+                // Add active filter indicator
+                if (activeFilters[colIndex] && activeFilters[colIndex] !== '') {
+                    const indicator = document.createElement('span');
+                    indicator.className = 'filter-active-indicator';
+                    headerContent.appendChild(indicator);
+                }
+                
+                // Add filter toggle button if filterable
+                if (col.filterable) {
+                    th.classList.add('filterable');
+                    const toggleBtn = document.createElement('span');
+                    toggleBtn.className = 'filter-toggle';
+                    toggleBtn.textContent = 'Filter';
+                    toggleBtn.title = 'Toggle filter';
+                    if (filterDropdownStates[colIndex]) {
+                        toggleBtn.classList.add('active');
+                    }
+                    toggleBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        toggleFilter(colIndex);
+                    };
+                    headerContent.appendChild(toggleBtn);
+                    
+                    // Add filter dropdown
+                    const filterDiv = document.createElement('div');
+                    filterDiv.className = 'filter-dropdown';
+                    if (filterDropdownStates[colIndex]) {
+                        filterDiv.classList.add('active');
+                    }
+                    
+                    const select = document.createElement('select');
+                    select.onchange = (e) => handleFilterChange(colIndex, e.target.value);
+                    
+                    // Get unique values for this column
+                    const uniqueValues = getUniqueValues(artifact.data, col);
+                    
+                    // Add "All" option
+                    const allOption = document.createElement('option');
+                    allOption.value = '';
+                    allOption.textContent = '-- All --';
+                    select.appendChild(allOption);
+                    
+                    // Add unique values as options
+                    uniqueValues.forEach(value => {
+                        const option = document.createElement('option');
+                        option.value = value;
+                        option.textContent = value;
+                        if (activeFilters[colIndex] === value) {
+                            option.selected = true;
+                        }
+                        select.appendChild(option);
+                    });
+                    
+                    filterDiv.appendChild(select);
+                    headerContent.appendChild(filterDiv);
+                }
+                
+                th.appendChild(headerContent);
+                
+                // Add sortable class and click handler if sortable
+                if (col.sortable) {
+                    th.classList.add('sortable');
+                    if (sortColumn === colIndex) {
+                        th.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+                    }
+                    th.onclick = () => handleSort(colIndex);
+                }
+                
+                headerRow.appendChild(th);
+            });
+            tableHead.innerHTML = '';
+            tableHead.appendChild(headerRow);
+            
+            // Render body
+            tableBody.innerHTML = '';
+            displayData.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                
+                artifact.columns.forEach(col => {
+                    const td = document.createElement('td');
+                    const value = col.type === 'index' ? rowIndex + 1 : row[col.field];
+                    
+                    switch(col.type) {
+                        case 'index':
+                            td.className = 'employees';
+                            td.textContent = rowIndex + 1;
+                            break;
+                        case 'department-link':
+                            td.className = 'department-name';
+                            td.innerHTML = `<a href="${row.url}" target="_blank" rel="noopener noreferrer">${value}</a>`;
+                            break;
+                        case 'program-link':
+                            td.innerHTML = `<div class="program-title">${value}</div><a href="${row.link}" target="_blank" class="program-link">View Details →</a>`;
+                            break;
+                        case 'link':
+                            td.innerHTML = `<a href="${value}" target="_blank" rel="noopener noreferrer" class="website-link">${value}</a>`;
+                            break;
+                        case 'number':
+                            td.className = 'employees';
+                            td.innerHTML = value !== null ? value.toLocaleString() : '<span class="no-data">N/A</span>';
+                            break;
+                        case 'categories':
+                            td.innerHTML = `<div class="categories">${value.map(cat => `<span class="category-tag">${cat}</span>`).join('')}</div>`;
+                            break;
+                        case 'text':
+                        default:
+                            if (col.field === 'description') td.className = 'description';
+                            else if (col.field === 'commissioner_powers') td.className = 'commissioner-powers';
+                            else if (col.field === 'commissioner') td.className = 'commissioner-name';
+                            td.textContent = value || '';
+                            break;
+                    }
+                    
+                    tr.appendChild(td);
+                });
+                
+                tableBody.appendChild(tr);
+            });
+            
+            const filterCount = Object.values(activeFilters).filter(v => v !== '').length;
+            const footerText = artifact.footer + (filterCount > 0 ? ` | ${displayData.length} of ${artifact.data.length} rows shown` : '');
+            tableFooter.textContent = footerText;
+        }
+
+        function handleSort(colIndex) {
+            if (sortColumn === colIndex) {
+                // Toggle sort direction
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                // New column, default to ascending
+                sortColumn = colIndex;
+                sortDirection = 'asc';
+            }
+            
+            renderDynamicTable(artifacts[currentArtifactIndex]);
+        }
+
+        function toggleFilter(colIndex) {
+            filterDropdownStates[colIndex] = !filterDropdownStates[colIndex];
+            renderDynamicTable(artifacts[currentArtifactIndex]);
+        }
+
+        function handleFilterChange(colIndex, value) {
+            activeFilters[colIndex] = value;
+            renderDynamicTable(artifacts[currentArtifactIndex]);
+        }
+
+        function getUniqueValues(data, column) {
+            const values = new Set();
+            
+            data.forEach(row => {
+                const value = row[column.field];
+                if (column.type === 'categories' && Array.isArray(value)) {
+                    // For categories, add each category separately
+                    value.forEach(cat => values.add(cat));
+                } else if (value !== null && value !== undefined && value !== '') {
+                    values.add(String(value));
+                }
+            });
+            
+            return Array.from(values).sort();
+        }
+
+        function sortData(data, column, direction) {
+            return data.sort((a, b) => {
+                let aVal = a[column.field];
+                let bVal = b[column.field];
+                
+                // Handle null values
+                if (aVal === null || aVal === undefined) return direction === 'asc' ? 1 : -1;
+                if (bVal === null || bVal === undefined) return direction === 'asc' ? -1 : 1;
+                
+                // Sort based on column type
+                if (column.type === 'number') {
+                    aVal = Number(aVal);
+                    bVal = Number(bVal);
+                } else if (column.type === 'categories') {
+                    // Sort by first category
+                    aVal = aVal[0] || '';
+                    bVal = bVal[0] || '';
+                } else {
+                    // Text sorting (case insensitive)
+                    aVal = String(aVal).toLowerCase();
+                    bVal = String(bVal).toLowerCase();
+                }
+                
+                if (aVal < bVal) return direction === 'asc' ? -1 : 1;
+                if (aVal > bVal) return direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
+        // Load data when page loads
+        loadData();
+    </script>
+</body>
+</html>
