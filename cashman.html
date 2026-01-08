@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katie Cashman City Council Accomplishments</title>
+    <title>Katie Cashman City Council Dashboard</title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
@@ -38,6 +38,10 @@
             }
         }
 
+        .bg-nav{
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+
         img{
             width: auto;
         }
@@ -46,15 +50,12 @@
 <body class="bg-gray-50">
     <div id="app" class="min-h-screen">
         <!-- Header -->
-        <header class="bg-blue-600 text-white shadow-lg">
+        <header class="bg-nav text-white shadow-lg">
             <div class="container mx-auto px-4 py-6">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-3">
-                        <a href="https://www.katieforcouncil.org/">
-                            <img src="https://images.squarespace-cdn.com/content/v1/63e30658e7059222878ca4ec/b1e56df3-99a1-460c-82d2-b63fae2ee4fa/KC+Assets+for+Sean_logo+white+yellow.png?format=1500w" alt="Katie Cashman for Council" style="max-height:50px" >
-                        </a>
-                        <h1 class="sm-hide text-2xl font-bold">Katie Cashman City Council Accomplishments</h1>
-                        <h1 class="sm-show text-xl font-bold">Katie Cashman Accomplishments</h1>
+                        <p class="text-sm font-bold"><a href="/">MN Explained</a></p>
+                        <h1 class="text-xl font-bold">Katie Cashman's Work as a Council Member</h1>
                     </div>
                 </div>
             </div>
