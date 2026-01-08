@@ -595,7 +595,7 @@
         "subtitle":"About Minnesota Government",
         "footer":"Sample text content - Last updated January 2026",
         "type":"text",
-        "src":"./text.html",
+        "src":"./test.html",
         "data":""
     }
 ]
