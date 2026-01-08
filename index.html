@@ -62,7 +62,7 @@
         }
 
         .navbar {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
             color: white;
             padding: 20px 40px;
             box-shadow: var(--shadow-md);
@@ -824,7 +824,7 @@
         <button class="back-button" id="backButton" onclick="showCards()">← Back</button>
         <div class="navbar-content">
             <h1 class="navbar-title">Minnesota Explained</h1>
-            <p class="navbar-subtitle" id="navbarSubtitle">Explore Minnesota State Government</p>
+            <p class="navbar-subtitle" id="navbarSubtitle"></p>
         </div>
         <div class="dark-mode-toggle">
             <div class="toggle-switch" onclick="toggleDarkMode()">
@@ -834,6 +834,12 @@
     </nav>
 
     <div id="cardsView" class="cards-container">
+        <div id="intro" style="padding-bottom:10px">
+            <div>
+                <h2 class="card-title">Minnesota Explained</h2>
+                <p class="card-description">Minnesota Explained is a free guide to Minnesota state and Minneapolis city resources meant for residents.</p>
+            </div>
+        </div>
         <div id="loadingState" class="loading">
             <div class="loading-spinner"></div>
             <p>Loading data...</p>
@@ -945,6 +951,175 @@
         // Sample data for demo purposes (remove this when you have real data)
         function loadSampleData() {
             artifacts = [
+
+    {
+        "title":"Shelters, Services, Clinics",
+        "description":"",
+        "subtitle":"About Minnesota Government",
+        "footer":"",
+        "columns":[
+            {
+                "header":"#",
+                "field":"index",
+                "width":"3%",
+                "type":"index"
+            },
+            {
+                "header":"Title",
+                "field":"title",
+                "width":"10%",
+                "type":"title",
+                "sortable":true
+            },
+            {
+                "header":"Description",
+                "field":"description",
+                "width":"20%",
+                "type":"text"
+            },
+            {
+                "header":"Address",
+                "field":"address",
+                "width":"5%",
+                "type":"text"
+            },
+            {
+                "header":"Services",
+                "field":"services",
+                "width":"10%",
+                "type":"categories",
+                "filterable":true
+            },
+            {
+                "header":"Website",
+                "field":"link",
+                "width":"5%",
+                "type":"link"
+            }
+        ],
+        "data":[
+              {
+                "title": "Agate Housing & Services",
+                "category": "Emergency Shelter & Outreach",
+                "description": "Formed by the merger of St. Stephen’s and House of Charity; focuses on ending homelessness through street outreach and housing-first models.",
+                "address": "2309 Nicollet Ave, Minneapolis, MN 55404",
+                "services": ["Street outreach", "Emergency shelter for men/couples", "Food shelf", "Public showers", "Permanent supportive housing"],
+                "link": "https://agatemn.org"
+              },
+              {
+                "title": "People Serving People",
+                "category": "Family Services",
+                "description": "The largest family-focused shelter in Minnesota, providing comprehensive wrap-around services for families and children.",
+                "address": "614 South 3rd Street, Minneapolis, MN 55415",
+                "services": ["Family emergency shelter", "Early learning center", "K-12 tutoring", "On-site medical clinic", "Financial literacy"],
+                "link": "https://www.peopleservingpeople.org"
+              },
+              {
+                "title": "Catholic Charities: Higher Ground & Opportunity Center",
+                "category": "General Shelter & Day Services",
+                "description": "A massive service hub providing both overnight shelter and daytime resources like showers, laundry, and housing case management.",
+                "address": "165 Glenwood Avenue North, Minneapolis, MN 55405",
+                "services": ["Overnight shelter", "Day center", "Pay-for-stay housing", "Showers and laundry", "Employment assistance"],
+                "link": "https://cctwincities.org"
+              },
+              {
+                "title": "Simpson Housing Services",
+                "category": "General Shelter & Supportive Housing",
+                "description": "Provides individual advocacy and a range of housing programs from emergency shelter to permanent supportive homes.",
+                "address": "128 W 33rd St, Minneapolis, MN 55408",
+                "services": ["Adult shelter", "Family supportive housing", "Children and youth programs", "Housing advocacy"],
+                "link": "https://www.simpsonhousing.org"
+              },
+              {
+                "title": "Our Saviour’s Housing",
+                "category": "Emergency & Transitional Shelter",
+                "description": "Provides emergency shelter and transitional housing for single adults, specifically focusing on those with mental health or chemical health needs.",
+                "address": "2219 Chicago Ave S, Minneapolis, MN 55404",
+                "services": ["Emergency shelter", "Transitional housing", "Permanent supportive housing"],
+                "link": "https://oscs-mn.org"
+              },
+              {
+                "title": "The Salvation Army: Harbor Light Center",
+                "category": "Emergency Shelter & Medical",
+                "description": "One of the largest homeless outreach facilities in Minnesota, offering emergency shelter and specialized recovery programs.",
+                "address": "1010 Currie Ave, Minneapolis, MN 55403",
+                "services": ["Emergency housing", "Sober living programs", "Daily hot meals", "On-site medical clinic"],
+                "link": "https://centralusa.salvationarmy.org/northern/harborlightcenter"
+              },
+              {
+                "title": "Sharing & Caring Hands",
+                "category": "Comprehensive Emergency Services",
+                "description": "Provides a massive range of immediate safety-net services including food, medical care, and family shelter.",
+                "address": "525 N 7th St, Minneapolis, MN 55405",
+                "services": ["Free medical/dental clinic", "Mary's Place family shelter", "Daily hot meals", "Vouchers for beds/shoes"],
+                "link": "https://sharingandcaringhands.org"
+              },
+              {
+                "title": "Community Emergency Service (CES)",
+                "category": "Food Shelf",
+                "description": "A choice-based food shelf providing fresh, nutritious food and home-delivery services for those with mobility issues.",
+                "address": "1900 11th Ave S, Minneapolis, MN 55404",
+                "services": ["Food market", "Home-delivered meals", "Pet food shelf", "Crisis financial help"],
+                "link": "https://cesmn.org"
+              },
+              {
+                "title": "Groveland Food Shelf",
+                "category": "Food Shelf",
+                "description": "Non-profit providing emergency groceries and hygiene items to the Stevens Square neighborhood and students.",
+                "address": "1900 Nicollet Ave, Minneapolis, MN 55403",
+                "services": ["Emergency groceries", "Personal hygiene items", "Mobile outreach"],
+                "link": "https://www.grovelandfoodshelf.org"
+              },
+              {
+                "title": "Hennepin County Health Care for the Homeless",
+                "category": "Medical Clinic",
+                "description": "Specialized medical team operating clinics within Minneapolis shelters to remove barriers to care.",
+                "address": "525 Portland Ave S, Minneapolis, MN 55415",
+                "services": ["Primary care", "Mental health therapy", "Substance use disorder support", "Medication refills"],
+                "link": "https://www.hennepin.us/residents/health-medical/health-care-for-the-homeless"
+              },
+              {
+                "title": "Phillips Neighborhood Clinic",
+                "category": "Medical Clinic",
+                "description": "Free, student-run clinic providing health care services to those without insurance.",
+                "address": "2742 15th Ave S, Minneapolis, MN 55407",
+                "services": ["Free primary care", "Mental health counseling", "Physical therapy", "Lab work"],
+                "link": "https://sites.google.com/view/phillipsneighborhoodclinic"
+              },
+              {
+                "title": "NorthPoint Health & Wellness Center",
+                "category": "Integrated Health & Food",
+                "description": "Multi-specialty center integrating primary medical care with human services and a food shelf.",
+                "address": "1313 Penn Ave N, Minneapolis, MN 55411",
+                "services": ["Medical and dental care", "Full-service food shelf", "Behavioral health", "WIC services"],
+                "link": "https://www.northpointhealth.org"
+              },
+              {
+                "title": "The Bridge for Youth",
+                "category": "Youth Services",
+                "description": "Focused on youth ages 10–17, providing crisis intervention and emergency housing.",
+                "address": "1111 West 22nd St, Minneapolis, MN 55405",
+                "services": ["Youth emergency shelter", "24/7 crisis hotline", "Family reunification", "Transitional living"],
+                "link": "https://bridgeforyouth.org"
+              },
+              {
+                "title": "YouthLink",
+                "category": "Youth Services",
+                "description": "A service hub for youth ages 16–24, connecting them to housing, education, and health care.",
+                "address": "41 North 12th St, Minneapolis, MN 55403",
+                "services": ["Drop-in resource center", "Housing referrals", "Mental health care", "GED/Employment help"],
+                "link": "https://www.youthlinkmn.org"
+              },
+              {
+                "title": "The Link",
+                "category": "Youth Services",
+                "description": "Supports youth experiencing homelessness, sexual exploitation, or juvenile justice system involvement.",
+                "address": "1210 Glenwood Ave, Minneapolis, MN 55405",
+                "services": ["Emergency youth housing", "Safe Harbor services", "Rental assistance"],
+                "link": "https://thelinkmn.org"
+              }
+            ]
+    },
                 {
                     title: "Minnesota State Departments",
                     description: "Explore state government departments and agencies.",
@@ -1248,7 +1423,7 @@
             document.getElementById('tableView').classList.remove('active');
             document.getElementById('textView').classList.remove('active');
             document.getElementById('backButton').classList.remove('visible');
-            document.getElementById('navbarSubtitle').textContent = 'Explore Minnesota State Government';
+            document.getElementById('navbarSubtitle').textContent = '';
         }
 
         function renderDynamicTable(artifact) {
