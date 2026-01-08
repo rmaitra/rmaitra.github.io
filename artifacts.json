@@ -608,7 +608,7 @@
         "description":"Legislative bills that could redistribute wealth in Minnesota.",
         "subtitle":"",
         "footer":"",
-        "image":"/img/constitution.jpeg",
+        "image":"/img/constitution.webp",
         "columns":[
             {
                 "header":"#",
@@ -710,6 +710,7 @@
         "subtitle":"",
         "footer":"",
         "map":true,
+        "image":"/img/shelters.jpg",
         "columns":[
             {
                 "header":"#",
