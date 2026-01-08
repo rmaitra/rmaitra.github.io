@@ -274,322 +274,322 @@
             }
         ],
         "data":[
-            {
-                "title":"Whole Family Approach",
-                "description":"In order to better coordinate and resource the systems that service children, youth, and families, the Department of Children, Youth, and Families is taking a Whole Family Approach to our work. A Whole Family Approach is an approach to practice, program and policy decision making that recognizes and addresses the needs of children and the adults in their lives simultaneously. This approach recognizes that families come in all different shapes and sizes and that families define themselves.",
-                "link":"https://dcyf.mn.gov/whole-family-approach",
-                "categories":[
-                    "Child Care and Early Learning",
-                    "Family Resources",
-                    "Income Support"
+                    {
+                        "title": "Access to Technology Grants",
+                        "description": "Access to Technology Grants are available twice per year and help licensed child care businesses access technology to improve business management efficiency.",
+                        "link": "https://dcyf.mn.gov/programs-directory/access-technology-grants",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Achieve",
+                        "description": "Achieve supports career development for individuals, trainers, Relationship Based Professional Development (RBPD) specialists, and course writers in the child care and early childhood education workforce.",
+                        "link": "https://dcyf.mn.gov/programs-directory/achieve",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Child Care Access Grants",
+                        "description": "Child Care Access Grantees can help families experiencing homelessness or housing instability apply for and maintain their child care assistance.",
+                        "link": "https://dcyf.mn.gov/programs-directory/child-care-access-grants",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Child Care Assistance Program",
+                        "description": "Minnesota's Child Care Assistance Program (CCAP) can help make quality child care affordable for families with low incomes.",
+                        "link": "https://dcyf.mn.gov/programs-directory/child-care-assistance-program",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Child Care Services Regional Grants",
+                        "description": "Child Care Aware Regional Grants are available on a competitive basis, helping child care programs improve the safety and quality of their programs.",
+                        "link": "https://dcyf.mn.gov/programs-directory/child-care-services-regional-grants",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Child Care Wayfinder",
+                        "description": "Child Care Wayfinder is your one-stop navigation network for starting and growing child care programs in Minnesota. Wayfinder offers personalized support and resources to help you succeed.",
+                        "link": "https://dcyf.mn.gov/programs-directory/child-care-wayfinder",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Child Development Associate (CDA) Awards",
+                        "description": "Child Development Associate (CDA) Awards help early educators pay for the required training, application, and renewal of the nationally recognized Child Development Associate® (CDA) Credential™.",
+                        "link": "https://dcyf.mn.gov/programs-directory/child-development-associate-cda-awards",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Develop",
+                        "description": "Develop, Minnesota's Quality Improvement and Registry, offers professional development and quality improvement tools to support early learning and school-age care.",
+                        "link": "https://dcyf.mn.gov/programs-directory/develop",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Diversionary Work Program (DWP)",
+                        "description": "The Diversionary Work Program (DWP) is a four-month program that helps Minnesota caregivers find jobs. The goal is to help caregivers quickly find work so that they do not need to go on the Minnesota Family Investment Program (MFIP). Caregivers get help paying for housing and other bills, along with employment services to help them find full-time work.",
+                        "link": "https://dcyf.mn.gov/programs-directory/diversionary-work-program-dwp",
+                        "categories": [
+                            "Income Support"
+                        ]
+                    },
+                    {
+                        "title": "Eager-to-Learn",
+                        "description": "Through Eager-to-Learn, Child Care Aware of Minnesota offers high-quality, online training to help early educators meet requirements and expand their knowledge.",
+                        "link": "https://dcyf.mn.gov/programs-directory/eager-learn",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Early Childhood Family Education (ECFE)",
+                        "description": "Early Childhood Family Education (ECFE) offers caregivers of young children a space to connect with other families and participate in activities that support both parenting and children's learning and development.",
+                        "link": "https://dcyf.mn.gov/programs-directory/early-childhood-family-education-ecfe",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Early Childhood Screening",
+                        "description": "Early Childhood Screening is a no-cost check of how a child is growing, moving, talking, seeing, hearing and behaving. Screening seeks to answer the question \"Does this child need a closer look?\"",
+                        "link": "https://dcyf.mn.gov/programs-directory/early-childhood-screening",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Early Childhood Special Education (ECSE)",
+                        "description": "Early childhood special education services help infants, toddlers and young children with disabilities or developmental delays from birth to kindergarten enrollment.",
+                        "link": "https://dcyf.mn.gov/programs-directory/early-childhood-special-education-ecse",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Early Learning Scholarships",
+                        "description": "Early Learning Scholarships increase access to high-quality early childhood programs for children ages birth to 4 years old with the highest needs. Scholarships can be used at Parent Aware-rated programs.",
+                        "link": "https://dcyf.mn.gov/programs-directory/early-learning-scholarships",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Electronic Benefit Transfer (EBT) Card",
+                        "description": "Minnesota offers benefits loaded on an Electronic Benefit Transfer (EBT) card, which looks and works like a debit card. The card can be used at point-of-sale machines for cash or food purchases, or at ATMs for cash only.",
+                        "link": "https://dcyf.mn.gov/ebt-card",
+                        "categories": [
+                            "Income Support",
+                            "Food Support"
+                        ]
+                    },
+                    {
+                        "title": "Emergency Assistance",
+                        "description": "Families with low incomes experiencing household emergencies such as evictions, foreclosures, utility shutoffs, or other household emergencies may qualify for this cash-grant program.",
+                        "link": "https://dcyf.mn.gov/programs-directory/emergency-assistance",
+                        "categories": [
+                            "Income Support"
+                        ]
+                    },
+                    {
+                        "title": "Empower to Educate",
+                        "description": "Empower to Educate helps current and aspiring early childhood educators begin, advance, and sustain their child care careers through personalized support, training, and financial incentives.",
+                        "link": "https://dcyf.mn.gov/programs-directory/empower-educate",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Family, Friend and Neighbor Minnesota",
+                        "description": "Family, Friend and Neighbor (FFN) caregivers are home-based caregivers working outside of the formal child care system. FFN Minnesota is here to connect FFN caregivers with local FFN navigators who can provide ongoing support while they care for children. That support comes in many forms: one-on-one meetings with local navigators, training, resource kits and so much more.",
+                        "link": "https://dcyf.mn.gov/ffn",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Foreign Credential Evaluation Scholarships",
+                        "description": "Foreign Credential Evaluation Scholarships help early childhood educators who have completed their high school or higher education coursework outside of the United States pay for the evaluation of educational transcripts.",
+                        "link": "https://dcyf.mn.gov/programs-directory/foreign-credential-evaluation-scholarships",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Great Start Compensation Legal Nonlicensed One-Time Payments",
+                        "description": "The Great Start Compensation Support Payment Program supports the child care and early education workforce by increasing compensation and benefits for this vital workforce. This program created Legal Nonlicensed One-Time Payments, which provide one-time payments of $500 to legal nonlicensed providers registered with the Child Care Assistance Program (CCAP) to cover registration and startup costs.",
+                        "link": "https://dcyf.mn.gov/programs-directory/great-start-compensation-legal-nonlicensed-one-time-payments",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Great Start Compensation Support Payment Program",
+                        "description": "The Great Start Compensation Support Payment Program supports the child care and early education workforce by increasing compensation and benefits for this vital workforce. The program issues monthly payments to eligible child care and early educators to fund increases in compensation and benefits.",
+                        "link": "https://dcyf.mn.gov/programs-directory/great-start-compensation-support-payment-program",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Head Start and Early Head Start",
+                        "description": "Head Start and Early Head Start programs promote school readiness of children ages birth to 5 from low-income families by supporting the development of the whole child.",
+                        "link": "https://dcyf.mn.gov/programs-directory/head-start-and-early-head-start",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Help Me Connect",
+                        "description": "Help Me Connect is an online navigator connecting expectant families, families with young children, and those working with families to programs and services that support healthy child development and family well-being.",
+                        "link": "https://dcyf.mn.gov/programs-directory/help-me-connect",
+                        "categories": [
+                            "Child Care and Early Learning",
+                            "Child Safety",
+                            "Food Support",
+                            "Family Resources",
+                            "Emergency Assistance"
+                        ]
+                    },
+                    {
+                        "title": "Help Me Grow Minnesota",
+                        "description": "Help Me Grow Minnesota connects families with early intervention and preschool special education services through their school district or cooperative.",
+                        "link": "https://dcyf.mn.gov/programs-directory/help-me-grow-minnesota",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Minnesota Family Investment Program (MFIP)",
+                        "description": "The Minnesota Family Investment Program (MFIP) helps families with children meet their basic needs, while helping parents move to financial stability through work. Caregivers are expected to work and are supported with both cash and food assistance.",
+                        "link": "https://dcyf.mn.gov/programs-directory/minnesota-family-investment-program-mfip",
+                        "categories": [
+                            "Income Support"
+                        ]
+                    },
+                    {
+                        "title": "Minnesota Food Assistance Program (MFAP)",
+                        "description": "The Minnesota Food Assistance Program (MFAP) provides state-funded food assistance to legal noncitizens age 50 or older who do not qualify for the Supplemental Nutrition Assistance Program (SNAP) because of their citizenship status.",
+                        "link": "https://dcyf.mn.gov/programs-directory/minnesota-food-assistance-program-mfap",
+                        "categories": [
+                            "Food Support"
+                        ]
+                    },
+                    {
+                        "title": "Minnesota Tribal Resources for Early Childhood Care",
+                        "description": "The Minnesota Tribal Resources for Early Childhood Care (MNTRECC) provides technical assistance and support to Tribal child care programs throughout the state of Minnesota.",
+                        "link": "https://dcyf.mn.gov/programs-directory/minnesota-tribal-resources-early-childhood-care",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Parent Aware",
+                        "description": "Parent Aware offers free tools and resources for families and child care programs. It can help you find child care, options for affording care, and tools and tips to find the right program for your child. Additionally, Parent Aware helps program continuously improve their quality through Star Ratings and resources.",
+                        "link": "https://dcyf.mn.gov/programs-directory/parent-aware",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "REETAIN Bonuses",
+                        "description": "Financial bonuses are available through the REETAIN (Retaining Early Educators Through Attaining Incentives Now) program, aiming to keep strong, well-trained early educators in the field.",
+                        "link": "https://dcyf.mn.gov/programs-directory/reetain-bonuses",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "STAY (Successful Transition to Adulthood for Youth)",
+                        "description": "The STAY (Successful Transition to Adulthood for Youth) Program offers independent living services to eligible youth ages 14 up to age 23, who are currently or were formerly in foster care.",
+                        "link": "https://dcyf.mn.gov/programs-directory/stay-successful-transition-adulthood-youth",
+                        "categories": [
+                            "Employment Support",
+                            "Youth Services",
+                            "Foster Care"
+                        ]
+                    },
+                    {
+                        "title": "SUN Bucks",
+                        "description": "SUN Bucks is an income-based food support program that provides families with $120 per eligible school-aged child to buy groceries when school is out for the summer.",
+                        "link": "https://dcyf.mn.gov/sun-bucks",
+                        "categories": [
+                            "Food Support"
+                        ]
+                    },
+                    {
+                        "title": "School-based Preschool Programs",
+                        "description": "​School-based early learning programs for 3- and 4-year-olds are designed to help children learn, grow, and develop, providing them with the skills and abilities for a successful transition to kindergarten and beyond.",
+                        "link": "https://dcyf.mn.gov/programs-directory/school-based-preschool-programs",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Supplemental Nutrition Assistance Program (SNAP)",
+                        "description": "The Supplemental Nutrition Assistance Program (SNAP), formerly known as Food Stamps, helps Minnesotans with low incomes, including temporary low incomes, get the food they need for nutritious and well-balanced meals.",
+                        "link": "https://dcyf.mn.gov/snap",
+                        "categories": [
+                            "Food Support"
+                        ]
+                    },
+                    {
+                        "title": "Supplemental Nutrition Assistance Program Employment and Training (SNAP E&T)",
+                        "description": "The Supplemental Nutrition Assistance Program Employment and Training (SNAP E&T) program helps SNAP recipients improve their employment opportunities by offering individualized career planning, short-term training for in-demand jobs, support with job searching, and financial assistance to overcome employment barriers.",
+                        "link": "https://dcyf.mn.gov/snap-employment-and-training",
+                        "categories": [
+                            "Income Support",
+                            "Food Support"
+                        ]
+                    },
+                    {
+                        "title": "TEACH Scholarships",
+                        "description": "Individuals working in the child care workforce may be eligible for higher education scholarships through the TEACH Early Childhood Minnesota program.",
+                        "link": "https://dcyf.mn.gov/programs-directory/teach-scholarships",
+                        "categories": [
+                            "Child Care and Early Learning"
+                        ]
+                    },
+                    {
+                        "title": "Treasury Offset Program",
+                        "description": "The Federal Treasury Offset Program (TOP) collects federal income to repay past due (delinquent) debts owed to federal government agencies. The department uses TOP to collect overpayments to the state's Supplemental Nutrition Assistance Program (SNAP) and the food portion of the Minnesota Family Investment Program (MFIP).",
+                        "link": "https://dcyf.mn.gov/programs-directory/treasury-offset-program",
+                        "categories": [
+                            "Food Support",
+                            "Income Support"
+                        ]
+                    },
+                    {
+                        "title": "What families who receive SNAP should know when they claim the Minnesota Child Tax Credit",
+                        "description": "Households with children may qualify for a Child Tax Credit of up to $1,750 per qualifying child when they file their taxes this year.",
+                        "link": "https://dcyf.mn.gov/snap-ctc",
+                        "categories": [
+                            "Food Support"
+                        ]
+                    },
+                    {
+                        "title": "Whole Family Approach",
+                        "description": "In order to better coordinate and resource the systems that service children, youth, and families, the Department of Children, Youth, and Families is taking a Whole Family Approach to our work. A Whole Family Approach is an approach to practice, program and policy decision making that recognizes and addresses the needs of children and the adults in their lives simultaneously. This approach recognizes that families come in all different shapes and sizes and that families define themselves.",
+                        "link": "https://dcyf.mn.gov/whole-family-approach",
+                        "categories": [
+                            "Child Care and Early Learning",
+                            "Family Resources",
+                            "Income Support"
+                        ]
+                    }
                 ]
-            },
-            {
-                "title":"Child Care Access Grants",
-                "description":"Child Care Access Grantees can help families experiencing homelessness or housing instability apply for and maintain their child care assistance.",
-                "link":"https://dcyf.mn.gov/programs-directory/child-care-access-grants",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Parent Aware",
-                "description":"Parent Aware offers free tools and resources for families and child care programs. It can help you find child care, options for affording care, and tools and tips to find the right program for your child. Additionally, Parent Aware helps program continuously improve their quality through Star Ratings and resources.",
-                "link":"https://dcyf.mn.gov/programs-directory/parent-aware",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"SUN Bucks",
-                "description":"SUN Bucks is an income-based food support program that provides families with $120 per eligible school-aged child to buy groceries when school is out for the summer.",
-                "link":"https://dcyf.mn.gov/sun-bucks",
-                "categories":[
-                    "Food Support"
-                ]
-            },
-            {
-                "title":"Great Start Compensation Legal Nonlicensed One-Time Payments",
-                "description":"The Great Start Compensation Support Payment Program supports the child care and early education workforce by increasing compensation and benefits for this vital workforce. This program created Legal Nonlicensed One-Time Payments, which provide one-time payments of $500 to legal nonlicensed providers registered with the Child Care Assistance Program (CCAP) to cover registration and startup costs.",
-                "link":"https://dcyf.mn.gov/programs-directory/great-start-compensation-legal-nonlicensed-one-time-payments",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Great Start Compensation Support Payment Program",
-                "description":"The Great Start Compensation Support Payment Program supports the child care and early education workforce by increasing compensation and benefits for this vital workforce. The program issues monthly payments to eligible child care and early educators to fund increases in compensation and benefits.",
-                "link":"https://dcyf.mn.gov/programs-directory/great-start-compensation-support-payment-program",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Child Care Assistance Program",
-                "description":"Minnesota's Child Care Assistance Program (CCAP) can help make quality child care affordable for families with low incomes.",
-                "link":"https://dcyf.mn.gov/programs-directory/child-care-assistance-program",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"STAY (Successful Transition to Adulthood for Youth)",
-                "description":"The STAY (Successful Transition to Adulthood for Youth) Program offers independent living services to eligible youth ages 14 up to age 23, who are currently or were formerly in foster care.",
-                "link":"https://dcyf.mn.gov/programs-directory/stay-successful-transition-adulthood-youth",
-                "categories":[
-                    "Employment Support",
-                    "Youth Services",
-                    "Foster Care"
-                ]
-            },
-            {
-                "title":"Supplemental Nutrition Assistance Program Employment and Training (SNAP E&T)",
-                "description":"The Supplemental Nutrition Assistance Program Employment and Training (SNAP E&T) program helps SNAP recipients improve their employment opportunities by offering individualized career planning, short-term training for in-demand jobs, support with job searching, and financial assistance to overcome employment barriers.",
-                "link":"https://dcyf.mn.gov/snap-employment-and-training",
-                "categories":[
-                    "Income Support",
-                    "Food Support"
-                ]
-            },
-            {
-                "title":"Minnesota Food Assistance Program (MFAP)",
-                "description":"The Minnesota Food Assistance Program (MFAP) provides state-funded food assistance to legal noncitizens age 50 or older who do not qualify for the Supplemental Nutrition Assistance Program (SNAP) because of their citizenship status.",
-                "link":"https://dcyf.mn.gov/programs-directory/minnesota-food-assistance-program-mfap",
-                "categories":[
-                    "Food Support"
-                ]
-            },
-            {
-                "title":"Diversionary Work Program (DWP)",
-                "description":"The Diversionary Work Program (DWP) is a four-month program that helps Minnesota caregivers find jobs. The goal is to help caregivers quickly find work so that they do not need to go on the Minnesota Family Investment Program (MFIP). Caregivers get help paying for housing and other bills, along with employment services to help them find full-time work.",
-                "link":"https://dcyf.mn.gov/programs-directory/diversionary-work-program-dwp",
-                "categories":[
-                    "Income Support"
-                ]
-            },
-            {
-                "title":"Emergency Assistance",
-                "description":"Families with low incomes experiencing household emergencies such as evictions, foreclosures, utility shutoffs, or other household emergencies may qualify for this cash-grant program.",
-                "link":"https://dcyf.mn.gov/programs-directory/emergency-assistance",
-                "categories":[
-                    "Income Support"
-                ]
-            },
-            {
-                "title":"School-based Preschool Programs",
-                "description":"​School-based early learning programs for 3- and 4-year-olds are designed to help children learn, grow, and develop, providing them with the skills and abilities for a successful transition to kindergarten and beyond.",
-                "link":"https://dcyf.mn.gov/programs-directory/school-based-preschool-programs",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Head Start and Early Head Start",
-                "description":"Head Start and Early Head Start programs promote school readiness of children ages birth to 5 from low-income families by supporting the development of the whole child.",
-                "link":"https://dcyf.mn.gov/programs-directory/head-start-and-early-head-start",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Early Childhood Screening",
-                "description":"Early Childhood Screening is a no-cost check of how a child is growing, moving, talking, seeing, hearing and behaving. Screening seeks to answer the question \"Does this child need a closer look?\"",
-                "link":"https://dcyf.mn.gov/programs-directory/early-childhood-screening",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Early Learning Scholarships",
-                "description":"Early Learning Scholarships increase access to high-quality early childhood programs for children ages birth to 4 years old with the highest needs. Scholarships can be used at Parent Aware-rated programs.",
-                "link":"https://dcyf.mn.gov/programs-directory/early-learning-scholarships",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Early Childhood Family Education (ECFE)",
-                "description":"Early Childhood Family Education (ECFE) offers caregivers of young children a space to connect with other families and participate in activities that support both parenting and children's learning and development.",
-                "link":"https://dcyf.mn.gov/programs-directory/early-childhood-family-education-ecfe",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Electronic Benefit Transfer (EBT) Card",
-                "description":"Minnesota offers benefits loaded on an Electronic Benefit Transfer (EBT) card, which looks and works like a debit card. The card can be used at point-of-sale machines for cash or food purchases, or at ATMs for cash only.",
-                "link":"https://dcyf.mn.gov/ebt-card",
-                "categories":[
-                    "Income Support",
-                    "Food Support"
-                ]
-            },
-            {
-                "title":"Early Childhood Special Education (ECSE)",
-                "description":"Early childhood special education services help infants, toddlers and young children with disabilities or developmental delays from birth to kindergarten enrollment.",
-                "link":"https://dcyf.mn.gov/programs-directory/early-childhood-special-education-ecse",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Help Me Connect",
-                "description":"Help Me Connect is an online navigator connecting expectant families, families with young children, and those working with families to programs and services that support healthy child development and family well-being.",
-                "link":"https://dcyf.mn.gov/programs-directory/help-me-connect",
-                "categories":[
-                    "Child Care and Early Learning",
-                    "Child Safety",
-                    "Food Support",
-                    "Family Resources",
-                    "Emergency Assistance"
-                ]
-            },
-            {
-                "title":"Supplemental Nutrition Assistance Program (SNAP)",
-                "description":"The Supplemental Nutrition Assistance Program (SNAP), formerly known as Food Stamps, helps Minnesotans with low incomes, including temporary low incomes, get the food they need for nutritious and well-balanced meals.",
-                "link":"https://dcyf.mn.gov/snap",
-                "categories":[
-                    "Food Support"
-                ]
-            },
-            {
-                "title":"Minnesota Family Investment Program (MFIP)",
-                "description":"The Minnesota Family Investment Program (MFIP) helps families with children meet their basic needs, while helping parents move to financial stability through work. Caregivers are expected to work and are supported with both cash and food assistance.",
-                "link":"https://dcyf.mn.gov/programs-directory/minnesota-family-investment-program-mfip",
-                "categories":[
-                    "Income Support"
-                ]
-            },
-            {
-                "title":"Help Me Grow Minnesota",
-                "description":"Help Me Grow Minnesota connects families with early intervention and preschool special education services through their school district or cooperative.",
-                "link":"https://dcyf.mn.gov/programs-directory/help-me-grow-minnesota",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Foreign Credential Evaluation Scholarships",
-                "description":"Foreign Credential Evaluation Scholarships help early childhood educators who have completed their high school or higher education coursework outside of the United States pay for the evaluation of educational transcripts.",
-                "link":"https://dcyf.mn.gov/programs-directory/foreign-credential-evaluation-scholarships",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Treasury Offset Program",
-                "description":"The Federal Treasury Offset Program (TOP) collects federal income to repay past due (delinquent) debts owed to federal government agencies. The department uses TOP to collect overpayments to the state's Supplemental Nutrition Assistance Program (SNAP) and the food portion of the Minnesota Family Investment Program (MFIP).",
-                "link":"https://dcyf.mn.gov/programs-directory/treasury-offset-program",
-                "categories":[
-                    "Food Support",
-                    "Income Support"
-                ]
-            },
-            {
-                "title":"Achieve",
-                "description":"Achieve supports career development for individuals, trainers, Relationship Based Professional Development (RBPD) specialists, and course writers in the child care and early childhood education workforce.",
-                "link":"https://dcyf.mn.gov/programs-directory/achieve",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Eager-to-Learn",
-                "description":"Through Eager-to-Learn, Child Care Aware of Minnesota offers high-quality, online training to help early educators meet requirements and expand their knowledge.",
-                "link":"https://dcyf.mn.gov/programs-directory/eager-learn",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Empower to Educate",
-                "description":"Empower to Educate helps current and aspiring early childhood educators begin, advance, and sustain their child care careers through personalized support, training, and financial incentives.",
-                "link":"https://dcyf.mn.gov/programs-directory/empower-educate",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Child Development Associate (CDA) Awards",
-                "description":"Child Development Associate (CDA) Awards help early educators pay for the required training, application, and renewal of the nationally recognized Child Development Associate® (CDA) Credential™.",
-                "link":"https://dcyf.mn.gov/programs-directory/child-development-associate-cda-awards",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Child Care Services Regional Grants",
-                "description":"Child Care Aware Regional Grants are available on a competitive basis, helping child care programs improve the safety and quality of their programs.",
-                "link":"https://dcyf.mn.gov/programs-directory/child-care-services-regional-grants",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Child Care Wayfinder",
-                "description":"Child Care Wayfinder is your one-stop navigation network for starting and growing child care programs in Minnesota. Wayfinder offers personalized support and resources to help you succeed.",
-                "link":"https://dcyf.mn.gov/programs-directory/child-care-wayfinder",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Access to Technology Grants",
-                "description":"Access to Technology Grants are available twice per year and help licensed child care businesses access technology to improve business management efficiency.",
-                "link":"https://dcyf.mn.gov/programs-directory/access-technology-grants",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Minnesota Tribal Resources for Early Childhood Care",
-                "description":"The Minnesota Tribal Resources for Early Childhood Care (MNTRECC) provides technical assistance and support to Tribal child care programs throughout the state of Minnesota.",
-                "link":"https://dcyf.mn.gov/programs-directory/minnesota-tribal-resources-early-childhood-care",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"TEACH Scholarships",
-                "description":"Individuals working in the child care workforce may be eligible for higher education scholarships through the TEACH Early Childhood Minnesota program.",
-                "link":"https://dcyf.mn.gov/programs-directory/teach-scholarships",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"REETAIN Bonuses",
-                "description":"Financial bonuses are available through the REETAIN (Retaining Early Educators Through Attaining Incentives Now) program, aiming to keep strong, well-trained early educators in the field.",
-                "link":"https://dcyf.mn.gov/programs-directory/reetain-bonuses",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Develop",
-                "description":"Develop, Minnesota's Quality Improvement and Registry, offers professional development and quality improvement tools to support early learning and school-age care.",
-                "link":"https://dcyf.mn.gov/programs-directory/develop",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"Family, Friend and Neighbor Minnesota",
-                "description":"Family, Friend and Neighbor (FFN) caregivers are home-based caregivers working outside of the formal child care system. FFN Minnesota is here to connect FFN caregivers with local FFN navigators who can provide ongoing support while they care for children. That support comes in many forms: one-on-one meetings with local navigators, training, resource kits and so much more.",
-                "link":"https://dcyf.mn.gov/ffn",
-                "categories":[
-                    "Child Care and Early Learning"
-                ]
-            },
-            {
-                "title":"What families who receive SNAP should know when they claim the Minnesota Child Tax Credit",
-                "description":"Households with children may qualify for a Child Tax Credit of up to $1,750 per qualifying child when they file their taxes this year.",
-                "link":"https://dcyf.mn.gov/snap-ctc",
-                "categories":[
-                    "Food Support"
-                ]
-            }
-        ]
     },
     {
         "title":"About Minnesota Government",
