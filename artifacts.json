@@ -1,7 +1,7 @@
 [
     {
         "title":"Minnesota State Departments",
-        "description":"Explore a comprehensive overview of Minnesota's state government departments and agencies. Learn about their missions, services, and how they serve the people of Minnesota.",
+        "description":"Explore each of Minnesota's state government departments.",
         "subtitle":"State Departments - Commissioners, Descriptions, and Employee Counts (FY 2023)",
         "footer":"Data sourced from Minnesota Secretary of State's 2025 State Agencies document and FY 2023 Workforce Planning Report",
         "columns":[
@@ -240,7 +240,7 @@
     },
     {
         "title":"Department of Children, Youth and Family Programs",
-        "description":"Browse comprehensive programs and services supporting Minnesota's children, youth, and families through child care, education, food assistance, and family support initiatives.",
+        "description":"Browse comprehensive programs and services supporting Minnesota's children, youth, and families.",
         "subtitle":"Department of Children, Youth, and Family (DCYF) Programs",
         "footer":"Data sourced from DCYF official program directory",
         "columns":[
