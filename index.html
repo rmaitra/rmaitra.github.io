@@ -826,15 +826,61 @@
                     footer: "Sample data - Replace with real data source",
                     type: "array",
                     columns: [
-                        { header: "#", field: "index", width: "5%", type: "index" },
-                        { header: "Department", field: "name", width: "45%", type: "text", sortable: true, filterable: true },
-                        { header: "Employees", field: "employees", width: "25%", type: "number", sortable: true, filterable: true },
-                        { header: "Website", field: "url", width: "25%", type: "link" }
+            {
+                "header":"#",
+                "field":"index",
+                "width":"3%",
+                "type":"index"
+            },
+            {
+                "header":"Department",
+                "field":"department",
+                "width":"14%",
+                "type":"department-link",
+                "sortable":true
+            },
+            {
+                "header":"Commissioner",
+                "field":"commissioner",
+                "width":"11%",
+                "type":"text"
+            },
+            {
+                "header":"Commissioner Powers",
+                "field":"commissioner_powers",
+                "width":"20%",
+                "type":"text"
+            },
+            {
+                "header":"Employees",
+                "field":"employees",
+                "width":"8%",
+                "type":"number"
+            },
+            {
+                "header":"Website",
+                "field":"url",
+                "width":"14%",
+                "type":"link"
+            }
                     ],
                     data: [
-                        { name: "Administration", employees: 524, url: "https://mn.gov/admin" },
-                        { name: "Agriculture", employees: 548, url: "https://mda.state.mn.us" },
-                        { name: "Education", employees: 441, url: "https://education.state.mn.us" }
+            {
+                "department":"Department of Administration",
+                "commissioner":"Tamar Gronvall",
+                "description":"The department manages and administers centralized operations of state agencies, including procurement of goods and services, travel and fleet services, building construction and maintenance, real estate leasing and management, and facilities and maintenance services. Provides a broad range of business management, administrative and professional services and resources to state agencies, local governments and the public.",
+                "commissioner_powers":"Manages and administers centralized operations of state agencies; procurement of goods and services; building construction and maintenance; real estate leasing and management; facilities and maintenance services; oversight of state buildings and properties; administers grants management and data practices; enforces data practices act and open meeting law.",
+                "employees":524,
+                "url":"https://mn.gov/admin"
+            },
+            {
+                "department":"Department of Agriculture",
+                "commissioner":"Thom Petersen",
+                "description":"The department encourages and promotes agricultural industries, assists in the marketing of farm products, and exercises regulatory powers to ensure the continued high quality of Minnesota agricultural production. Enhances Minnesotans' quality of life by ensuring the integrity of the food supply, the health of the environment, and the strength of the agricultural economy.",
+                "commissioner_powers":"Encourages and promotes agricultural industries; assists in marketing of farm products; exercises regulatory powers to ensure high quality of agricultural production; inspects food manufacturers, dairy farms, feed mills; regulates pesticides and fertilizers; licenses applicators; protects crops and plant species from pests and diseases; certifies nursery stock and seed industries.",
+                "employees":548,
+                "url":"https://mda.state.mn.us"
+            },
                     ]
                 },
                 {
@@ -901,16 +947,114 @@
                     footer: "Sample data - Replace with real data source",
                     type: "array",
                     columns: [
-                        { header: "Program", field: "title", width: "40%", type: "text", sortable: true, filterable: true },
-                        { header: "Category", field: "category", width: "30%", type: "text", sortable: true, filterable: true },
-                        { header: "Link", field: "link", width: "30%", type: "link" }
+            {
+                "header":"Program",
+                "field":"title",
+                "width":"25%",
+                "type":"program-link",
+                "sortable":true
+            },
+            {
+                "header":"Description",
+                "field":"description",
+                "width":"50%",
+                "type":"text"
+            },
+            {
+                "header":"Categories",
+                "field":"categories",
+                "width":"25%",
+                "type":"categories",
+                "filterable":true
+            }
                     ],
                     data: [
-                        { title: "Child Care Assistance", category: "Child Care", link: "https://dcyf.mn.gov" },
-                        { title: "SNAP Benefits", category: "Food Support", link: "https://dcyf.mn.gov" },
-                        { title: "Early Learning", category: "Education", link: "https://dcyf.mn.gov" }
+                        {
+                            "title":"Whole Family Approach",
+                            "description":"In order to better coordinate and resource the systems that service children, youth, and families, the Department of Children, Youth, and Families is taking a Whole Family Approach to our work. A Whole Family Approach is an approach to practice, program and policy decision making that recognizes and addresses the needs of children and the adults in their lives simultaneously. This approach recognizes that families come in all different shapes and sizes and that families define themselves.",
+                            "link":"https://dcyf.mn.gov/whole-family-approach",
+                            "categories":[
+                                "Child Care and Early Learning",
+                                "Family Resources",
+                                "Income Support"
+                            ]
+                        },
+                        {
+                            "title":"Child Care Access Grants",
+                            "description":"Child Care Access Grantees can help families experiencing homelessness or housing instability apply for and maintain their child care assistance.",
+                            "link":"https://dcyf.mn.gov/programs-directory/child-care-access-grants",
+                            "categories":[
+                                "Child Care and Early Learning"
+                            ]
+                        },
                     ]
-                }
+                },
+                {
+        "title":"Progressive Legislative Ideas",
+        "description":"Legislative bills that could redistribute wealth in Minnesota.",
+        "subtitle":"",
+        "footer":"",
+        "columns":[
+            {
+                "header":"#",
+                "field":"index",
+                "width":"3%",
+                "type":"index"
+            },
+            {
+                "header":"Bill Title",
+                "field":"title",
+                "width":"10%",
+                "type":"title",
+                "sortable":true
+            },
+            {
+                "header":"Description",
+                "field":"description",
+                "width":"20%",
+                "type":"text"
+            },
+            {
+                "header":"Text",
+                "field":"text",
+                "width":"50%",
+                "type":"text"
+            },
+            {
+                "header":"Categories",
+                "field":"categories",
+                "width":"10%",
+                "type":"categories",
+                "filterable":true
+            }
+        ],
+        "data":[
+          {
+            "title": "Minnesota Basic Income Grant Program Act",
+            "categories": ["Direct Assistance", "Anti-Poverty", "Human Services"],
+            "description": "Establishes a statewide competitive grant program to provide monthly cash payments of $350 to $1,200 to low-income residents to disrupt poverty and build community wealth.",
+            "text": "A bill for an act relating to human services; establishing a Minnesota basic income grant program; requiring a report; appropriating money. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. MINNESOTA BASIC INCOME GRANT PROGRAM. Subdivision 1. Establishment. The commissioner of human services must establish a competitive grant program for local government entities, Minnesota's Tribal Nations, or nonprofit organizations to provide regular cash payments to eligible recipients in order to disrupt poverty, build wealth, advance equity, and support a recipient's basic needs. Subd. 4. Use of grant money. Grantees must use grant money to: (1) design and implement a basic income grant program; (2) provide a monthly payment between $350 to $1,200 to eligible recipients for a period of 12 to 24 months; and (3) collect data on the economic status of recipients. Subd. 5. Eligible recipients. Persons eligible to receive monthly payments must be receiving public benefits or have a household income less than or equal to 300 percent of the federal poverty guidelines."
+          },
+          {
+            "title": "Corporate Franchise Tax Rate Contingency Act",
+            "categories": ["Corporate Taxation", "Fiscal Policy", "Revenue Neutrality"],
+            "description": "Adjusts the state corporate tax rate upward if federal corporate taxes are reduced, ensuring that large corporations continue to contribute a fair share to the state's general fund.",
+            "text": "A bill for an act relating to taxation; corporate franchise; providing for a contingent increase in the tax rate; amending Minnesota Statutes 2024, section 290.06, subdivision 1. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. Minnesota Statutes 2024, section 290.06, subdivision 1, is amended to read: Subdivision 1. Computation, corporations. (a) For taxable years beginning after December 31, 2024, the franchise tax imposed upon corporations shall be computed by applying to their taxable income the rate greater of: (1) 9.8 percent; or (2) the rate calculated under paragraph (c). (b) Pursuant to enactment of federal legislation decreasing the corporate franchise tax rate, the commissioner must calculate the percentage decrease and increase Minnesota's tax rate by a corresponding percentage, rounded to the nearest twentieth of a percent."
+          },
+          {
+            "title": "Expanded Corporate Tax Compliance & Enforcement Initiative",
+            "categories": ["Enforcement & Oversight", "Corporate Reform", "Government Operations"],
+            "description": "Allocates funding to the Department of Revenue to specifically target and collect unpaid tax liabilities from corporations with over $25 million in Minnesota sales.",
+            "text": "A bill for an act relating to taxation; appropriating money for an expanded corporate tax compliance initiative. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. APPROPRIATION; EXPANDED CORPORATE TAX COMPLIANCE INITIATIVE. Subdivision 1. Appropriation. $10,000,000 in fiscal year 2026 is appropriated from the general fund to the commissioner of revenue to develop and implement an expanded corporate tax compliance initiative. Subd. 2. Requirements. The initiative must prioritize compliance and enforcement activities among corporations reporting $25,000,000 or more in Minnesota sales or gross receipts for a taxable year to ensure the identification and collection of tax liabilities from corporations that currently do not accurately report taxable income."
+          },
+          {
+            "title": "Net Investment Income Tax Act",
+            "categories": ["Wealth & Capital Taxation", "Individual Income Tax", "Equity"],
+            "description": "Imposes a 1% tax on net investment income exceeding $1 million for individuals and trusts, redirecting capital gains and dividend wealth into the state treasury.",
+            "text": "A bill for an act relating to taxation; individual income; imposing a tax on net investment income. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. NET INVESTMENT INCOME TAX. (a) A tax is imposed on the net investment income of individuals, estates, and trusts for the taxable year. (b) The tax is equal to one percent of the taxpayer's net investment income in excess of $1,000,000. (c) 'Net investment income' has the meaning given in section 1411(c) of the Internal Revenue Code. (d) This section is effective for taxable years beginning after December 31, 2023."
+          }
+        ]
+    }
             ];
         }
 
@@ -993,139 +1137,191 @@
             if (sortColumn !== null) {
                 displayData = sortData(displayData, artifact.columns[sortColumn], sortDirection);
             }
+            const isMobile = navigator.userAgentData.mobile;
             
             // Render header
             const headerRow = document.createElement('tr');
-            artifact.columns.forEach((col, colIndex) => {
+
+            if(isMobile){
+
                 const th = document.createElement('th');
-                if (col.width) th.style.width = col.width;
-                
-                // Create header content wrapper
-                const headerContent = document.createElement('div');
-                headerContent.style.position = 'relative';
-                
-                // Add header text
-                const headerText = document.createElement('span');
-                headerText.textContent = col.header;
-                headerContent.appendChild(headerText);
-                
-                // Add active filter indicator
-                if (activeFilters[colIndex] && activeFilters[colIndex] !== '') {
-                    const indicator = document.createElement('span');
-                    indicator.className = 'filter-active-indicator';
-                    headerContent.appendChild(indicator);
-                }
-                
-                // Add filter toggle button if filterable
-                if (col.filterable) {
-                    th.classList.add('filterable');
-                    const toggleBtn = document.createElement('span');
-                    toggleBtn.className = 'filter-toggle';
-                    toggleBtn.textContent = 'Filter';
-                    toggleBtn.title = 'Toggle filter';
-                    if (filterDropdownStates[colIndex]) {
-                        toggleBtn.classList.add('active');
-                    }
-                    toggleBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        toggleFilter(colIndex);
-                    };
-                    headerContent.appendChild(toggleBtn);
-                    
-                    // Add filter dropdown
-                    const filterDiv = document.createElement('div');
-                    filterDiv.className = 'filter-dropdown';
-                    if (filterDropdownStates[colIndex]) {
-                        filterDiv.classList.add('active');
-                    }
-                    
-                    const select = document.createElement('select');
-                    select.onchange = (e) => handleFilterChange(colIndex, e.target.value);
-                    
-                    // Get unique values for this column
-                    const uniqueValues = getUniqueValues(artifact.data, col);
-                    
-                    // Add "All" option
-                    const allOption = document.createElement('option');
-                    allOption.value = '';
-                    allOption.textContent = '-- All --';
-                    select.appendChild(allOption);
-                    
-                    // Add unique values as options
-                    uniqueValues.forEach(value => {
-                        const option = document.createElement('option');
-                        option.value = value;
-                        option.textContent = value;
-                        if (activeFilters[colIndex] === value) {
-                            option.selected = true;
-                        }
-                        select.appendChild(option);
-                    });
-                    
-                    filterDiv.appendChild(select);
-                    headerContent.appendChild(filterDiv);
-                }
-                
-                th.appendChild(headerContent);
-                
-                // Add sortable class and click handler if sortable
-                if (col.sortable) {
-                    th.classList.add('sortable');
-                    if (sortColumn === colIndex) {
-                        th.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
-                    }
-                    th.onclick = () => handleSort(colIndex);
-                }
-                
+                th.textContent = artifact.title;
                 headerRow.appendChild(th);
-            });
+            } else {
+
+                artifact.columns.forEach((col, colIndex) => {
+                    const th = document.createElement('th');
+                    if (col.width) th.style.width = col.width;
+                    
+                    // Create header content wrapper
+                    const headerContent = document.createElement('div');
+                    headerContent.style.position = 'relative';
+                    
+                    // Add header text
+                    const headerText = document.createElement('span');
+                    headerText.textContent = col.header;
+                    headerContent.appendChild(headerText);
+                    
+                    // Add active filter indicator
+                    if (activeFilters[colIndex] && activeFilters[colIndex] !== '') {
+                        const indicator = document.createElement('span');
+                        indicator.className = 'filter-active-indicator';
+                        headerContent.appendChild(indicator);
+                    }
+                    
+                    // Add filter toggle button if filterable
+                    if (col.filterable) {
+                        th.classList.add('filterable');
+                        const toggleBtn = document.createElement('span');
+                        toggleBtn.className = 'filter-toggle';
+                        toggleBtn.textContent = 'Filter';
+                        toggleBtn.title = 'Toggle filter';
+                        if (filterDropdownStates[colIndex]) {
+                            toggleBtn.classList.add('active');
+                        }
+                        toggleBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            toggleFilter(colIndex);
+                        };
+                        headerContent.appendChild(toggleBtn);
+                        
+                        // Add filter dropdown
+                        const filterDiv = document.createElement('div');
+                        filterDiv.className = 'filter-dropdown';
+                        if (filterDropdownStates[colIndex]) {
+                            filterDiv.classList.add('active');
+                        }
+                        
+                        const select = document.createElement('select');
+                        select.onchange = (e) => handleFilterChange(colIndex, e.target.value);
+                        
+                        // Get unique values for this column
+                        const uniqueValues = getUniqueValues(artifact.data, col);
+                        
+                        // Add "All" option
+                        const allOption = document.createElement('option');
+                        allOption.value = '';
+                        allOption.textContent = '-- All --';
+                        select.appendChild(allOption);
+                        
+                        // Add unique values as options
+                        uniqueValues.forEach(value => {
+                            const option = document.createElement('option');
+                            option.value = value;
+                            option.textContent = value;
+                            if (activeFilters[colIndex] === value) {
+                                option.selected = true;
+                            }
+                            select.appendChild(option);
+                        });
+                        
+                        filterDiv.appendChild(select);
+                        headerContent.appendChild(filterDiv);
+                    }
+                    
+                    th.appendChild(headerContent);
+                    
+                    // Add sortable class and click handler if sortable
+                    if (col.sortable) {
+                        th.classList.add('sortable');
+                        if (sortColumn === colIndex) {
+                            th.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+                        }
+                        th.onclick = () => handleSort(colIndex);
+                    }
+                    
+                    headerRow.appendChild(th);
+                    
+                });
+            }
             tableHead.innerHTML = '';
             tableHead.appendChild(headerRow);
             
             // Render body
             tableBody.innerHTML = '';
+
+
             displayData.forEach((row, rowIndex) => {
                 const tr = document.createElement('tr');
                 
-                artifact.columns.forEach(col => {
-                    const td = document.createElement('td');
-                    const value = col.type === 'index' ? rowIndex + 1 : row[col.field];
-                    
-                    switch(col.type) {
-                        case 'index':
-                            td.className = 'employees';
-                            td.textContent = rowIndex + 1;
-                            break;
-                        case 'department-link':
-                            td.className = 'department-name';
-                            td.innerHTML = `<a href="${row.url}" target="_blank" rel="noopener noreferrer">${value}</a>`;
-                            break;
-                        case 'program-link':
-                            td.innerHTML = `<div class="program-title">${value}</div><a href="${row.link}" target="_blank" class="program-link">View Details →</a>`;
-                            break;
-                        case 'title':
-                            td.innerHTML = `<div class="program-title">${value}</div>`;
-                            break;
-                        case 'link':
-                            td.innerHTML = `<a href="${value}" target="_blank" rel="noopener noreferrer" class="website-link">${value}</a>`;
-                            break;
-                        case 'number':
-                            td.className = 'employees';
-                            td.innerHTML = value !== null ? value.toLocaleString() : '<span class="no-data">N/A</span>';
-                            break;
-                        case 'categories':
-                            td.innerHTML = `<div class="categories">${value.map(cat => `<span class="category-tag">${cat}</span>`).join('')}</div>`;
-                            break;
-                        case 'text':
-                        default:
-                            if (col.field === 'description') td.className = 'description';
-                            else if (col.field === 'commissioner_powers') td.className = 'commissioner-powers';
-                            else if (col.field === 'commissioner') td.className = 'commissioner-name';
-                            td.textContent = value || '';
-                            break;
-                    }
-                    
+                if(isMobile){
+                    var td = document.createElement('td');
                     tr.appendChild(td);
+                }
+                artifact.columns.forEach(col => {
+
+                    if(isMobile){
+                        const div = document.createElement('div');
+                        const value = col.type === 'index' ? rowIndex + 1 : row[col.field];
+                        
+                        switch(col.type) {
+                            case 'index':
+                                div.className = 'employees';
+                                div.textContent = rowIndex + 1;
+                                break;
+                            case 'department-link':
+                                div.className = 'department-name';
+                                div.innerHTML = `<a href="${row.url}" target="_blank" rel="noopener noreferrer">${value}</a>`;
+                                break;
+                            case 'program-link':
+                                div.innerHTML = `<div class="program-title">${value}</div><a href="${row.link}" target="_blank" class="program-link">View Details →</a>`;
+                                break;
+                            case 'title':
+                                div.innerHTML = `<div class="program-title">${value}</div>`;
+                                break;
+                            case 'link':
+                                div.innerHTML = `<a href="${value}" target="_blank" rel="noopener noreferrer" class="website-link">${value}</a>`;
+                                break;
+                            default:
+                                if (col.field === 'description') td.className = 'description';
+                                else if (col.field === 'commissioner_powers') td.className = 'commissioner-powers';
+                                else if (col.field === 'commissioner') td.className = 'commissioner-name';
+                                div.innerHTML = `<b>${col.header}</b> - ` +  value || '';
+                                break;
+                        }
+                        
+                        td.appendChild(div);
+                    } else {
+
+                        const td = document.createElement('td');
+                        const value = col.type === 'index' ? rowIndex + 1 : row[col.field];
+                        
+                        switch(col.type) {
+                            case 'index':
+                                td.className = 'employees';
+                                td.textContent = rowIndex + 1;
+                                break;
+                            case 'department-link':
+                                td.className = 'department-name';
+                                td.innerHTML = `<a href="${row.url}" target="_blank" rel="noopener noreferrer">${value}</a>`;
+                                break;
+                            case 'program-link':
+                                td.innerHTML = `<div class="program-title">${value}</div><a href="${row.link}" target="_blank" class="program-link">View Details →</a>`;
+                                break;
+                            case 'title':
+                                td.innerHTML = `<div class="program-title">${value}</div>`;
+                                break;
+                            case 'link':
+                                td.innerHTML = `<a href="${value}" target="_blank" rel="noopener noreferrer" class="website-link">${value}</a>`;
+                                break;
+                            case 'number':
+                                td.className = 'employees';
+                                td.innerHTML = value !== null ? value.toLocaleString() : '<span class="no-data">N/A</span>';
+                                break;
+                            case 'categories':
+                                td.innerHTML = `<div class="categories">${value.map(cat => `<span class="category-tag">${cat}</span>`).join('')}</div>`;
+                                break;
+                            case 'text':
+                            default:
+                                if (col.field === 'description') td.className = 'description';
+                                else if (col.field === 'commissioner_powers') td.className = 'commissioner-powers';
+                                else if (col.field === 'commissioner') td.className = 'commissioner-name';
+                                td.textContent = value || '';
+                                break;
+                        }
+                        
+                        tr.appendChild(td);
+                    }
                 });
                 
                 tableBody.appendChild(tr);
