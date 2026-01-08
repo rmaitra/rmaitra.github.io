@@ -160,6 +160,14 @@
             display: block;
         }
 
+        .text-view.active {
+            display: block;
+        }
+
+        .text-view {
+            display: none;
+        }
+
         .container {
             max-width: 1400px;
             margin: 20px auto;
@@ -523,7 +531,7 @@
         <div class="cards-grid" id="cardsContainer"></div>
     </div>
 
-    <div id="textView">
+    <div id="textView" class="text-view">
         <div id="textContent"></div>
         <div id="textFooter"></div>
     </div>
