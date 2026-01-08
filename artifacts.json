@@ -5,6 +5,7 @@
         "subtitle":"About Minnesota Government",
         "footer":"",
         "type":"link",
+        "image":"/img/flag.webp",
         "link":"/onboard.html"
     },
     {
