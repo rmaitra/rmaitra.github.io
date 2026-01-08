@@ -5,23 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minnesota Explained</title>
     <style>
+        :root {
+            --bg-primary: white;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f7fafc;
+            --text-primary: #2d3748;
+            --text-secondary: #555;
+            --text-tertiary: #666;
+            --text-quaternary: #6c757d;
+            --border-primary: #e0e0e0;
+            --border-secondary: #e2e8f0;
+            --border-tertiary: #e9ecef;
+            --accent-primary: #2a5298;
+            --accent-secondary: #1e3c72;
+            --accent-tertiary: #667eea;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 4px 16px rgba(42, 82, 152, 0.15);
+            --hover-bg: #f8f9ff;
+            --table-hover: #f7fafc;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a202c;
+            --bg-secondary: #2d3748;
+            --bg-tertiary: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #cbd5e0;
+            --text-tertiary: #a0aec0;
+            --text-quaternary: #718096;
+            --border-primary: #4a5568;
+            --border-secondary: #4a5568;
+            --border-tertiary: #4a5568;
+            --accent-primary: #4299e1;
+            --accent-secondary: #63b3ed;
+            --accent-tertiary: #667eea;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --hover-bg: #2d3748;
+            --table-hover: #2d3748;
+        }
+
         * {
             box-sizing: border-box;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: white;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             margin: 0;
             padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .navbar {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             padding: 20px 40px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -66,6 +110,56 @@
             margin: 0;
         }
 
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .toggle-switch:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .toggle-slider::before {
+            content: '☀️';
+        }
+
+        [data-theme="dark"] .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        [data-theme="dark"] .toggle-slider::before {
+            content: '🌙';
+        }
+
         .cards-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -79,36 +173,36 @@
         }
 
         .card {
-            background: white;
-            border: 1px solid #e0e0e0;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
             border-radius: 8px;
             padding: 1.5rem;
             transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-md);
         }
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 4px 16px rgba(42, 82, 152, 0.15);
-            border-color: #2a5298;
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
         }
 
         .card-title {
-            color: #2a5298;
+            color: var(--accent-primary);
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
         }
 
         .card-description {
-            color: #666;
+            color: var(--text-tertiary);
             line-height: 1.6;
             margin-bottom: 1rem;
         }
 
         .card-link {
-            color: #2a5298;
+            color: var(--accent-primary);
             font-size: 0.9rem;
             font-weight: 500;
         }
@@ -120,14 +214,14 @@
         .loading {
             text-align: center;
             padding: 4rem 2rem;
-            color: #666;
+            color: var(--text-tertiary);
         }
 
         .loading-spinner {
             width: 50px;
             height: 50px;
-            border: 4px solid #e0e0e0;
-            border-top: 4px solid #2a5298;
+            border: 4px solid var(--border-primary);
+            border-top: 4px solid var(--accent-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
@@ -169,7 +263,7 @@
         .container {
             max-width: 1400px;
             margin: 20px auto;
-            background: white;
+            background: var(--bg-primary);
             overflow: hidden;
             height: calc(100vh - 120px);
             display: flex;
@@ -193,14 +287,14 @@
         }
 
         .text-content h1, .text-content h2, .text-content h3 {
-            color: #1e3c72;
+            color: var(--accent-secondary);
             margin-top: 2rem;
             margin-bottom: 1rem;
         }
 
         .text-content h1 {
             font-size: 2rem;
-            border-bottom: 2px solid #2a5298;
+            border-bottom: 2px solid var(--accent-primary);
             padding-bottom: 0.5rem;
         }
 
@@ -214,6 +308,7 @@
 
         .text-content p {
             margin-bottom: 1rem;
+            color: var(--text-secondary);
         }
 
         .text-content ul, .text-content ol {
@@ -222,7 +317,7 @@
         }
 
         .text-content a {
-            color: #2a5298;
+            color: var(--accent-primary);
             text-decoration: none;
         }
 
@@ -231,14 +326,15 @@
         }
 
         .text-content code {
-            background: #f5f5f5;
+            background: var(--bg-secondary);
             padding: 2px 6px;
             border-radius: 3px;
             font-family: monospace;
+            color: var(--accent-tertiary);
         }
 
         .text-content pre {
-            background: #f5f5f5;
+            background: var(--bg-secondary);
             padding: 1rem;
             border-radius: 6px;
             overflow-x: auto;
@@ -246,10 +342,10 @@
         }
 
         .text-content blockquote {
-            border-left: 4px solid #2a5298;
+            border-left: 4px solid var(--accent-primary);
             padding-left: 1rem;
             margin: 1rem 0;
-            color: #666;
+            color: var(--text-tertiary);
             font-style: italic;
         }
 
@@ -266,19 +362,19 @@
         }
 
         thead {
-            background: #f8f9fa;
+            background: var(--bg-secondary);
             position: sticky;
             top: 0;
             z-index: 10;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
         }
 
         th {
             padding: 15px;
             text-align: left;
             font-weight: 600;
-            color: #2c3e50;
-            border-bottom: 2px solid #667eea;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-tertiary);
             text-transform: uppercase;
             font-size: 12px;
             letter-spacing: 0.5px;
@@ -292,7 +388,7 @@
         }
 
         th.sortable:hover {
-            background: #e9ecef;
+            background: var(--hover-bg);
         }
 
         th.sortable::after {
@@ -306,13 +402,13 @@
         th.sortable.sort-asc::after {
             content: '↑';
             opacity: 1;
-            color: #2a5298;
+            color: var(--accent-primary);
         }
 
         th.sortable.sort-desc::after {
             content: '↓';
             opacity: 1;
-            color: #2a5298;
+            color: var(--accent-primary);
         }
 
         th.filterable {
@@ -326,7 +422,7 @@
             transform: translateY(-50%);
             background: rgba(102, 126, 234, 0.1);
             border: 1px solid rgba(102, 126, 234, 0.3);
-            color: #667eea;
+            color: var(--accent-tertiary);
             padding: 2px 6px;
             border-radius: 3px;
             cursor: pointer;
@@ -336,11 +432,11 @@
 
         .filter-toggle:hover {
             background: rgba(102, 126, 234, 0.2);
-            border-color: #667eea;
+            border-color: var(--accent-tertiary);
         }
 
         .filter-toggle.active {
-            background: #667eea;
+            background: var(--accent-tertiary);
             color: white;
         }
 
@@ -360,11 +456,11 @@
         .filter-dropdown select {
             width: 100%;
             padding: 4px 8px;
-            border: 2px solid #667eea;
+            border: 2px solid var(--accent-tertiary);
             border-radius: 4px;
             font-size: 11px;
-            background: white;
-            color: #2c3e50;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             cursor: pointer;
             text-transform: none;
             letter-spacing: normal;
@@ -372,14 +468,14 @@
 
         .filter-dropdown select:focus {
             outline: none;
-            border-color: #2a5298;
+            border-color: var(--accent-primary);
         }
 
         .filter-active-indicator {
             display: inline-block;
             width: 8px;
             height: 8px;
-            background: #667eea;
+            background: var(--accent-tertiary);
             border-radius: 50%;
             margin-left: 5px;
             animation: pulse 2s infinite;
@@ -392,39 +488,39 @@
 
         td {
             padding: 15px;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: 1px solid var(--border-tertiary);
             vertical-align: top;
         }
 
         tr:hover {
-            background: #f8f9ff;
+            background: var(--table-hover);
             transition: background 0.2s ease;
         }
 
         .department-name {
             font-weight: 600;
-            color: #1e3c72;
+            color: var(--accent-secondary);
         }
 
         .department-name a {
-            color: #1e3c72;
+            color: var(--accent-secondary);
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .department-name a:hover {
-            color: #667eea;
+            color: var(--accent-tertiary);
             text-decoration: underline;
         }
 
         .program-title {
             font-weight: 600;
-            color: #2d3748;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
 
         .program-link {
-            color: #2a5298;
+            color: var(--accent-primary);
             text-decoration: none;
             font-size: 0.85rem;
         }
@@ -434,34 +530,34 @@
         }
 
         .commissioner-name {
-            color: #2c3e50;
+            color: var(--text-primary);
         }
 
         .description {
-            color: #555;
+            color: var(--text-secondary);
             line-height: 1.6;
             font-size: 13px;
         }
 
         .commissioner-powers {
-            color: #444;
+            color: var(--text-secondary);
             line-height: 1.6;
             font-size: 13px;
         }
 
         .employees {
             font-weight: 600;
-            color: #667eea;
+            color: var(--accent-tertiary);
             text-align: center;
         }
 
         .no-data {
-            color: #adb5bd;
+            color: var(--text-quaternary);
             font-style: italic;
         }
 
         .website-link {
-            color: #667eea;
+            color: var(--accent-tertiary);
             text-decoration: none;
             font-size: 13px;
             word-break: break-all;
@@ -469,7 +565,7 @@
         }
 
         .website-link:hover {
-            color: #1e3c72;
+            color: var(--accent-secondary);
             text-decoration: underline;
         }
 
@@ -480,31 +576,40 @@
         }
 
         .category-tag {
-            background: #edf2f7;
-            color: #4a5568;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
             padding: 0.25rem 0.75rem;
             border-radius: 12px;
             font-size: 0.75rem;
             font-weight: 500;
+            border: 1px solid var(--border-secondary);
         }
 
         footer {
             text-align: center;
             padding: 15px 20px;
-            color: #6c757d;
+            color: var(--text-quaternary);
             font-size: 14px;
-            border-top: 1px solid #e9ecef;
-            background: white;
+            border-top: 1px solid var(--border-tertiary);
+            background: var(--bg-primary);
             flex-shrink: 0;
         }
 
         @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
             .navbar-title {
                 font-size: 1.5em;
             }
 
             .navbar-subtitle {
                 font-size: 0.9em;
+            }
+
+            .dark-mode-toggle {
+                margin-left: 10px;
             }
 
             table {
@@ -518,7 +623,7 @@
 
         /* Text View Scoped Styles */
         .textView h1, .textView h2, .textView h3, .textView h4, .textView h5, .textView h6 {
-            color: #1e3c72;
+            color: var(--accent-secondary);
             margin-top: 2rem;
             margin-bottom: 1rem;
             font-weight: 600;
@@ -526,20 +631,20 @@
 
         .textView h1 {
             font-size: 2.5rem;
-            border-bottom: 3px solid #2a5298;
+            border-bottom: 3px solid var(--accent-primary);
             padding-bottom: 0.75rem;
             margin-bottom: 1.5rem;
         }
 
         .textView h2 {
             font-size: 2rem;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid var(--border-primary);
             padding-bottom: 0.5rem;
         }
 
         .textView h3 {
             font-size: 1.5rem;
-            color: #2a5298;
+            color: var(--accent-primary);
         }
 
         .textView h4 {
@@ -556,14 +661,14 @@
 
         .textView p {
             margin-bottom: 1.25rem;
-            color: #333;
+            color: var(--text-primary);
             font-size: 1rem;
         }
 
         .textView ul, .textView ol {
             margin-left: 2rem;
             margin-bottom: 1.5rem;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .textView li {
@@ -577,7 +682,7 @@
         }
 
         .textView a {
-            color: #2a5298;
+            color: var(--accent-primary);
             text-decoration: none;
             font-weight: 500;
             border-bottom: 1px solid transparent;
@@ -585,55 +690,55 @@
         }
 
         .textView a:hover {
-            border-bottom-color: #2a5298;
+            border-bottom-color: var(--accent-primary);
         }
 
         .textView strong, .textView b {
-            color: #1e3c72;
+            color: var(--accent-secondary);
             font-weight: 600;
         }
 
         .textView em, .textView i {
-            color: #555;
+            color: var(--text-secondary);
         }
 
         .textView code {
-            background: #f5f5f5;
+            background: var(--bg-secondary);
             padding: 3px 8px;
             border-radius: 4px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.9em;
-            color: #d63384;
-            border: 1px solid #e0e0e0;
+            color: var(--accent-tertiary);
+            border: 1px solid var(--border-primary);
         }
 
         .textView pre {
-            background: #f8f9fa;
+            background: var(--bg-secondary);
             padding: 1.5rem;
             border-radius: 8px;
             overflow-x: auto;
             margin-bottom: 1.5rem;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-primary);
+            box-shadow: var(--shadow-sm);
         }
 
         .textView pre code {
             background: none;
             padding: 0;
             border: none;
-            color: #333;
+            color: var(--text-primary);
             font-size: 0.875rem;
         }
 
         .textView blockquote {
-            border-left: 4px solid #2a5298;
+            border-left: 4px solid var(--accent-primary);
             padding-left: 1.5rem;
             padding-right: 1rem;
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
             margin: 1.5rem 0;
-            background: #f8f9ff;
-            color: #555;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
             font-style: italic;
             border-radius: 0 4px 4px 0;
         }
@@ -644,7 +749,7 @@
 
         .textView hr {
             border: none;
-            border-top: 2px solid #e0e0e0;
+            border-top: 2px solid var(--border-primary);
             margin: 2rem 0;
         }
 
@@ -652,25 +757,25 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 1.5rem;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--border-primary);
         }
 
         .textView table th {
-            background: #f8f9fa;
+            background: var(--bg-secondary);
             padding: 12px;
             text-align: left;
             font-weight: 600;
-            color: #1e3c72;
-            border-bottom: 2px solid #2a5298;
+            color: var(--accent-secondary);
+            border-bottom: 2px solid var(--accent-primary);
         }
 
         .textView table td {
             padding: 12px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--border-primary);
         }
 
         .textView table tr:hover {
-            background: #f8f9ff;
+            background: var(--table-hover);
         }
 
         .textView img {
@@ -678,11 +783,11 @@
             height: auto;
             border-radius: 8px;
             margin: 1.5rem 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
         }
 
         .textView .highlight-box {
-            background: #fff9e6;
+            background: rgba(255, 193, 7, 0.1);
             border-left: 4px solid #ffc107;
             padding: 1rem 1.5rem;
             margin: 1.5rem 0;
@@ -690,7 +795,7 @@
         }
 
         .textView .info-box {
-            background: #e3f2fd;
+            background: rgba(33, 150, 243, 0.1);
             border-left: 4px solid #2196f3;
             padding: 1rem 1.5rem;
             margin: 1.5rem 0;
@@ -698,7 +803,7 @@
         }
 
         .textView .warning-box {
-            background: #fff3e0;
+            background: rgba(255, 152, 0, 0.1);
             border-left: 4px solid #ff9800;
             padding: 1rem 1.5rem;
             margin: 1.5rem 0;
@@ -706,7 +811,7 @@
         }
 
         .textView .success-box {
-            background: #e8f5e9;
+            background: rgba(76, 175, 80, 0.1);
             border-left: 4px solid #4caf50;
             padding: 1rem 1.5rem;
             margin: 1.5rem 0;
@@ -720,6 +825,11 @@
         <div class="navbar-content">
             <h1 class="navbar-title">Minnesota Explained</h1>
             <p class="navbar-subtitle" id="navbarSubtitle">Explore Minnesota State Government</p>
+        </div>
+        <div class="dark-mode-toggle">
+            <div class="toggle-switch" onclick="toggleDarkMode()">
+                <div class="toggle-slider"></div>
+            </div>
         </div>
     </nav>
 
@@ -764,6 +874,22 @@
 
         // Replace this URL with your GitHub Gist raw URL or other data source
         const DATA_URL = './artifacts.json';
+
+        // Dark Mode Functions
+        function initDarkMode() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        function toggleDarkMode() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Initialize dark mode on page load
+        initDarkMode();
 
         /* 
          * Artifact structure:
