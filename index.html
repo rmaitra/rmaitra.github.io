@@ -1228,7 +1228,7 @@
             
             // Check artifact type and render accordingly
             if(artifact.type === 'link'){
-                window.open(artifact.link, '_blank').focus();
+                window.location.href = artifact.link;
             } else if (artifact.type === 'text') {
                 var response = await fetch(artifact.src);
                 artifact.data = await response.text();
