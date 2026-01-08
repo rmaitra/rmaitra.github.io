@@ -1310,7 +1310,7 @@
                     // Add filter toggle button if filterable
                     if (col.filterable) {
                         th.classList.add('filterable');
-                        const toggleBtn = document.createElement('span');
+                        /*const toggleBtn = document.createElement('span');
                         toggleBtn.className = 'filter-toggle';
                         toggleBtn.textContent = 'Filter';
                         toggleBtn.title = 'Toggle filter';
@@ -1321,14 +1321,12 @@
                             e.stopPropagation();
                             toggleFilter(colIndex);
                         };
-                        headerContent.appendChild(toggleBtn);
+                        headerContent.appendChild(toggleBtn);*/
                         
                         // Add filter dropdown
                         const filterDiv = document.createElement('div');
                         filterDiv.className = 'filter-dropdown';
-                        if (filterDropdownStates[colIndex]) {
-                            filterDiv.classList.add('active');
-                        }
+                        filterDiv.classList.add('active');
                         
                         const select = document.createElement('select');
                         select.onchange = (e) => handleFilterChange(colIndex, e.target.value);
