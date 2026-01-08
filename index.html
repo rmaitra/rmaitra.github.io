@@ -734,7 +734,7 @@
             // Check artifact type and render accordingly
             if (artifact.type === 'text') {
                 var response = await fetch(artifact.src);
-                artifact.data = response.text();
+                artifact.data = await response.text();
                 document.getElementById('tableView').classList.remove('active');
                 document.getElementById('textView').classList.add('active');
                 renderTextContent(artifact);
