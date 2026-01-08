@@ -56,6 +56,11 @@
           width: 900px;
         }
 
+        #map.no-show {
+          height: 0px;
+          width: 0px;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: var(--bg-primary);
@@ -856,7 +861,7 @@
     </div>
 
     <div class="contain">
-        <div id="map"></div>
+        <div id="map" class="no-show"></div>
     </div>
 
     <div id="tableView" class="table-view">
@@ -1462,6 +1467,7 @@
             }
 
             if(artifact.map == true){
+                document.getElementById('map').classList = "";
                 loadMap(artifact.data)
             }
         }
@@ -1794,8 +1800,9 @@
         function killMap(){
             if(map != null){
                 map.remove()
+                map = null;
                 document.getElementById('map').innerHTML = "";
-                document.getElementById('map').classList = "";
+                document.getElementById('map').classList = "no-show";
             }
         }
     </script>
