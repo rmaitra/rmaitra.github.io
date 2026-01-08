@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Minnesota State Agencies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8f9fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .navbar-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            border-left: 4px solid #2a5298;
+        }
+
+        .intro-box p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        .intro-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section h3 {
+            color: #2a5298;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-card {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .info-card h4 {
+            color: #1e3c72;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-card p {
+            color: #4a5568;
+            font-size: 0.95rem;
+        }
+
+        .tip-box {
+            background: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .tip-box strong {
+            color: #0066cc;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .resource-list li {
+            background: #f8f9fa;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+            transition: all 0.2s;
+        }
+
+        .resource-list li:hover {
+            background: #f0f4ff;
+            transform: translateX(5px);
+        }
+
+        .resource-list strong {
+            color: #1e3c72;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .resource-list a {
+            color: #2a5298;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resource-list a:hover {
+            text-decoration: underline;
+        }
+
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 1.25rem;
+            top: 1.25rem;
+            background: #667eea;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        .agency-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .agency-tag {
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            border: 2px solid #e2e8f0;
+            text-align: center;
+            font-weight: 500;
+            color: #2d3748;
+            transition: all 0.2s;
+        }
+
+        .agency-tag:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        @media (max-width: 768px) {
+            .navbar h1 {
+                font-size: 1.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h4><a href="/">MN Explained</a></h4>
+        <h1>🏛️ Your Guide to Minnesota State Agencies</h1>
+        <div class="navbar-subtitle">Learn where to find information and stay informed about state government</div>
+    </div>
+
+    <div class="container">
+        <div class="intro-box">
+            <p><strong>Did you know?</strong> Minnesota has over 20 major state agencies working every day on issues that affect your life—from healthcare and education to transportation and environmental protection.</p>
+            <p>This guide will show you exactly where to find information about these agencies and how to keep track of what they're doing.</p>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🏢</span> What Are State Agencies?</h2>
+            <p>State agencies are departments of Minnesota government that carry out specific functions. Each agency has a commissioner (like a CEO) appointed by the Governor, and they employ thousands of Minnesotans to deliver services.</p>
+            
+            <div class="agency-examples">
+                <div class="agency-tag">Health</div>
+                <div class="agency-tag">Education</div>
+                <div class="agency-tag">Transportation</div>
+                <div class="agency-tag">Revenue</div>
+                <div class="agency-tag">Agriculture</div>
+                <div class="agency-tag">Human Services</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🔍</span> Where to Find Agency Information</h2>
+            
+            <h3>1. Official Agency Websites</h3>
+            <p>Every state agency has its own website with detailed information about their programs and services.</p>
+            
+            <ul class="resource-list">
+                <li>
+                    <strong>Main Portal: MN.gov</strong>
+                    Visit <a href="https://mn.gov" target="_blank">mn.gov</a> to find links to all state agencies
+                </li>
+                <li>
+                    <strong>Agency URLs</strong>
+                    Most follow the pattern: <span class="highlight">agency-name.state.mn.us</span> or <span class="highlight">mn.gov/agency-name</span>
+                </li>
+                <li>
+                    <strong>Example:</strong>
+                    Department of Health: <a href="https://health.state.mn.us" target="_blank">health.state.mn.us</a>
+                </li>
+            </ul>
+
+            <h3>2. Minnesota State Directory</h3>
+            <p>The Secretary of State publishes an annual directory of all state agencies, commissioners, and contact information.</p>
+            
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong>
+                Search "Minnesota Blue Book" or "Minnesota State Agency Directory" to find the official list of all agencies with their current leadership and phone numbers.
+            </div>
+
+            <h3>3. Open Meeting Portal</h3>
+            <ul class="resource-list">
+                <li>
+                    <strong>Public Meetings Calendar</strong>
+                    Many agencies post their meeting schedules and agendas online. Check individual agency websites for "Meetings" or "Calendar" sections.
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📰</span> How to Stay Informed</h2>
+            
+            <ol class="step-list">
+                <li>
+                    <strong>Subscribe to Agency Newsletters</strong><br>
+                    Most agencies offer email newsletters with updates on programs, rule changes, and public meetings. Look for "Subscribe" or "Email Updates" on agency websites.
+                </li>
+                <li>
+                    <strong>Follow on Social Media</strong><br>
+                    Many agencies maintain active Twitter, Facebook, and LinkedIn accounts with real-time updates.
+                </li>
+                <li>
+                    <strong>Check News & Press Releases</strong><br>
+                    Agencies publish press releases about major announcements. Find them under "News" or "Press Room" sections.
+                </li>
+                <li>
+                    <strong>Review Annual Reports</strong><br>
+                    Agencies publish yearly reports detailing their activities, accomplishments, and budgets. Search for "Annual Report" on agency websites.
+                </li>
+                <li>
+                    <strong>Monitor Rulemaking</strong><br>
+                    When agencies create new rules, they must hold public comment periods. Visit the State Register at <a href="https://www.revisor.mn.gov/state_register" target="_blank">revisor.mn.gov</a> to see proposed rules.
+                </li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🗣️</span> Ways to Engage with Agencies</h2>
+            
+            <div class="card-grid">
+                <div class="info-card">
+                    <h4>📞 Call or Email</h4>
+                    <p>Every agency has a public information office. Contact details are on their websites.</p>
+                </div>
+                <div class="info-card">
+                    <h4>📝 Submit Comments</h4>
+                    <p>Agencies accept public comments on proposed rules and policies during official comment periods.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎤 Attend Meetings</h4>
+                    <p>Many agency meetings are open to the public. Check calendars for upcoming meetings.</p>
+                </div>
+                <div class="info-card">
+                    <h4>📄 File Complaints</h4>
+                    <p>If you have concerns about an agency's services, most have formal complaint processes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📊</span> Finding Specific Information</h2>
+            
+            <h3>Budget & Spending</h3>
+            <ul class="resource-list">
+                <li>
+                    <strong>Minnesota Management & Budget</strong>
+                    <a href="https://mn.gov/mmb" target="_blank">mn.gov/mmb</a> - View state budget information and agency spending
+                </li>
+                <li>
+                    <strong>Open Checkbook</strong>
+                    Search state expenditures and see where tax dollars go
+                </li>
+            </ul>
+
+            <h3>Employment Data</h3>
+            <ul class="resource-list">
+                <li>
+                    <strong>Workforce Reports</strong>
+                    Minnesota Management & Budget publishes annual workforce statistics showing how many people work for each agency
+                </li>
+            </ul>
+
+            <h3>Performance & Results</h3>
+            <ul class="resource-list">
+                <li>
+                    <strong>Agency Performance Reports</strong>
+                    Look for "Performance Dashboard" or "Results" sections on agency websites to see metrics and outcomes
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">⚡</span> Quick Reference</h2>
+            
+            <div class="tip-box">
+                <strong>Need help fast?</strong>
+                Call <span class="highlight">651-296-6013</span> (Minnesota State Operator) to be directed to the right agency or service.
+            </div>
+
+            <h3>Most Commonly Searched Agencies:</h3>
+            <ul class="resource-list">
+                <li><strong>Driver's Licenses & Vehicle Registration:</strong> Department of Public Safety - Driver & Vehicle Services</li>
+                <li><strong>Taxes:</strong> Department of Revenue</li>
+                <li><strong>Health Insurance (Medical Assistance):</strong> Department of Human Services</li>
+                <li><strong>Unemployment Benefits:</strong> Department of Employment & Economic Development</li>
+                <li><strong>Child Care Assistance:</strong> Department of Children, Youth & Families</li>
+                <li><strong>Environmental Concerns:</strong> Pollution Control Agency or Department of Natural Resources</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🔎</span> Agency Lookup Directory</h2>
+            <p>Search or browse all Minnesota state agencies below. Click on any agency to visit their official website.</p>
+            
+            <div style="margin: 1.5rem 0;">
+                <input type="text" id="searchBox" placeholder="Search agencies by name or description..." style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+            </div>
+
+            <div id="agencyList"></div>
+            
+            <div id="noResults" style="display: none; text-align: center; padding: 2rem; color: #718096;">
+                No agencies found matching your search.
+            </div>
+        </div>
+
+        <div class="intro-box" style="margin-top: 2rem;">
+            <p><strong>Remember:</strong> State agencies work for you! They're required to be transparent about their activities and responsive to public questions. Don't hesitate to reach out if you need information or assistance.</p>
+        </div>
+    </div>
+
+    <script>
+        const agencies = [
+            {
+                name: "Department of Administration",
+                commissioner: "Tamar Gronvall",
+                description: "Manages and administers centralized operations of state agencies, including procurement of goods and services, travel and fleet services, building construction and maintenance, real estate leasing and management, and facilities and maintenance services.",
+                url: "https://mn.gov/admin"
+            },
+            {
+                name: "Department of Agriculture",
+                commissioner: "Thom Petersen",
+                description: "Encourages and promotes agricultural industries, assists in the marketing of farm products, and exercises regulatory powers to ensure the continued high quality of Minnesota agricultural production.",
+                url: "https://mda.state.mn.us"
+            },
+            {
+                name: "Department of Children, Youth and Families",
+                commissioner: "Tikki Brown",
+                description: "Administers programs that provide critical supports for children, youth, and families across Minnesota. Works to advance equitable outcomes through transformative, partnership-driven policies, programs and practices.",
+                url: "https://dcyf.mn.gov"
+            },
+            {
+                name: "Department of Commerce",
+                commissioner: "Grace Arnold (Interim)",
+                description: "Regulates financial service industries in Minnesota including insurance, state-chartered banks, credit unions, securities, and real estate. Also enforces Public Utilities Commission rules and orders.",
+                url: "https://mn.gov/commerce"
+            },
+            {
+                name: "Department of Corrections",
+                commissioner: "Paul Schnell",
+                description: "Accepts persons committed by the courts for care, custody, and rehabilitation. Operates 10 correctional facilities across Minnesota providing facility safety and security, health services, and rehabilitation programs.",
+                url: "https://mn.gov/doc"
+            },
+            {
+                name: "Department of Education",
+                commissioner: "Willie Jett",
+                description: "Serves approximately 870,000 pre-K to grade 12 students and their families, all of Minnesota's school districts and charter schools, educators, school staff, and adult learners. Mission is ensuring every child receives a quality education.",
+                url: "https://education.state.mn.us"
+            },
+            {
+                name: "Department of Employment and Economic Development",
+                commissioner: "Matt Varilek",
+                description: "The state's principal economic development agency, with programs promoting business recruitment, expansion, and retention; workforce development; international trade; and community development.",
+                url: "https://mn.gov/deed"
+            },
+            {
+                name: "Department of Health",
+                commissioner: "Brooke Cunningham",
+                description: "Responsible for the development and maintenance of an organized system of programs to protect, maintain, and improve the health of citizens. Identifies public health problems and provides services to prevent and control disease.",
+                url: "https://health.state.mn.us"
+            },
+            {
+                name: "Department of Human Rights",
+                commissioner: "Rebecca Lucero",
+                description: "Enforces one of the strongest civil rights laws in the country, the Minnesota Human Rights Act, which prohibits discrimination. Mission is to make Minnesota discrimination free.",
+                url: "https://mn.gov/mdhr"
+            },
+            {
+                name: "Department of Human Services",
+                commissioner: "Shireen Gandhi (Temporary)",
+                description: "Helps provide essential services to Minnesota's most vulnerable residents. Administers publicly funded health care programs, economic self-sufficiency programs, and community-based services to persons with disabilities.",
+                url: "https://mn.gov/dhs"
+            },
+            {
+                name: "Department of Labor and Industry",
+                commissioner: "Nicole Blissenbach",
+                description: "Administers laws relating to workers' compensation, occupational safety and health, wages, child labor, construction codes and licensing, and combative sports.",
+                url: "https://doli.mn.gov"
+            },
+            {
+                name: "Department of Military Affairs",
+                commissioner: "Shawn Manke (Adjutant General)",
+                description: "Administrative head of the military department with responsibility for the military forces and reservations of the state. Serves as the civilian leadership for the Minnesota National Guard.",
+                url: "https://minnesotanationalguard.ng.mil"
+            },
+            {
+                name: "Department of Natural Resources",
+                commissioner: "Sarah Strommen",
+                description: "Manages the state's natural resources, including its public lands and waters. Works to conserve and manage natural resources, provide outdoor recreation opportunities, and provide for commercial uses in a sustainable way.",
+                url: "https://mndnr.gov"
+            },
+            {
+                name: "Department of Public Safety",
+                commissioner: "Bob Jacobson",
+                description: "Coordinates and directs the functions and services of the state relating to the safety and convenience of its citizens. Includes Bureau of Criminal Apprehension, State Patrol, and Driver and Vehicle Services.",
+                url: "https://dps.mn.gov"
+            },
+            {
+                name: "Department of Revenue",
+                commissioner: "Paul Marquart",
+                description: "Supervises the administration of Minnesota tax laws. Administers over 30 taxes with annual tax collections of approximately $33 billion that fund schools, property tax relief, local government aids, and state programs.",
+                url: "https://revenue.state.mn.us"
+            },
+            {
+                name: "Department of Transportation",
+                commissioner: "Nancy Daubenberger",
+                description: "Manages a statewide transportation system that includes aeronautics, highways, motor carriers, ports, public transit, and railroads. Plans, builds, operates, and maintains Minnesota's transportation infrastructure.",
+                url: "https://dot.state.mn.us"
+            },
+            {
+                name: "Department of Veterans Affairs",
+                commissioner: "Brad Lindsay",
+                description: "Provides services and benefits to Veterans and their families through quality healthcare. Operates Minnesota Veterans Homes in eight locations and assists Minnesota's 287,000 Veterans in obtaining federal benefits.",
+                url: "https://MinnesotaVeteran.org"
+            },
+            {
+                name: "Housing Finance Agency",
+                commissioner: "Jennifer Leimaile Ho",
+                description: "Facilitates the construction, acquisition, improvement, and rehabilitation of housing for low- and moderate-income Minnesotans by providing affordable financing and related assistance.",
+                url: "https://mnhousing.gov"
+            },
+            {
+                name: "Iron Range Resources and Rehabilitation Board",
+                commissioner: "Ida Rukavina",
+                description: "Development agency that promotes and invests in business, community and workforce development for northeastern Minnesota. Provides funding for businesses relocating or expanding in the region.",
+                url: "https://mn.gov/IRRRB"
+            },
+            {
+                name: "Minnesota Management and Budget",
+                commissioner: "Erin Campbell",
+                description: "Oversees human resources, labor relations, and overall finance and management of the state. Prepares the biennial budget and manages state accounting, banking, and payroll systems.",
+                url: "https://mn.gov/mmb"
+            },
+            {
+                name: "Minnesota Pollution Control Agency",
+                commissioner: "Katrina Kessler",
+                description: "Administers the laws relating to preservation of the environment and protection of public health. Measures environmental quality, develops protective rules, and regulates air, water, and hazardous waste.",
+                url: "https://pca.state.mn.us"
+            },
+            {
+                name: "Department of Information Technology Services (MN.IT)",
+                commissioner: "Tarek Tomes",
+                description: "State chief information officer responsible for providing IT systems and services to state agencies. Sets IT standards and policies, manages cybersecurity, and ensures efficient delivery of government services through technology.",
+                url: "https://mn.gov/mnit"
+            },
+            {
+                name: "Bureau of Mediation Services",
+                commissioner: "Johnny Villarreal",
+                description: "Promotes stable and constructive relationships between labor and management. Provides mediation services for collective bargaining contract and grievance disputes, and conducts representation hearings.",
+                url: "https://mn.gov/bms"
+            },
+            {
+                name: "Office of Higher Education",
+                commissioner: "Dennis Olson (Director)",
+                description: "Performs statewide services that support access to post-secondary education, including student financial aid. Administers State Grant program, interstate reciprocity agreements, and manages the Minnesota College Savings Plan.",
+                url: "https://ohe.state.mn.us"
+            }
+        ];
+
+        function renderAgencies(filteredAgencies) {
+            const agencyList = document.getElementById('agencyList');
+            const noResults = document.getElementById('noResults');
+            
+            if (filteredAgencies.length === 0) {
+                agencyList.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            
+            agencyList.innerHTML = filteredAgencies.map(agency => `
+                <div style="background: #f8f9fa; padding: 1.5rem; margin-bottom: 1rem; border-radius: 8px; border-left: 4px solid #667eea; transition: all 0.2s;" 
+                     onmouseover="this.style.background='#f0f4ff'; this.style.transform='translateX(5px)'" 
+                     onmouseout="this.style.background='#f8f9fa'; this.style.transform='translateX(0)'">
+                    <h4 style="color: #1e3c72; margin-bottom: 0.5rem; font-size: 1.15rem;">
+                        <a href="${agency.url}" target="_blank" rel="noopener noreferrer" style="color: #1e3c72; text-decoration: none;">
+                            ${agency.name} →
+                        </a>
+                    </h4>
+                    <p style="color: #718096; font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>Commissioner:</strong> ${agency.commissioner}</p>
+                    <p style="color: #4a5568; font-size: 0.95rem; line-height: 1.6;">${agency.description}</p>
+                    <a href="${agency.url}" target="_blank" rel="noopener noreferrer" style="color: #2a5298; text-decoration: none; font-weight: 500; font-size: 0.9rem; display: inline-block; margin-top: 0.5rem;">
+                        Visit Website →
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        function filterAgencies(searchTerm) {
+            const term = searchTerm.toLowerCase();
+            return agencies.filter(agency => 
+                agency.name.toLowerCase().includes(term) ||
+                agency.description.toLowerCase().includes(term) ||
+                agency.commissioner.toLowerCase().includes(term)
+            );
+        }
+
+        // Initial render
+        renderAgencies(agencies);
+
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', (e) => {
+            const searchTerm = e.target.value;
+            const filtered = filterAgencies(searchTerm);
+            renderAgencies(filtered);
+        });
+    </script>
+</body>
+</html>

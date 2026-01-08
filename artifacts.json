@@ -1,5 +1,13 @@
 [
     {
+        "title":"Your Guide to Minnesota State Agencies",
+        "description":"Learn where to find information and stay informed about state government.",
+        "subtitle":"About Minnesota Government",
+        "footer":"",
+        "type":"link",
+        "link":"/onboard.html"
+    },
+    {
         "title":"Minnesota State Departments",
         "description":"Explore each of Minnesota's state government departments.",
         "subtitle":"State Departments - Commissioners, Descriptions, and Employee Counts (FY 2023)",
@@ -106,7 +114,7 @@
                 "description":"The department is responsible for the development and maintenance of an organized system of programs to protect, maintain, and improve the health of citizens. Identifies public health problems through collection and analysis of health data; provides services to prevent and control infectious and chronic disease; promotes healthy behaviors; establishes and enforces standards for health care facilities and for environmental health hazards.",
                 "commissioner_powers":"Responsible for development and maintenance of organized system of programs to protect, maintain, and improve health of citizens; identifies public health problems through data collection and analysis; prevents and controls infectious and chronic disease; promotes healthy behaviors; establishes and enforces standards for health care facilities and environmental health hazards; monitors health care delivery system; administers office of health facilities complaints; advises governor and legislature on public health matters.",
                 "employees":1896,
-                "url":"https://health.state.mn.us"
+                "url":"https://www.health.state.mn.us"
             },
             {
                 "department":"Department of Human Rights",
