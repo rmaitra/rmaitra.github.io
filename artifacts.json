@@ -622,26 +622,37 @@
                 "field":"text",
                 "width":"50%",
                 "type":"text"
+            },
+            {
+                "header":"Categories",
+                "field":"categories",
+                "width":"10%",
+                "type":"categories",
+                "filterable":true
             }
         ],
         "data":[
           {
             "title": "Minnesota Basic Income Grant Program Act",
+            "categories": ["Direct Assistance", "Anti-Poverty", "Human Services"],
             "description": "Establishes a statewide competitive grant program to provide monthly cash payments of $350 to $1,200 to low-income residents to disrupt poverty and build community wealth.",
             "text": "A bill for an act relating to human services; establishing a Minnesota basic income grant program; requiring a report; appropriating money. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. MINNESOTA BASIC INCOME GRANT PROGRAM. Subdivision 1. Establishment. The commissioner of human services must establish a competitive grant program for local government entities, Minnesota's Tribal Nations, or nonprofit organizations to provide regular cash payments to eligible recipients in order to disrupt poverty, build wealth, advance equity, and support a recipient's basic needs. Subd. 4. Use of grant money. Grantees must use grant money to: (1) design and implement a basic income grant program; (2) provide a monthly payment between $350 to $1,200 to eligible recipients for a period of 12 to 24 months; and (3) collect data on the economic status of recipients. Subd. 5. Eligible recipients. Persons eligible to receive monthly payments must be receiving public benefits or have a household income less than or equal to 300 percent of the federal poverty guidelines."
           },
           {
             "title": "Corporate Franchise Tax Rate Contingency Act",
+            "categories": ["Corporate Taxation", "Fiscal Policy", "Revenue Neutrality"],
             "description": "Adjusts the state corporate tax rate upward if federal corporate taxes are reduced, ensuring that large corporations continue to contribute a fair share to the state's general fund.",
             "text": "A bill for an act relating to taxation; corporate franchise; providing for a contingent increase in the tax rate; amending Minnesota Statutes 2024, section 290.06, subdivision 1. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. Minnesota Statutes 2024, section 290.06, subdivision 1, is amended to read: Subdivision 1. Computation, corporations. (a) For taxable years beginning after December 31, 2024, the franchise tax imposed upon corporations shall be computed by applying to their taxable income the rate greater of: (1) 9.8 percent; or (2) the rate calculated under paragraph (c). (b) Pursuant to enactment of federal legislation decreasing the corporate franchise tax rate, the commissioner must calculate the percentage decrease and increase Minnesota's tax rate by a corresponding percentage, rounded to the nearest twentieth of a percent."
           },
           {
             "title": "Expanded Corporate Tax Compliance & Enforcement Initiative",
+            "categories": ["Enforcement & Oversight", "Corporate Reform", "Government Operations"],
             "description": "Allocates funding to the Department of Revenue to specifically target and collect unpaid tax liabilities from corporations with over $25 million in Minnesota sales.",
             "text": "A bill for an act relating to taxation; appropriating money for an expanded corporate tax compliance initiative. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. APPROPRIATION; EXPANDED CORPORATE TAX COMPLIANCE INITIATIVE. Subdivision 1. Appropriation. $10,000,000 in fiscal year 2026 is appropriated from the general fund to the commissioner of revenue to develop and implement an expanded corporate tax compliance initiative. Subd. 2. Requirements. The initiative must prioritize compliance and enforcement activities among corporations reporting $25,000,000 or more in Minnesota sales or gross receipts for a taxable year to ensure the identification and collection of tax liabilities from corporations that currently do not accurately report taxable income."
           },
           {
             "title": "Net Investment Income Tax Act",
+            "categories": ["Wealth & Capital Taxation", "Individual Income Tax", "Equity"],
             "description": "Imposes a 1% tax on net investment income exceeding $1 million for individuals and trusts, redirecting capital gains and dividend wealth into the state treasury.",
             "text": "A bill for an act relating to taxation; individual income; imposing a tax on net investment income. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. NET INVESTMENT INCOME TAX. (a) A tax is imposed on the net investment income of individuals, estates, and trusts for the taxable year. (b) The tax is equal to one percent of the taxpayer's net investment income in excess of $1,000,000. (c) 'Net investment income' has the meaning given in section 1411(c) of the Internal Revenue Code. (d) This section is effective for taxable years beginning after December 31, 2023."
           }
