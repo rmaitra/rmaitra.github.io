@@ -683,6 +683,14 @@
         ]
     },
     {
+        "title":"A Freshman in Congress - Representative Katie Jones",
+        "description":"A review on Representative Katie Jones work for MN 61A",
+        "subtitle":"About Minnesota Government",
+        "footer":"",
+        "type":"link",
+        "link":"/katiejones.html"
+    },
+    {
         "title":"City Council Member Katie Cashman",
         "description":"A dashboard of the council member's work.",
         "subtitle":"About Minnesota Government",
