@@ -657,5 +657,13 @@
             "text": "A bill for an act relating to taxation; individual income; imposing a tax on net investment income. BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MINNESOTA: Section 1. NET INVESTMENT INCOME TAX. (a) A tax is imposed on the net investment income of individuals, estates, and trusts for the taxable year. (b) The tax is equal to one percent of the taxpayer's net investment income in excess of $1,000,000. (c) 'Net investment income' has the meaning given in section 1411(c) of the Internal Revenue Code. (d) This section is effective for taxable years beginning after December 31, 2023."
           }
         ]
-    }
+    },
+    {
+        "title":"City Council Member Katie Cashman",
+        "description":"A dashboard of the council member's work.",
+        "subtitle":"About Minnesota Government",
+        "footer":"",
+        "type":"link",
+        "link":"/cashman.html",
+    },
 ]

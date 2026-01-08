@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katie Cashman City Council Accomplishments</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.3s ease;
+        }
+        .fade-enter-from, .fade-leave-to {
+            opacity: 0;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .clickable{
+            cursor: pointer;
+        }
+        @media screen and (max-width: 768px) {
+            .sm-hide {
+                display: none;
+            }
+            .sm-show {
+                display: block;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .sm-show {
+                display: none;
+            }
+        }
+
+        img{
+            width: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app" class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-blue-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-3">
+                        <a href="https://www.katieforcouncil.org/">
+                            <img src="https://images.squarespace-cdn.com/content/v1/63e30658e7059222878ca4ec/b1e56df3-99a1-460c-82d2-b63fae2ee4fa/KC+Assets+for+Sean_logo+white+yellow.png?format=1500w" alt="Katie Cashman for Council" style="max-height:50px" >
+                        </a>
+                        <h1 class="sm-hide text-2xl font-bold">Katie Cashman City Council Accomplishments</h1>
+                        <h1 class="sm-show text-xl font-bold">Katie Cashman Accomplishments</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Stats and Charts -->
+            <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Resolutions Table -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden lg:col-span-3">
+                    <div class="overflow-x-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-8 gap-4 p-3">
+
+                            <div class="flex justify-between col-span-2 p-2">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Total Resolutions</p>
+                                    <p class="text-3xl font-bold text-black-600">{{ filteredResolutions.length }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Categories</p>
+                                    <p class="text-3xl font-bold text-black-600">{{ uniqueCategories.length }}</p>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <select v-model="categoryFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-blue-500">
+                                    <option value="">All Categories</option>
+                                    <option v-for="category in uniqueCategories" :value="category">{{ category }}</option>
+                                </select>
+                            </div>
+                            <div class="col-span-2">
+                                <select v-model="dateRangeFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-blue-500">
+                                    <option value="all">All Time</option>
+                                    <option value="year">This Year</option>
+                                    <option value="month">This Month</option>
+                                    <option value="week">This Week</option>
+                                </select>
+                            </div>
+                            <div class="sm-show">
+                                <div class="relative">
+                                    <input v-model="searchQuery" type="text" placeholder="Search resolutions..." 
+                                           class="px-4 py-2 border-2 border-solid border-blue-500 rounded-full w-64">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="overflow-y: auto; max-height: 600px;">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="sm-hide px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                                            <div class="flex items-center">
+                                                Resolution #
+                                                <i data-feather="chevron-down" class="w-4 h-4 ml-1" v-if="sortColumn === 'resolutionNumber' && sortDirection === 'asc'"></i>
+                                                <i data-feather="chevron-up" class="w-4 h-4 ml-1" v-if="sortColumn === 'resolutionNumber' && sortDirection === 'desc'"></i>
+                                            </div>
+                                        </th>
+                                        <th class="sm-hide px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                                            <div class="flex items-center">
+                                                Date
+                                                <i data-feather="chevron-down" class="w-4 h-4 ml-1" v-if="sortColumn === 'passageDate' && sortDirection === 'asc'"></i>
+                                                <i data-feather="chevron-up" class="w-4 h-4 ml-1" v-if="sortColumn === 'passageDate' && sortDirection === 'desc'"></i>
+                                            </div>
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <div class="sm-hide">
+                                                <div class="relative">
+                                                    <input v-model="searchQuery" type="text" placeholder="Search resolutions..." 
+                                                           class="px-4 py-2 border-2 border-solid border-blue-500 rounded-full w-64">
+                                                </div>
+                                            </div>
+                                            <span class="sm-show">Description</span>
+                                        </th>
+                                        <th class="sm-hide px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <div class="relative">
+                                                Summary
+                                            </div>
+                                        </th>
+                                        <th class="sm-hide px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                                            <div class="flex items-center">
+                                                Category
+                                                <i data-feather="chevron-down" class="w-4 h-4 ml-1" v-if="sortColumn === 'category' && sortDirection === 'asc'"></i>
+                                                <i data-feather="chevron-up" class="w-4 h-4 ml-1" v-if="sortColumn === 'category' && sortDirection === 'desc'"></i>
+                                            </div>
+                                        </th>
+                                        <th class="sm-hide px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            URL
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <transition-group name="fade" tag="tbody">
+                                        <tr v-for="resolution in paginatedResolutions" :key="resolution.resolutionNumber" class="hover:bg-gray-50 clickable"  @click="openModal(resolution)">
+                                            <td class="sm-hide px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                                                {{ resolution.resolutionNumber }}
+                                            </td>
+                                            <td class="sm-hide px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ formatDate(resolution.passageDate) }}
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-gray-500 max-w-xs">
+                                                {{ resolution.description }}
+
+                                                <div class="mt-2 text-blue-500">
+                                                    Author: {{ resolution.author }}
+                                                </div>
+
+                                                <div class="sm-show mt-3">
+                                                    {{ resolution.summary }}
+                                                </div>
+                                                <div class="sm-show mt-3">
+                                                    <b>{{ resolution.resolutionNumber }}</b>
+                                                </div>
+                                                <a :href="resolution.url" target="_blank" class="text-blue-600 hover:text-blue-900 sm-show mt-3">
+                                                    {{ resolution.url }}
+                                                </a>
+                                            </td>
+                                            <td class="sm-hide px-6 py-4 text-sm text-gray-500 max-w-xs">
+                                                {{ resolution.summary }}
+                                            </td>
+                                            <td class="sm-hide px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
+                                                      :class="getCategoryColor(resolution.category)">
+                                                    {{ resolution.category }}
+                                                </span>
+                                            </td>
+                                            <td class="sm-hide px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <!--<button @click="openModal(resolution)" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                                                    <i data-feather="eye" class="w-4 h-4"></i>
+                                                </button>-->
+                                                <a :href="resolution.url" target="_blank" class="text-blue-600 hover:text-blue-900">
+                                                    {{ resolution.url }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </transition-group>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">{{ (currentPage - 1) * itemsPerPage + 1 }}</span>
+                                    to <span class="font-medium">{{ Math.min(currentPage * itemsPerPage, filteredResolutions.length) }}</span>
+                                    of <span class="font-medium">{{ filteredResolutions.length }}</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                    <button @click="currentPage = Math.max(1, currentPage - 1)" 
+                                            :disabled="currentPage === 1"
+                                            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <i data-feather="chevron-left" class="w-5 h-5"></i>
+                                    </button>
+                                    <button v-for="page in getVisiblePages()" 
+                                            @click="currentPage = page"
+                                            :class="{'bg-indigo-50 border-indigo-500 text-indigo-600 z-10': currentPage === page, 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50': currentPage !== page}"
+                                            class="relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        {{ page }}
+                                    </button>
+                                    <button @click="currentPage = Math.min(totalPages, currentPage + 1)"
+                                            :disabled="currentPage === totalPages"
+                                            class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <i data-feather="chevron-right" class="w-5 h-5"></i>
+                                    </button>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- charts -->
+                <div>
+                    <div class="bg-white rounded-xl shadow-md mb-6 p-6">
+                        <h2 class="text-lg font-medium mb-4">Resolutions by Category</h2>
+                        <canvas id="categoryChart" style="margin-right: auto; margin-left:auto"></canvas>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                        <h2 class="text-lg font-medium mb-4">Resolutions Over Time</h2>
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6 lg:col-span-4">
+                    <h2 class="text-lg font-medium mb-4">Various Accomplishments</h2>
+                    <div style="overflow-y: auto; max-height:400px">
+                        <div v-for="acc in accomplishments" :key="acc.accomplishment" class="mb-5">
+                            <div class="px-6 py-4 text-sm">
+                                {{ acc.accomplishment }}
+                                <div>
+                                    <a v-if="acc.url" :href="acc.url" class="text-blue-600 hover:text-blue-900">
+                                        {{ acc.url }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </main>
+
+        <!-- Resolution Detail Modal -->
+        <transition name="fade">
+            <div v-if="selectedResolution" class="fixed inset-0 overflow-y-auto z-50">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75" @click="selectedResolution = null"></div>
+                    </div>
+                    
+                    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                    
+                    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div class="sm:flex sm:items-start">
+                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                    <div class="flex justify-between items-start">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            Resolution #{{ selectedResolution.resolutionNumber }}
+                                        </h3>
+                                        <button @click="selectedResolution = null" class="text-gray-400 hover:text-gray-500">
+                                            <i data-feather="x" class="w-6 h-6"></i>
+                                        </button>
+                                    </div>
+                                    <div class="mt-2 space-y-4">
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">File Number</h4>
+                                            <p class="mt-1 text-sm text-gray-900">{{ selectedResolution.fileNumber }}</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Passage Date</h4>
+                                            <p class="mt-1 text-sm text-gray-900">{{ formatDate(selectedResolution.passageDate) }}</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Enacted Date</h4>
+                                            <p class="mt-1 text-sm text-gray-900">{{ formatDate(selectedResolution.enactedDate) }}</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Author</h4>
+                                            <p class="mt-1 text-sm text-gray-900">{{ selectedResolution.author }}</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Category</h4>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full mt-1" 
+                                                  :class="getCategoryColor(selectedResolution.category)">
+                                                {{ selectedResolution.category }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Description</h4>
+                                            <p class="mt-1 text-sm text-gray-900">{{ selectedResolution.description }}</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Summary</h4>
+                                            <p class="mt-1 text-sm text-gray-900">{{ selectedResolution.summary }}</p>
+                                        </div>
+                                        <div class="pt-4">
+                                            <a :href="selectedResolution.url" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                                View Full Document
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <!-- Footer -->
+        <footer class="bg-gray-100 mt-12 sm-hide">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                        <span class="text-gray-700">City Council Katie Cashman Dashboard</span>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        &copy; {{ new Date().getFullYear() }} All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const { createApp, ref, computed, onMounted } = Vue;
+        
+        createApp({
+            setup() {
+                // Sample data - in a real app, this would come from an API
+                const resolutions = ref([
+                  {
+                    "resolutionNumber": "2025R-314",
+                    "passageDate": "9/25/2025",
+                    "description": "Passage of Resolution amending Resolution 2025R-207 by correcting the wording regarding minimum design standards for urban recondition projects and specifying the project road stations for where the variance criteria is not met.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00627",
+                    "enactedDate": "10/1/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00627"
+                  },
+                  {
+                    "resolutionNumber": "2025R-312",
+                    "passageDate": "9/25/2025",
+                    "description": "Passage of Resolution approving the 2026 operating plans, special services, cost estimates, service charges, and the lists of 2026 service charges for the 50th & France, 54th & Lyndale, Bloomington-Lake, Chicago-Lake, East Lake Street, Lyndale-Lake, and West Broadway Improvement Special Service Districts (428A Districts).",
+                    "summary": "Approves annual service plans and budgets for business or special service districts.",
+                    "category": "Business Improvement / Service District",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00817",
+                    "enactedDate": "9/25/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00817"
+                  },
+                  {
+                    "resolutionNumber": "2025R-310",
+                    "passageDate": "9/25/2025",
+                    "description": "Passage of Resolution adopting the assessments, levying the assessments, and adopting the assessment roll for sanitary sewer availability charges (SAC) on the list of properties as on file in the City Engineer's Special Assessment Office.",
+                    "summary": "Adopts assessment rolls or charges for specific city projects or districts.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00818",
+                    "enactedDate": "10/1/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00818"
+                  },
+                  {
+                    "resolutionNumber": "2025R-311",
+                    "passageDate": "9/25/2025",
+                    "description": "Passage of Resolution approving the 2026 operating plan, special services, cost estimates, service charges, and the list of 2026 service charges for the Downtown Business Improvement Special Service District (428A District).",
+                    "summary": "Approves annual service plans and budgets for business or special service districts.",
+                    "category": "Business Improvement / Service District",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00831",
+                    "enactedDate": "10/1/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00831"
+                  },
+                  {
+                    "resolutionNumber": "2025R-313",
+                    "passageDate": "9/25/2025",
+                    "description": "Passage of Resolution approving the appropriation of funds to the Public Works Department for the estimated Minnesota Department of Transportation (MnDOT) reimbursement of $713,761 for improvements associated with the 26th Street East and Hiawatha Avenue (TH 55) Safety Improvement Project.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00998",
+                    "enactedDate": "10/1/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00998"
+                  },
+                  {
+                    "resolutionNumber": "2025R-294",
+                    "passageDate": "9/11/2025",
+                    "description": "Passage of Resolution recognizing September 20, 2025, as National Dance Day in Minneapolis.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-01014",
+                    "enactedDate": "9/17/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-01014"
+                  },
+                  {
+                    "resolutionNumber": "2025R-290",
+                    "passageDate": "9/11/2025",
+                    "description": "Passage of Resolution designating the location and improvements proposed to be made in the Lowry Ave NE (Marshall St NE to Washington St NE) Phase II Street Reconstruction Project No. 2361 (CPV074).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00938",
+                    "enactedDate": "9/17/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00938"
+                  },
+                  {
+                    "resolutionNumber": "2025R-289",
+                    "passageDate": "9/11/2025",
+                    "description": "Passage of Resolution adopting revisions to the Snowbound Cart Policy to clarify policy guidelines and align the policy with best practices for crew and community safety.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00941",
+                    "enactedDate": "9/17/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00941"
+                  },
+                  {
+                    "resolutionNumber": "2025R-271",
+                    "passageDate": "8/21/2025",
+                    "description": "Passage of Resolution adopting and levying the assessments for sidewalk repair and construction for the 2024 construction season on the list of properties dated July 28, 2025.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00699",
+                    "enactedDate": "8/25/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00699"
+                  },
+                  {
+                    "resolutionNumber": "2025R-256",
+                    "passageDate": "8/7/2025",
+                    "description": "Passage of Resolution recognizing August 3-9, 2025, as Farmers Market Week in Minneapolis.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00878",
+                    "enactedDate": "8/11/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00878"
+                  },
+                  {
+                    "resolutionNumber": "2025R-237",
+                    "passageDate": "7/24/2025",
+                    "description": "Passage of Resolution authorizing acceptance of grant funding from the 2024 Minnesota Department of Transportation, in the amount of $1,000,000, for the South-Folwell project.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00771",
+                    "enactedDate": "7/28/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00771"
+                  },
+                  {
+                    "resolutionNumber": "2025R-238",
+                    "passageDate": "7/24/2025",
+                    "description": "Passage of Resolution approving appropriation of grant funds to the Public Works Department.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00775",
+                    "enactedDate": "7/28/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00775"
+                  },
+                  {
+                    "resolutionNumber": "2025R-239",
+                    "passageDate": "7/24/2025",
+                    "description": "Passage of Resolution authorizing an agreement with the Minnesota Department of Transportation (MnDOT), in the amount of $719,884, for a Local Road Improvement Program (LRIP) Grant for the construction of ADA ramps in the Shingle Creek West Residential Project.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00782",
+                    "enactedDate": "7/28/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00782"
+                  },
+                  {
+                    "resolutionNumber": "2025R-240",
+                    "passageDate": "7/24/2025",
+                    "description": "Passage of Resolution appropriating funds in the amount of $719,884 to the Asphalt Resurfacing Program (PV056).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00782",
+                    "enactedDate": "7/28/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00782"
+                  },
+                  {
+                    "resolutionNumber": "2025R-228",
+                    "passageDate": "7/10/2025",
+                    "description": "Passage of Resolution concurring with the City Engineer's variance request from Minnesota Department of Transportation Municipal State Aid Rules for the reconstruction of Cedar Lake Rd bridge over BNSF railroad. (State Aid Operation for Project No. S.A.P. 141-406-002).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00692",
+                    "enactedDate": "7/11/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00692"
+                  },
+                  {
+                    "resolutionNumber": "2025R-226",
+                    "passageDate": "7/10/2025",
+                    "description": "Passage of Resolution adopting special assessments in the amount of $902,348.95 for the Street Resurfacing Project No. 2372D (CPV05625).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00695",
+                    "enactedDate": "7/14/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00695"
+                  },
+                  {
+                    "resolutionNumber": "2025R-227",
+                    "passageDate": "7/10/2025",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $902,348.95.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00695",
+                    "enactedDate": "7/14/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00695"
+                  },
+                  {
+                    "resolutionNumber": "2025R-229",
+                    "passageDate": "7/10/2025",
+                    "description": "Passage of Resolution increasing the appropriation and revenue for the Public Works Department in the amount of $34,303,584 for Nicollet Ave Bridge over Minnehaha Creek.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00700",
+                    "enactedDate": "7/14/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00700"
+                  },
+                  {
+                    "resolutionNumber": "2025R-205",
+                    "passageDate": "6/18/2025",
+                    "description": "Passage of Resolution accepting Lead Service Line Replacement Project Orders and authorizing their execution.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00623",
+                    "enactedDate": "6/25/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00623"
+                  },
+                  {
+                    "resolutionNumber": "2025R-206",
+                    "passageDate": "6/18/2025",
+                    "description": "Passage of Resolution approving appropriation of funds to the Public Works Water Enterprise fund.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00623",
+                    "enactedDate": "6/25/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00623"
+                  },
+                  {
+                    "resolutionNumber": "2025R-209",
+                    "passageDate": "6/18/2025",
+                    "description": "Passage of Resolution establishing a Prioritized Bridge Replacement List.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00624",
+                    "enactedDate": "6/25/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00624"
+                  },
+                  {
+                    "resolutionNumber": "2025R-207",
+                    "passageDate": "6/18/2025",
+                    "description": "Passage of Resolution concurring with State Park Road Account (SPRA) funding and design criteria the City Engineer's variance request from State Aid Operations Rules 8820.9946 for one lane one-way road and road width of Lake Harriet Parkway from Roseway Rd to 42nd St W (State Aid Operation for Project No. S.A.P. 027-600-012).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00627",
+                    "enactedDate": "6/25/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00627"
+                  },
+                  {
+                    "resolutionNumber": "2025R-204",
+                    "passageDate": "6/18/2025",
+                    "description": "Passage of Resolution affirming the transfer of an easement for a public sewer on vacated 27th Ave N between 2nd St N and vacated 1st St N from the City of Minneapolis to the Metropolitan Council.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00629",
+                    "enactedDate": "6/25/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00629"
+                  },
+                  {
+                    "resolutionNumber": "2025R-208",
+                    "passageDate": "6/18/2025",
+                    "description": "Passage of Resolution approving appropriation of funds to the Public Works Department.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00637",
+                    "enactedDate": "6/25/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00637"
+                  },
+                  {
+                    "resolutionNumber": "2025R-168",
+                    "passageDate": "6/5/2025",
+                    "description": "Passage of Resolution declaring the week of May 18, 2025, as National Public Works Week.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00553",
+                    "enactedDate": "6/10/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00553"
+                  },
+                  {
+                    "resolutionNumber": "2025R-169",
+                    "passageDate": "6/5/2025",
+                    "description": "Passage of Resolution adopting special assessments, in the amount of $216,316, for the 2025 Concrete Rehabilitation Program, Project No. 10077R(PV108).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00559",
+                    "enactedDate": "6/10/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00559"
+                  },
+                  {
+                    "resolutionNumber": "2025R-170",
+                    "passageDate": "6/5/2025",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds, in the amount of $216,316, for the 2025 Concrete Rehabilitation Program, Project No. 10077R(PV108).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00559",
+                    "enactedDate": "6/10/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00559"
+                  },
+                  {
+                    "resolutionNumber": "2025R-172",
+                    "passageDate": "6/5/2025",
+                    "description": "Passage of Resolution authorizing the Biennial Routine Maintenance Agreement between the State of Minnesota Department of Transportation and the City of Minneapolis, effective July 1, 2025, through June 30, 2027.",
+                    "summary": "Approves or amends a contract or agreement with another entity.",
+                    "category": "Contracts / Agreements",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00570",
+                    "enactedDate": "6/10/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00570"
+                  },
+                  {
+                    "resolutionNumber": "2025R-171",
+                    "passageDate": "6/5/2025",
+                    "description": "Passage of Resolution updating the Parking and Mobility Services Fee and Rate Schedule.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00571",
+                    "enactedDate": "6/6/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00571"
+                  },
+                  {
+                    "resolutionNumber": "2025R-149",
+                    "passageDate": "5/15/2025",
+                    "description": "Passage of Resolution adopting the City of Minneapolis and Minneapolis Park and Recreation Board National Pollutant Discharge Elimination System (NPDES) Municipal Separate Storm Sewer System (MS4) Phase I Permit Stormwater Management Program and Annual Report for 2024 Activities.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00316",
+                    "enactedDate": "5/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00316"
+                  },
+                  {
+                    "resolutionNumber": "2025R-150",
+                    "passageDate": "5/15/2025",
+                    "description": "Passage of Resolution adopting special assessments in the amount of $56,800.91 for the Columbus/Park Alley Reconstruction Project No. 1426A (PV2563).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00486",
+                    "enactedDate": "5/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00486"
+                  },
+                  {
+                    "resolutionNumber": "2025R-151",
+                    "passageDate": "5/15/2025",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $56,800.91 for the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00486",
+                    "enactedDate": "5/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00486"
+                  },
+                  {
+                    "resolutionNumber": "2025R-152",
+                    "passageDate": "5/15/2025",
+                    "description": "Passage of Resolution concurring with the City Engineer's request for a variance from Minnesota Department of Transportation State Aid Operations Rules 8820.9951 for lane widths on 9th St from Chicago Ave to 7th St, 10th St from Chicago Ave to Glenwood Ave, and Hawthorne Ave from 10th St to 8th St for the 9th & 10th Street Corridor Improvement Project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00487",
+                    "enactedDate": "5/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00487"
+                  },
+                  {
+                    "resolutionNumber": "2025R-131",
+                    "passageDate": "5/1/2025",
+                    "description": "Passage of Resolution amending Resolution 2024R-423 entitled \"Designating the improvement of certain existing streets in the 2025 Street Resurfacing Program, Special Improvement of Existing Street Project No. 2372,\" adopted December 5, 2024, to add an additional project to the 2025 Street Resurfacing Program.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00457",
+                    "enactedDate": "5/5/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00457"
+                  },
+                  {
+                    "resolutionNumber": "2025R-109",
+                    "passageDate": "4/17/2025",
+                    "description": "Passage of Resolution requesting the Minnesota Commissioner of Transportation to make additions and removals to the Municipal State Aid system within City of Minneapolis.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00363",
+                    "enactedDate": "4/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00363"
+                  },
+                  {
+                    "resolutionNumber": "2025R-110",
+                    "passageDate": "4/17/2025",
+                    "description": "Passage of Resolution expressing the City's support for MnDOT's University Avenue and 4th Street Southeast Reconstruction Project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00367",
+                    "enactedDate": "4/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00367"
+                  },
+                  {
+                    "resolutionNumber": "2025R-108",
+                    "passageDate": "4/17/2025",
+                    "description": "Passage of Resolution concurring with the City Engineer's variance request from Minnesota Department of Transportation Municipal State Aid Rules for the reconstruction of Cedar Lake Rd bridge over BNSF railroad. (State Aid Project No. S.A.P. 141-406-002).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00372",
+                    "enactedDate": "4/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00372"
+                  },
+                  {
+                    "resolutionNumber": "2025R-104",
+                    "passageDate": "4/17/2025",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments, in the amount of $425,318, for the Nicollet Ave (Lake St to Cecil Newman Ln) and Cecil Newman Ln (Nicollet Ave to 1st Ave S) Street Construction Project No.10046 (PV182).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00376",
+                    "enactedDate": "4/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00376"
+                  },
+                  {
+                    "resolutionNumber": "2025R-105",
+                    "passageDate": "4/17/2025",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds, in the amount of $425,318, for the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00376",
+                    "enactedDate": "4/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00376"
+                  },
+                  {
+                    "resolutionNumber": "2025R-106",
+                    "passageDate": "4/17/2025",
+                    "description": "Passage of Resolution ordering the abandonment and removal of areaways located in the public right-of-way in conflict with the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00376",
+                    "enactedDate": "4/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00376"
+                  },
+                  {
+                    "resolutionNumber": "2025R-107",
+                    "passageDate": "4/17/2025",
+                    "description": "Passage of Resolution designating the location and improvements proposed to be made in the 2025 Concrete Streets Rehabilitation, Project No. 10077R (PV108).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00377",
+                    "enactedDate": "4/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00377"
+                  },
+                  {
+                    "resolutionNumber": "2025R-111",
+                    "passageDate": "4/17/2025",
+                    "description": "Passage of Resolution approving appropriation of funds to the Health Department.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00386",
+                    "enactedDate": "4/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00386"
+                  },
+                  {
+                    "resolutionNumber": "2025R-086",
+                    "passageDate": "3/27/2025",
+                    "description": "Passage of Resolution designating the location and improvements proposed for the 2025 Alley Reconstruction Project No. 1426A (PV2563).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00313",
+                    "enactedDate": "4/3/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00313"
+                  },
+                  {
+                    "resolutionNumber": "2025R-087",
+                    "passageDate": "3/27/2025",
+                    "description": "Passage of Resolution amending the 2025 Capital Appropriation Resolution by decreasing the appropriations to the Alley Renovation Program by $250,000 and increasing the appropriation to the Unpaved Alley Construction Program by $250,000.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00317",
+                    "enactedDate": "4/3/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00317"
+                  },
+                  {
+                    "resolutionNumber": "2025R-084",
+                    "passageDate": "3/27/2025",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments, in the amount of $245,069.07, for the Street Resurfacing Project No. 2372C (CPV05625).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00318",
+                    "enactedDate": "4/3/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00318"
+                  },
+                  {
+                    "resolutionNumber": "2025R-085",
+                    "passageDate": "3/27/2025",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $245,069.07.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00318",
+                    "enactedDate": "4/3/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00318"
+                  },
+                  {
+                    "resolutionNumber": "2025R-088",
+                    "passageDate": "3/27/2025",
+                    "description": "Passage of Resolution concurring with the City Engineer's request for a variance from Minnesota Department of Transportation State Aid Operations Rules 8820.9951 for the lane width of 8th Street SE (Municipal State Aid Street 231) from 10th Avenue SE (Municipal State Aid Street 328) to 15th Avenue SE (Municipal State Aid Street 233), and 10th Avenue SE (Municipal State Aid Street 328) from University Avenue SE (County State Aid Highway 36) to 4th Street SE (County State Aid Highway 37), for the Dinkytown Pedestrian Improvements Project (Local Project No. 600D10097).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00322",
+                    "enactedDate": "4/3/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00322"
+                  },
+                  {
+                    "resolutionNumber": "2025R-089",
+                    "passageDate": "3/27/2025",
+                    "description": "Passage of Resolution supporting the Gold Line BRT extension project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00323",
+                    "enactedDate": "4/3/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00323"
+                  },
+                  {
+                    "resolutionNumber": "2025R-065",
+                    "passageDate": "3/14/2025",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments, in the amount of $749,363.11, for the Street Resurfacing Project No. 2372B (CPV05625).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00249",
+                    "enactedDate": "3/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00249"
+                  },
+                  {
+                    "resolutionNumber": "2025R-066",
+                    "passageDate": "3/14/2025",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $749,363.11.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00249",
+                    "enactedDate": "3/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00249"
+                  },
+                  {
+                    "resolutionNumber": "2025R-070",
+                    "passageDate": "3/14/2025",
+                    "description": "Passage of Resolution authorizing the submission of a grant application to the Minnesota Department of Natural Resources (DNR), for up to $250,000, for the Local Trails Connections Program.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00254",
+                    "enactedDate": "3/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00254"
+                  },
+                  {
+                    "resolutionNumber": "2025R-063",
+                    "passageDate": "3/14/2025",
+                    "description": "Passage of Resolution authorizing form documents and delegating authority to the Department of Arts & Cultural Affairs Director to make and execute grant agreements with eligible applicants consistent with the Bridge Fund for Dance Program Guidelines.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00263",
+                    "enactedDate": "3/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00263"
+                  },
+                  {
+                    "resolutionNumber": "2025R-067",
+                    "passageDate": "3/14/2025",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments, in the amount of $1,252,652, for the Franklin Ave (Lyndale Ave S to Chicago Ave) Street Reconstruction Project, Special Improvement of Existing Street No. 23680 (CPV074).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00101",
+                    "enactedDate": "3/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00101"
+                  },
+                  {
+                    "resolutionNumber": "2025R-068",
+                    "passageDate": "3/14/2025",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds, in the amount of $1,252,652, for the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00101",
+                    "enactedDate": "3/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00101"
+                  },
+                  {
+                    "resolutionNumber": "2025R-069",
+                    "passageDate": "3/14/2025",
+                    "description": "Passage of Resolution ordering the abandonment and removal of areaways located in the public right-of-way in conflict with the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00101",
+                    "enactedDate": "3/18/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00101"
+                  },
+                  {
+                    "resolutionNumber": "2025R-054",
+                    "passageDate": "2/27/2025",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $846,767.42 for the Street Resurfacing Project No. 2372A (CPV05625).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00197",
+                    "enactedDate": "3/5/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00197"
+                  },
+                  {
+                    "resolutionNumber": "2025R-055",
+                    "passageDate": "2/27/2025",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $846,767.42.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00197",
+                    "enactedDate": "3/5/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00197"
+                  },
+                  {
+                    "resolutionNumber": "2025R-028",
+                    "passageDate": "1/30/2025",
+                    "description": "Passage of Resolution designating the location and improvements proposed to be made in the Franklin Ave (Lyndale Ave S to Chicago Ave) Street Reconstruction Project No. 23680 (CPV074).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00101",
+                    "enactedDate": "2/4/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00101"
+                  },
+                  {
+                    "resolutionNumber": "2025R-029",
+                    "passageDate": "1/30/2025",
+                    "description": "Passage of Resolution designating the location and improvements of certain existing streets in the Nicollet Ave and Cecil Newman Ln Street Construction Project, No.10046 (PV182).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00102",
+                    "enactedDate": "2/4/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00102"
+                  },
+                  {
+                    "resolutionNumber": "2025R-007",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution appropriating funds to the Public Works Department.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00046",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00046"
+                  },
+                  {
+                    "resolutionNumber": "2025R-012",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution approving appropriation of funds to the Public Works Department.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00049",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00049"
+                  },
+                  {
+                    "resolutionNumber": "2025R-010",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution amending the Capital Improvement appropriation Resolution by allocating Met Council appropriation and increasing revenue in the amount of $3,500,000, for the 2nd St N Sanitary improvement project and the 1st Ave S paving projects.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00056",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00056"
+                  },
+                  {
+                    "resolutionNumber": "2025R-011",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution approving appropriation of grant funds to the Public Works Department.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00058",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00058"
+                  },
+                  {
+                    "resolutionNumber": "2025R-018",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution honoring Michael Welch for his service and dedication representing the City of Minneapolis.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00070",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00070"
+                  },
+                  {
+                    "resolutionNumber": "2025R-013",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution re-establishing a Bicycle Advisory Committee.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00080",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00080"
+                  },
+                  {
+                    "resolutionNumber": "2025R-014",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution re-establishing a Pedestrian Advisory Committee.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2025-00080",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2025-00080"
+                  },
+                  {
+                    "resolutionNumber": "2025R-008",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution amending Resolution 2024R-356 updating the grant amount to $469,266.00.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01172",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01172"
+                  },
+                  {
+                    "resolutionNumber": "2025R-009",
+                    "passageDate": "1/16/2025",
+                    "description": "Passage of Resolution amending Resolution 2024R-357 updating the appropriation amount to $469,266.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01172",
+                    "enactedDate": "1/21/2025",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01172"
+                  },
+                  {
+                    "resolutionNumber": "2024R-424",
+                    "passageDate": "12/5/2024",
+                    "description": "Passage of Resolution amending the Capital Improvement Appropriation Resolution by allocating State Funds appropriation and increasing revenue in the amount of $147,183 for the Asphalt Pavement Resurfacing Program (PV056).",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01328",
+                    "enactedDate": "12/10/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01328"
+                  },
+                  {
+                    "resolutionNumber": "2024R-422",
+                    "passageDate": "12/5/2024",
+                    "description": "Passage of Resolution to apply for a Minnesota Department of Transportation (MnDOT) Safe Routes to School (SRTS) infrastructure grant for the South-Folwell Safe Routes to School project.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01329",
+                    "enactedDate": "12/10/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01329"
+                  },
+                  {
+                    "resolutionNumber": "2024R-425",
+                    "passageDate": "12/5/2024",
+                    "description": "Passage of Resolution amending the 2024 Capital Improvement Appropriation Resolution by increasing the appropriation for the Public Works Water Fund (CWT1224) by $4,500,000 for water distribution improvements.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01341",
+                    "enactedDate": "12/10/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01341"
+                  },
+                  {
+                    "resolutionNumber": "2024R-423",
+                    "passageDate": "12/5/2024",
+                    "description": "Passage of Resolution designating the location and improvements proposed for the 2025 Street Resurfacing Program, Special Improvement of Existing Street Projects No. 2372 (CPV05625).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01345",
+                    "enactedDate": "12/10/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01345"
+                  },
+                  {
+                    "resolutionNumber": "2024R-426",
+                    "passageDate": "12/5/2024",
+                    "description": "Passage of Resolution amending the 2024 Capital improvement Appropriation Resolution authorizing closure and appropriation adjustments for capital projects and programs, as indicated on Schedules A-C, and reallocations and redistributions of excess revenues and bond proceeds to projects requiring additional funding.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01347",
+                    "enactedDate": "12/10/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01347"
+                  },
+                  {
+                    "resolutionNumber": "2024R-428",
+                    "passageDate": "12/5/2024",
+                    "description": "Passage of Resolution amending Resolution 2024R-306, passed October 2, 2024, by correcting the headings and assessment terms within that resolution.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00790",
+                    "enactedDate": "12/10/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00790"
+                  },
+                  {
+                    "resolutionNumber": "2024R-408",
+                    "passageDate": "11/14/2024",
+                    "description": "Passage of Resolution concurring with the City Engineer's request for a variance from Minnesota Department of Transportation State Aid Operations Rules 8820.9941 for the number of through-traffic lanes on 28th St W (Municipal State Aid Street 241), from Lyndale Ave S (County State Aid Highway 22) to Blaisdell Ave (Municipal State Aid Street 158), for the Whittier International Elementary Safe Routes to School Project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01238",
+                    "enactedDate": "11/20/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01238"
+                  },
+                  {
+                    "resolutionNumber": "2024R-407",
+                    "passageDate": "11/14/2024",
+                    "description": "Passage of Resolution adopting the City of Minneapolis' and Minneapolis Park and Recreation Board's (MPRB) National Pollutant Discharge Elimination System (NPDES) Municipal Separate Storm Sewer System (MS4) Phase I Permit Stormwater Management Program.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01240",
+                    "enactedDate": "11/20/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01240"
+                  },
+                  {
+                    "resolutionNumber": "2024R-403",
+                    "passageDate": "11/14/2024",
+                    "description": "Passage of Resolution increasing MnDOT appropriation and accepting revenue for CTR021 by $61,000 for city force account work performed on the project related to temporary signal construction and signal cabinet construction.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01243",
+                    "enactedDate": "11/20/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01243"
+                  },
+                  {
+                    "resolutionNumber": "2024R-406",
+                    "passageDate": "11/14/2024",
+                    "description": "Passage of Resolution accepting federal and state transportation grant funding awarded through the 2024 Metropolitan Council's Regional Solicitation program and Minnesota Department of Transportation's Highway Safety Improvement Program.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01254",
+                    "enactedDate": "11/20/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01254"
+                  },
+                  {
+                    "resolutionNumber": "2024R-405",
+                    "passageDate": "11/14/2024",
+                    "description": "Passage of Resolution accepting federal grant funding from United States Department of Transportation's Safe Streets for All Grant Program funding and state grant funding from Minnesota Department of Transportation's Infrastructure Investment and Jobs Act match program to deliver proactive safety improvements on High Injury Streets throughout Minneapolis.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01255",
+                    "enactedDate": "11/20/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01255"
+                  },
+                  {
+                    "resolutionNumber": "2024R-404",
+                    "passageDate": "11/14/2024",
+                    "description": "Passage of Resolution authorizing acceptance of a grant from the State of Minnesota through the Department of Transportation, in the amount of $500,000, for the Phillips Traffic Safety Project near Anderson United Middle School at the intersections of 28th St W and 10th Ave S, and authorizing an agreement with the Minnesota Department of Transportation for the Safe Routes to School grant.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01257",
+                    "enactedDate": "11/20/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01257"
+                  },
+                  {
+                    "resolutionNumber": "2024R-409",
+                    "passageDate": "11/14/2024",
+                    "description": "Passage of Resolution amending the 2024 capital improvement appropriation Resolution by increasing Municipal State Aid Funds appropriation and revenue for the Lyndale Ave N Project (BP004) by $210,000 and decreasing Municipal State Aid revenue and appropriation balance, to provide funding for construction change orders.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01302",
+                    "enactedDate": "11/20/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01302"
+                  },
+                  {
+                    "resolutionNumber": "2024R-356",
+                    "passageDate": "10/31/2024",
+                    "description": "Passage of Resolution authorizing a grant agreement with the Minnesota Department of Transportation (MnDOT), in the amount of $469,299.00, for a Local Road Improvement Program (LRIP) Grant for construction of ADA ramps in the Fulton residential project.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01172",
+                    "enactedDate": "11/5/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01172"
+                  },
+                  {
+                    "resolutionNumber": "2024R-357",
+                    "passageDate": "10/31/2024",
+                    "description": "Passage of Resolution accepting a grant agreement with the Minnesota Department of Transportation (MnDOT), in the amount of $469,299.00, and appropriating the funds into the Asphalt Resurfacing Program (PV056).",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01172",
+                    "enactedDate": "11/5/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01172"
+                  },
+                  {
+                    "resolutionNumber": "2024R-358",
+                    "passageDate": "10/31/2024",
+                    "description": "Passage of Resolution authorizing a last written offer for parcels, in the amount of up to $300,000.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01173",
+                    "enactedDate": "11/1/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01173"
+                  },
+                  {
+                    "resolutionNumber": "2024R-359",
+                    "passageDate": "10/31/2024",
+                    "description": "Passage of Resolution levying various Public Works Department special assessments and adopting the assessment rolls.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01177",
+                    "enactedDate": "11/5/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01177"
+                  },
+                  {
+                    "resolutionNumber": "2024R-355",
+                    "passageDate": "10/31/2024",
+                    "description": "Passage of Resolution approving appropriation and revenue for the 5th Street Transit Center (Ramp B) project by $104,974.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01179",
+                    "enactedDate": "11/5/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01179"
+                  },
+                  {
+                    "resolutionNumber": "2024R-354",
+                    "passageDate": "10/31/2024",
+                    "description": "Passage of Resolution adopting and levying the assessments for sidewalk repair and construction for the 2023 construction season on the list of properties dated October 18, 2024.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01010",
+                    "enactedDate": "11/5/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01010"
+                  },
+                  {
+                    "resolutionNumber": "2024R-360",
+                    "passageDate": "10/31/2024",
+                    "description": "Passage of Resolution calling for the closure of the Hennepin Energy Recovery Center (HERC) located in downtown Minneapolis and the necessary, accelerated zero waste programming at the City.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01078",
+                    "enactedDate": "11/7/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01078"
+                  },
+                  {
+                    "resolutionNumber": "2024R-331",
+                    "passageDate": "10/17/2024",
+                    "description": "Passage of Resolution updating uniform assessment rates for street construction, street renovation, street resurfacing, and alley construction and resurfacing improvements.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01139",
+                    "enactedDate": "10/22/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01139"
+                  },
+                  {
+                    "resolutionNumber": "2024R-329",
+                    "passageDate": "10/17/2024",
+                    "description": "Passage of Resolution adopting the assessments, levying the assessments, and adopting the assessment roll for the 2025 Street Maintenance Assessment Project 1337M.",
+                    "summary": "Adopts assessment rolls or charges for specific city projects or districts.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00866",
+                    "enactedDate": "10/22/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00866"
+                  },
+                  {
+                    "resolutionNumber": "2024R-328",
+                    "passageDate": "10/17/2024",
+                    "description": "Passage of Resolution adopting the assessments, levying the assessments, and adopting the assessment roll for the 2025 Street Light Operations Fee Assessment Project 1337L.",
+                    "summary": "Adopts assessment rolls or charges for specific city projects or districts.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00864",
+                    "enactedDate": "10/22/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00864"
+                  },
+                  {
+                    "resolutionNumber": "2024R-330",
+                    "passageDate": "10/17/2024",
+                    "description": "Passage of Resolution approving the 2025 operating plans, special services, cost estimates, service charges, and the lists of 2025 service charges for the 48th & Chicago, Central Avenue, Dinkytown, Eat Street, Linden Hills, Lowry Hill, Stadium Village, and Uptown Special Service Districts (Non-428A Districts), and authorizing the Department of Public Works to proceed with the work.",
+                    "summary": "Approves annual service plans and budgets for business or special service districts.",
+                    "category": "Business Improvement / Service District",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00938",
+                    "enactedDate": "10/17/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00938"
+                  },
+                  {
+                    "resolutionNumber": "2024R-309",
+                    "passageDate": "10/2/2024",
+                    "description": "Passage of Resolution approving the preliminary design plans for the route of the Blue Line Light Rail Extension pursuant to Minnesota Statute 473.3994 Subd. 3.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00939",
+                    "enactedDate": "10/4/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00939"
+                  },
+                  {
+                    "resolutionNumber": "2024R-303",
+                    "passageDate": "10/2/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $49,760 for Pedestrian Flasher Project No. 715HA.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00814",
+                    "enactedDate": "10/9/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00814"
+                  },
+                  {
+                    "resolutionNumber": "2024R-304",
+                    "passageDate": "10/2/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $49,760.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00814",
+                    "enactedDate": "10/9/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00814"
+                  },
+                  {
+                    "resolutionNumber": "2024R-305",
+                    "passageDate": "10/2/2024",
+                    "description": "Passage of Resolution adopting the assessments, levying the assessments, and adopting the assessment roll for sanitary sewer service availability charges (SAC) on the list of properties as on file in the City Engineer's Special Assessment Office.",
+                    "summary": "Adopts assessment rolls or charges for specific city projects or districts.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00869",
+                    "enactedDate": "10/9/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00869"
+                  },
+                  {
+                    "resolutionNumber": "2024R-307",
+                    "passageDate": "10/2/2024",
+                    "description": "Passage of Resolution approving the appropriation of funds to the Public Works Department for the estimated Hennepin County Regional Railroad Authority (HCRRA) reimbursement of $1,301,940 for costs associated with the 1st Ave S, 10th Ave S, Nicollet Ave S, and Pillsbury Ave S bridges projects over the Midtown Greenway.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01066",
+                    "enactedDate": "10/9/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01066"
+                  },
+                  {
+                    "resolutionNumber": "2024R-308",
+                    "passageDate": "10/2/2024",
+                    "description": "Passage of Resolution authorizing approval of appraised value, offer of compensation, and acquisition of permanent right-of-way, trail and wall easements and temporary construction easements by negotiation for direct purchase or eminent domain in conjunction with the New Nicollet construction project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01067",
+                    "enactedDate": "10/9/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01067"
+                  },
+                  {
+                    "resolutionNumber": "2024R-306",
+                    "passageDate": "10/2/2024",
+                    "description": "Passage of Resolution adopting the assessments, levying the assessments, and adopting the assessment rolls for water service line and sewer lateral repairs or replacements on the lists of properties as on file in the City Engineer's Special Assessment Office.",
+                    "summary": "Adopts assessment rolls or charges for specific city projects or districts.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00790",
+                    "enactedDate": "10/9/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00790"
+                  },
+                  {
+                    "resolutionNumber": "2024R-288",
+                    "passageDate": "9/19/2024",
+                    "description": "Passage of Resolution approving the 2025 operating plan, special services, cost estimate, and service charge for the West Broadway Improvement Special Service District, and authorizing the Department of Public Works to proceed with the work.",
+                    "summary": "Approves annual service plans and budgets for business or special service districts.",
+                    "category": "Business Improvement / Service District",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00791",
+                    "enactedDate": "9/26/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00791"
+                  },
+                  {
+                    "resolutionNumber": "2024R-289",
+                    "passageDate": "9/19/2024",
+                    "description": "Passage of Resolution approving the 2025 operating plans, special services, cost estimates, service charges, and the lists of 2025 service charges for the 50th & France, 54th & Lyndale, Bloomington-Lake, Chicago-Lake, East Lake Street, and Lyndale-Lake (428A Districts), and authorizing the Department of Public Works to proceed with the work.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00816",
+                    "enactedDate": "9/26/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00816"
+                  },
+                  {
+                    "resolutionNumber": "2024R-291",
+                    "passageDate": "9/19/2024",
+                    "description": "Passage of Resolution supporting bus rapid transit on the Nicollet-Central transit corridor, rescinding support of streetcar on the Nicollet-Central transit corridor as identified in Resolution 2013R-422 and directing the submittal of the resolution to Metropolitan Council.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01007",
+                    "enactedDate": "9/26/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01007"
+                  },
+                  {
+                    "resolutionNumber": "2024R-290",
+                    "passageDate": "9/19/2024",
+                    "description": "Passage of Resolution approving the appropriation of funds to the Public Works Department for the Minneapolis Park and Recreation Board (MPRB) reimbursement of $132,395 for design and lighting installation by City forces associated with the East Bank Trail Connection project.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-01009",
+                    "enactedDate": "9/26/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-01009"
+                  },
+                  {
+                    "resolutionNumber": "2024R-287",
+                    "passageDate": "9/19/2024",
+                    "description": "Passage of Resolution approving the 2025 operating plan, special services, cost estimates, service charges, and the list of 2025 service charges for the Downtown Business Improvement Special Service District (428A District), and authorizing the Department of Public Works to proceed with the work.",
+                    "summary": "Approves annual service plans and budgets for business or special service districts.",
+                    "category": "Business Improvement / Service District",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00783",
+                    "enactedDate": "9/23/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00783"
+                  },
+                  {
+                    "resolutionNumber": "2024R-266",
+                    "passageDate": "9/5/2024",
+                    "description": "Passage of Resolution amending Resolution 2013R-268, entitled \"Establishing a Project Area and Value Capture District for Streetcar Financing,\" to update the transit project area.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00865",
+                    "enactedDate": "9/9/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00865"
+                  },
+                  {
+                    "resolutionNumber": "2024R-240",
+                    "passageDate": "8/1/2024",
+                    "description": "Passage of Resolution designating the construction of a pedestrian crossing flasher at 715 24 St E., Project No. 715HA.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00814",
+                    "enactedDate": "8/5/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00814"
+                  },
+                  {
+                    "resolutionNumber": "2024R-228",
+                    "passageDate": "7/18/2024",
+                    "description": "Passage of Resolution amending the 2024 Capital Improvement Appropriation Resolution by increasing Federal Funds appropriation and revenue for the Phillips Neighborhood Pedestrian Safety Improvement Project (BP004) by $209,557.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00739",
+                    "enactedDate": "7/24/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00739"
+                  },
+                  {
+                    "resolutionNumber": "2024R-229",
+                    "passageDate": "7/18/2024",
+                    "description": "Passage of Resolution amending the 2024 Capital Improvement Appropriation Resolution by increasing Federal Funds appropriation and revenue for the Green Central Safe Routes to School Project (BP001) by $254,302.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00739",
+                    "enactedDate": "7/24/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00739"
+                  },
+                  {
+                    "resolutionNumber": "2024R-230",
+                    "passageDate": "7/18/2024",
+                    "description": "Passage of Resolution amending the 2024 Capital Improvement Appropriation Resolution by increasing Federal Funds appropriation and revenue for the Johnson St NE / 35W Project (PV178) by $485,533.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00739",
+                    "enactedDate": "7/24/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00739"
+                  },
+                  {
+                    "resolutionNumber": "2024R-231",
+                    "passageDate": "7/18/2024",
+                    "description": "Passage of Resolution authorizing an agreement with MnDOT and Hennepin County for maintenance of sidewalks, signals, and lighting system within the project area at 35W and East Hennepin ramps.",
+                    "summary": "Approves or amends a contract or agreement with another entity.",
+                    "category": "Contracts / Agreements",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00741",
+                    "enactedDate": "7/24/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00741"
+                  },
+                  {
+                    "resolutionNumber": "2024R-227",
+                    "passageDate": "7/18/2024",
+                    "description": "Passage of Resolution approving the appropriation of funds to the Public Works Department for the estimated Hennepin County reimbursement of $465,750 for improvements associated with the Green Central Safe Routes project.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00748",
+                    "enactedDate": "7/24/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00748"
+                  },
+                  {
+                    "resolutionNumber": "2024R-225",
+                    "passageDate": "7/18/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments, in the amount of $1,795,393.50, for the 2024 Street Lighting Replacement Project, Lighting Project No. 2367 (CTR02624).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00283",
+                    "enactedDate": "7/24/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00283"
+                  },
+                  {
+                    "resolutionNumber": "2024R-226",
+                    "passageDate": "7/18/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation to authorize the City's issuance and sale of assessment bonds, in the amount of $1,795,393.50, for the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00283",
+                    "enactedDate": "7/24/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00283"
+                  },
+                  {
+                    "resolutionNumber": "2024R-196",
+                    "passageDate": "6/13/2024",
+                    "description": "Passage of Resolution authorizing an agreement with the Minnesota Department of Transportation (MnDOT), in the amount of $665,098, for a Local Road Improvement Program (LRIP) Grant for the construction of ADA ramps in the Farview South Residential Project.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00608",
+                    "enactedDate": "6/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00608"
+                  },
+                  {
+                    "resolutionNumber": "2024R-197",
+                    "passageDate": "6/13/2024",
+                    "description": "Passage of Resolution accepting a grant agreement with the Minnesota Department of Transportation (MnDOT), in the amount of $665,098, and appropriating the funds into the Asphalt Resurfacing Program (PV056).",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00608",
+                    "enactedDate": "6/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00608"
+                  },
+                  {
+                    "resolutionNumber": "2024R-174",
+                    "passageDate": "5/23/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $786,667.02 for the Whittier North Residential Street Resurfacing Project No. 2362D (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00522",
+                    "enactedDate": "5/28/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00522"
+                  },
+                  {
+                    "resolutionNumber": "2024R-175",
+                    "passageDate": "5/23/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $786,667.02 for the Whittier North Residential Street Resurfacing Project No. 2362D (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00522",
+                    "enactedDate": "5/28/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00522"
+                  },
+                  {
+                    "resolutionNumber": "2024R-177",
+                    "passageDate": "5/23/2024",
+                    "description": "Passage of Resolution declaring the week of May 19, 2024, as National Public Works Week.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00523",
+                    "enactedDate": "5/28/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00523"
+                  },
+                  {
+                    "resolutionNumber": "2024R-176",
+                    "passageDate": "5/23/2024",
+                    "description": "Passage of Resolution authorizing Public Works to enter into an agreement with the Minnesota Pollution Control Agency to host a GreenCorps member for the 2024-2025 service year.",
+                    "summary": "Approves or amends a contract or agreement with another entity.",
+                    "category": "Contracts / Agreements",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00527",
+                    "enactedDate": "5/28/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00527"
+                  },
+                  {
+                    "resolutionNumber": "2024R-173",
+                    "passageDate": "5/23/2024",
+                    "description": "Passage of Resolution authorizing form documents and delegating authority to the Department of Arts & Cultural Affairs Director to make and execute grant agreements with eligible applicants consistent with the Vibrant Storefronts Initiative Guidelines.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00534",
+                    "enactedDate": "5/24/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00534"
+                  },
+                  {
+                    "resolutionNumber": "2024R-137",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $753,144.17 for the Lowry Ave NE (Washington St NE to Johnson St NE) Phase I Street Reconstruction Project, Special Improvement of Existing Street No. 2360 (PV074).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00416",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00416"
+                  },
+                  {
+                    "resolutionNumber": "2024R-138",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $753,144.17 for the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00416",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00416"
+                  },
+                  {
+                    "resolutionNumber": "2024R-139",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution ordering the abandonment and removal of areaways located in the public right-of-way in conflict with the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00416",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00416"
+                  },
+                  {
+                    "resolutionNumber": "2024R-133",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution adopting the City of Minneapolis and Minneapolis Park and Recreation Board National Pollutant Discharge Elimination System (NPDES) Municipal Separate Storm Sewer System (MS4) Phase I Permit Stormwater Management Program and Annual Report for 2023 Activities.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00334",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00334"
+                  },
+                  {
+                    "resolutionNumber": "2024R-132",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution ordering the abandonment and removal of areaways located in the public right-of-way in conflict with the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00339",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00339"
+                  },
+                  {
+                    "resolutionNumber": "2024R-128",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $317,227.02 for the Street Resurfacing Project No. 2362B (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00340",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00340"
+                  },
+                  {
+                    "resolutionNumber": "2024R-129",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $317,227.02.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00340",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00340"
+                  },
+                  {
+                    "resolutionNumber": "2024R-134",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution amending the 2024 Capital Appropriation Resolution to increase appropriation and accept revenue from Hennepin County for City force account work and materials in the amount of $320,652 for Traffic Department work and $16,000 for Water Department work.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00478",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00478"
+                  },
+                  {
+                    "resolutionNumber": "2024R-135",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution approving an inter-fund loan demonstrating the availability of specific funding, as requested by the State of Minnesota, in the amount of $2,353,837.99, for the Dowling Avenue North/Port of Minneapolis Drive 33rd and West River Road project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00486",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00486"
+                  },
+                  {
+                    "resolutionNumber": "2024R-130",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $159,499.94 for the Street Resurfacing Project No. 2362H (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00492",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00492"
+                  },
+                  {
+                    "resolutionNumber": "2024R-131",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $159,499.94.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00492",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00492"
+                  },
+                  {
+                    "resolutionNumber": "2024R-136",
+                    "passageDate": "5/9/2024",
+                    "description": "Passage of Resolution declaring the week of May 5, 2024 Drinking Water Week.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00496",
+                    "enactedDate": "5/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00496"
+                  },
+                  {
+                    "resolutionNumber": "2024R-108",
+                    "passageDate": "4/25/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $479,592.18 for the Near North Residential Resurfacing Project No. 2362F (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00426",
+                    "enactedDate": "5/1/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00426"
+                  },
+                  {
+                    "resolutionNumber": "2024R-109",
+                    "passageDate": "4/25/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $479,592.18 for the Near North Residential Resurfacing Project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00426",
+                    "enactedDate": "5/1/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00426"
+                  },
+                  {
+                    "resolutionNumber": "2024R-104",
+                    "passageDate": "4/25/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $607,289.74 for the Street Resurfacing Project No. 2362G (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00427",
+                    "enactedDate": "5/1/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00427"
+                  },
+                  {
+                    "resolutionNumber": "2024R-105",
+                    "passageDate": "4/25/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $607,289.74.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00427",
+                    "enactedDate": "5/1/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00427"
+                  },
+                  {
+                    "resolutionNumber": "2024R-106",
+                    "passageDate": "4/25/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $47,040.66 for the Fremont Alley Reconstruction Project No. 2366 (PV2463) (between Fremont Ave S, Emerson Ave S, 35th St W, and 36th St W).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00428",
+                    "enactedDate": "5/1/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00428"
+                  },
+                  {
+                    "resolutionNumber": "2024R-107",
+                    "passageDate": "4/25/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $47,040.66 for the Fremont Alley Reconstructions Project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00428",
+                    "enactedDate": "5/1/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00428"
+                  },
+                  {
+                    "resolutionNumber": "2024R-110",
+                    "passageDate": "4/25/2024",
+                    "description": "Passage of Resolution approving the Municipal Consent concept layout for the improvements to TH 121 from 58th Street West to TH 62.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00300",
+                    "enactedDate": "5/1/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00300"
+                  },
+                  {
+                    "resolutionNumber": "2024R-090",
+                    "passageDate": "4/11/2024",
+                    "description": "Passage of Resolution updating Parking Fees to facilitate large scale events at US Bank Stadium, Target Center, and Target Field.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00341",
+                    "enactedDate": "4/12/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00341"
+                  },
+                  {
+                    "resolutionNumber": "2024R-089",
+                    "passageDate": "4/11/2024",
+                    "description": "Passage of Resolution accepting donation from River Network of a litter capture boom system at Lake of the Isles.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00333",
+                    "enactedDate": "4/15/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00333"
+                  },
+                  {
+                    "resolutionNumber": "2024R-078",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution recognizing April 1-7, 2024, as Food Waste Prevention Week in the City of Minneapolis.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00368",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00368"
+                  },
+                  {
+                    "resolutionNumber": "2024R-075",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution authorizing a grant agreement with the Minnesota Public Facilities Authority for each project.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00301",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00301"
+                  },
+                  {
+                    "resolutionNumber": "2024R-076",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution approving appropriation of funds to the Water Capital Fund.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00301",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00301"
+                  },
+                  {
+                    "resolutionNumber": "2024R-069",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution amending the 2024-2029 Six Year Capital Program Appropriation Resolution by decreasing revenue and appropriation in the 2024 Traffic Management Systems Program (TR010), and increasing revenue and appropriation in the 2024 Traffic Signals program (TR021).",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00302",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00302"
+                  },
+                  {
+                    "resolutionNumber": "2024R-070",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of bonds in the amount of $250,000.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00302",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00302"
+                  },
+                  {
+                    "resolutionNumber": "2024R-071",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution amending the 2024-2029 Six Year Capital Program Appropriation Resolution by decreasing revenue and appropriation in the 2024 Street Lighting Replacement - No Assessments program (TR027), and increasing revenue and appropriation in the 2024 Street Lighting Replacement - Assessments program (TR026).",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00302",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00302"
+                  },
+                  {
+                    "resolutionNumber": "2024R-067",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution approving the appropriation of funds to the Public Works Department for the estimated Hennepin County reimbursement of $153,835 for traffic signal cabinets and hydrant work associated with the E Line Bus Rapid Transit project.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00304",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00304"
+                  },
+                  {
+                    "resolutionNumber": "2024R-073",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution accepting federal transportation grant funding awarded through the Metropolitan Council's Regional Solicitation program and MnDOT's Highway Safety Improvement Program.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00305",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00305"
+                  },
+                  {
+                    "resolutionNumber": "2024R-077",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution approving appropriation of funds to the Health Department.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00307",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00307"
+                  },
+                  {
+                    "resolutionNumber": "2024R-050",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution approving the sponsorship of the 2024 Warehouse District Live events.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00289",
+                    "enactedDate": "3/22/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00289"
+                  },
+                  {
+                    "resolutionNumber": "2024R-066",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution increasing appropriation for CTR021 Traffic signal Improvements by $30,000 and accepting revenue from Hennepin County by $30,000 to cover the County's cost participation in City force account signal cabinet construction for the traffic signals affiliated with the East Hennepin safety improvements.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00291",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00291"
+                  },
+                  {
+                    "resolutionNumber": "2024R-072",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution establishing a Prioritized Bridge Replacement List.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00297",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00297"
+                  },
+                  {
+                    "resolutionNumber": "2024R-068",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution amending the 2024 Capital Appropriation Resolution by increasing the appropriation of CPV 074 in the amount of $28,000 and accepting revenue from the County in the amount of $28,000 for its share of the City force account cost to build and furnish a signal cabinet for the intersection of Lake St and France Avenue.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00299",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00299"
+                  },
+                  {
+                    "resolutionNumber": "2024R-063",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $1,539,390.00 for the 1st Ave S Street Reconstruction Project, Special Improvement of Existing Street No. 6779 (PV132).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00261",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00261"
+                  },
+                  {
+                    "resolutionNumber": "2024R-064",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $1,539,390.00 for the 1st Ave S Street Reconstruction Project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00261",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00261"
+                  },
+                  {
+                    "resolutionNumber": "2024R-065",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution ordering the abandonment and removal of areaways located in the public right-of-way in conflict with the project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00261",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00261"
+                  },
+                  {
+                    "resolutionNumber": "2024R-057",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $34,607.63 for the 42nd Street E Resurfacing Project, Special Improvement of Existing Street No. 2362C (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00262",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00262"
+                  },
+                  {
+                    "resolutionNumber": "2024R-058",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $34,607.63 for the 42nd Street E Resurfacing Project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00262",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00262"
+                  },
+                  {
+                    "resolutionNumber": "2024R-059",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $274,886.76 for the 50th Street Resurfacing Project, Special Improvement of Existing Street No. 2362E (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00265",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00265"
+                  },
+                  {
+                    "resolutionNumber": "2024R-060",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $274,886.76 for the 50th Street Resurfacing Project.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00265",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00265"
+                  },
+                  {
+                    "resolutionNumber": "2024R-061",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution ordering the work to proceed and adopting special assessments in the amount of $1,237,235.94 for the Beltrami Residential Streets and Monroe Street Resurfacing Project, Special Improvement of Existing Street No. 2362A (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00281",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00281"
+                  },
+                  {
+                    "resolutionNumber": "2024R-062",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of assessment bonds in the amount of $1,237,235.94 for the Beltrami Residential Streets and Monroe Street",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "Assessment / Property Charges",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00281",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00281"
+                  },
+                  {
+                    "resolutionNumber": "2024R-074",
+                    "passageDate": "3/21/2024",
+                    "description": "Passage of Resolution designating the location and improvements proposed to be made in the 2024 Street Lighting Replacement Project, Special Improvement of Existing Street No. 2367 (CTR02624)",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00283",
+                    "enactedDate": "3/25/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00283"
+                  },
+                  {
+                    "resolutionNumber": "2024R-044",
+                    "passageDate": "3/7/2024",
+                    "description": "Passage of Resolution updating the fees for the Shared Bike and Scooter Program vendor licenses in the Parking and Mobility Services Fee and Rate Schedule.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00193",
+                    "enactedDate": "3/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00193"
+                  },
+                  {
+                    "resolutionNumber": "2024R-042",
+                    "passageDate": "3/7/2024",
+                    "description": "Passage of Resolution approving the appropriation of funds to the Public Works Department for the State of Minnesota (MnDOT) reimbursement of $30,000 for signal cabinets furnished by City forces associated with the Hiawatha-Lake Intersection Improvements project.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00225",
+                    "enactedDate": "3/7/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00225"
+                  },
+                  {
+                    "resolutionNumber": "2024R-043",
+                    "passageDate": "3/7/2024",
+                    "description": "Passage of Resolution approving the appropriation of funds to the Public Works Department for the Hennepin County reimbursement of $80,000 for signal cabinets furnished by City forces associated with the Hiawatha-Lake Intersection Improvements project.",
+                    "summary": "Allocates city funds or amends the budget for a project or department.",
+                    "category": "Budget / Finance",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00225",
+                    "enactedDate": "3/7/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00225"
+                  },
+                  {
+                    "resolutionNumber": "2024R-041",
+                    "passageDate": "3/7/2024",
+                    "description": "Passage of Resolution designating the location and improvements proposed to be made in the Lowry Ave NE (Washington St NE to Johnson St NE) Phase I Street Reconstruction Project No. 2360 (CPV074).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00227",
+                    "enactedDate": "3/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00227"
+                  },
+                  {
+                    "resolutionNumber": "2024R-033",
+                    "passageDate": "2/22/2024",
+                    "description": "Passage of Resolution designating the location and improvements proposed for the 2024 Alley Reconstruction Project No. 2366 (PV2463).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00137",
+                    "enactedDate": "2/23/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00137"
+                  },
+                  {
+                    "resolutionNumber": "2024R-022",
+                    "passageDate": "2/8/2024",
+                    "description": "Passage of Resolution authorizing an agreement with the Minnesota Department of Transportation (MnDOT) for an Infrastructure Investment and Jobs Act (IIJA) Technical Assistance Grant for the Nicollet Ave Bridge over Minnehaha Creek.",
+                    "summary": "Approves acceptance or allocation of a grant or funding source.",
+                    "category": "Grant / Funding",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00079",
+                    "enactedDate": "2/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00079"
+                  },
+                  {
+                    "resolutionNumber": "2024R-023",
+                    "passageDate": "2/8/2024",
+                    "description": "Passage of Resolution appropriating funds to the Public Works Department.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00079",
+                    "enactedDate": "2/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00079"
+                  },
+                  {
+                    "resolutionNumber": "2024R-024",
+                    "passageDate": "2/8/2024",
+                    "description": "Passage of Resolution designating the location and improvements of certain existing streets in the 1st Ave S (Lake St W to Franklin Ave) Street Reconstruction Project, Special Improvement of Existing Street No. 6779 (PV132).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00086",
+                    "enactedDate": "2/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00086"
+                  },
+                  {
+                    "resolutionNumber": "2024R-025",
+                    "passageDate": "2/8/2024",
+                    "description": "Passage of Resolution designating the location and improvements proposed for the 2024 11th Ave S, 42nd St E, and Near North Central Residential Street Resurfacing Program, Special Improvement of Existing Streets Project No. 2362 (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00091",
+                    "enactedDate": "2/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00091"
+                  },
+                  {
+                    "resolutionNumber": "2024R-026",
+                    "passageDate": "2/8/2024",
+                    "description": "Passage of Resolution designating the location and improvements proposed for the 2024 Beltrami and Monroe Residential and 50th St E/W Street Resurfacing Program, Special Improvement of Existing Streets Project No. 2362 (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00098",
+                    "enactedDate": "2/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00098"
+                  },
+                  {
+                    "resolutionNumber": "2024R-027",
+                    "passageDate": "2/8/2024",
+                    "description": "Passage of Resolution designating the location and improvements proposed for the 2024 Street Resurfacing Program, Special Improvement of Existing Street Project No. 2362 (CPV2456).",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00100",
+                    "enactedDate": "2/13/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00100"
+                  },
+                  {
+                    "resolutionNumber": "2024R-009",
+                    "passageDate": "1/25/2024",
+                    "description": "Passage of Resolution amending the 2024 Capital Appropriation Resolution by increasing the revenue in the Street Car Value Capture Fund by $200,000 and appropriating $200,000 to the Lake at Nicollet Reopening project; and decreasing the appropriations to the Alley Renovation Program by $250,000 and the Major Pavement Maintenance Program by $250,000 and increasing the appropriation to the Unpaved Alley Construction Program by $500,000.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00026",
+                    "enactedDate": "1/31/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00026"
+                  },
+                  {
+                    "resolutionNumber": "2024R-010",
+                    "passageDate": "1/25/2024",
+                    "description": "Passage of Resolution requesting the Board of Estimate and Taxation authorize the City's issuance and sale of bonds in the amount of $50,000.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00026",
+                    "enactedDate": "1/31/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00026"
+                  },
+                  {
+                    "resolutionNumber": "2024R-008",
+                    "passageDate": "1/25/2024",
+                    "description": "Passage of Resolution amending the 2024 General Appropriation Resolution by increasing the Solid Waste Fund Capital budget by $396,495.52, and reducing the Operating budget by the same amount to support Solid Waste funded North Transfer Station Revitalization Project expenses in 2024.",
+                    "summary": "Updates or corrects language or standards in a previous resolution.",
+                    "category": "Policy Amendment",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00035",
+                    "enactedDate": "1/26/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00035"
+                  },
+                  {
+                    "resolutionNumber": "2024R-011",
+                    "passageDate": "1/25/2024",
+                    "description": "Passage of Resolution appropriating funds to the Public Works Department.",
+                    "summary": "General resolution authorizing or approving a city action.",
+                    "category": "General City Administration",
+                    "author": "Cashman",
+                    "fileNumber": "2024-00044",
+                    "enactedDate": "1/26/2024",
+                    "url": "https://lims.minneapolismn.gov/File/2024-00044"
+                  }
+                ]);
+
+                const accomplishments = ref([
+                  {
+                    "accomplishment": "The Uptown Farmer’s Market was a smashing success this year, funded by the Uptown Budget Amendment.",
+                    "url":"https://uptownmarket.org/"
+                  },
+                  {
+                    "accomplishment": "Holidays on Hennepin is sure to be fantastic in December with business advertising, events and special lighting, decor and signage, funded by the Uptown Budget Amendment.",
+                    "url":"https://www.holidaysonhennepin.com/"
+                  },
+                  {
+                    "accomplishment": "Vibrant Storefronts is funding three new businesses opening at the corner of Hennepin and Lake.",
+                    "url":"https://mplsartsandculture.org/vibrant-storefronts"
+                  },
+                  {
+                    "accomplishment": "Hennepin Ave reconstruction will be complete November 2025, an infrastructure project Katie helped facilitate."
+                  },
+                  {
+                    "accomplishment": "Last cycle council approved tax increment funding for Doran Construction to build 220 units of housing in part of the 7 points mall.",
+                    "url":"https://lims.minneapolismn.gov/download/Agenda/7844/5507/SevenPointsTIFStaffReportandPlan.pdf"
+                  },
+                  {
+                    "accomplishment": "The Business Housing Zoning Committee Katie served on awarded an ownership and opportunity fund loan of up to $540,000 to Mike Tadros to buy a building adjacent to his on Hennepin and further grow his business",
+                    "url":"https://lims.minneapolismn.gov/RCA/25521"
+                  },
+                  {
+                    "accomplishment": "A Brownstone Jazz Club (new jazz club) is moving in on 28th and Hennepin",
+                    "url":"https://thebrownstonejazzclub.com/"
+                  },
+                  {
+                    "accomplishment": "In the Heart of the Beast Puppetry is moving in on 24th and Hennepin",
+                    "url":"https://racketmn.com/in-the-heart-of-the-beast-moves-to-lowry-hill-east"
+                  },
+                  {
+                    "accomplishment": "In 2024, the Legislative Department launched a software tool called 'Adjure' to help Council offices track, organize, and respond to help requests, comments, and policy feedback. The Ward 7 Office recorded the most resolved cases at 2,259.",
+                    "url":"https://content.govdelivery.com/accounts/MPLS/bulletins/3d6ac6e"
+                  },
+                  {
+                    "accomplishment": "The Ward 7 newsletter was a key communication tool we used to share information about my work on the Council and opportunities throughout the ward. Katie's team issued a newsletter following each of the 24 legislative cycles last year, including a survey question to collect feedback to help guide our work."
+                  },
+                  {
+                    "accomplishment": "Subscribers submitted 468 responses across 19 survey questions. Katie's team reviewed the responses for policy decisions and shared relevant feedback with City staff and other partners to help improve existing programs."
+                  },
+                  {
+                    "accomplishment": "According to the City Clerk, 2024 was an extraordinarily productive legislative year with Council taking and approving 1,449 official acts. Katie authored 111 resolutions out of 449, as well as 4 codified ordinances out of 17. Katie led on a range of issues, including neighborhood safety, environment and climate goals, and economic revitalization initiatives for both Downtown and Uptown."
+                  },
+                  {
+                    "accomplishment": "Council Members formally convened 199 times, including the 21 Climate & Infrastructure meetings Katie presided over as the Committee Chair."
+                  },
+                  {
+                    "accomplishment": "Hosting regular community engagement opportunities to connect directly with constituents was a major focus. Katie hosted 9 'Coffee with Katie' events, each in a different neighborhood. Attendees raised issues important to them, learned about notable projects, and engaged in discussion with Katie and their neighbors."
+                  },
+                  {
+                    "accomplishment": "110 constituents across all 9 neighborhoods completed my City Budget Feedback exercise."
+                  },
+                  {
+                    "accomplishment": "The Ward 7 team attended over 50 neighborhood organization and community meetings."
+                  },
+                  {
+                    "accomplishment": "Katie's team of 3 coordinated and participated in over 800 individual and small group meetings with constituents and stakeholders in 2024. It’s important for Katie to be accessible to the community, and she wants to ensure that your lived experiences are informing my policy decisions."
+                  }
+                ])
+
+                // Filters and search
+                const searchQuery = ref('');
+                const categoryFilter = ref('');
+                const authorFilter = ref('');
+                const dateRangeFilter = ref('all');
+                
+                // Sorting
+                const sortColumn = ref('passageDate');
+                const sortDirection = ref('desc');
+                
+                // Pagination
+                const currentPage = ref(1);
+                const itemsPerPage = 200;
+                
+                // Modal state
+                const selectedResolution = ref(null);
+                
+                // Computed properties
+                const uniqueCategories = computed(() => {
+                    const categories = new Set(resolutions.value.map(r => r.category));
+                    return Array.from(categories).sort();
+                });
+                
+                const uniqueAuthors = computed(() => {
+                    const authors = new Set(resolutions.value.map(r => r.author));
+                    return Array.from(authors).sort();
+                });
+                
+                const filteredResolutions = computed(() => {
+                    let filtered = [...resolutions.value];
+                    
+                    // Apply search
+                    if (searchQuery.value) {
+                        const query = searchQuery.value.toLowerCase();
+                        filtered = filtered.filter(r => 
+                            r.resolutionNumber.toLowerCase().includes(query) ||
+                            r.description.toLowerCase().includes(query) ||
+                            r.summary.toLowerCase().includes(query) ||
+                            r.category.toLowerCase().includes(query) ||
+                            r.author.toLowerCase().includes(query)
+                        );
+                    }
+                    
+                    // Apply category filter
+                    if (categoryFilter.value) {
+                        filtered = filtered.filter(r => r.category === categoryFilter.value);
+                    }
+                    
+                    // Apply author filter
+                    if (authorFilter.value) {
+                        filtered = filtered.filter(r => r.author === authorFilter.value);
+                    }
+                    
+                    // Apply date range filter
+                    if (dateRangeFilter.value !== 'all') {
+                        const now = new Date();
+                        let startDate;
+                        
+                        if (dateRangeFilter.value === 'year') {
+                            startDate = new Date(now.getFullYear(), 0, 1);
+                        } else if (dateRangeFilter.value === 'month') {
+                            startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                        } else if (dateRangeFilter.value === 'week') {
+                            startDate = new Date(now);
+                            startDate.setDate(now.getDate() - now.getDay());
+                        }
+                        
+                        filtered = filtered.filter(r => {
+                            const date = new Date(r.passageDate);
+                            return date >= startDate;
+                        });
+                    }
+                    
+                    // Apply sorting
+                    return filtered.sort((a, b) => {
+                        let valA = a[sortColumn.value];
+                        let valB = b[sortColumn.value];
+                        
+                        // Special handling for dates
+                        if (sortColumn.value.includes('Date')) {
+                            valA = new Date(valA);
+                            valB = new Date(valB);
+                        }
+                        
+                        if (valA < valB) return sortDirection.value === 'asc' ? -1 : 1;
+                        if (valA > valB) return sortDirection.value === 'asc' ? 1 : -1;
+                        return 0;
+                    });
+                });
+                
+                const thisMonthResolutions = computed(() => {
+                    const now = new Date();
+                    const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    return resolutions.value.filter(r => {
+                        const date = new Date(r.passageDate);
+                        return date >= startDate;
+                    }).length;
+                });
+                
+                const totalPages = computed(() => {
+                    return Math.ceil(filteredResolutions.value.length / itemsPerPage);
+                });
+                
+                const paginatedResolutions = computed(() => {
+                    const start = (currentPage.value - 1) * itemsPerPage;
+                    const end = start + itemsPerPage;
+                    return filteredResolutions.value.slice(start, end);
+                });
+                
+                // Methods
+                const formatDate = (dateString) => {
+                    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    return new Date(dateString).toLocaleDateString(undefined, options);
+                };
+                
+                const sortBy = (column) => {
+                    if (sortColumn.value === column) {
+                        sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortColumn.value = column;
+                        sortDirection.value = 'asc';
+                    }
+                };
+                
+                const resetFilters = () => {
+                    searchQuery.value = '';
+                    categoryFilter.value = '';
+                    authorFilter.value = '';
+                    dateRangeFilter.value = 'all';
+                    currentPage.value = 1;
+                };
+                
+                const openModal = (resolution) => {
+                    selectedResolution.value = resolution;
+                };
+                
+                const getCategoryColor = (category) => {
+                    const colorMap = {
+                        'Finance': 'bg-green-100 text-green-800',
+                        'Urban Planning': 'bg-blue-100 text-blue-800',
+                        'Environment': 'bg-teal-100 text-teal-800',
+                        'Public Works': 'bg-orange-100 text-orange-800',
+                        'Human Resources': 'bg-purple-100 text-purple-800',
+                        'Emergency': 'bg-red-100 text-red-800',
+                        'Cultural': 'bg-indigo-100 text-indigo-800',
+                        'Education': 'bg-yellow-100 text-yellow-800',
+                        'Transportation': 'bg-gray-100 text-gray-800',
+                        'Economic Development': 'bg-pink-100 text-pink-800'
+                    };
+                    return colorMap[category] || 'bg-gray-100 text-gray-800';
+                };
+                
+                // Initialize Feather Icons
+                const initCharts = () => {
+                    // Category Pie Chart
+                    const categoryCounts = {};
+                    resolutions.value.forEach(r => {
+                        categoryCounts[r.category] = (categoryCounts[r.category] || 0) + 1;
+                    });
+                    
+                    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+                    new Chart(categoryCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: Object.keys(categoryCounts),
+                            datasets: [{
+                                data: Object.values(categoryCounts),
+                                backgroundColor: [
+                                    '#3B82F6', '#10B981', '#F59E0B', '#EF4444', 
+                                    '#8B5CF6', '#EC4899', '#14B8A6', '#F97316',
+                                    '#64748B', '#0EA5E9'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                }
+                            }
+                        }
+                    });
+
+                    // Timeline Chart
+                    const monthlyCounts = {};
+                    resolutions.value.forEach(r => {
+                        const date = new Date(r.passageDate);
+                        const monthYear = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2, '0')}`;
+                        monthlyCounts[monthYear] = (monthlyCounts[monthYear] || 0) + 1;
+                    });
+                    
+                    const sortedMonths = Object.keys(monthlyCounts).sort();
+                    const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+                    new Chart(timelineCtx, {
+                        type: 'line',
+                        data: {
+                            labels: sortedMonths,
+                            datasets: [{
+                                label: 'Resolutions Passed',
+                                data: sortedMonths.map(m => monthlyCounts[m]),
+                                borderColor: '#3B82F6',
+                                backgroundColor: '#3B82F620',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        stepSize: 1
+                                    }
+                                }
+                            },
+                            grid: {
+                                display: false // Hides X-axis grid lines
+                            },
+                             scales: {
+                                x: { // For vertical grid lines
+                                    grid: {
+                                        drawOnChartArea: false
+                                    }
+                                },
+                                y: { // For horizontal grid lines
+                                    grid: {
+                                        drawOnChartArea: false
+                                    }
+                                }
+                            }
+                        }
+                    });
+                };
+
+                onMounted(() => {
+                    feather.replace();
+                    initCharts();
+                });
+                return {
+                    resolutions,
+                    accomplishments,
+                    searchQuery,
+                    categoryFilter,
+                    authorFilter,
+                    dateRangeFilter,
+                    sortColumn,
+                    sortDirection,
+                    currentPage,
+                    itemsPerPage,
+                    selectedResolution,
+                    uniqueCategories,
+                    uniqueAuthors,
+                    filteredResolutions,
+                    thisMonthResolutions,
+                    totalPages,
+                    paginatedResolutions,
+                    formatDate,
+                    sortBy,
+                    resetFilters,
+                    openModal,
+                    getCategoryColor,
+                    getVisiblePages() {
+                        const start = Math.max(1, Math.min(
+                            currentPage.value - 2,
+                            totalPages.value - 4
+                        ));
+                        const end = Math.min(totalPages.value, start + 4);
+                        const pages = [];
+                        for (let i = start; i <= end; i++) {
+                            pages.push(i);
+                        }
+                        return pages;
+                    }
+                };
+            }
+        }).mount('#app');
+    </script>
+    <script>feather.replace();</script>
+</body>
+</html>
