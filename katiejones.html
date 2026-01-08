@@ -36,7 +36,7 @@
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -104,6 +104,41 @@
             color: #6b7280;
         }
         
+        .filter-section {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f0f9ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .filter-section label {
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+        
+        .filter-section select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--accent-primary);
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            background: white;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            overflow-y: auto;
+            height:500px;
+        }
+
+        .stick{
+            position: sticky;
+            top: 0px; 
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
@@ -122,11 +157,71 @@
             background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
             color: white;
             font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 2rem;
+        }
+        
+        th.sortable:hover {
+            background: linear-gradient(135deg, #9333ea 0%, #1d4ed8 100%);
+        }
+        
+        th.sortable::after {
+            content: '⇅';
+            position: absolute;
+            right: 0.5rem;
+            opacity: 0.5;
+        }
+        
+        th.sortable.asc::after {
+            content: '↑';
+            opacity: 1;
+        }
+        
+        th.sortable.desc::after {
+            content: '↓';
+            opacity: 1;
         }
         
         tr:hover {
             background: #f9fafb;
         }
+        
+        table a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        table a:hover {
+            color: var(--accent-secondary);
+            text-decoration: underline;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .cat-energy { background: #dcfce7; color: #166534; }
+        .cat-transportation { background: #dbeafe; color: #1e40af; }
+        .cat-housing { background: #fef3c7; color: #92400e; }
+        .cat-health { background: #fce7f3; color: #9f1239; }
+        .cat-government { background: #e0e7ff; color: #3730a3; }
+        .cat-public-safety { background: #fee2e2; color: #991b1b; }
+        .cat-economic { background: #d1fae5; color: #065f46; }
+        .cat-education { background: #fef9c3; color: #854d0e; }
+        .cat-civil-rights { background: #fbcfe8; color: #831843; }
+        .cat-other { background: #f3f4f6; color: #374151; }
         
         .committees {
             background: #f0f9ff;
@@ -161,12 +256,16 @@
 </head>
 <body>
     <nav>
-        <h1>Minnesota Explained</h1>
+        <h1><a href="/" style="color:white; text-decoration: none;">Minnesota Explained</a></h1>
     </nav>
     
     <div class="container">
         <div class="podcast-section">
-            <h2>Listen: Six Months in Saint Paul</h2>
+            <h2>Listen: Six Months in Saint Paul - A Freshman in Congress</h2>
+            <h4></h4>
+            <p style="padding-bottom:20px">
+                Host Raj Maitra sits down for a candid conversation with Peter Schmitt, the husband of first-term State Representative Katie Jones. Together, they pull back the curtain on what it’s actually like when a family member transitions from a community advocate to a legislator in the Minnesota House of Representatives.
+            </p>
             <iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/track=1160169830/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/" seamless>
                 <a href="https://loonatic.bandcamp.com/track/six-months-in-saint-paul-a-freshman-in-congress-guest-peter-schmitt-minnesota-explained-ep-1">
                     Six Months in Saint Paul: A Freshman in Congress (Guest Peter Schmitt) - Minnesota Explained Ep 1 by Loonatic Sound
@@ -196,37 +295,42 @@
                 </ul>
             </div>
             
-            <table>
-                <thead>
-                    <tr>
-                        <th>Bill</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>HF1010</strong></td>
-                        <td>Licensed Certified Midwife Licensure - Establishes comprehensive licensing framework for certified midwives under the Minnesota Board of Nursing, expands medical assistance coverage</td>
-                        <td>Co-Authored</td>
-                    </tr>
-                    <tr>
-                        <td><strong>HF1309</strong></td>
-                        <td>Minimum Parking Mandates Prohibition - Legislation to eliminate minimum parking requirements to support housing development and sustainable urban planning</td>
-                        <td>Co-Sponsored</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Power-Sharing Agreement</strong></td>
-                        <td>Advocated for and helped secure bipartisan power-sharing arrangement in the Minnesota House following 67-67 tie, ensuring equal committee membership and alternating gavels</td>
-                        <td>Implemented</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Minneapolis Consent Decree</strong></td>
-                        <td>Co-signed Minneapolis Delegation statement opposing Trump Administration attempts to dismiss police reform consent decree</td>
-                        <td>Advocacy</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div>
+                <h3>Bills Authored or Co-Authored</h3>
+            </div>
+            
+            <div class="filter-section">
+                <label for="category-filter">Filter by Category:</label>
+                <select id="category-filter">
+                    <option value="all">All Categories</option>
+                    <option value="Energy & Environment">Energy & Environment</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Housing & Development">Housing & Development</option>
+                    <option value="Health & Human Services">Health & Human Services</option>
+                    <option value="Government & Elections">Government & Elections</option>
+                    <option value="Public Safety">Public Safety</option>
+                    <option value="Economic Development">Economic Development</option>
+                    <option value="Education">Education</option>
+                    <option value="Civil Rights & Justice">Civil Rights & Justice</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead class="stick">
+                        <tr>
+                            <th class="sortable" data-sort="bill">Bill</th>
+                            <th class="sortable" data-sort="author">Chief Author</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th class="sortable desc" data-sort="date">Last Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="legislative-work-tbody">
+                        <!-- Table rows will be dynamically generated -->
+                    </tbody>
+                </table>
+            </div>
         </div>
         
         <div class="content-section">
@@ -260,5 +364,240 @@
     <footer>
         <p>&copy; 2025 Minnesota Explained | Representative Katie Jones serves District 61A</p>
     </footer>
+    
+    <script>
+        const legislativeWork = [
+            { bill: "HF3347", chiefAuthor: "Kraft", description: "Various municipalities authorized to issue liquor licenses", category: "Other", lastAction: "05/19/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3347" },
+            { bill: "HF3344", chiefAuthor: "Reyer", description: "Rights and protections for residents of long-term care settings modified", category: "Health & Human Services", lastAction: "05/18/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3344" },
+            { bill: "HF3339", chiefAuthor: "Pursell", description: "Citizen membership reinstated for Pollution Control Agency", category: "Energy & Environment", lastAction: "05/18/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3339" },
+            { bill: "HF0044", chiefAuthor: "Curran", description: "Food manufacturers required to report ortho-phthalate testing results", category: "Public Safety", lastAction: "05/18/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/44" },
+            { bill: "HF0793", chiefAuthor: "Hollins", description: "Certified salt applicator program established", category: "Energy & Environment", lastAction: "05/18/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/793" },
+            { bill: "HF2688", chiefAuthor: "Greenman", description: "Resolution memorializing Congress to overturn Citizens United v. FEC", category: "Government & Elections", lastAction: "05/17/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2688" },
+            { bill: "HF3326", chiefAuthor: "Greenman", description: "Resolution memorializing Congress to support and defend the Constitution", category: "Government & Elections", lastAction: "05/15/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3326" },
+            { bill: "HF3320", chiefAuthor: "Feist", description: "Statewide moratorium on new billboards established", category: "Transportation", lastAction: "05/14/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3320" },
+            { bill: "HF1758", chiefAuthor: "Kotyza-Witthuhn", description: "Health plans required to cover infertility treatment", category: "Health & Human Services", lastAction: "05/13/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1758" },
+            { bill: "HF3304", chiefAuthor: "Hansen, R.", description: "Sustainable aviation fuel tax provisions repealed, renter's credit increased", category: "Economic Development", lastAction: "05/08/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3304" },
+            { bill: "HF3302", chiefAuthor: "Kraft", description: "Resolution memorializing President to respect Judicial Branch rulings", category: "Government & Elections", lastAction: "05/08/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3302" },
+            { bill: "HF3293", chiefAuthor: "Howard", description: "Minnesota Consumer Financial Protection Bureau created", category: "Economic Development", lastAction: "05/06/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3293" },
+            { bill: "HF3292", chiefAuthor: "Howard", description: "Study of economic impact of tariffs required", category: "Economic Development", lastAction: "05/06/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3292" },
+            { bill: "HF1289", chiefAuthor: "Stephenson", description: "Social media platforms required to post mental health warning labels", category: "Health & Human Services", lastAction: "05/06/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1289" },
+            { bill: "HF1426", chiefAuthor: "McDonald", description: "Stewardship program for circuit boards and batteries established", category: "Energy & Environment", lastAction: "05/05/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1426" },
+            { bill: "HF3294", chiefAuthor: "Noor", description: "Resolution urging full funding of Medicaid", category: "Health & Human Services", lastAction: "05/05/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3294" },
+            { bill: "HF3270", chiefAuthor: "Long", description: "Independent Redistricting Commission established", category: "Government & Elections", lastAction: "04/30/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3270" },
+            { bill: "HF1653", chiefAuthor: "Carroll", description: "Statewide electric bus charging stations funding provided", category: "Transportation", lastAction: "04/29/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1653" },
+            { bill: "HF2709", chiefAuthor: "Jones", description: "Canvassing access to multiple unit buildings modified", category: "Government & Elections", lastAction: "04/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2709" },
+            { bill: "HF3156", chiefAuthor: "Jones", description: "Local government regulations of religious organization developments restricted", category: "Housing & Development", lastAction: "04/22/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3156" },
+            { bill: "HF1795", chiefAuthor: "Nelson", description: "Farm to school and early care programs funding provided", category: "Education", lastAction: "04/22/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1795" },
+            { bill: "HF3179", chiefAuthor: "Jones", description: "Certain buildings required to meet energy performance standards", category: "Energy & Environment", lastAction: "04/21/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3179" },
+            { bill: "HF3148", chiefAuthor: "Hollins", description: "Cities authorized to issue social district licenses", category: "Other", lastAction: "04/21/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3148" },
+            { bill: "HF2840", chiefAuthor: "Wolgamott", description: "Minitex library information program funding provided", category: "Education", lastAction: "04/21/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2840" },
+            { bill: "HF2764", chiefAuthor: "Momanyi-Hiltsley", description: "Public schools required to offer plant-based meal options", category: "Education", lastAction: "04/21/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2764" },
+            { bill: "HF2694", chiefAuthor: "Bahner", description: "Constitution technical changes to Article I terms", category: "Government & Elections", lastAction: "04/21/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2694" },
+            { bill: "HF2134", chiefAuthor: "Falconer", description: "Pesticide provisions modified to protect wild rice waters", category: "Energy & Environment", lastAction: "04/21/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2134" },
+            { bill: "HF2904", chiefAuthor: "Reyer", description: "Public employees insurance program regulated", category: "Health & Human Services", lastAction: "04/10/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2904" },
+            { bill: "HF2065", chiefAuthor: "Hill", description: "Library online databases funding increased", category: "Education", lastAction: "04/10/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2065" },
+            { bill: "HF1646", chiefAuthor: "Reyer", description: "Undue Medical Debt grant funding provided", category: "Health & Human Services", lastAction: "04/10/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1646" },
+            { bill: "HF0985", chiefAuthor: "Nelson", description: "Soil health financial assistance program funding provided", category: "Energy & Environment", lastAction: "04/10/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/985" },
+            { bill: "HF3158", chiefAuthor: "Lee, F.", description: "Supermajority vote required for sports facility public funding", category: "Government & Elections", lastAction: "04/07/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3158" },
+            { bill: "HF2140", chiefAuthor: "Kraft", description: "Mixed-use housing zones creation required", category: "Housing & Development", lastAction: "04/07/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2140" },
+            { bill: "HF2018", chiefAuthor: "Kozlowski", description: "Multifamily and mixed-use development zoning authority limited", category: "Housing & Development", lastAction: "04/07/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2018" },
+            { bill: "HF1987", chiefAuthor: "Igo", description: "Minnesota Starter Home Act established", category: "Housing & Development", lastAction: "04/07/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1987" },
+            { bill: "HF2998", chiefAuthor: "Freiberg", description: "End-of-life option for terminally ill adults established", category: "Health & Human Services", lastAction: "04/03/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2998" },
+            { bill: "HF1808", chiefAuthor: "Huot", description: "Out-of-pocket maximum contribution requirements set", category: "Health & Human Services", lastAction: "04/03/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1808" },
+            { bill: "HF1309", chiefAuthor: "Coulter", description: "Minimum parking mandates prohibited", category: "Housing & Development", lastAction: "04/03/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1309" },
+            { bill: "HF0161", chiefAuthor: "Elkins", description: "Cities authorized to create land-value taxation districts", category: "Economic Development", lastAction: "04/03/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/161" },
+            { bill: "HF3074", chiefAuthor: "Hussein", description: "Collective bargaining rights for transportation network drivers", category: "Economic Development", lastAction: "04/02/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/3074" },
+            { bill: "HF2975", chiefAuthor: "Jones", description: "Work zone safety required in driver education", category: "Transportation", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2975" },
+            { bill: "HF2920", chiefAuthor: "Hanson, J.", description: "MNSBIR grant funding provided", category: "Economic Development", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2920" },
+            { bill: "HF2628", chiefAuthor: "Lillie", description: "Catholic Charities homeless elders program funding", category: "Health & Human Services", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2628" },
+            { bill: "HF2387", chiefAuthor: "Allen", description: "School food waste reduced, free school milk provided", category: "Education", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2387" },
+            { bill: "HF2094", chiefAuthor: "Frazier", description: "Minnesota Migration Act established", category: "Civil Rights & Justice", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2094" },
+            { bill: "HF1372", chiefAuthor: "Perryman", description: "Cities authorized to issue social district licenses", category: "Other", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1372" },
+            { bill: "HF1010", chiefAuthor: "Agbaje", description: "Licensed certified midwife licensure established", category: "Health & Human Services", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1010" },
+            { bill: "HF1005", chiefAuthor: "Bierman", description: "Medical assistance rate adjustments for physician services", category: "Health & Human Services", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1005" },
+            { bill: "HF0099", chiefAuthor: "Sencer-Mura", description: "Housing with support for persons with serious mental illness", category: "Health & Human Services", lastAction: "04/01/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/99" },
+            { bill: "HF2505", chiefAuthor: "Jones", description: "State-aid engineering and design standards variances modified", category: "Transportation", lastAction: "03/27/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2505" },
+            { bill: "HF1335", chiefAuthor: "Tabke", description: "Electronic drivers' licenses authorized", category: "Transportation", lastAction: "03/27/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1335" },
+            { bill: "HF0856", chiefAuthor: "Moller", description: "Common interest community ombudsperson created", category: "Housing & Development", lastAction: "03/27/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/856" },
+            { bill: "HF2550", chiefAuthor: "Jones", description: "Construction impacts on businesses requirements modified", category: "Economic Development", lastAction: "03/26/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2550" },
+            { bill: "HF2839", chiefAuthor: "Jones", description: "Minneapolis special tax increment financing rules authorized", category: "Economic Development", lastAction: "03/26/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2839" },
+            { bill: "HF2618", chiefAuthor: "Bahner", description: "Plain-language explanations for condo and homeowners associations", category: "Housing & Development", lastAction: "03/26/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2618" },
+            { bill: "HF2148", chiefAuthor: "Agbaje", description: "Locally controlled housing fund established", category: "Housing & Development", lastAction: "03/26/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2148" },
+            { bill: "HF0771", chiefAuthor: "Kraft", description: "Supplemental energy assistance funding provided", category: "Energy & Environment", lastAction: "03/26/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/771" },
+            { bill: "HF0683", chiefAuthor: "Frazier", description: "Ranked choice voting provided for local offices", category: "Government & Elections", lastAction: "03/26/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/683" },
+            { bill: "HF2765", chiefAuthor: "Carroll", description: "Optometry scope of practice modified", category: "Health & Human Services", lastAction: "03/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2765" },
+            { bill: "HF2707", chiefAuthor: "Keeler", description: "Sexually exploited youth safe harbor funding", category: "Public Safety", lastAction: "03/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2707" },
+            { bill: "HF2498", chiefAuthor: "Hemmingsen-Jaeger", description: "Geothermal heat exchange system rebate program", category: "Energy & Environment", lastAction: "03/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2498" },
+            { bill: "HF2449", chiefAuthor: "Finke", description: "Semiautomatic military-style assault weapon sale prohibited", category: "Public Safety", lastAction: "03/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2449" },
+            { bill: "HF1509", chiefAuthor: "Jones", description: "Authority to issue pedestrian citations limited", category: "Transportation", lastAction: "03/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1509" },
+            { bill: "HF0671", chiefAuthor: "Hicks", description: "Children's mental health grant programs established", category: "Health & Human Services", lastAction: "03/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/671" },
+            { bill: "HF0186", chiefAuthor: "Sencer-Mura", description: "Highway project development requirements modified", category: "Transportation", lastAction: "03/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/186" },
+            { bill: "HF2359", chiefAuthor: "Cha", description: "Climate change mental health advisory task force", category: "Health & Human Services", lastAction: "03/20/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2359" },
+            { bill: "HF2591", chiefAuthor: "Gomez", description: "Fifth tier income tax to offset lost federal Medicaid funds", category: "Health & Human Services", lastAction: "03/20/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2591" },
+            { bill: "HF1957", chiefAuthor: "Elkins", description: "Minnesota Technology Association grant funding", category: "Economic Development", lastAction: "03/20/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1957" },
+            { bill: "HF1944", chiefAuthor: "Freiberg", description: "Recognition of federal standard time year-round", category: "Government & Elections", lastAction: "03/20/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1944" },
+            { bill: "HF0855", chiefAuthor: "Hansen, R.", description: "Study of microplastics in meat and poultry", category: "Energy & Environment", lastAction: "03/20/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/855" },
+            { bill: "HF0142", chiefAuthor: "Freiberg", description: "Resolution urging statehood for Washington, D.C.", category: "Government & Elections", lastAction: "03/20/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/142" },
+            { bill: "HF0054", chiefAuthor: "Sencer-Mura", description: "Grant for Minnesota Youth Council activities", category: "Education", lastAction: "03/20/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/54" },
+            { bill: "HF2059", chiefAuthor: "Carroll", description: "Residential instant solar permitting platforms required", category: "Energy & Environment", lastAction: "05/19/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2059" },
+            { bill: "HF2195", chiefAuthor: "Hollins", description: "Equal rights under the law provided, constitutional amendment", category: "Civil Rights & Justice", lastAction: "03/17/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2195" },
+            { bill: "HF1485", chiefAuthor: "Hollins", description: "Coverage of over-the-counter contraceptive products required", category: "Health & Human Services", lastAction: "03/17/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1485" },
+            { bill: "HF1845", chiefAuthor: "Cha", description: "Veterans definition expanded for Hmong service members", category: "Other", lastAction: "03/13/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1845" },
+            { bill: "HF2254", chiefAuthor: "Hanson, J.", description: "Baby bonus established within Minnesota child credit", category: "Economic Development", lastAction: "03/12/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2254" },
+            { bill: "HF2144", chiefAuthor: "Momanyi-Hiltsley", description: "Family homeless prevention program funding", category: "Health & Human Services", lastAction: "03/10/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2144" },
+            { bill: "HF1145", chiefAuthor: "Coulter", description: "Legislators prohibited from lobbying for two years", category: "Government & Elections", lastAction: "03/06/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1145" },
+            { bill: "HF2005", chiefAuthor: "Jones", description: "State Building Code; straw bale and hempcrete construction", category: "Housing & Development", lastAction: "03/06/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/2005" },
+            { bill: "HF1876", chiefAuthor: "Jones", description: "Minneapolis food hall license authorized", category: "Other", lastAction: "03/05/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1876" },
+            { bill: "HF1817", chiefAuthor: "Kraft", description: "Electric vehicle surcharges requirements amended", category: "Transportation", lastAction: "03/05/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1817" },
+            { bill: "HF1776", chiefAuthor: "Jones", description: "ADA compliance improvements for public right-of-way", category: "Transportation", lastAction: "03/05/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1776" },
+            { bill: "HF1762", chiefAuthor: "Long", description: "Equal rights amendment, constitutional amendment proposed", category: "Civil Rights & Justice", lastAction: "03/05/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1762" },
+            { bill: "HF1757", chiefAuthor: "Her", description: "Lost and stolen firearms reporting required", category: "Public Safety", lastAction: "03/05/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1757" },
+            { bill: "HF1812", chiefAuthor: "Reyer", description: "Minnesota Health Plan established", category: "Health & Human Services", lastAction: "03/03/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1812" },
+            { bill: "HF1685", chiefAuthor: "Kraft", description: "Transit assistance program integrated into benefits portal", category: "Transportation", lastAction: "03/03/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1685" },
+            { bill: "HF0971", chiefAuthor: "Momanyi-Hiltsley", description: "Brooklyn Park Regional Athletic Facility funding", category: "Other", lastAction: "03/03/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/971" },
+            { bill: "HF1526", chiefAuthor: "Jones", description: "The Bridge for Youth grant funding", category: "Health & Human Services", lastAction: "02/26/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1526" },
+            { bill: "HF1142", chiefAuthor: "Howard", description: "Tenant screening software using competitor data prohibited", category: "Housing & Development", lastAction: "02/24/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1142" },
+            { bill: "HF1013", chiefAuthor: "Kraft", description: "Minnesota Energy Alley funding provided", category: "Energy & Environment", lastAction: "02/20/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1013" },
+            { bill: "HF1180", chiefAuthor: "Greenman", description: "Minneapolis Nicollet Avenue Bridge improvements funding", category: "Transportation", lastAction: "02/19/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1180" },
+            { bill: "HF1139", chiefAuthor: "Elkins", description: "EV charging infrastructure required in new residential buildings", category: "Energy & Environment", lastAction: "02/19/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1139" },
+            { bill: "HF1099", chiefAuthor: "Sencer-Mura", description: "Charter school special education aid increased", category: "Education", lastAction: "02/19/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1099" },
+            { bill: "HF1114", chiefAuthor: "Frazier", description: "GroundBreak capital access fund funding", category: "Economic Development", lastAction: "03/27/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1114" },
+            { bill: "HF1080", chiefAuthor: "Carroll", description: "Hennepin County regional trail system improvements", category: "Transportation", lastAction: "02/17/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/1080" },
+            { bill: "HF0244", chiefAuthor: "Jones", description: "Minneapolis child and family services facility funding", category: "Health & Human Services", lastAction: "02/17/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/244" },
+            { bill: "HF0501", chiefAuthor: "Finke", description: "Equal rights amendment, constitutional amendment proposed", category: "Civil Rights & Justice", lastAction: "02/13/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/501" },
+            { bill: "HF0384", chiefAuthor: "Mahamoud", description: "Minneapolis affordable housing funding", category: "Housing & Development", lastAction: "02/13/2025", link: "https://www.revisor.mn.gov/bills/94/2025/0/HF/384" }
+        ];
+
+        let currentFilter = 'all';
+        let currentSort = { column: 'date', direction: 'desc' };
+
+        function getCategoryClass(category) {
+            const map = {
+                'Energy & Environment': 'cat-energy',
+                'Transportation': 'cat-transportation',
+                'Housing & Development': 'cat-housing',
+                'Health & Human Services': 'cat-health',
+                'Government & Elections': 'cat-government',
+                'Public Safety': 'cat-public-safety',
+                'Economic Development': 'cat-economic',
+                'Education': 'cat-education',
+                'Civil Rights & Justice': 'cat-civil-rights',
+                'Other': 'cat-other'
+            };
+            return map[category] || 'cat-other';
+        }
+
+        function parseDate(dateStr) {
+            const [month, day, year] = dateStr.split('/');
+            return new Date(year, month - 1, day);
+        }
+        
+        function extractBillNumber(billStr) {
+            const match = billStr.match(/\d+/);
+            return match ? parseInt(match[0]) : 0;
+        }
+        
+        function sortData(data) {
+            const sorted = [...data];
+            
+            sorted.sort((a, b) => {
+                let compareA, compareB;
+                
+                switch(currentSort.column) {
+                    case 'bill':
+                        compareA = extractBillNumber(a.bill);
+                        compareB = extractBillNumber(b.bill);
+                        break;
+                    case 'author':
+                        compareA = a.chiefAuthor.toLowerCase();
+                        compareB = b.chiefAuthor.toLowerCase();
+                        break;
+                    case 'date':
+                        compareA = parseDate(a.lastAction);
+                        compareB = parseDate(b.lastAction);
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                if (compareA < compareB) return currentSort.direction === 'asc' ? -1 : 1;
+                if (compareA > compareB) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            return sorted;
+        }
+        
+        function updateSortIndicators() {
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('asc', 'desc');
+                if (th.dataset.sort === currentSort.column) {
+                    th.classList.add(currentSort.direction);
+                }
+            });
+        }
+
+        function buildLegislativeTable() {
+            const tbody = document.getElementById('legislative-work-tbody');
+            tbody.innerHTML = '';
+            
+            let filteredWork = currentFilter === 'all' 
+                ? legislativeWork 
+                : legislativeWork.filter(w => w.category === currentFilter);
+            
+            const sortedWork = sortData(filteredWork);
+            
+            sortedWork.forEach(work => {
+                const row = document.createElement('tr');
+                
+                const billCell = document.createElement('td');
+                billCell.innerHTML = `<strong><a href="${work.link}" target="_blank">${work.bill}</a></strong>`;
+                
+                const authorCell = document.createElement('td');
+                authorCell.textContent = work.chiefAuthor;
+                
+                const descCell = document.createElement('td');
+                descCell.textContent = work.description;
+                
+                const catCell = document.createElement('td');
+                catCell.innerHTML = `<span class="category-badge ${getCategoryClass(work.category)}">${work.category}</span>`;
+                
+                const dateCell = document.createElement('td');
+                dateCell.textContent = work.lastAction;
+                
+                row.appendChild(billCell);
+                row.appendChild(authorCell);
+                row.appendChild(descCell);
+                row.appendChild(catCell);
+                row.appendChild(dateCell);
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        document.getElementById('category-filter').addEventListener('change', (e) => {
+            currentFilter = e.target.value;
+            buildLegislativeTable();
+        });
+        
+        document.querySelectorAll('th.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                const sortColumn = th.dataset.sort;
+                
+                if (currentSort.column === sortColumn) {
+                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort.column = sortColumn;
+                    currentSort.direction = 'asc';
+                }
+                
+                updateSortIndicators();
+                buildLegislativeTable();
+            });
+        });
+
+        buildLegislativeTable();
+        updateSortIndicators();
+    </script>
 </body>
 </html>
