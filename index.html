@@ -1103,6 +1103,9 @@
                         case 'program-link':
                             td.innerHTML = `<div class="program-title">${value}</div><a href="${row.link}" target="_blank" class="program-link">View Details →</a>`;
                             break;
+                        case 'title':
+                            td.innerHTML = `<div class="program-title">${value}</div>`;
+                            break;
                         case 'link':
                             td.innerHTML = `<a href="${value}" target="_blank" rel="noopener noreferrer" class="website-link">${value}</a>`;
                             break;

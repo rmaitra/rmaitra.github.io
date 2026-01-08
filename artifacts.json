@@ -599,10 +599,16 @@
         "footer":"",
         "columns":[
             {
+                "header":"#",
+                "field":"index",
+                "width":"3%",
+                "type":"index"
+            },
+            {
                 "header":"Bill Title",
                 "field":"title",
                 "width":"10%",
-                "type":"program-link",
+                "type":"title",
                 "sortable":true
             },
             {
