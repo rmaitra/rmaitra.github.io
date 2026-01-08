@@ -1093,10 +1093,12 @@
             sortDirection = 'asc';
             activeFilters = {};
             filterDropdownStates = {};
-            
-            document.getElementById('navbarSubtitle').textContent = artifact.subtitle;
-            document.getElementById('backButton').classList.add('visible');
-            document.getElementById('cardsView').style.display = 'none';
+        
+            if(artifact.type !== 'link'){
+                document.getElementById('navbarSubtitle').textContent = artifact.subtitle;
+                document.getElementById('backButton').classList.add('visible');
+                document.getElementById('cardsView').style.display = 'none';
+            }
             
             // Check artifact type and render accordingly
             if(artifact.type === 'link'){
