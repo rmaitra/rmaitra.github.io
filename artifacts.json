@@ -51,6 +51,7 @@
                 "type":"link"
             }
         ],
+        "img":"/img/congress.webp",
         "data":[
             {
                 "department":"Department of Administration",
@@ -251,6 +252,7 @@
         "description":"Browse comprehensive programs and services supporting Minnesota's children, youth, and families.",
         "subtitle":"Department of Children, Youth, and Family (DCYF) Programs",
         "footer":"Data sourced from DCYF official program directory",
+        "img":"/img/dcyf.jpg",
         "columns":[
             {
                 "header":"Program",
@@ -598,6 +600,7 @@
         "footer":"Sample text content - Last updated January 2026",
         "type":"text",
         "src":"./test.html",
+        "img":"/img/capitol.jpeg",
         "data":""
     },
     {
@@ -605,6 +608,7 @@
         "description":"Legislative bills that could redistribute wealth in Minnesota.",
         "subtitle":"",
         "footer":"",
+        "img":"/img/constitution.jpeg",
         "columns":[
             {
                 "header":"#",
@@ -688,6 +692,7 @@
         "subtitle":"About Minnesota Government",
         "footer":"",
         "type":"link",
+        "img":"/img/katie.jpg",
         "link":"/katiejones.html"
     },
     {
@@ -696,6 +701,7 @@
         "subtitle":"About Minnesota Government",
         "footer":"",
         "type":"link",
+        "img":"/img/cashman.jpg",
         "link":"/cashman.html"
     },
     {

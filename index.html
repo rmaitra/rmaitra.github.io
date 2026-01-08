@@ -215,8 +215,55 @@
             font-weight: 500;
         }
 
-        .card-link:after {
-            content: " →";
+        .card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            
+            /* Add background image */
+            background-image: url('');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            /* Optional: Add overlay for better text readability */
+            position: relative;
+        }
+
+        /* Optional: Add a dark overlay to improve text contrast */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+            border-radius: 8px;
+            z-index: 0;
+        }
+
+        /* Make sure text appears above the overlay */
+        .card > * {
+            position: relative;
+            z-index: 1;
+            color: white; /* Adjust text color for visibility */
+        }
+
+        .card-container.card-title {
+            color: white; /* Override for better visibility */
+        }
+
+        .card-container.card-description {
+            color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+        }
+
+        .card-link {
+            color: white; /* Or use a bright accent color */
         }
 
         .loading {
@@ -972,6 +1019,7 @@
         "description":"This data represents a comprehensive directory of the nonprofit safety net in Minneapolis, specifically curated for individuals and families experiencing housing instability.",
         "subtitle":"",
         "footer":"",
+        "image":"https://www.katiejones.org/uploads/1/1/3/9/113909967/published/kj.jpg?1717458365",
         "map":true,
         "columns":[
             {
@@ -1175,6 +1223,7 @@
                     subtitle: "State Departments - Sample Data",
                     footer: "Sample data - Replace with real data source",
                     type: "array",
+                    "image":"https://images.squarespace-cdn.com/content/v1/5c9542c8840b163998cf4804/2d9eee0e-b8fd-4ef2-9184-a402997000bf/20240212-session-32+MN+House.jpg",
                     columns: [
                         {
                             "header":"#",
@@ -1296,6 +1345,7 @@
                     subtitle: "DCYF Programs - Sample Data",
                     footer: "Sample data - Replace with real data source",
                     type: "array",
+                    "image":"https://mediasvc.ancestry.com/v2/image/namespaces/9241/media/e157698c-334c-492c-8084-be42b0a1d213?Client=Browser:ContextUI&ImageQuality=UltraHighQuality",
                     columns: [
                         {
                             "header":"Program",
@@ -1425,6 +1475,13 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => showTable(index);
+
+
+            
+            // Add background image if artifact has an image property
+            if (artifact.image) {
+                card.style.backgroundImage = `url('${artifact.image}')`;
+            }
                 
                 card.innerHTML = `
                     <h2 class="card-title">${artifact.title}</h2>
