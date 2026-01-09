@@ -10,6 +10,16 @@
         "link":"/onboard.html"
     },
     {
+        "title":"Minneapolis City Government",
+        "description":"Learn about the city branches of government and their responsibilities.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Minneapolis Government",
+        "type":"link",
+        "image":"/img/city.jpg",
+        "link":"/mplsgov.html"
+    },
+    {
         "title":"Minnesota State Departments",
         "description":"Explore each of Minnesota's state government departments.",
         "subtitle":"State Departments - Commissioners, Descriptions, and Employee Counts (FY 2023)",

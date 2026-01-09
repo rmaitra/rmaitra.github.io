@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minneapolis City Government Structure</title>
+    <style>
+        :root {
+            --accent-primary: #2563eb;
+            --accent-secondary: #7c3aed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: var(--shadow-md);
+            top: 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-content {
+            flex: 1;
+        }
+
+        .navbar-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+        }
+
+        .navbar-subtitle {
+            font-size: 1em;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        .container h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+        
+        .gov-structure {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .branch {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .branch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .branch-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #4299e1;
+        }
+        
+        .branch-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        
+        .branch-title {
+            flex: 1;
+        }
+        
+        .branch-title h2 {
+            color: #2d3748;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+        
+        .branch-title .description {
+            color: #718096;
+            font-size: 0.9em;
+        }
+        
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .member-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4299e1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        
+        .member-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateX(3px);
+        }
+        
+        .member-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+        
+        .member-role {
+            color: #4a5568;
+            font-size: 0.9em;
+            margin-bottom: 3px;
+        }
+        
+        .member-party {
+            color: #718096;
+            font-size: 0.85em;
+            font-style: italic;
+        }
+        
+        .member-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #4299e1;
+            font-size: 0.85em;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .member-link:hover {
+            color: #2b6cb0;
+            text-decoration: underline;
+        }
+        
+        .executive {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+        
+        .executive .branch-header {
+            border-bottom-color: #48bb78;
+        }
+        
+        .executive .member-card {
+            border-left-color: #48bb78;
+        }
+        
+        .legislative {
+            border-color: #ed8936;
+            background: #fffaf0;
+        }
+        
+        .legislative .branch-header {
+            border-bottom-color: #ed8936;
+        }
+        
+        .legislative .member-card {
+            border-left-color: #ed8936;
+        }
+        
+        .independent-boards {
+            border-color: #9f7aea;
+            background: #faf5ff;
+        }
+        
+        .independent-boards .branch-header {
+            border-bottom-color: #9f7aea;
+        }
+        
+        .independent-boards .member-card {
+            border-left-color: #9f7aea;
+        }
+        
+        .leadership-box {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .leadership-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .hierarchy-note {
+            background: #bee3f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #3182ce;
+        }
+        
+        .hierarchy-note h3 {
+            color: #2c5282;
+            margin-bottom: 8px;
+        }
+        
+        .hierarchy-note p {
+            color: #2d3748;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1 class="navbar-title"><a href="/" style="color:white; text-decoration:none">Minnesota Explained</a></h1>
+            <p class="navbar-subtitle" id="navbarSubtitle"></p>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Minneapolis City Government Structure</h1>
+        <p class="subtitle">Strong Mayor - Legislative Council System (as of January 2026)</p>
+        
+        <div class="gov-structure">
+            <!-- Executive Branch -->
+            <div class="branch executive">
+                <div class="branch-header">
+                    <div class="branch-icon">⚖️</div>
+                    <div class="branch-title">
+                        <h2>Executive Branch</h2>
+                        <p class="description">Mayor holds executive power, appoints department heads, proposes budget</p>
+                    </div>
+                </div>
+                
+                <div class="members-grid">
+                    <div class="member-card">
+                        <div class="member-name">Jacob Frey</div>
+                        <div class="member-role">Mayor (48th, 3rd term)</div>
+                        <div class="member-party">DFL - Inaugurated January 5, 2026</div>
+                        <a href="https://www.minneapolismn.gov/government/mayor/" target="_blank" class="member-link">View Mayor's Page →</a>
+                    </div>
+                </div>
+                
+                <div class="hierarchy-note" style="margin-top: 20px;">
+                    <h3>Executive Powers:</h3>
+                    <p>Since the 2021 charter amendment, the Mayor has strengthened executive authority including appointing department heads, proposing budgets and policies, serving as city spokesperson, declaring emergencies, and directing public safety functions.</p>
+                </div>
+            </div>
+            
+            <!-- Legislative Branch -->
+            <div class="branch legislative">
+                <div class="branch-header">
+                    <div class="branch-icon">🏛️</div>
+                    <div class="branch-title">
+                        <h2>Legislative Branch - City Council</h2>
+                        <p class="description">13 Council Members elected by ward, makes laws and approves budget</p>
+                    </div>
+                </div>
+                
+                <div class="leadership-box">
+                    <div class="leadership-title">Council Leadership (2026-2029):</div>
+                    <div class="members-grid">
+                        <div class="member-card">
+                            <div class="member-name">Elliott Payne</div>
+                            <div class="member-role">Council President (Ward 1)</div>
+                            <div class="member-party">DFL</div>
+                            <a href="https://www.minneapolismn.gov/government/city-council/members/ward-1/" target="_blank" class="member-link">View Profile →</a>
+                        </div>
+                        <div class="member-card">
+                            <div class="member-name">Jamal Osman</div>
+                            <div class="member-role">Vice President (Ward 6)</div>
+                            <div class="member-party">DFL</div>
+                            <a href="https://www.minneapolismn.gov/government/city-council/members/ward-6/" target="_blank" class="member-link">View Profile →</a>
+                        </div>
+                        <div class="member-card">
+                            <div class="member-name">Aisha Chughtai</div>
+                            <div class="member-role">Majority Leader (Ward 10)</div>
+                            <div class="member-party">DFL/DSA</div>
+                            <a href="https://www.minneapolismn.gov/government/city-council/members/ward-10/" target="_blank" class="member-link">View Profile →</a>
+                        </div>
+                        <div class="member-card">
+                            <div class="member-name">Robin Wonsley</div>
+                            <div class="member-role">Minority Leader (Ward 2)</div>
+                            <div class="member-party">Independent DSA</div>
+                            <a href="https://www.minneapolismn.gov/government/city-council/members/ward-2/" target="_blank" class="member-link">View Profile →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="leadership-title">All Council Members by Ward:</div>
+                <div class="members-grid">
+                    <div class="member-card">
+                        <div class="member-name">Elliott Payne</div>
+                        <div class="member-role">Ward 1 (President)</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-1/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Robin Wonsley</div>
+                        <div class="member-role">Ward 2 (Minority Leader)</div>
+                        <div class="member-party">Independent DSA</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-2/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Michael Rainville</div>
+                        <div class="member-role">Ward 3</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-3/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">LaTrisha Vetaw</div>
+                        <div class="member-role">Ward 4</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-4/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Pearll Warren</div>
+                        <div class="member-role">Ward 5 (New 2026)</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-5/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Jamal Osman</div>
+                        <div class="member-role">Ward 6 (Vice President)</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-6/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Elizabeth Shaffer</div>
+                        <div class="member-role">Ward 7 (New 2026)</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-7/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Soren Stevenson</div>
+                        <div class="member-role">Ward 8 (New 2026)</div>
+                        <div class="member-party">DFL/DSA</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-8/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Jason Chavez</div>
+                        <div class="member-role">Ward 9</div>
+                        <div class="member-party">DFL/DSA</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-9/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Aisha Chughtai</div>
+                        <div class="member-role">Ward 10 (Majority Leader)</div>
+                        <div class="member-party">DFL/DSA</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-10/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Jamison Whiting</div>
+                        <div class="member-role">Ward 11 (New 2026)</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-11/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Aurin Chowdhury</div>
+                        <div class="member-role">Ward 12</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-12/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Linea Palmisano</div>
+                        <div class="member-role">Ward 13</div>
+                        <div class="member-party">DFL</div>
+                        <a href="https://www.minneapolismn.gov/government/city-council/members/ward-13/" target="_blank" class="member-link">View Profile →</a>
+                    </div>
+                </div>
+                
+                <div class="hierarchy-note">
+                    <h3>Legislative Powers:</h3>
+                    <p>The Council creates and modifies laws, policies, and ordinances. They approve the budget working with the Mayor, and can override mayoral vetoes with 9 votes. The Council has purely legislative duties after the 2021 charter amendment shifted executive power to the Mayor.</p>
+                </div>
+            </div>
+            
+            <!-- Independent Boards -->
+            <div class="branch independent-boards">
+                <div class="branch-header">
+                    <div class="branch-icon">🏢</div>
+                    <div class="branch-title">
+                        <h2>Independent Boards & Commissions</h2>
+                        <p class="description">Separate elected/appointed bodies with specific authorities</p>
+                    </div>
+                </div>
+                
+                <div class="members-grid">
+                    <div class="member-card">
+                        <div class="member-name">Board of Estimate and Taxation</div>
+                        <div class="member-role">6 members</div>
+                        <div class="member-party">2 elected + Mayor + Council President + Budget Committee Chair + Park Board member</div>
+                        <a href="https://www.minneapolismn.gov/government/boards-and-commissions/bet/" target="_blank" class="member-link">View Board Page →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Minneapolis Park and Recreation Board</div>
+                        <div class="member-role">9 elected members</div>
+                        <div class="member-party">Manages parks, parkways, and boulevard trees</div>
+                        <a href="https://www.minneapolisparks.org/about-us/leadership-and-structure/park-board-commissioners/" target="_blank" class="member-link">View Board Page →</a>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Municipal Building Commission</div>
+                        <div class="member-role">4 commissioners</div>
+                        <div class="member-party">Operates City Hall/County Courthouse building</div>
+                        <a href="https://www.minneapolismn.gov/government/boards-and-commissions/" target="_blank" class="member-link">View Boards & Commissions →</a>
+                    </div>
+                </div>
+                
+                <div class="hierarchy-note">
+                    <h3>Independent Authority:</h3>
+                    <p>These boards have authority to levy taxes and fees within their areas, subject to limitations set by the Board of Estimate and Taxation. The Park Board is elected by voters citywide and operates semi-independently from the City Council.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hierarchy-note" style="margin-top: 30px; background: #f7fafc; border-left-color: #4a5568;">
+            <h3>Government Structure Overview:</h3>
+            <p><strong>2021 Charter Amendment:</strong> Minneapolis voters approved transitioning from a "weak mayor-strong council" to a "strong mayor-legislative council" system. The Mayor now holds executive power and appoints department heads, while the Council has purely legislative duties. This change clarified the separation of powers between branches.</p>
+            <p style="margin-top: 10px;"><strong>Composition:</strong> As of January 2026, the City Council has 12 DFL members and 1 Independent (Robin Wonsley). Four members identify with Democratic Socialists of America (DSA): Aisha Chughtai, Robin Wonsley, Jason Chavez, and Soren Stevenson.</p>
+        </div>
+    </div>
+</body>
+</html>
