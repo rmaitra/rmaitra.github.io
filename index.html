@@ -1562,7 +1562,14 @@
             if (sortColumn !== null) {
                 displayData = sortData(displayData, artifact.columns[sortColumn], sortDirection);
             }
-            const isMobile = navigator.userAgentData.mobile;
+
+            var isMobile = false
+
+            try{
+                isMobile = navigator.userAgentData.mobile;
+            } catch(e){
+                
+            }
             
             // Render header
             const headerRow = document.createElement('tr');
