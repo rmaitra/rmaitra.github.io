@@ -903,7 +903,7 @@
             <div class="error-title">Failed to Load Data</div>
             <p id="errorMessage"></p>
         </div>
-        <div class="cards-grid" id="cardsContainer"></div>
+        <div id="categoriesContainer"></div>
     </div>
 
     <div class="contain">
@@ -1018,6 +1018,7 @@
         "description":"This data represents a comprehensive directory of the nonprofit safety net in Minneapolis, specifically curated for individuals and families experiencing housing instability.",
         "subtitle":"",
         "footer":"",
+        "category":"test",
         "image":"https://www.katiejones.org/uploads/1/1/3/9/113909967/published/kj.jpg?1717458365",
         "map":true,
         "columns":[
@@ -1467,28 +1468,56 @@
         }
 
         function renderCards() {
-            const container = document.getElementById('cardsContainer');
+            const container = document.getElementById('categoriesContainer');
             container.innerHTML = '';
-            
-            artifacts.forEach((artifact, index) => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick = () => showTable(index);
 
-
+            // Group artifacts by category
+            const categorized = {};
+            artifacts.forEach(artifact => {
+                const category = artifact.category || '';
+                if (!categorized[category]) {
+                    categorized[category] = [];
+                }
+                categorized[category].push(artifact);
+            });
             
-            // Add background image if artifact has an image property
-            if (artifact.image) {
-                card.style.backgroundImage = `url('${artifact.image}')`;
-            }
+            // Render each category section
+            Object.keys(categorized).sort().forEach(category => {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
                 
-                card.innerHTML = `
-                    <h2 class="card-title">${artifact.title}</h2>
-                    <p class="card-description">${artifact.description}</p>
-                    <span class="card-link">View Details</span>
-                `;
+                const categoryTitle = document.createElement('h2');
+                categoryTitle.className = 'category-title';
+                categoryTitle.textContent = category;
+                categorySection.appendChild(categoryTitle);
                 
-                container.appendChild(card);
+                const cardsGrid = document.createElement('div');
+                cardsGrid.className = 'cards-grid';
+                
+                categorized[category].forEach((artifact, index) => {
+                    // Find the global index for this artifact
+                    const globalIndex = artifacts.indexOf(artifact);
+                    
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = () => showTable(globalIndex);
+                    
+                    card.innerHTML = `
+                        <h2 class="card-title">${artifact.title}</h2>
+                        <p class="card-description">${artifact.description}</p>
+                        <span class="card-link">View Details</span>
+                    `;
+
+                    // Add background image if artifact has an image property
+                    if (artifact.image) {
+                        card.style.backgroundImage = `url('${artifact.image}')`;
+                    }
+                    
+                    cardsGrid.appendChild(card);
+                });
+                
+                categorySection.appendChild(cardsGrid);
+                container.appendChild(categorySection);
             });
         }
 
@@ -1568,7 +1597,7 @@
             try{
                 isMobile = navigator.userAgentData.mobile;
             } catch(e){
-                
+
             }
             
             // Render header

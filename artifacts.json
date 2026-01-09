@@ -4,6 +4,7 @@
         "description":"Learn where to find information and stay informed about state government.",
         "subtitle":"About Minnesota Government",
         "footer":"",
+        "category": "Learn",
         "type":"link",
         "image":"/img/flag.webp",
         "link":"/onboard.html"
@@ -13,6 +14,7 @@
         "description":"Explore each of Minnesota's state government departments.",
         "subtitle":"State Departments - Commissioners, Descriptions, and Employee Counts (FY 2023)",
         "footer":"Data sourced from Minnesota Secretary of State's 2025 State Agencies document and FY 2023 Workforce Planning Report",
+        "category": "State Government",
         "columns":[
             {
                 "header":"#",
@@ -252,6 +254,7 @@
         "title":"Department of Children, Youth and Family Programs",
         "description":"Browse comprehensive programs and services supporting Minnesota's children, youth, and families.",
         "subtitle":"Department of Children, Youth, and Family (DCYF) Programs",
+        "category": "Resources and Services",
         "footer":"Data sourced from DCYF official program directory",
         "image":"/img/dcyf.jpg",
         "columns":[
@@ -599,6 +602,7 @@
         "description":"Learn about the structure and history of Minnesota's government.",
         "subtitle":"About Minnesota Government",
         "footer":"Sample text content - Last updated January 2026",
+        "category": "Learn",
         "type":"text",
         "src":"./test.html",
         "image":"/img/capitol.jpeg",
@@ -607,6 +611,7 @@
     {
         "title":"Progressive Legislative Ideas",
         "description":"Legislative bills that could redistribute wealth in Minnesota.",
+        "category": "Learn",
         "subtitle":"",
         "footer":"",
         "image":"/img/constitution.webp",
@@ -691,6 +696,7 @@
         "title":"A Freshman in Congress - Representative Katie Jones",
         "description":"A review on Representative Katie Jones work for MN 61A",
         "subtitle":"About Minnesota Government",
+        "category": "Elected Officials",
         "footer":"",
         "type":"link",
         "image":"/img/katie.jpg",
@@ -700,6 +706,7 @@
         "title":"City Council Member Katie Cashman",
         "description":"A dashboard of the council member's work.",
         "subtitle":"About Minnesota Government",
+        "category": "Elected Officials",
         "footer":"",
         "type":"link",
         "image":"/img/cashman.jpg",
@@ -709,6 +716,7 @@
         "title":"Shelters, Services, Clinics",
         "description":"This data represents a comprehensive directory of the nonprofit safety net in Minneapolis, specifically curated for individuals and families experiencing housing instability.",
         "subtitle":"",
+        "category": "Resources and Services",
         "footer":"",
         "map":true,
         "image":"/img/shelters.jpg",
