@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Financial Analysis: The 2026 Resilience Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Crimson+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --gold-dark: #B8860B;
+            --gold-light: #FFD700;
+            --gold-pale: #F4E4C1;
+            --navy-deep: #0A1628;
+            --navy-mid: #1A2942;
+            --charcoal: #2C3E50;
+            --cream: #FAF7F0;
+            --accent-red: #C41E3A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            background: var(--cream);
+            color: var(--navy-deep);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+            color: var(--cream);
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--gold-dark) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.1); opacity: 0.15; }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-pale) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .date-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--gold-dark);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: var(--gold-light);
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(250, 247, 240, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gold-pale);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        nav a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--gold-dark);
+            border-bottom-color: var(--gold-dark);
+        }
+
+        /* Content Sections */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        section:nth-child(even) {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--navy-deep);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold-dark) 0%, transparent 100%);
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--navy-mid);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--gold-pale) 0%, rgba(255,255,255,0.9) 100%);
+            border-left: 4px solid var(--gold-dark);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 20px rgba(184, 134, 11, 0.1);
+        }
+
+        .highlight-box h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--navy-deep);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+            color: var(--gold-light);
+        }
+
+        th {
+            padding: 1.2rem;
+            text-align: left;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        td {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid var(--gold-pale);
+        }
+
+        tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Charts */
+        .chart-container {
+            position: relative;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .chart-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--navy-deep);
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--gold-dark);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(184, 134, 11, 0.15);
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--charcoal);
+            font-weight: 500;
+        }
+
+        /* Investment Strategy */
+        .allocation-bars {
+            margin: 2rem 0;
+        }
+
+        .allocation-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .allocation-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .allocation-bar {
+            height: 30px;
+            background: var(--gold-pale);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .allocation-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold-light) 100%);
+            border-radius: 15px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+            color: var(--navy-deep);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy-deep);
+            color: var(--cream);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 1.5rem 3rem;
+            }
+
+            section {
+                padding: 3rem 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            th, td {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Animation */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="date-badge">February 3, 2026</div>
+            <h1>Strategic Financial Analysis: The 2026 Resilience Report</h1>
+            <p class="subtitle">Navigating the gold rush, dollar devaluation, and the path to economic stability in an era of unprecedented change.</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#gold-rush">The Gold Rush</a>
+            <a href="#reserve-currency">Reserve Currency Status</a>
+            <a href="#failure-scenarios">Economic Scenarios</a>
+            <a href="#safe-sectors">Safe Haven Sectors</a>
+            <a href="#investment-strategy">Investment Strategy</a>
+            <a href="#assets-table">Assets & Allocation</a>
+            <a href="#hysa">High-Yield Accounts</a>
+        </div>
+    </nav>
+
+    <!-- Gold Rush Section -->
+    <section id="gold-rush">
+        <h2>The Gold Rush of 2026</h2>
+        <p>As of February 2026, gold prices have seen massive gains—briefly touching record highs over $5,500 per ounce last month. The "Gold Rush" of the mid-2020s has turned into a major structural shift in the global economy.</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">$4,931</div>
+                <div class="stat-label">Gold Price per Ounce</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">+80%</div>
+                <div class="stat-label">YoY Gold Growth</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$88.13</div>
+                <div class="stat-label">Silver Price per Ounce</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">-11%</div>
+                <div class="stat-label">Dollar Devaluation (YoY)</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Gold Price Trajectory (2020-2026)</div>
+            <canvas id="goldChart"></canvas>
+        </div>
+
+        <h3>Three Factors Driving the Gold Rush</h3>
+        
+        <div class="highlight-box">
+            <h4>1. The "De-Dollarization" Drive</h4>
+            <p>Countries (specifically BRICS nations like China and India) are actively reducing their dependence on the US dollar. After Russia's foreign reserves were frozen in 2022, other countries realized that dollar-based assets can be "turned off" by the US. Gold has no counterparty risk—it can't be frozen or deleted by a foreign government.</p>
+            <p><strong>Impact:</strong> Central banks have shifted from net sellers to aggressive buyers, purchasing over 1,000 tonnes annually for four consecutive years.</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4>2. Geopolitical Instability</h4>
+            <p>In 2026, the world feels more fractured than it has in decades. Ongoing conflicts in the Middle East and Eastern Europe, combined with shifting trade alliances, have made traditional investments feel "noisier" and riskier. Gold serves as the ultimate safe haven—a neutral asset that doesn't rely on the stability of any single government.</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4>3. Spiraling Global Debt</h4>
+            <p>Institutional investors and large companies are increasingly worried about debt-to-GDP ratios in major economies. The US now exceeds 120%, and Japan faces similar challenges. To manage massive debts, governments often allow inflation to rise or "print" more money, which devalues the currency. Gold acts as a "credibility hedge"—you can't print more gold.</p>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Buyer Type</th>
+                        <th>Primary Motivation</th>
+                        <th>Recent Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Central Banks</td>
+                        <td>Monetary Sovereignty</td>
+                        <td>Leading the charge (China, India, Turkey, Poland)</td>
+                    </tr>
+                    <tr>
+                        <td>Institutional Investors</td>
+                        <td>Portfolio Protection</td>
+                        <td>Moving 5-10% of portfolios into gold ETFs and bullion</td>
+                    </tr>
+                    <tr>
+                        <td>Retail / Households</td>
+                        <td>Wealth Preservation</td>
+                        <td>High demand in Asia; younger generations using "digital gold" apps</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Reserve Currency Section -->
+    <section id="reserve-currency">
+        <h2>The Dollar's Reserve Currency Status</h2>
+        <p>The World Bank does not use one single currency as its reserve. It operates with a "basket" of currencies (Euro, Yen, Pound), but the US Dollar remains its primary unit of account. Most of its bonds are issued in dollars, and its financial strength is measured against it.</p>
+
+        <div class="chart-container">
+            <div class="chart-title">US Dollar Index Decline (2024-2026)</div>
+            <canvas id="dollarChart"></canvas>
+        </div>
+
+        <h3>The "Exorbitant Privilege" at Risk</h3>
+        <p>Economists warn that losing reserve currency status could trigger what they call the loss of "Exorbitant Privilege." Here's how the US economy could be affected:</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>With Reserve Status</th>
+                        <th>Without Reserve Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Borrowing</strong></td>
+                        <td>Low interest rates; easy to fund debt</td>
+                        <td>High interest rates; risk of default</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Consumer Prices</strong></td>
+                        <td>Cheap imports (TVs, iPhones, Cars)</td>
+                        <td>Expensive imports; high inflation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Global Power</strong></td>
+                        <td>Can freeze assets of enemies</td>
+                        <td>Sanctions become irrelevant</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Investment</strong></td>
+                        <td>World "flees" to the Dollar in a crisis</td>
+                        <td>World "flees" from the Dollar in a crisis</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Failure Scenarios Section -->
+    <section id="failure-scenarios">
+        <h2>Economic Failure Scenarios</h2>
+        <p>If the dollar loses its reserve status, the impact wouldn't be an overnight collapse, but rather a "slow bleed"—a gradual decline in power and wealth over decades. Here are the key mechanisms:</p>
+
+        <div class="highlight-box">
+            <h4>1. The Debt Crisis ("Who Will Buy?" Problem)</h4>
+            <p>The US government runs massive deficits. Because the dollar is the reserve currency, central banks worldwide must buy Treasury bonds. If they stop, the US would need to dramatically raise interest rates to attract buyers, potentially leading to a "debt spiral" where we borrow just to pay interest.</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4>2. Massive Inflation ("Coming Home" Effect)</h4>
+            <p>Trillions of US dollars circulate outside the United States for global trade. If the world switches to another system, those dollars would "flood" back into the US economy. This massive increase in money supply without an increase in goods would cause hyper-inflation.</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4>3. The End of Cheap Imports</h4>
+            <p>Americans enjoy a high standard of living partly because the dollar is "artificially" strong. If demand falls, the dollar's value would plummet against other currencies, making imports—from electronics to medicine—significantly more expensive.</p>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Purchasing Power Decline Scenarios</div>
+            <canvas id="scenarioChart"></canvas>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Gradual Decline (Likely)</th>
+                        <th>Sudden Collapse (Rare)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Purchasing Power</strong></td>
+                        <td>Feel "poorer" every year; lifestyle scales back</td>
+                        <td>Savings wiped out in weeks; barter replaces cash</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Retail Prices</strong></td>
+                        <td>Prices rise 5-10% annually; "Shrinkflation" everywhere</td>
+                        <td>Prices change daily or hourly; shelves go empty</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wealth Protection</strong></td>
+                        <td>Move money into stocks, real estate, and gold</td>
+                        <td>Flee the country or panic-buy any physical asset</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Safe Sectors Section -->
+    <section id="safe-sectors">
+        <h2>Recession-Proof Industries & Markets</h2>
+        <p>The strategy for surviving a "slow-bleed" or "wipeout" is moving away from promises (bonds, cash) toward real-world essentials and global alternatives. You want to be invested in things people cannot stop using, regardless of which currency they use.</p>
+
+        <h3>Essential Industries with Inelastic Demand</h3>
+        <ul>
+            <li><strong>Healthcare and Elder Care:</strong> With an aging population, demand for medical services, pharmacies, and remote monitoring remains constant. People prioritize health over almost every other expense.</li>
+            <li><strong>Infrastructure and Utilities:</strong> Water, electricity, and waste management. Power generation is especially booming due to massive energy needs of AI data centers.</li>
+            <li><strong>Consumer Staples:</strong> The "basics" like food, soap, and cleaning supplies. People may stop dining out, but never stop buying groceries.</li>
+            <li><strong>Maintenance and Repair:</strong> In a declining economy, people stop buying new cars and appliances and start fixing existing ones.</li>
+        </ul>
+
+        <h3>Hard Assets Shield</h3>
+        <ul>
+            <li><strong>Physical Commodities:</strong> Gold and Silver serve as "chaos insurance." Industrial metals like copper and rare earth minerals are essential for tech and energy transition.</li>
+            <li><strong>Real Estate:</strong> Land and rental properties usually keep pace with inflation, though high interest rates can make them difficult to sell in a wipeout scenario.</li>
+            <li><strong>Hard Currencies:</strong> Swiss Franc (CHF) and Singapore Dollar provide a "safe haven" anchor.</li>
+        </ul>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Investment Goal</th>
+                        <th>Target Asset/Industry</th>
+                        <th>Why It Works</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wealth Preservation</td>
+                        <td>Gold / Swiss Franc</td>
+                        <td>Protects against currency devaluation</td>
+                    </tr>
+                    <tr>
+                        <td>Income Generation</td>
+                        <td>Utilities / Healthcare</td>
+                        <td>Provides dividends from "non-negotiable" services</td>
+                    </tr>
+                    <tr>
+                        <td>Growth Potential</td>
+                        <td>AI Infrastructure / Emerging Markets</td>
+                        <td>Moves money outside the US "slow-down" zone</td>
+                    </tr>
+                    <tr>
+                        <td>Daily Survival</td>
+                        <td>Essential Skills (Repair, Medtech)</td>
+                        <td>Your labor becomes your most tradable "currency"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Investment Strategy Section -->
+    <section id="investment-strategy">
+        <h2>The 2026 Resilience Investment Strategy</h2>
+        <p>To stabilize your assets during a gradual US economic decline, move away from the traditional 60/40 (Stocks/Bonds) split. Instead, consider a "Barbell Strategy" that focuses on extreme safety on one side and global growth on the other.</p>
+
+        <div class="chart-container">
+            <div class="chart-title">Recommended Portfolio Allocation</div>
+            <canvas id="allocationChart"></canvas>
+        </div>
+
+        <div class="allocation-bars">
+            <div class="allocation-item">
+                <div class="allocation-label">
+                    <span><strong>Real Assets</strong> (Gold, Silver, Commodities)</span>
+                    <span>25%</span>
+                </div>
+                <div class="allocation-bar">
+                    <div class="allocation-fill" style="width: 25%"></div>
+                </div>
+            </div>
+
+            <div class="allocation-item">
+                <div class="allocation-label">
+                    <span><strong>Global & Hard Currency</strong> (CHF, SGD, International Funds)</span>
+                    <span>30%</span>
+                </div>
+                <div class="allocation-bar">
+                    <div class="allocation-fill" style="width: 30%"></div>
+                </div>
+            </div>
+
+            <div class="allocation-item">
+                <div class="allocation-label">
+                    <span><strong>Defensive US Equities</strong> (Healthcare, Utilities, AI)</span>
+                    <span>35%</span>
+                </div>
+                <div class="allocation-bar">
+                    <div class="allocation-fill" style="width: 35%"></div>
+                </div>
+            </div>
+
+            <div class="allocation-item">
+                <div class="allocation-label">
+                    <span><strong>Liquid Cash / T-Bills</strong> (Emergency Fund)</span>
+                    <span>10%</span>
+                </div>
+                <div class="allocation-bar">
+                    <div class="allocation-fill" style="width: 10%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <h4>Why This Strategy Works</h4>
+            <p>This allocation assumes the dollar will lose its "exorbitant privilege" over time. By holding <strong>Gold</strong>, you hedge against a falling dollar. By holding <strong>International Equities</strong>, you gain exposure to economies that are growing while the US slows. By holding <strong>Utilities</strong>, you ensure your income keeps pace with the rising cost of living.</p>
+        </div>
+    </section>
+
+    <!-- Assets Table Section -->
+    <section id="assets-table">
+        <h2>Safe-Haven Assets (February 2026)</h2>
+        <p>Below is a curated list of safe-haven assets across various markets, based on their performance and stability as of February 3, 2026.</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Market</th>
+                        <th>Ticker/ID</th>
+                        <th>Current Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Commodity</td>
+                        <td>Physical Gold</td>
+                        <td>Precious Metals</td>
+                        <td>XAU</td>
+                        <td>$4,930.97/oz</td>
+                    </tr>
+                    <tr>
+                        <td>Commodity</td>
+                        <td>Physical Silver</td>
+                        <td>Precious Metals</td>
+                        <td>XAG</td>
+                        <td>$88.13/oz</td>
+                    </tr>
+                    <tr>
+                        <td>Currency</td>
+                        <td>Swiss Franc</td>
+                        <td>Forex</td>
+                        <td>CHF/USD</td>
+                        <td>1.18 USD</td>
+                    </tr>
+                    <tr>
+                        <td>Currency</td>
+                        <td>Singapore Dollar</td>
+                        <td>Forex</td>
+                        <td>SGD/USD</td>
+                        <td>1.33 SGD/USD</td>
+                    </tr>
+                    <tr>
+                        <td>ETF</td>
+                        <td>SPDR Gold Trust</td>
+                        <td>Commodities</td>
+                        <td>GLD</td>
+                        <td>$427.13</td>
+                    </tr>
+                    <tr>
+                        <td>ETF</td>
+                        <td>Vanguard Emerging Markets</td>
+                        <td>Global Stocks</td>
+                        <td>VWO</td>
+                        <td>$56.78</td>
+                    </tr>
+                    <tr>
+                        <td>ETF</td>
+                        <td>Vanguard Utilities ETF</td>
+                        <td>Defensive US</td>
+                        <td>VPU</td>
+                        <td>$185.00</td>
+                    </tr>
+                    <tr>
+                        <td>Stock</td>
+                        <td>Nvidia (AI Infrastructure)</td>
+                        <td>Technology</td>
+                        <td>NVDA</td>
+                        <td>$1,120.00</td>
+                    </tr>
+                    <tr>
+                        <td>Stock</td>
+                        <td>Johnson & Johnson</td>
+                        <td>Healthcare</td>
+                        <td>JNJ</td>
+                        <td>$168.45</td>
+                    </tr>
+                    <tr>
+                        <td>Index Fund</td>
+                        <td>Fidelity 500 Index</td>
+                        <td>US Large Cap</td>
+                        <td>FXAIX</td>
+                        <td>Expense: 0.015%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>20% Dollar Drop Stress Test</h3>
+        <p>If the US Dollar Index (DXY) falls another 20% by 2027, here's how different assets would react:</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">-20%</div>
+                <div class="stat-label">US Cash & Bonds</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">+30-50%</div>
+                <div class="stat-label">Gold/Silver</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">+15-25%</div>
+                <div class="stat-label">International Stocks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">+2-5%</div>
+                <div class="stat-label">Defensive Stocks</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HYSA Section -->
+    <section id="hysa">
+        <h2>High-Yield Savings & Digital Gold Platforms</h2>
+        <p>In early 2026, the financial market has stabilized after the volatility of 2025, but interest rates are beginning to cool. For immediate liquidity and inflation protection, consider these top-rated platforms.</p>
+
+        <h3>High-Yield Savings Accounts (FDIC Insured)</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Institution</th>
+                        <th>APY (Feb 2026)</th>
+                        <th>Minimum to Open</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Varo Bank</td>
+                        <td>5.00%</td>
+                        <td>$0</td>
+                        <td>High yield on balances up to $5,000</td>
+                    </tr>
+                    <tr>
+                        <td>Pibank</td>
+                        <td>4.60%</td>
+                        <td>$0</td>
+                        <td>High yield on any balance; no monthly fees</td>
+                    </tr>
+                    <tr>
+                        <td>CineFi</td>
+                        <td>4.50%</td>
+                        <td>$0</td>
+                        <td>New digital division of First Entertainment CU</td>
+                    </tr>
+                    <tr>
+                        <td>Newtek Bank</td>
+                        <td>4.35%</td>
+                        <td>$0</td>
+                        <td>Straightforward high rate for all savers</td>
+                    </tr>
+                    <tr>
+                        <td>Openbank</td>
+                        <td>4.20%</td>
+                        <td>$500</td>
+                        <td>Solid established digital player</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Digital & Tokenized Gold Platforms</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th>Type</th>
+                        <th>Key Feature</th>
+                        <th>Storage/Safety</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Glanza / SafeGold</td>
+                        <td>Digital Gold</td>
+                        <td>Buy for as little as $1</td>
+                        <td>Stored in Brink's insured vaults</td>
+                    </tr>
+                    <tr>
+                        <td>Pax Gold (PAXG)</td>
+                        <td>Tokenized Gold</td>
+                        <td>Each token = 1 oz of gold</td>
+                        <td>London Good Delivery gold</td>
+                    </tr>
+                    <tr>
+                        <td>Apmex / OneGold</td>
+                        <td>Digital/Physical</td>
+                        <td>Instant buy/sell 24/7</td>
+                        <td>Direct path to physical delivery</td>
+                    </tr>
+                    <tr>
+                        <td>Kinesis Money</td>
+                        <td>Yield-Bearing</td>
+                        <td>Earn "yield" on your gold</td>
+                        <td>1:1 allocated physical gold</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>The "2026 Safety Split" for Your Safe Haven Bucket</h3>
+        <div class="allocation-bars">
+            <div class="allocation-item">
+                <div class="allocation-label">
+                    <span><strong>High-Yield Savings</strong> (Pibank, Varo)</span>
+                    <span>50%</span>
+                </div>
+                <div class="allocation-bar">
+                    <div class="allocation-fill" style="width: 50%"></div>
+                </div>
+            </div>
+
+            <div class="allocation-item">
+                <div class="allocation-label">
+                    <span><strong>Digital Gold</strong> (OneGold, PAXG)</span>
+                    <span>30%</span>
+                </div>
+                <div class="allocation-bar">
+                    <div class="allocation-fill" style="width: 30%"></div>
+                </div>
+            </div>
+
+            <div class="allocation-item">
+                <div class="allocation-label">
+                    <span><strong>Hard Currency</strong> (CHF, SGD)</span>
+                    <span>20%</span>
+                </div>
+                <div class="allocation-bar">
+                    <div class="allocation-fill" style="width: 20%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <h4>Summary Checklist for 2026</h4>
+            <ul>
+                <li><strong>Verify Insurance:</strong> Ensure your HYSA is FDIC or NCUA insured</li>
+                <li><strong>Check Spread:</strong> Digital gold platforms often have a "spread" (buy/sell price difference). Keep this under 1%</li>
+                <li><strong>Laddering:</strong> If you have over $50k, split it between two top-tier HYSAs to maximize insurance coverage</li>
+                <li><strong>Allocated Gold:</strong> Ensure your digital gold provider offers "allocated" gold (you own specific bars, not just a promise)</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Strategic Financial Analysis: The 2026 Resilience Report</strong></p>
+        <p>This report synthesizes current economic trends and investment strategies for navigating uncertain times.</p>
+        <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.6;">February 3, 2026 • For informational purposes only • Not financial advice</p>
+    </footer>
+
+    <script>
+        // Gold Price Chart
+        const goldCtx = document.getElementById('goldChart').getContext('2d');
+        new Chart(goldCtx, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                datasets: [{
+                    label: 'Gold Price ($/oz)',
+                    data: [1800, 1850, 1900, 2100, 2400, 2750, 4931],
+                    borderColor: '#B8860B',
+                    backgroundColor: 'rgba(184, 134, 11, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#FFD700',
+                    pointBorderColor: '#B8860B',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            font: { size: 14, family: "'Crimson Pro', serif" },
+                            color: '#0A1628'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 22, 40, 0.9)',
+                        titleFont: { size: 14, family: "'Playfair Display', serif" },
+                        bodyFont: { size: 13, family: "'Crimson Pro', serif" },
+                        padding: 12,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) { return '$' + value; },
+                            font: { size: 12, family: "'Crimson Pro', serif" },
+                            color: '#2C3E50'
+                        },
+                        grid: { color: 'rgba(184, 134, 11, 0.1)' }
+                    },
+                    x: {
+                        ticks: {
+                            font: { size: 12, family: "'Crimson Pro', serif" },
+                            color: '#2C3E50'
+                        },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Dollar Index Chart
+        const dollarCtx = document.getElementById('dollarChart').getContext('2d');
+        new Chart(dollarCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan 2024', 'Apr 2024', 'Jul 2024', 'Oct 2024', 'Jan 2025', 'Oct 2025', 'Feb 2026'],
+                datasets: [{
+                    label: 'US Dollar Index',
+                    data: [103, 105, 104, 103, 100, 94, 92],
+                    borderColor: '#C41E3A',
+                    backgroundColor: 'rgba(196, 30, 58, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#C41E3A',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            font: { size: 14, family: "'Crimson Pro', serif" },
+                            color: '#0A1628'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 22, 40, 0.9)',
+                        titleFont: { size: 14, family: "'Playfair Display', serif" },
+                        bodyFont: { size: 13, family: "'Crimson Pro', serif" },
+                        padding: 12,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 85,
+                        max: 110,
+                        ticks: {
+                            font: { size: 12, family: "'Crimson Pro', serif" },
+                            color: '#2C3E50'
+                        },
+                        grid: { color: 'rgba(196, 30, 58, 0.1)' }
+                    },
+                    x: {
+                        ticks: {
+                            font: { size: 12, family: "'Crimson Pro', serif" },
+                            color: '#2C3E50'
+                        },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Scenario Comparison Chart
+        const scenarioCtx = document.getElementById('scenarioChart').getContext('2d');
+        new Chart(scenarioCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                datasets: [{
+                    label: 'Gradual Decline',
+                    data: [100, 92, 85, 78, 72],
+                    backgroundColor: 'rgba(184, 134, 11, 0.7)',
+                    borderColor: '#B8860B',
+                    borderWidth: 2
+                }, {
+                    label: 'Sudden Collapse',
+                    data: [100, 100, 98, 30, 15],
+                    backgroundColor: 'rgba(196, 30, 58, 0.7)',
+                    borderColor: '#C41E3A',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            font: { size: 14, family: "'Crimson Pro', serif" },
+                            color: '#0A1628'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 22, 40, 0.9)',
+                        titleFont: { size: 14, family: "'Playfair Display', serif" },
+                        bodyFont: { size: 13, family: "'Crimson Pro', serif" },
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '% purchasing power';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 110,
+                        ticks: {
+                            callback: function(value) { return value + '%'; },
+                            font: { size: 12, family: "'Crimson Pro', serif" },
+                            color: '#2C3E50'
+                        },
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    },
+                    x: {
+                        ticks: {
+                            font: { size: 12, family: "'Crimson Pro', serif" },
+                            color: '#2C3E50'
+                        },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Portfolio Allocation Chart
+        const allocationCtx = document.getElementById('allocationChart').getContext('2d');
+        new Chart(allocationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Real Assets (25%)', 'Global & Hard Currency (30%)', 'Defensive US Equities (35%)', 'Liquid Cash (10%)'],
+                datasets: [{
+                    data: [25, 30, 35, 10],
+                    backgroundColor: [
+                        '#B8860B',
+                        '#1A2942',
+                        '#2C3E50',
+                        '#F4E4C1'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 13, family: "'Crimson Pro', serif" },
+                            color: '#0A1628',
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 22, 40, 0.9)',
+                        titleFont: { size: 14, family: "'Playfair Display', serif" },
+                        bodyFont: { size: 13, family: "'Crimson Pro', serif" },
+                        padding: 12
+                    }
+                }
+            }
+        });
+
+        // Smooth scroll animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Animate sections on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Animate allocation bars on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.allocation-fill').forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
