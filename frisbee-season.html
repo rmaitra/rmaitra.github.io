@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Season Builder</title>
+        <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+        <style>
+            :root {
+            --blue: #5B8FF5; --black: #111; --white: #fff;
+            --gray: #f4f4f4; --mid: #e8e8e8; --border: #ddd;
+            --text-muted: #666; --nav-w: 220px;
+            --tryout-bg: #fff3cd;    --tryout-fg: #7a5500;    --tryout-bd: #e6c96a;
+            --practice-bg: #e3f1e3;  --practice-fg: #2a6b2a;  --practice-bd: #7db87d;
+            --scrimmage-bg: #dbeafe; --scrimmage-fg: #1a4b8c;  --scrimmage-bd: #7aacee;
+            --tournament-bg: #fde8d0;--tournament-fg: #8b3a00; --tournament-bd: #e8a06a;
+            --nationals-bg: #f0e6ff; --nationals-fg: #5b21b6;  --nationals-bd: #b07ad8;
+            }
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body { font-family: 'Barlow', sans-serif; background: var(--gray); color: var(--black); font-size: 14px; min-height: 100vh; }
+            /* ── FORM SHELL ── */
+            .form-shell { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+            .form-shell h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 36px; line-height: 1; margin-bottom: 4px; }
+            .form-shell h1 span { color: var(--blue); }
+            .form-subtitle { color: var(--blue); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 28px; }
+            .section-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; padding: 24px 28px; margin-bottom: 20px; }
+            .section-card h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; border-bottom: 2px solid var(--black); padding-bottom: 4px; display: inline-block; }
+            .section-desc { font-size: 13px; color: var(--text-muted); margin: 8px 0 18px; }
+            .field-row { display: flex; gap: 16px; flex-wrap: wrap; }
+            .field { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 130px; }
+            .field label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
+            .field input, .field select { font-family: 'Barlow', sans-serif; font-size: 14px; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 5px; background: var(--white); color: var(--black); outline: none; transition: border-color .15s; }
+            .field input:focus, .field select:focus { border-color: var(--blue); }
+            /* ── RECURRENCE CARDS ── */
+            .recurrence-list { display: flex; flex-direction: column; gap: 14px; }
+            .recurrence-card { border: 1.5px solid var(--border); border-radius: 7px; padding: 20px; background: var(--gray); }
+            .recurrence-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+            .recurrence-index { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; }
+            .recurrence-index span { color: var(--blue); }
+            /* day toggles */
+            .day-field { display: flex; flex-direction: column; gap: 5px; }
+            .day-field label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
+            .day-toggle-row { display: flex; gap: 5px; flex-wrap: wrap; }
+            .day-btn {
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px;
+            text-transform: uppercase; width: 40px; height: 40px; border-radius: 6px;
+            border: 1.5px solid var(--border); background: var(--white); color: #aaa;
+            cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center;
+            }
+            .day-btn:hover { border-color: var(--blue); color: var(--blue); }
+            .day-btn.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+            /* preview */
+            .recurrence-preview { margin-top: 14px; font-size: 12px; color: var(--text-muted); background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px; line-height: 1.5; }
+            .recurrence-preview strong { color: var(--practice-fg); font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; }
+            /* ── EVENTS TABLE ── */
+            .events-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+            .events-table th { background: var(--black); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 8px 10px; text-align: left; white-space: nowrap; }
+            .events-table td { padding: 5px 6px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+            .events-table tr:hover td { background: #fafafa; }
+            .events-table input[type="date"], .events-table input[type="text"], .events-table select { font-family: 'Barlow', sans-serif; font-size: 13px; padding: 5px 8px; border: 1.5px solid var(--border); border-radius: 4px; width: 100%; background: var(--white); outline: none; transition: border-color .15s; }
+            .events-table input:focus, .events-table select:focus { border-color: var(--blue); }
+            .type-pill { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+            .pill-tryout    { background: var(--tryout-bg);    color: var(--tryout-fg);    border: 1.5px solid var(--tryout-bd); }
+            .pill-practice  { background: var(--practice-bg);  color: var(--practice-fg);  border: 1.5px solid var(--practice-bd); }
+            .pill-scrimmage { background: var(--scrimmage-bg); color: var(--scrimmage-fg); border: 1.5px solid var(--scrimmage-bd); }
+            .pill-tournament{ background: var(--tournament-bg);color: var(--tournament-fg);border: 1.5px solid var(--tournament-bd); }
+            .pill-nationals { background: var(--nationals-bg); color: var(--nationals-fg); border: 1.5px solid var(--nationals-bd); }
+            /* ── BUTTONS ── */
+            .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; padding: 8px 16px; border-radius: 5px; border: none; cursor: pointer; transition: all .15s; }
+            .btn-add    { background: var(--black); color: #fff; }
+            .btn-add:hover { background: #333; }
+            .btn-remove { background: transparent; color: #e53e3e; border: 1.5px solid #fca5a5; padding: 4px 10px; font-size: 12px; border-radius: 4px; }
+            .btn-remove:hover { background: #fff5f5; }
+            .btn-submit { background: var(--blue); color: #fff; font-size: 16px; padding: 12px 32px; width: 100%; justify-content: center; border-radius: 6px; margin-top: 8px; }
+            .btn-submit:hover { background: #4070d8; }
+            .btn-back   { background: var(--black); color: #fff; font-size: 13px; padding: 8px 18px; border-radius: 5px; }
+            .btn-back:hover { background: #333; }
+            /* ── GENERATED APP ── */
+            .app-shell { display: flex; min-height: 100vh; }
+            nav.sidenav { position: fixed; top: 0; left: 0; width: var(--nav-w); height: 100vh; background: var(--black); color: #fff; display: flex; flex-direction: column; overflow-y: auto; z-index: 100; }
+            .nav-header { padding: 24px 20px 16px; border-bottom: 1px solid #2a2a2a; }
+            .nav-logo { display: flex; align-items: center; gap: 12px; }
+            .nav-title .team-name { color: var(--blue); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px; }
+            .nav-title .year-label { color: #aaa; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+            .nav-section-label { padding: 14px 20px 6px; color: #555; font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+            nav.sidenav a { display: block; padding: 8px 20px; color: #ccc; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: .02em; border-left: 3px solid transparent; cursor: pointer; transition: all .15s; }
+            nav.sidenav a:hover, nav.sidenav a.active { color: #fff; background: #1e1e1e; border-left-color: var(--blue); }
+            .app-main { margin-left: var(--nav-w); padding: 40px 48px; flex: 1; max-width: calc(100% - var(--nav-w)); background: var(--white); min-height: 100vh; }
+            .page { display: none; }
+            .page.active { display: block; animation: fadein .2s ease; }
+            @keyframes fadein { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+            /* typography */
+            .app-main h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+            .app-main h1 span { color: var(--blue); }
+            .app-main h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; margin: 28px 0 10px; text-transform: uppercase; letter-spacing: .04em; border-bottom: 2px solid var(--black); padding-bottom: 4px; display: inline-block; }
+            .app-main h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; color: var(--blue); text-transform: uppercase; letter-spacing: .05em; margin: 18px 0 6px; }
+            .app-main p { line-height: 1.65; color: #333; margin-bottom: 10px; }
+            .subtitle { color: var(--blue); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 20px; }
+            .divider { border: none; border-top: 1.5px solid var(--mid); margin: 20px 0; }
+            ul { padding-left: 18px; } ul li { margin-bottom: 5px; line-height: 1.55; color: #333; }
+            .card { border: 1.5px solid var(--border); border-radius: 6px; padding: 18px 20px; background: var(--white); }
+            .card.blue-accent { border-top: 3px solid var(--blue); }
+            .card h3 { margin-top: 0; }
+            .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; }
+            /* cover */
+            .cover { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
+            .cover-logo { display: flex; align-items: center; gap: 28px; margin-bottom: 28px; }
+            .cover-logo svg { width: 100px; height: 100px; }
+            .phase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; margin-top: 20px; }
+            .phase-card { border: 1.5px solid var(--border); border-radius: 6px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; }
+            .phase-card .p-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; }
+            .phase-card .p-count { color: var(--blue); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; }
+            /* milestone table */
+            .m-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+            .m-table th { background: var(--black); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; padding: 8px 12px; text-align: left; letter-spacing: .04em; }
+            .m-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+            .m-table tr:nth-child(even) td { background: var(--gray); }
+            /* calendar */
+            .cal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 28px; }
+            .cal-card { border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; }
+            .cal-head { background: var(--black); color: #fff; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+            .cal-head .cal-month-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: .04em; }
+            .cal-head .cal-phase-tag { color: var(--blue); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+            .cal-dow { display: grid; grid-template-columns: repeat(7,1fr); background: #f0f0f0; border-bottom: 1px solid var(--border); }
+            .cal-dow span { text-align: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; color: #888; padding: 5px 0; }
+            .cal-days { display: grid; grid-template-columns: repeat(7,1fr); padding: 8px; gap: 3px; background: #fff; }
+            .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 5px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; }
+            .cal-day.empty { background: transparent; }
+            .cal-day.inactive { color: #ccc; }
+            .cal-day .dn { font-size: 13px; line-height: 1; }
+            .cal-day .el { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; line-height: 1; margin-top: 2px; text-align: center; }
+            .cal-day.tryout    { background: var(--tryout-bg);    color: var(--tryout-fg); }
+            .cal-day.tryout    .el { color: var(--tryout-fg); }
+            .cal-day.practice  { background: var(--practice-bg);  color: var(--practice-fg); }
+            .cal-day.practice  .el { color: var(--practice-fg); }
+            .cal-day.scrimmage { background: var(--scrimmage-bg); color: var(--scrimmage-fg); }
+            .cal-day.scrimmage .el { color: var(--scrimmage-fg); }
+            .cal-day.tournament{ background: var(--tournament-bg);color: var(--tournament-fg); }
+            .cal-day.tournament .el { color: var(--tournament-fg); }
+            .cal-day.nationals { background: var(--nationals-bg); color: var(--nationals-fg); }
+            .cal-day.nationals .el { color: var(--nationals-fg); }
+            .cal-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+            .legend-item { display: flex; align-items: center; gap: 7px; font-size: 13px; }
+            .legend-dot { width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0; }
+            .legend-dot.tryout    { background: var(--tryout-bg);    border: 1.5px solid var(--tryout-bd); }
+            .legend-dot.practice  { background: var(--practice-bg);  border: 1.5px solid var(--practice-bd); }
+            .legend-dot.scrimmage { background: var(--scrimmage-bg); border: 1.5px solid var(--scrimmage-bd); }
+            .legend-dot.tournament{ background: var(--tournament-bg);border: 1.5px solid var(--tournament-bd); }
+            .legend-dot.nationals { background: var(--nationals-bg); border: 1.5px solid var(--nationals-bd); }
+            .legend-dot.inactive  { background: var(--gray); border: 1.5px solid var(--border); }
+            .empty-msg { color: var(--text-muted); font-style: italic; padding: 12px 0; font-size: 13px; }
+            /* ── GLOSSARY PAGE ── */
+            .glossary-search {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--white); border: 1.5px solid var(--border);
+            border-radius: 7px; padding: 10px 14px; margin-bottom: 24px;
+            transition: border-color .15s;
+            }
+            .glossary-search:focus-within { border-color: var(--blue); }
+            .glossary-search .search-icon { color: #aaa; font-size: 16px; flex-shrink: 0; }
+            .glossary-search input {
+            border: none; outline: none; font-family: 'Barlow', sans-serif;
+            font-size: 15px; flex: 1; background: transparent; color: var(--black);
+            }
+            .glossary-search input::placeholder { color: #bbb; }
+            .glossary-count { font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+            font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; flex-shrink: 0; }
+            .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; margin-top: 4px; }
+            .gterm { border-left: 3px solid var(--blue); padding: 10px 14px; background: var(--gray); border-radius: 0 5px 5px 0; transition: background .1s; }
+            .gterm:hover { background: #eef3ff; }
+            .gterm .gterm-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; color: var(--black); }
+            .gterm .gterm-def  { font-size: 13px; color: #444; margin-top: 4px; line-height: 1.5; }
+            .no-results { text-align: center; padding: 48px 0; color: var(--text-muted); font-size: 15px; }
+            .no-results span { font-size: 32px; display: block; margin-bottom: 10px; }
+            @media (max-width: 700px) {
+            .cal-grid, .two-col, .phase-grid { grid-template-columns: 1fr; }
+            .app-main { margin-left: 0; padding: 20px; }
+            nav.sidenav { display: none; }
+            }
+
+
+              /* Practice template blocks */
+              .pblock {
+                border: 1.5px solid var(--border);
+                border-radius: 6px;
+                overflow: hidden;
+                margin-bottom: 10px;
+              }
+              .pblock-header {
+                background: var(--black);
+                color: #fff;
+                font-family: 'Barlow Condensed', sans-serif;
+                font-weight: 700;
+                font-size: 14px;
+                padding: 8px 14px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              }
+              .pblock-header .dur { color: var(--blue); font-size: 12px; }
+              .pblock-body { padding: 12px 14px; }
+              .pblock-body p { margin: 0 0 4px; font-size: 13px; }
+              .pblock-note { font-size: 12px; color: var(--text-muted); }
+
+            /* ── MULTI-SELECT ── */
+            .ms-wrap { position: relative; width: 100%; }
+            .ms-box {
+                display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
+                min-height: 36px; padding: 4px 28px 4px 6px;
+                border: 1.5px solid var(--border); border-radius: 5px;
+                background: var(--white); cursor: pointer; position: relative;
+                transition: border-color .15s;
+            }
+            .ms-box:hover { border-color: var(--blue); }
+            .ms-placeholder { color: #aaa; font-size: 13px; padding: 2px 4px; }
+            .ms-tag {
+                display: inline-flex; align-items: center; gap: 4px;
+                background: var(--blue); color: #fff;
+                font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+                font-size: 11px; text-transform: uppercase; letter-spacing: .04em;
+                padding: 2px 7px; border-radius: 10px; white-space: nowrap;
+            }
+            .ms-tag-x { cursor: pointer; opacity: .75; font-size: 13px; line-height: 1; }
+            .ms-tag-x:hover { opacity: 1; }
+            .ms-arrow {
+                position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+                color: #aaa; font-size: 10px; pointer-events: none;
+            }
+            .ms-dropdown {
+                position: absolute; top: calc(100% + 3px); left: 0; right: 0; z-index: 200;
+                background: var(--white); border: 1.5px solid var(--blue);
+                border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,.12);
+                max-height: 200px; overflow-y: auto;
+            }
+            .ms-option {
+                display: flex; align-items: center; padding: 7px 10px;
+                font-size: 13px; cursor: pointer; transition: background .1s;
+                gap: 6px;
+            }
+            .ms-option:hover { background: #f0f5ff; }
+            .ms-option.selected { background: #eef3ff; font-weight: 600; }
+            .ms-option input[type="checkbox"] { accent-color: var(--blue); width: 14px; height: 14px; flex-shrink: 0; }
+            /* ── PRACTICE DISPLAY ── */
+            .selected-practice { min-width: 0; }
+            .practice-empty-state {
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                height: 280px; color: #ccc; gap: 12px;
+                border: 2px dashed var(--border); border-radius: 8px;
+            }
+            .practice-empty-state .pe-icon { font-size: 40px; }
+            .practice-empty-state p { font-size: 13px; color: #aaa; }
+            .practice-row-clickable { cursor: pointer; }
+            .practice-row-clickable.active td { background: #eef3ff !important; }
+        </style>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- ════════════════ FORM ════════════════ -->
+            <div v-if="view === 'form'" class="form-shell">
+                <div class="form-subtitle">Season Builder</div>
+                <h1><span>Masterbook</span> Generator</h1>
+                <p style="color:#666;margin:8px 0 32px;max-width:560px;">Configure your team, build practice schedules, and log special events. Hit <strong>Generate</strong> to preview the season.</p>
+                <!-- Team Info -->
+                <div class="section-card">
+                    <h2>Team Info</h2>
+                    <div class="field-row" style="margin-top:14px;">
+                        <div class="field">
+                            <label>Team Name</label>
+                            <input type="text" v-model="teamName" placeholder="e.g. Surly" />
+                        </div>
+                        <div class="field" style="max-width:160px;">
+                            <label>Season Year</label>
+                            <input type="number" v-model.number="seasonYear" placeholder="2026" min="2000" max="2099" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Recurrence -->
+                <div class="section-card">
+                    <h2>Practice Recurrence</h2>
+                    <p class="section-desc">Define recurring practice windows. Select the days, time, and duration — practices will be auto-generated on every matching weekday between the start and end dates.</p>
+                    <div class="recurrence-list">
+                        <div v-for="(rec, i) in recurrences" :key="rec.id" class="recurrence-card">
+                            <div class="recurrence-card-header">
+                                <span class="recurrence-index">Recurrence <span>#{{ i + 1 }}</span></span>
+                                <button class="btn btn-remove" @click="removeRecurrence(i)" type="button">✕ Remove</button>
+                            </div>
+                            <!-- Dates -->
+                            <div class="field-row" style="margin-bottom:16px;">
+                                <div class="field">
+                                    <label>Start Date</label>
+                                    <input type="date" v-model="rec.startDate" />
+                                </div>
+                                <div class="field">
+                                    <label>End Date</label>
+                                    <input type="date" v-model="rec.endDate" />
+                                </div>
+                            </div>
+                            <!-- Day toggles -->
+                            <div class="day-field">
+                                <label>Repeat On</label>
+                                <div class="day-toggle-row">
+                                    <button
+                                        v-for="(day, di) in DAY_LABELS" :key="di"
+                                        :class="['day-btn', rec.days.includes(di) ? 'on' : '']"
+                                        @click="toggleDay(rec, di)"
+                                        type="button">
+                                    {{ day }}
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Per-day time & duration -->
+                            <div v-if="rec.days.length > 0" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+                                <div
+                                    v-for="di in rec.days.slice().sort((a,b)=>a-b)" :key="di"
+                                    class="field-row"
+                                    style="align-items:flex-end;background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:10px 14px;">
+                                    <div style="width:40px;flex-shrink:0;align-self:center;">
+                                        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:var(--blue);text-transform:uppercase;">{{ DAY_LABELS[di] }}</span>
+                                    </div>
+                                    <div class="field" style="max-width:150px;">
+                                        <label>Practice Time</label>
+                                        <input type="time" v-model="rec.daySettings[di].time" @input="changeRecurrenceTime(rec, di, rec.daySettings[di].time)" />
+                                    </div>
+                                    <div class="field" style="max-width:150px;">
+                                        <label>Duration</label>
+                                        <select v-model="rec.daySettings[di].duration" @change="changeRecurrenceDuration(rec, di, rec.daySettings[di].duration)">
+                                            <option value="60">1 hour</option>
+                                            <option value="90">1.5 hours</option>
+                                            <option value="120">2 hours</option>
+                                            <option value="150">2.5 hours</option>
+                                            <option value="180">3 hours</option>
+                                            <option value="210">3.5 hours</option>
+                                            <option value="240">4 hours</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preview -->
+                            <div class="recurrence-preview" v-if="rec.startDate && rec.endDate && rec.days.length">
+                                <strong>{{ countDates(rec) }} practices</strong>
+                                &nbsp;·&nbsp;{{ fmtDate(rec.startDate) }} — {{ fmtDate(rec.endDate) }}
+                                <br>
+                                <span v-for="(di, idx) in rec.days.slice().sort((a,b)=>a-b)" :key="di">
+                                    <span v-if="idx > 0"> &nbsp;·&nbsp; </span>
+                                    <strong>{{ DAY_LABELS[di] }}</strong>: {{ formatTimeLabel(rec.daySettings[di].time) }}, {{ durationLabel(rec.daySettings[di].duration) }}
+                                </span>
+                            </div>
+
+                            <div class="recurrence-preview" v-else style="color:#bbb;">
+                                Choose a date range and at least one day to see a preview.
+                            </div>
+                        </div>
+                        <div v-if="recurrences.length === 0" class="empty-msg">No recurrences yet — add one below.</div>
+                    </div>
+                    <div style="margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                        <button class="btn btn-add" @click="addRecurrence" type="button">+ Add Block</button>
+                        <span style="font-size:12px;color:#999;">
+                        {{ totalPractices }} practice{{ totalPractices !== 1 ? 's' : '' }} across all blocks
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Practice Plans -->
+                <div class="section-card" v-for="(rec, i) in recurrences">
+                    <h2>Practice Plans {{ i + 1 }}</h2>
+                    <div style="overflow-x:auto;">
+                        <table class="events-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Themes</th>
+                                    <th>Warm-up Block</th>
+                                    <th>Block 1</th>
+                                    <th>Block 2</th>
+                                    <th>Block 3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(p, j) in rec.practices" :key="p.date + p.label">
+                                    <td>
+                                        <div>{{ fmtWeekday(p.date) }}, {{ fmtDay(p.date) }}</div>
+                                        <div>{{ p.time }} ({{ p.duration }} Hrs)</div>
+                                    </td>
+                                    <td>
+                                        <multi-select :options="themes" v-model="p.themes" option-label="__str__"></multi-select>
+                                    </td>
+                                    <td>
+                                        <multi-select :options="drills" v-model="p.blockWarm" option-label="title"></multi-select>
+                                        <div v-if="p.blockWarm && p.blockWarm.length" style="margin-top:4px;">
+                                            <div v-for="d in p.blockWarm" :key="d.title" style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">
+                                                <strong>{{ d.title }}:</strong> {{ d.description }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <multi-select :options="games" v-model="p.block1" option-label="title"></multi-select>
+                                        <div v-if="p.block1 && p.block1.length" style="margin-top:4px;">
+                                            <div v-for="d in p.block1" :key="d.title" style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">
+                                                <strong>{{ d.title }}:</strong> {{ d.description }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <multi-select :options="games" v-model="p.block2" option-label="title"></multi-select>
+                                        <div v-if="p.block2 && p.block2.length" style="margin-top:4px;">
+                                            <div v-for="d in p.block2" :key="d.title" style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">
+                                                <strong>{{ d.title }}:</strong> {{ d.description }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Other Events -->
+                <div class="section-card">
+                    <h2>Other Events</h2>
+                    <p class="section-desc">Tryouts, scrimmages, tournaments, and nationals. Practices are handled above.</p>
+                    <div style="overflow-x:auto;">
+                        <table class="events-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:145px;">Date</th>
+                                    <th style="width:145px;">Type</th>
+                                    <th>Label</th>
+                                    <th style="width:110px;">Short Label</th>
+                                    <th style="width:48px;text-align:center;">Del</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(evt, i) in events" :key="evt.id">
+                                    <td><input type="date" v-model="evt.date" /></td>
+                                    <td>
+                                        <select v-model="evt.type">
+                                            <option value="tryout">Tryout</option>
+                                            <option value="scrimmage">Scrimmage</option>
+                                            <option value="tournament">Tournament</option>
+                                            <option value="nationals">Nationals</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" v-model="evt.label" placeholder="Event name" /></td>
+                                    <td><input type="text" v-model="evt.shortLabel" placeholder="Short" /></td>
+                                    <td style="text-align:center;">
+                                        <button class="btn btn-remove" @click="removeEvent(i)" type="button">✕</button>
+                                    </td>
+                                </tr>
+                                <tr v-if="events.length === 0">
+                                    <td colspan="5" class="empty-msg">No events yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                        <button class="btn btn-add" @click="addEvent" type="button">+ Add Event</button>
+                        <span style="font-size:12px;color:#999;">{{ events.length }} event{{ events.length !== 1 ? 's' : '' }}</span>
+                    </div>
+                </div>
+
+
+                <!-- Language / Glossary -->
+                <div class="section-card">
+                    <h2>Language / Glossary</h2>
+                    <p class="section-desc">Define team-specific terms and vocabulary. These will appear on a searchable Glossary page after generating.</p>
+                    <div style="overflow-x:auto;">
+                        <table class="events-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:180px;">Term</th>
+                                    <th>Definition</th>
+                                    <th style="width:48px;text-align:center;">Del</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(term, i) in glossaryTerms" :key="term.id">
+                                    <td><input type="text" v-model="term.name" placeholder="Term" /></td>
+                                    <td><input type="text" v-model="term.definition" placeholder="Definition or description" /></td>
+                                    <td style="text-align:center;">
+                                        <button class="btn btn-remove" @click="removeTerm(i)" type="button">&#x2715;</button>
+                                    </td>
+                                </tr>
+                                <tr v-if="glossaryTerms.length === 0">
+                                    <td colspan="3" class="empty-msg">No terms yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                        <button class="btn btn-add" @click="addTerm" type="button">+ Add Term</button>
+                        <span style="font-size:12px;color:#999;">{{ glossaryTerms.length }} term{{ glossaryTerms.length !== 1 ? 's' : '' }}</span>
+                    </div>
+                </div>
+                <!-- Generate -->
+                <div class="section-card" style="padding:20px 28px;">
+                    <button class="btn btn-submit" @click="generate">&#x26A1; Generate Masterbook</button>
+                    <p v-if="formError" style="color:#e53e3e;margin-top:10px;font-size:13px;">{{ formError }}</p>
+                </div>
+            </div>
+
+            <!-- ════════════════ GENERATED APP ════════════════ -->
+            <div v-else class="app-shell">
+                <nav class="sidenav">
+                    <div class="nav-header">
+                        <div class="nav-logo">
+                            <svg viewBox="0 0 100 115" fill="none" style="width:42px;height:42px;flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="50,5 95,27.5 95,87.5 50,110 5,87.5 5,27.5" fill="#111" stroke="#fff" stroke-width="3"/>
+                                <text x="50" y="68" text-anchor="middle" fill="white" font-family="'Barlow Condensed'" font-weight="800" font-size="42">S</text>
+                            </svg>
+                            <div class="nav-title">
+                                <div class="team-name">{{ snap.teamName }} {{ snap.seasonYear }}</div>
+                                <div class="year-label">Masterbook</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-section-label">Overview</div>
+                    <a href="#" :class="{ active: currentPage==='home' }"   @click.prevent="currentPage='home'">Home</a>
+                    <a href="#" :class="{ active: currentPage==='season' }" @click.prevent="currentPage='season'">Season Overview</a>
+                    <a href="#" :class="{ active: currentPage==='practice' }" @click.prevent="currentPage='practice'">Practice Overview</a>
+                    <div class="nav-section-label">Reference</div>
+                    <a href="#" :class="{ active: currentPage==='language' }" @click.prevent="currentPage='language'">Language / Glossary</a>
+                </nav>
+                <main class="app-main">
+                    <div style="margin-bottom:24px;">
+                        <button class="btn btn-back" @click="view='form'">← Edit Season</button>
+                    </div>
+                    <!-- HOME -->
+                    <div class="page" :class="{ active: currentPage==='home' }">
+                        <div class="cover">
+                            <div class="cover-logo">
+                                <svg viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <polygon points="50,5 95,27.5 95,87.5 50,110 5,87.5 5,27.5" fill="#111"/>
+                                    <text x="50" y="68" text-anchor="middle" fill="white" font-family="'Barlow Condensed'" font-weight="800" font-size="42">S</text>
+                                </svg>
+                                <div>
+                                    <h1 style="font-size:56px;"><span>{{ snap.teamName }}</span> {{ snap.seasonYear }}</h1>
+                                    <h1 style="color:#111;font-size:40px;">Masterbook</h1>
+                                    <p style="color:#666;font-size:15px;margin-top:12px;">{{ snap.teamName }} · {{ snap.seasonYear }} Season</p>
+                                </div>
+                            </div>
+                            <h2 style="display:block;">Season at a Glance</h2>
+                            <div class="phase-grid">
+                                <div v-for="p in snap.phaseSummary" :key="p.label" class="phase-card">
+                                    <div>
+                                        <div class="p-label">{{ p.label }}</div>
+                                        <div style="font-size:12px;color:#666;">{{ p.period }}</div>
+                                    </div>
+                                    <div class="p-count">{{ p.count }}</div>
+                                </div>
+                                <div class="phase-card">
+                                    <div>
+                                        <div class="p-label">Total Events</div>
+                                        <div style="font-size:12px;color:#666;">All season</div>
+                                    </div>
+                                    <div class="p-count">{{ snap.allEvents.length }}</div>
+                                </div>
+                            </div>
+                            <div style="margin-top:28px;">
+                                <h2 style="display:block;">Key Events</h2>
+                                <table class="m-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Event</th>
+                                            <th>Date</th>
+                                            <th>Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="m in snap.keyMilestones" :key="m.date + m.label">
+                                            <td>{{ m.label }}</td>
+                                            <td>{{ fmtDate(m.date) }}</td>
+                                            <td><span class="type-pill" :class="'pill-' + m.type">{{ m.type }}</span></td>
+                                        </tr>
+                                        <tr v-if="snap.keyMilestones.length === 0">
+                                            <td colspan="3" class="empty-msg">No special events added.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SEASON OVERVIEW -->
+                    <div class="page" :class="{ active: currentPage==='season' }">
+                        <div class="subtitle">{{ snap.teamName }} {{ snap.seasonYear }}</div>
+                        <h1>Season <span>Overview</span></h1>
+                        <hr class="divider">
+                        <div v-if="snap.calendarMonths.length === 0" class="empty-msg">No events to display.</div>
+                        <div class="cal-grid">
+                            <div v-for="cal in snap.calendarMonths" :key="cal.year+'-'+cal.month" class="cal-card">
+                                <div class="cal-head">
+                                    <span class="cal-month-name">{{ MONTH_NAMES[cal.month-1] }} {{ cal.year }}</span>
+                                    <span class="cal-phase-tag">{{ phaseTag(cal) }}</span>
+                                </div>
+                                <div class="cal-dow">
+                                    <span v-for="d in ['Su','Mo','Tu','We','Th','Fr','Sa']" :key="d">{{ d }}</span>
+                                </div>
+                                <div class="cal-days">
+                                    <div v-for="(cell, i) in calDays(cal.year, cal.month)" :key="i"
+                                        :class="['cal-day', !cell.day ? 'empty' : (cell.type || 'inactive')]"
+                                        :title="cell.label||''">
+                                        <span v-if="cell.day" class="dn">{{ cell.day }}</span>
+                                        <span v-if="cell.shortLabel" class="el">{{ cell.shortLabel }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Legend -->
+                        <div style="border:1.5px solid var(--border);border-radius:6px;padding:14px 18px;background:var(--gray);margin-bottom:28px;">
+                            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:10px;">Legend</div>
+                            <div class="cal-legend">
+                                <div v-for="item in snap.usedTypes" :key="item.type" class="legend-item">
+                                    <div class="legend-dot" :class="item.type"></div>
+                                    <span>{{ item.label }}</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot inactive"></div>
+                                    <span>No event</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Practice schedule summary -->
+                        <div v-if="snap.recurrenceSummary.length > 0">
+                            <h2 style="display:block;">Phase Breakdown / Practice Schedule</h2>
+                            <div class="two-col">
+                                <div v-for="(r, i) in snap.recurrenceSummary" :key="i" class="card blue-accent">
+                                    <h3>Phase #{{ i + 1 }}</h3>
+                                    <ul>
+                                        <li><strong>{{ r.count }}</strong> practices</li>
+                                        <li>{{ fmtDate(r.startDate) }} – {{ fmtDate(r.endDate) }}</li>
+                                        <li v-for="pd in r.perDay" :key="pd.day">
+                                            <strong>{{ pd.day }}:</strong> {{ pd.timeLabel }}, {{ pd.durationLabel }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRACTICE OVERVIEW -->
+                    <div class="page" :class="{ active: currentPage==='practice' }">
+                        <div class="cover">
+                            <div style="margin-top:28px;">
+                                <div class="two-col">
+                                    <div>
+                                        <h2 style="display:block;">Practices</h2>
+                                        <table class="m-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Theme</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Duration (Hours)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="m in snap.practices" :key="m.date + m.label"
+                                                    class="practice-row-clickable"
+                                                    :class="{ active: selectedPractice && selectedPractice.id === m.id }"
+                                                    @click="selectedPractice = m">
+                                                    <td>{{ m.themes && m.themes.length ? m.themes.join(' · ') : '—' }}</td>
+                                                    <td>{{ fmtDate(m.date) }}</td>
+                                                    <td>{{ m.time }}</td>
+                                                    <td>{{ m.duration }}</td>
+                                                </tr>
+                                                <tr v-if="snap.practices.length === 0">
+                                                    <td colspan="4" class="empty-msg">No practices generated.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div>
+                                        <practice-display :practice="selectedPractice"></practice-display>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- LANGUAGE / GLOSSARY -->
+                    <div class="page" :class="{ active: currentPage==='language' }">
+                        <div class="subtitle">{{ snap.teamName }} {{ snap.seasonYear }}</div>
+                        <h1>Language / <span>Glossary</span></h1>
+                        <hr class="divider">
+                        <div class="glossary-search">
+                            <span class="search-icon">&#128269;</span>
+                            <input
+                                type="text"
+                                v-model="languageSearch"
+                                placeholder="Search terms and definitions..."
+                                autofocus
+                                />
+                            <span class="glossary-count" v-if="languageSearch">
+                            {{ filteredGlossary.length }} / {{ snap.glossary.length }} terms
+                            </span>
+                            <span class="glossary-count" v-else>
+                            {{ snap.glossary.length }} term{{ snap.glossary.length !== 1 ? 's' : '' }}
+                            </span>
+                        </div>
+                        <div class="glossary-grid" v-if="filteredGlossary.length > 0">
+                            <div v-for="term in filteredGlossary" :key="term.id" class="gterm">
+                                <div class="gterm-name" v-html="highlight(term.name)"></div>
+                                <div class="gterm-def"  v-html="highlight(term.definition)"></div>
+                            </div>
+                        </div>
+                        <div class="no-results" v-else>
+                            <span>&#128269;</span>
+                            No terms match &ldquo;{{ languageSearch }}&rdquo;
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script>
+        <script>
+
+
+let _uid = 1;
+const uid = () => _uid++;
+
+const {createApp } = Vue;
+const DAY_LABELS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const THEMES = [
+    "Defense Layer 1", 
+    "Defense Layer 2",
+    "Offense Layer 1", 
+    "Offense Layer 2",  
+    "EZ Offense", 
+    "EZ Defense", 
+    "Transitioning", 
+    "Spacing and Formations",
+    "Guarding Space", 
+    "Layer Connections", 
+    "Communication", 
+    "Conditioning", 
+    "Chemistry", 
+    "Role Definition", 
+    "Refinement"
+];
+const TYPE_LABELS = {
+    tryout: 'Tryout',
+    practice: 'Practice',
+    scrimmage: 'Scrimmage',
+    tournament: 'Tournament',
+    nationals: 'Nationals'
+};
+
+function daysInMonth(y, m) {
+    return new Date(y, m, 0).getDate();
+}
+
+function firstDOW(y, m) {
+    return new Date(y, m - 1, 1).getDay();
+}
+
+// Function to convert military time string to 12-hour format string
+function convertMilitaryToRegular(militaryTime) {
+    const momentObj = moment(militaryTime, 'HH:mm');
+    const regularTime = momentObj.format('hh:mm A');
+    return regularTime;
+}
+
+function expandRecurrence(rec) {
+    const out = [];
+    if (!rec.startDate || !rec.endDate || !rec.days.length) return out;
+    const [sy, sm, sd] = rec.startDate.split('-').map(Number);
+    const [ey, em, ed] = rec.endDate.split('-').map(Number);
+    const end = new Date(ey, em - 1, ed);
+    const cur = new Date(sy, sm - 1, sd);
+    while (cur <= end) {
+        if (rec.days.includes(cur.getDay())) {
+            const y = cur.getFullYear();
+            const mo = String(cur.getMonth() + 1).padStart(2, '0');
+            const d = String(cur.getDate()).padStart(2, '0');
+            const di = cur.getDay();
+            out.push({
+                id: uid(),
+                date: `${y}-${mo}-${d}`,
+                time:convertMilitaryToRegular(rec.daySettings[di].time),
+                duration:parseFloat(rec.daySettings[di].duration) / 60.0,
+                type: 'practice',
+                label: 'Practice',
+                shortLabel: 'Practice',
+                di:di,
+                themes: [],
+                blockWarm: [],
+                block1: [],
+                block2: []
+            });
+        }
+        cur.setDate(cur.getDate() + 1);
+    }
+    return out;
+}
+
+const DEFAULT_DEFENSIVE_COMPONENTs = [
+  { name: 'Wedge', description: 'Layer 1 zone to force disc to a sideline. Get the disc to move horizontally to a sideline.'},
+  { name: 'Diamond', description: 'Layer 2 zone to stop initial sets. Stop any initial sets; latch into person defense. Used as a play stopper.' },
+  { name: 'Sponge', description: 'Layer 2 zone to cap a vert stack. Stop initial movement from the back; latch into person defense. Used as a play stopper.' },
+  { name: 'Single Force', description: 'Standard 1-way forcing to dictate disc movement.' },
+  { name: 'Force Middle (FM)',   description: 'Force disc towards the middle of the field.' },
+  { name: 'Force Infield / Outfield', description: 'Force offender infield towards disc or outfield to EZ.'},
+  { name: 'Freebird', description: 'Send a free defender to guard a space for a defined time period.'}
+]
+
+const DEFAULT_DEV_GAMES = [
+  { title: 'Reset Game',            description: 'Initiate with reset to middle. Reset disc X times before score (4s, 5s, 6s).' },
+  { title: 'Spacing Game',          description: 'Maintain spacing in spread (5s, 6s).' },
+  { title: 'Breakside Game',        description: 'Flow through breakside (5s, 6s).' },
+  { title: 'Transition Game',       description: 'Start at half, complete pass and flow into EZ set (6s).' },
+  { title: 'EZ Game',               description: '20–25 yds out to score or a ladder of 5, 10, 15 yds (chain scores).' },
+  { title: 'Switch Formation Game', description: 'Switch formations 3 times while holding possession before scoring.' },
+  { title: 'Switch Spacing Game',   description: 'Call out spacing adjustments in a possession.' },
+  { title: 'Pressure Game',         description: 'Stall 6 game; any theme to make it difficult (5s, 6s).' },
+  { title: 'Wedge Game',        description: 'Start in wedge, force disc to sideline first, transition to person or cup the sideline.' },
+  { title: 'Diamond Game',      description: 'Start in diamond, stunt initial flow.' },
+  { title: 'Freebird Game',     description: 'Place a designated freebird to defend a region for part of the possession.' },
+  { title: 'Point-Switch Game', description: 'Perform point-switching defense on a formation for as long as possible (any length).' },
+  { title: 'FM Game',           description: 'Perform Force Middle on a formation.' },
+  { title: 'Force In/Out',      description: 'Force infield game — don\'t allow aways; or force outfield game.' }
+];
+
+const DEFAULT_DRILLS = [
+    { id: uid(), type:"Breakmark", title: 'Slash Cut BM', description: 'Breakmark drill focusing on slash cut timing and release angles.' },
+    { id: uid(), type:"Breakmark", title: 'Vert Cut BM', description: 'Breakmark drill with a vertical cutting action, attacking in and out.' },
+    { id: uid(), type:"Breakmark", title: 'Deep Cut BM', description: 'Breakmark drill with a deep cut initiated from the stack.' },
+    { id: uid(), type:"Breakmark", title: 'Reset Trap BM to Middle', description: 'Escape the trap with a reset to the middle. Dump goes upline or backfield; front of stack mirrors. If dump doesn\'t get backfield, clear wide.' },
+    { id: uid(), type:"Breakmark", title: 'Reset Trap BM to Middle + Dump', description: 'Full variation: dump goes upline or backfield. Front of stack mirrors. If dump doesn\'t get backfield, clear wide.' },
+    { id: uid(), type:"Defensive", title: '1+1', description: '1v1 in each box, cannot leave your box. Point for each completion. First to 5.' },
+    { id: uid(), type:"Defensive",title: '2+2', description: '2v2 in each box, cannot leave. Point for each completion across boxes. Forces spacing between layers. Focuses on dump defense style.' },
+    { id: uid(), type:"Defensive",title: 'Live Cut to Throw',  description: 'Progressive defender drill: shuffling → crossover running → full 100% cuts with dropsteps and sprint responses. 6 reps total.' },
+    { id: uid(), type:"Defensive", title: 'W-Drill (Track-Hunt-Kill)', description: 'Defender tracks, hunts, and kills the cutter through cones set 10–15 yards apart.' },
+    { id: uid(), type:"Defensive", title: 'Space Guard', description: 'Two freebird defenders guard their boxes. Offense limited to 1 per box; can transition. Defenders pass off. Continuous until offense stalls, gets blocked, or completes 5 passes.' },
+    { id: uid(), type:"Defensive", title: '4v3 (D+1 vs O)', description: 'Overload offense or underload defense. Works communication. 1-way mini format.' },
+    { id: uid(), type:"Continuous Dynamic Throwing", title: '3 Person Throwing', description: 'Groups of 3. Focus on specific throw: aways, insides to unders, arounds, off-hands, or improvise. Throw and move for full duration.' },
+    { id: uid(), type:"Continuous Dynamic Throwing", title: 'Schlosses / Buzz Bullets',   description: 'Step 1: Paired cut from back, out and under. Step 2: Dump swing around stack. Step 3: Pair cut around again.' },
+    { id: uid(), type:"Continuous Dynamic Throwing", title: '6 Lines', description: 'Around the full field. Consistent running and different throw types. Go for time.' }
+];
+
+/* ── Default data (2026, no practice events) ── */
+const DEFAULT_EVENTS = [
+  { id: uid(), date: '2026-04-13', type: 'tryout',     label: 'Tryout 1',           shortLabel: 'Tryout'   },
+  { id: uid(), date: '2026-04-16', type: 'tryout',     label: 'Tryout 2',           shortLabel: 'Tryout'   },
+  { id: uid(), date: '2026-05-04', type: 'scrimmage',  label: 'GM Scrimmage',       shortLabel: 'GM Scrm'  },
+  { id: uid(), date: '2026-05-18', type: 'scrimmage',  label: 'Sub Zero Scrimmage', shortLabel: 'Sub Zero' },
+  { id: uid(), date: '2026-05-28', type: 'tournament', label: 'MN Warm-up Day 1',   shortLabel: 'MN W-Up'  },
+  { id: uid(), date: '2026-05-29', type: 'tournament', label: 'MN Warm-up Day 2',   shortLabel: 'MN W-Up'  },
+  { id: uid(), date: '2026-06-14', type: 'scrimmage',  label: 'Mallard Scrimmage',  shortLabel: 'Mallard'  },
+  { id: uid(), date: '2026-07-06', type: 'scrimmage',  label: 'Ni Scrimmage',       shortLabel: 'Ni Scrm'  },
+  { id: uid(), date: '2026-07-16', type: 'tournament', label: 'Regionals Day 1',    shortLabel: 'Regionals'},
+  { id: uid(), date: '2026-07-18', type: 'tournament', label: 'Regionals Day 2',    shortLabel: 'Regionals'},
+  { id: uid(), date: '2026-07-19', type: 'nationals',  label: 'Nationals Day 1',    shortLabel: 'Nationals'},
+  { id: uid(), date: '2026-07-20', type: 'nationals',  label: 'Nationals Day 2',    shortLabel: 'Nationals'},
+  { id: uid(), date: '2026-07-21', type: 'nationals',  label: 'Nationals Day 3',    shortLabel: 'Nationals'},
+];
+
+/* Two recurrence blocks mirroring the original Sun+Wed practice pattern */
+const DEFAULT_RECURRENCES = [
+  { id: uid(), startDate: '2026-04-20', endDate: '2026-05-17', days: [0, 3], daySettings: { 0: { time: '18:00', duration: '120' }, 3: { time: '18:00', duration: '120' } } },
+  { id: uid(), startDate: '2026-05-20', endDate: '2026-07-13', days: [0, 3], daySettings: { 0: { time: '18:00', duration: '180' }, 3: { time: '18:00', duration: '180' } } },
+];
+
+const DEFAULT_GLOSSARY = [
+  { id: uid(), name: 'North',          definition: 'Direction of the end zone we are attacking' },
+  { id: uid(), name: 'South',          definition: 'Direction of the end zone we are defending' },
+  { id: uid(), name: 'Dead Space',     definition: 'Area where receivers who are not on stage are designated to be' },
+  { id: uid(), name: 'Stage',          definition: 'Area of the field we are attacking to drive north' },
+  { id: uid(), name: 'Flow',           definition: "Continuous disc movement; the team's rhythm of throwing and cutting" },
+  { id: uid(), name: 'Bounce',         definition: 'Action of a thrower looking to immediately address the middle of the field to move the disc off the sideline as quickly as possible' },
+  { id: uid(), name: 'Dribbling',      definition: 'A player quickly passing the disc to other teammates in a give-and-go fashion; going every other' },
+  { id: uid(), name: 'Rabbit Cut',     definition: 'Someone in a handler position streaking deep' },
+  { id: uid(), name: 'Mid-Mid',        definition: 'Term replacing "hat." The player that orients the offense' },
+  { id: uid(), name: 'True North',     definition: 'The exact direction to the end zone we are attacking' },
+  { id: uid(), name: 'Magnetic North', definition: 'The direction from the thrower to the space that the offense would like to go' },
+  { id: uid(), name: 'Death Zone',     definition: 'The area within 2 yards of the sideline' },
+];
+
+/* ─── MultiSelect component ─── */
+const MultiSelect = {
+    template: `
+        <div class="ms-wrap" ref="wrap">
+            <div class="ms-box" @click="open = !open">
+                <span v-if="!modelValue || modelValue.length === 0" class="ms-placeholder">Select...</span>
+                <span v-for="(item, i) in modelValue" :key="i" class="ms-tag">
+                    {{ getLabel(item) }}
+                    <span class="ms-tag-x" @click.stop="remove(item)">×</span>
+                </span>
+                <span class="ms-arrow">{{ open ? '▲' : '▼' }}</span>
+            </div>
+            <div v-if="open" class="ms-dropdown">
+                <label
+                    v-for="opt in options" :key="getKey(opt)"
+                    class="ms-option" :class="{ selected: isSelected(opt) }">
+                    <input type="checkbox" :checked="isSelected(opt)" @change="toggle(opt)" />
+                    {{ getLabel(opt) }}
+                </label>
+            </div>
+        </div>
+    `,
+    props: {
+        options:     { type: Array, required: true },
+        modelValue:  { type: Array, default: () => [] },
+        optionLabel: { type: String, default: 'title' }
+    },
+    emits: ['update:modelValue'],
+    data() { return { open: false }; },
+    mounted() {
+        this._outside = (e) => { if (this.$refs.wrap && !this.$refs.wrap.contains(e.target)) this.open = false; };
+        document.addEventListener('mousedown', this._outside);
+    },
+    beforeUnmount() { document.removeEventListener('mousedown', this._outside); },
+    methods: {
+        getLabel(item) {
+            if (item && typeof item === 'object') return item[this.optionLabel] ?? JSON.stringify(item);
+            return item;
+        },
+        getKey(item) {
+            if (item && typeof item === 'object') return item[this.optionLabel] ?? JSON.stringify(item);
+            return item;
+        },
+        isSelected(opt) {
+            const k = this.getKey(opt);
+            return (this.modelValue || []).some(v => this.getKey(v) === k);
+        },
+        toggle(opt) {
+            const k = this.getKey(opt);
+            const cur = this.modelValue || [];
+            if (this.isSelected(opt)) {
+                this.$emit('update:modelValue', cur.filter(v => this.getKey(v) !== k));
+            } else {
+                this.$emit('update:modelValue', [...cur, opt]);
+            }
+        },
+        remove(item) {
+            const k = this.getKey(item);
+            this.$emit('update:modelValue', (this.modelValue || []).filter(v => this.getKey(v) !== k));
+        }
+    }
+};
+
+/* ─── PracticeDisplay component ─── */
+const PracticeDisplay = {
+    template: `
+        <div v-if="practice" class="selected-practice">
+            <h2>{{ fmtDate(practice.date) }} Plan</h2>
+            <div class="card" style="margin-bottom:10px;">
+                <h3>Theme{{ practice.themes && practice.themes.length > 1 ? 's' : '' }}</h3>
+                <p v-if="practice.themes && practice.themes.length" style="font-size:15px;font-weight:600;">
+                    {{ practice.themes.join(' · ') }}
+                </p>
+                <p v-else style="font-size:13px;color:#aaa;font-style:italic;">No themes assigned.</p>
+            </div>
+            <div v-if="practice.blockWarm && practice.blockWarm.length" class="pblock">
+                <div class="pblock-header">
+                    <span>Block 0 — Warm Up</span>
+                    <span class="dur">{{ practice.time }}</span>
+                </div>
+                <div class="pblock-body">
+                    <div v-for="(d, i) in practice.blockWarm" :key="i" :style="i > 0 ? 'margin-top:8px;padding-top:8px;border-top:1px solid var(--border)' : ''">
+                        <p><strong>{{ d.title }}</strong></p>
+                        <p class="pblock-note">{{ d.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div v-if="practice.block1 && practice.block1.length" class="pblock">
+                <div class="pblock-header">
+                    <span>Block 1 — Development</span>
+                    <span class="dur">{{ practice.time }}</span>
+                </div>
+                <div class="pblock-body">
+                    <div v-for="(d, i) in practice.block1" :key="i" :style="i > 0 ? 'margin-top:8px;padding-top:8px;border-top:1px solid var(--border)' : ''">
+                        <p><strong>{{ d.title }}</strong></p>
+                        <p class="pblock-note">{{ d.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div v-if="practice.block2 && practice.block2.length" class="pblock">
+                <div class="pblock-header">
+                    <span>Block 2 — Performance</span>
+                    <span class="dur">{{ practice.time }}</span>
+                </div>
+                <div class="pblock-body">
+                    <div v-for="(d, i) in practice.block2" :key="i" :style="i > 0 ? 'margin-top:8px;padding-top:8px;border-top:1px solid var(--border)' : ''">
+                        <p><strong>{{ d.title }}</strong></p>
+                        <p class="pblock-note">{{ d.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div v-if="!hasBlocks" style="color:#aaa;font-size:13px;font-style:italic;padding:10px 0;">
+                No blocks assigned yet. Use the form to add drills and games.
+            </div>
+        </div>
+        <div v-else class="practice-empty-state">
+            <span class="pe-icon">🥏</span>
+            <p>Select a practice from the table to view its plan.</p>
+        </div>
+    `,
+    props: { practice: { type: Object, default: null } },
+    computed: {
+        hasBlocks() {
+            return !!(this.practice?.blockWarm?.length || this.practice?.block1?.length || this.practice?.block2?.length);
+        }
+    },
+    methods: {
+        fmtDate(d) {
+            if (!d) return '';
+            const [y, m, day] = d.split('-').map(Number);
+            const s = [1,21,31].includes(day) ? 'st' : [2,22].includes(day) ? 'nd' : [3,23].includes(day) ? 'rd' : 'th';
+            return `${MONTH_NAMES[m-1]} ${day}${s}`;
+        }
+    }
+};
+
+createApp({
+    data() {
+        return {
+            view: 'form',
+            teamName: 'Surly',
+            seasonYear: 2026,
+            formError: '',
+            currentPage: 'home',
+            drills:DEFAULT_DRILLS,
+            games:DEFAULT_DEV_GAMES,
+            events: DEFAULT_EVENTS.map(e => ({
+                ...e
+            })),
+            themes:THEMES,
+            practices:[],
+            recurrences: DEFAULT_RECURRENCES.map(r => ({
+                ...r,
+                days: [...r.days],
+                daySettings: Object.fromEntries(Object.entries(r.daySettings).map(([k, v]) => [k, { ...v }])),
+                practices: expandRecurrence(r)
+            })),
+            snap: null,
+            DAY_LABELS,
+            MONTH_NAMES,
+            glossaryTerms: DEFAULT_GLOSSARY.map(t => ({
+                ...t
+            })),
+            languageSearch: '',
+            selectedPractice: null,
+        };
+    },
+
+    computed: {
+        totalPractices() {
+            return this.recurrences.reduce((s, r) => s + expandRecurrence(r).length, 0);
+        },
+        filteredGlossary() {
+            if (!this.snap) return [];
+            const q = this.languageSearch.trim().toLowerCase();
+            if (!q) return this.snap.glossary;
+            return this.snap.glossary.filter(t =>
+                t.name.toLowerCase().includes(q) || t.definition.toLowerCase().includes(q)
+            );
+        }
+    },
+
+    methods: {
+        /* form */
+        addRecurrence() {
+            this.recurrences.push({
+                id: uid(),
+                startDate: `${this.seasonYear}-01-01`,
+                endDate: `${this.seasonYear}-03-31`,
+                days: [3],
+                daySettings: { 3: { time: '18:00', duration: '120' } }
+            });
+        },
+        removeRecurrence(i) {
+            this.recurrences.splice(i, 1);
+        },
+        toggleDay(rec, di) {
+            const idx = rec.days.indexOf(di);
+            if (idx === -1) {
+                rec.days.push(di);
+                // Inherit time/duration from an existing day if possible, else use defaults
+                const existingDay = rec.days.find(d => d !== di && rec.daySettings[d]);
+                const defaults = existingDay != null
+                    ? { ...rec.daySettings[existingDay] }
+                    : { time: '18:00', duration: '120' };
+                rec.daySettings[di] = defaults;
+            } else {
+                rec.days.splice(idx, 1);
+                delete rec.daySettings[di];
+            }
+            rec.practices = expandRecurrence(rec);
+        },
+        changeRecurrenceTime(rec, di, time){
+            for(let p of rec.practices){
+                if(p.di == di){
+                    p.time = convertMilitaryToRegular(time);
+                }
+            }
+        },
+        changeRecurrenceDuration(rec, di, duration){
+            console.log(duration)
+            for(let p of rec.practices){
+                console.log(p.di == di)
+                if(p.di == di){
+                    p.duration = parseFloat(duration) / 60.0;
+                }
+                console.log(p.duration)
+            }
+        },
+        addEvent() {
+            this.events.push({
+                id: uid(),
+                date: `${this.seasonYear}-01-01`,
+                type: 'tryout',
+                label: '',
+                shortLabel: ''
+            });
+        },
+        removeEvent(i) {
+            this.events.splice(i, 1);
+        },
+        addTerm() {
+            this.glossaryTerms.push({
+                id: uid(),
+                name: '',
+                definition: ''
+            });
+        },
+        removeTerm(i) {
+            this.glossaryTerms.splice(i, 1);
+        },
+        countDates(rec) {
+            return expandRecurrence(rec).length;
+        },
+
+        /* formatting */
+        fmtDate(d) {
+            if (!d) return '';
+            const [y, m, day] = d.split('-').map(Number);
+            return `${MONTH_NAMES[m-1].slice(0,3)} ${day}, ${y}`;
+        },
+
+        /* formatting */
+        fmtDay(d) {
+            if (!d) return '';
+            return moment(d).format('MM/DD');
+        },
+
+        /* formatting */
+        fmtWeekday(d) {
+            if (!d) return '';
+            return moment(d).format('dd');
+        },
+        formatTimeLabel(t) {
+            if (!t) return '';
+            const [h, m] = t.split(':').map(Number);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${ampm}`;
+        },
+        durationLabel(mins) {
+            const m = parseInt(mins);
+            const h = Math.floor(m / 60),
+                r = m % 60;
+            return r ? `${h}h ${r}m` : `${h}h`;
+        },
+
+        /* generate snapshot */
+        generate() {
+            this.formError = '';
+            if (!this.teamName.trim()) {
+                this.formError = 'Please enter a team name.';
+                return;
+            }
+            if (!this.seasonYear) {
+                this.formError = 'Please enter a year.';
+                return;
+            }
+
+            const practiceEvents = this.recurrences.flatMap(r => r.practices);
+            const allEvents = [...this.events.map(e => ({
+                    ...e
+                })), ...practiceEvents]
+                .sort((a, b) => a.date.localeCompare(b.date));
+
+            const monthSet = new Set(allEvents.filter(e => e.date).map(e => {
+                const [y, m] = e.date.split('-');
+                return `${y}-${m.padStart(2,'0')}`;
+            }));
+            const calendarMonths = [...monthSet].sort().map(k => {
+                const [y, m] = k.split('-').map(Number);
+                return {
+                    year: y,
+                    month: m
+                };
+            });
+
+            const keyMilestones = allEvents.filter(e => e.type !== 'practice');
+            const practices = allEvents.filter(e => e.type === 'practice');
+            const phaseSummary = this.buildPhases(practices);
+            const typeSet = [...new Set(allEvents.map(e => e.type))];
+            const usedTypes = typeSet.map(t => ({
+                type: t,
+                label: TYPE_LABELS[t] || t
+            }));
+            const recurrenceSummary = this.recurrences.map(r => ({
+                count: expandRecurrence(r).length,
+                startDate: r.startDate,
+                endDate: r.endDate,
+                days: r.days.slice().sort((a, b) => a - b).map(d => DAY_LABELS[d]).join(' + '),
+                perDay: r.days.slice().sort((a, b) => a - b).map(d => ({
+                    day: DAY_LABELS[d],
+                    timeLabel: this.formatTimeLabel(r.daySettings[d]?.time),
+                    durationLabel: this.durationLabel(r.daySettings[d]?.duration),
+                })),
+            }));
+
+            const glossary = this.glossaryTerms
+                .filter(t => t.name.trim())
+                .map(t => ({
+                    ...t
+                }));
+
+            this.snap = {
+                teamName: this.teamName.trim(),
+                seasonYear: this.seasonYear,
+                practices:practiceEvents,
+                allEvents,
+                calendarMonths,
+                keyMilestones,
+                phaseSummary,
+                usedTypes,
+                recurrenceSummary,
+                glossary
+            };
+            this.languageSearch = '';
+            this.currentPage = 'home';
+            this.view = 'app';
+            window.scrollTo(0, 0);
+        },
+
+        buildPhases(practices) {
+            if (!practices.length) return [];
+            const mid = Math.ceil(practices.length / 2);
+            const p1 = practices.slice(0, mid);
+            const p2 = practices.slice(mid);
+            const rng = arr => arr.length ? `${this.fmtDate(arr[0].date)} – ${this.fmtDate(arr[arr.length-1].date)}` : '';
+            return [{
+                    label: 'Phase 1',
+                    period: rng(p1),
+                    count: `${p1.length} practices`,
+                    bullets: [`${p1.length} sessions`, rng(p1)]
+                },
+                {
+                    label: 'Phase 2',
+                    period: rng(p2),
+                    count: `${p2.length} practices`,
+                    bullets: [`${p2.length} sessions`, rng(p2)]
+                },
+            ];
+        },
+
+        phaseTag(cal) {
+            if (!this.snap) return '';
+            const practices = this.snap.allEvents.filter(e => e.type === 'practice');
+            if (!practices.length) return '';
+            const mid = Math.ceil(practices.length / 2);
+            const [ey, em] = (practices[mid - 1]?.date || '').split('-').map(Number);
+            return (cal.year < ey || (cal.year === ey && cal.month <= em)) ? 'Phase 1' : 'Phase 2';
+        },
+
+        highlight(text) {
+            if (!this.languageSearch.trim()) return text;
+            const q = this.languageSearch.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            return text.replace(new RegExp(q, 'gi'), m => `<mark>${m}</mark>`);
+        },
+        calDays(year, month) {
+            const cells = [];
+            const map = {};
+            if (this.snap) {
+                for (const e of this.snap.allEvents) {
+                    if (!e.date) continue;
+                    const [ey, em, ed] = e.date.split('-').map(Number);
+                    if (ey === year && em === month) map[ed] = e;
+                }
+            }
+            for (let i = 0; i < firstDOW(year, month); i++) cells.push({
+                day: null
+            });
+            for (let d = 1; d <= daysInMonth(year, month); d++) {
+                const e = map[d] || null;
+                cells.push({
+                    day: d,
+                    type: e?.type || null,
+                    label: e?.label || null,
+                    shortLabel: e?.shortLabel || null
+                });
+            }
+            return cells;
+        }
+    }
+}).component('MultiSelect', MultiSelect)
+  .component('PracticeDisplay', PracticeDisplay)
+  .mount('#app');
+        </script>
+    </body>
+</html>
