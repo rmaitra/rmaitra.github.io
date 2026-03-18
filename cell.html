@@ -1,0 +1,2214 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cell Visualizer 3D</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Exo+2:wght@300;400;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            :root {
+                --bg: #03060f;
+                --panel: rgba(5, 15, 35, 0.85);
+                --border: rgba(0, 200, 255, 0.25);
+                --accent: #00d4ff;
+                --accent2: #7b2fff;
+                --text: #c8e8ff;
+                --dim: rgba(200, 232, 255, 0.45);
+                --font-mono: "Space Mono", monospace;
+                --font-body: "Exo 2", sans-serif;
+            }
+
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                background: var(--bg);
+                color: var(--text);
+                font-family: var(--font-body);
+            }
+
+            #canvas {
+                display: block;
+                width: 100%;
+                height: 100%;
+                cursor: grab;
+            }
+            #canvas:active {
+                cursor: grabbing;
+            }
+            #canvas.locked {
+                cursor: none;
+            }
+
+            /* ── Header ── */
+            #header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 20;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                padding: 12px 20px;
+                background: linear-gradient(180deg, rgba(3, 6, 15, 0.95) 0%, transparent 100%);
+                border-bottom: 1px solid var(--border);
+            }
+            #header h1 {
+                font-family: var(--font-mono);
+                font-size: 13px;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: var(--accent);
+                white-space: nowrap;
+            }
+            #header h1 span {
+                color: var(--dim);
+                font-weight: 400;
+            }
+
+            .cell-tabs {
+                display: flex;
+                gap: 6px;
+                margin-left: auto;
+            }
+            .cell-tab {
+                font-family: var(--font-mono);
+                font-size: 10px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                padding: 6px 14px;
+                background: transparent;
+                border: 1px solid var(--border);
+                color: var(--dim);
+                cursor: pointer;
+                border-radius: 2px;
+                transition: all 0.2s;
+            }
+            .cell-tab:hover {
+                border-color: var(--accent);
+                color: var(--accent);
+            }
+            .cell-tab.active {
+                background: rgba(0, 212, 255, 0.12);
+                border-color: var(--accent);
+                color: var(--accent);
+                box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+            }
+
+            /* ── Legend Panel ── */
+            #legend {
+                position: fixed;
+                right: 16px;
+                top: 70px;
+                z-index: 20;
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                padding: 14px 16px;
+                min-width: 250px;
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+            }
+            #legend h2 {
+                font-family: var(--font-mono);
+                font-size: 9px;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: var(--dim);
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+                border-bottom: 1px solid var(--border);
+            }
+            .legend-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 7px;
+                cursor: pointer;
+                transition: opacity 0.2s;
+            }
+            .legend-item:hover {
+                opacity: 0.7;
+            }
+            .legend-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                flex-shrink: 0;
+                box-shadow: 0 0 6px currentColor;
+            }
+            .legend-label {
+                font-size: 11px;
+                color: var(--text);
+                font-family: var(--font-body);
+                font-weight: 300;
+                flex: 1;
+            }
+            .opacity-slider {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 64px;
+                height: 3px;
+                background: rgba(0, 212, 255, 0.18);
+                border-radius: 2px;
+                outline: none;
+                cursor: pointer;
+                flex-shrink: 0;
+            }
+            .opacity-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--accent);
+                box-shadow: 0 0 4px rgba(0, 212, 255, 0.6);
+                cursor: pointer;
+            }
+            .opacity-slider::-moz-range-thumb {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--accent);
+                border: none;
+                cursor: pointer;
+            }
+
+            /* ── Controls Help ── */
+            #controls-help {
+                position: fixed;
+                left: 16px;
+                bottom: 16px;
+                z-index: 20;
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                padding: 12px 16px;
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+            }
+            #controls-help h3 {
+                font-family: var(--font-mono);
+                font-size: 9px;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: var(--dim);
+                margin-bottom: 8px;
+            }
+            .ctrl-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 5px;
+            }
+            .key {
+                font-family: var(--font-mono);
+                font-size: 9px;
+                background: rgba(0, 212, 255, 0.1);
+                border: 1px solid rgba(0, 212, 255, 0.3);
+                color: var(--accent);
+                padding: 2px 6px;
+                border-radius: 2px;
+                white-space: nowrap;
+            }
+            .ctrl-desc {
+                font-size: 10px;
+                color: var(--dim);
+            }
+
+            /* ── DOF Panel ── */
+            #dof-panel {
+                position: fixed;
+                left: 16px;
+                bottom: 210px;
+                z-index: 20;
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                padding: 12px 16px;
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                min-width: 210px;
+            }
+            #dof-panel h3 {
+                font-family: var(--font-mono);
+                font-size: 9px;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: var(--dim);
+                margin-bottom: 10px;
+                padding-bottom: 7px;
+                border-bottom: 1px solid var(--border);
+            }
+            .dof-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 8px;
+            }
+            .dof-label {
+                font-family: var(--font-mono);
+                font-size: 8px;
+                letter-spacing: 1px;
+                color: var(--dim);
+                width: 68px;
+                flex-shrink: 0;
+            }
+            .dof-val {
+                font-family: var(--font-mono);
+                font-size: 9px;
+                color: var(--accent);
+                width: 40px;
+                text-align: right;
+                flex-shrink: 0;
+            }
+            input[type="range"].dof-slider {
+                -webkit-appearance: none;
+                appearance: none;
+                flex: 1;
+                height: 3px;
+                background: rgba(0, 212, 255, 0.18);
+                border-radius: 2px;
+                outline: none;
+                cursor: pointer;
+            }
+            input[type="range"].dof-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: var(--accent);
+                box-shadow: 0 0 6px rgba(0, 212, 255, 0.7);
+                cursor: pointer;
+            }
+            input[type="range"].dof-slider::-moz-range-thumb {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: var(--accent);
+                border: none;
+                box-shadow: 0 0 6px rgba(0, 212, 255, 0.7);
+                cursor: pointer;
+            }
+
+            /* ── Tooltip ── */
+            #tooltip {
+                position: fixed;
+                pointer-events: none;
+                z-index: 30;
+                background: rgba(0, 0, 0, 0.85);
+                border: 1px solid var(--accent);
+                border-radius: 3px;
+                padding: 8px 12px;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                color: var(--accent);
+                letter-spacing: 1px;
+                display: none;
+                box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            }
+            #tooltip .tt-name {
+                font-size: 12px;
+                font-weight: 700;
+                margin-bottom: 3px;
+            }
+            #tooltip .tt-desc {
+                font-size: 10px;
+                color: var(--dim);
+                max-width: 200px;
+                line-height: 1.4;
+            }
+
+            /* ── Info bar ── */
+            #infobar {
+                position: fixed;
+                bottom: 16px;
+                right: 16px;
+                z-index: 20;
+                font-family: var(--font-mono);
+                font-size: 10px;
+                color: var(--dim);
+                letter-spacing: 1px;
+                text-align: right;
+            }
+
+            /* ── Crosshair (when in fly mode) ── */
+            #crosshair {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 20px;
+                height: 20px;
+                pointer-events: none;
+                z-index: 25;
+                display: none;
+            }
+            #crosshair::before,
+            #crosshair::after {
+                content: "";
+                position: absolute;
+                background: rgba(0, 212, 255, 0.7);
+                border-radius: 2px;
+            }
+            #crosshair::before {
+                width: 100%;
+                height: 1px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            #crosshair::after {
+                width: 1px;
+                height: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+
+        <!-- Header -->
+        <div id="header">
+            <h1>CELL <span>/ VISUALIZER</span></h1>
+            <div class="cell-tabs">
+                <button class="cell-tab active" data-type="animal">Animal Cell</button>
+                <button class="cell-tab" data-type="plant">Plant Cell</button>
+                <button class="cell-tab" data-type="bacteria">Bacterium</button>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div id="legend">
+            <h2>Organelles</h2>
+            <div id="legend-items"></div>
+        </div>
+
+        <!-- Controls -->
+        <div id="controls-help">
+            <h3>Navigation</h3>
+            <div class="ctrl-row"><span class="key">Drag</span><span class="ctrl-desc">Look around</span></div>
+            <div class="ctrl-row"><span class="key">Scroll</span><span class="ctrl-desc">Fly forward/back</span></div>
+            <div class="ctrl-row"><span class="key">W A S D</span><span class="ctrl-desc">Fly through</span></div>
+            <div class="ctrl-row"><span class="key">Q / E</span><span class="ctrl-desc">Up / Down</span></div>
+            <div class="ctrl-row"><span class="key">R</span><span class="ctrl-desc">Reset view</span></div>
+            <div class="ctrl-row"><span class="key">[ / ]</span><span class="ctrl-desc">Beam range</span></div>
+        </div>
+
+        <!-- DOF Controls -->
+        <div id="dof-panel">
+            <h3>Depth of Field</h3>
+            <div class="dof-row">
+                <span class="dof-label">APERTURE</span>
+                <input type="range" class="dof-slider" id="dof-aperture" min="0" max="100" step="1" value="40">
+                <span class="dof-val" id="dof-aperture-val">40e-6</span>
+            </div>
+            <div class="dof-row">
+                <span class="dof-label">FOCUS DIST</span>
+                <input type="range" class="dof-slider" id="dof-focus" min="5" max="1000" step="5" value="20">
+                <span class="dof-val" id="dof-focus-val">20u</span>
+            </div>
+            <div class="dof-row">
+                <span class="dof-label">MAX BLUR</span>
+                <input type="range" class="dof-slider" id="dof-maxblur" min="0" max="20" step="1" value="5">
+                <span class="dof-val" id="dof-maxblur-val">0.005</span>
+            </div>
+        </div>
+
+        <!-- Tooltip -->
+        <div id="tooltip">
+            <div class="tt-name" id="tt-name"></div>
+            <div class="tt-desc" id="tt-desc"></div>
+        </div>
+
+        <!-- Info bar -->
+        <div id="infobar" id="infobar"></div>
+
+        <!-- Crosshair -->
+        <div id="crosshair"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/BokehShader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/BokehPass.js"></script>
+        <script>
+            // ═══════════════════════════════════════════════════════════════
+            // CELL VISUALIZER - 3D Interactive Biology
+            // ═══════════════════════════════════════════════════════════════
+
+            const canvas = document.getElementById("canvas");
+            const tooltip = document.getElementById("tooltip");
+            const ttName = document.getElementById("tt-name");
+            const ttDesc = document.getElementById("tt-desc");
+            const infobar = document.getElementById("infobar");
+            const legendItems = document.getElementById("legend-items");
+
+            // ── Scene Setup ──────────────────────────────────────────────
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = false;
+            renderer.setClearColor(0x03060f, 1);
+
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x03060f, 0.0008);
+
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.05, 10000);
+            camera.position.set(0, 0, 3760);
+            camera.lookAt(0, 0, 0);
+
+            // ── Post-processing (Depth of Field) ──────────────────────────
+            // BokehPass reads the depth buffer and blurs fragments proportional
+            // to how far their depth deviates from the current focal distance.
+            // focus   : linear depth [0..1] of the focal plane (0 = near, 1 = far)
+            // aperture: rate of blur growth away from focal plane (larger = narrower DOF)
+            // maxblur : max blur radius in normalised screen coords
+            const composer = new THREE.EffectComposer(renderer);
+            composer.addPass(new THREE.RenderPass(scene, camera));
+            const bokehPass = new THREE.BokehPass(scene, camera, {
+                focus: 200,      // scene units from camera; focal plane starts ~200u away
+                aperture: 0.00004,
+                maxblur: 0.005,
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+            // One-sided DOF: only blur things *beyond* the focal plane, not in front of it.
+            bokehPass.materialBokeh.fragmentShader = bokehPass.materialBokeh.fragmentShader.replace(
+                'float factor = ( focus + viewZ );',
+                'float factor = min( 0.0, focus + viewZ );'
+            );
+            bokehPass.materialBokeh.needsUpdate = true;
+            composer.addPass(bokehPass);
+
+            // ── Lighting ─────────────────────────────────────────────────
+            // Bright white ambient so all surfaces have a readable base colour
+            const ambient = new THREE.AmbientLight(0xffffff, 1.8);
+            scene.add(ambient);
+
+            // Hemisphere light: sky (cool blue) from above, ground (warm) from below.
+            // Covers every surface normal regardless of facing direction.
+            const hemi = new THREE.HemisphereLight(0xaaccff, 0x443322, 1.5);
+            scene.add(hemi);
+
+            // Accent point lights — decay=0, no distance falloff
+            const pLight1 = new THREE.PointLight(0x00d4ff, 2.0, 0, 0);
+            pLight1.position.set(0, 2000, 0);
+            scene.add(pLight1);
+
+            const pLight2 = new THREE.PointLight(0x7b2fff, 1.5, 0, 0);
+            pLight2.position.set(-2000, -1000, 2000);
+            scene.add(pLight2);
+
+            const pLight3 = new THREE.PointLight(0xff6622, 1.5, 0, 0);
+            pLight3.position.set(2000, -1000, -2000);
+            scene.add(pLight3);
+
+            // ── Submarine Spotlight ───────────────────────────────────────
+            // Follows the camera; [ / ] keys adjust beam range.
+            // decay=0 so intensity is flat within distance, then cuts off sharply.
+            let beamDist = 600;   // initial range in scene units (~1.2 µm)
+            const BEAM_MIN = 50, BEAM_MAX = 6000, BEAM_STEP = 100;
+
+            const spotlight = new THREE.SpotLight(0xfff4cc, 5.0, beamDist, 0.38, 0.35, 0);
+            scene.add(spotlight);
+
+            const spotTarget = new THREE.Object3D();
+            scene.add(spotTarget);
+            spotlight.target = spotTarget;
+
+            function updateSpotlight() {
+                spotlight.position.copy(camera.position);
+                const fwd = new THREE.Vector3();
+                camera.getWorldDirection(fwd);
+                spotTarget.position.copy(camera.position).addScaledVector(fwd, beamDist);
+                spotTarget.updateMatrixWorld();
+            }
+
+            // ── Raycaster ────────────────────────────────────────────────
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+            let pickables = []; // meshes with userData.info
+
+            // ── Fly Camera ────────────────────────────────────────────────
+            const camState = {
+                position: new THREE.Vector3(0, 0, 3760),
+                velocity: new THREE.Vector3(),
+                yaw: 0,   // looking straight at the membrane
+                pitch: 0,
+                isDragging: false,
+                prevMouse: { x: 0, y: 0 },
+            };
+            const keys = {};
+            let animFrame;
+
+            camera.rotation.order = "YXZ";
+
+            function applyCamera() {
+                camera.position.copy(camState.position);
+                camera.rotation.y = camState.yaw;
+                camera.rotation.x = camState.pitch;
+                camera.rotation.z = 0;
+            }
+            // keep old name as alias so tab-reset calls still work
+            const applyCameraOrbit = applyCamera;
+
+            canvas.addEventListener("mousedown", (e) => {
+                if (e.button !== 0) return;
+                camState.isDragging = true;
+                camState.prevMouse = { x: e.clientX, y: e.clientY };
+            });
+            window.addEventListener("mouseup", () => {
+                camState.isDragging = false;
+            });
+            window.addEventListener("mousemove", (e) => {
+                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+                if (!camState.isDragging) return;
+                const dx = e.clientX - camState.prevMouse.x;
+                const dy = e.clientY - camState.prevMouse.y;
+                camState.yaw   -= dx * 0.005;
+                camState.pitch  = Math.max(-Math.PI / 2 + 0.01, Math.min(Math.PI / 2 - 0.01, camState.pitch - dy * 0.005));
+                camState.prevMouse = { x: e.clientX, y: e.clientY };
+                applyCamera();
+            });
+            canvas.addEventListener(
+                "wheel",
+                (e) => {
+                    e.preventDefault();
+                    const fwd = new THREE.Vector3();
+                    camera.getWorldDirection(fwd);
+                    camState.velocity.addScaledVector(fwd, -e.deltaY * 0.3);
+                },
+                { passive: false }
+            );
+            window.addEventListener("keydown", (e) => {
+                keys[e.key.toLowerCase()] = true;
+                if (e.key === "[") {
+                    beamDist = Math.max(BEAM_MIN, beamDist - BEAM_STEP);
+                    spotlight.distance = beamDist;
+                }
+                if (e.key === "]") {
+                    beamDist = Math.min(BEAM_MAX, beamDist + BEAM_STEP);
+                    spotlight.distance = beamDist;
+                }
+            });
+            window.addEventListener("keyup", (e) => {
+                keys[e.key.toLowerCase()] = false;
+            });
+
+            function handleFlyKeys() {
+                const accel = 0.6;     // ~100× old value to match new scale
+                const damping = 0.8;
+
+                const fwd = new THREE.Vector3();
+                camera.getWorldDirection(fwd);
+                const right = new THREE.Vector3().crossVectors(fwd, camera.up).normalize();
+                const up = new THREE.Vector3(0, 1, 0);
+
+                if (keys["w"]) camState.velocity.addScaledVector(fwd, accel);
+                if (keys["s"]) camState.velocity.addScaledVector(fwd, -accel);
+                if (keys["a"]) camState.velocity.addScaledVector(right, -accel);
+                if (keys["d"]) camState.velocity.addScaledVector(right, accel);
+                if (keys["q"]) camState.velocity.addScaledVector(up, accel);
+                if (keys["e"]) camState.velocity.addScaledVector(up, -accel);
+                if (keys["r"]) {
+                    camState.position.set(0, 0, 3760);
+                    camState.velocity.set(0, 0, 0);
+                    camState.yaw = 0;
+                    camState.pitch = 0;
+                    delete keys["r"];
+                }
+
+                // Extra resistance when inside the bilayer zone — only on the radial
+                // (through-membrane) component, so lateral traversal along the surface
+                // remains free while pushing through the bilayer still feels viscous.
+                if (currentMemRadius > 0) {
+                    const distToSurface = Math.abs(camState.position.length() - currentMemRadius);
+                    if (distToSurface < 40) {
+                        const resistance = THREE.MathUtils.clamp(1 - distToSurface / 40, 0, 1);
+                        const radial = camState.position.clone().normalize();
+                        const vRadial = radial.dot(camState.velocity);
+                        camState.velocity.addScaledVector(radial, -vRadial * resistance * 0.85);
+                    }
+                }
+
+                camState.velocity.multiplyScalar(damping);
+                camState.position.add(camState.velocity);
+
+                if (camState.velocity.lengthSq() > 1e-6 || Object.values(keys).some(Boolean)) {
+                    applyCamera();
+                }
+            }
+
+            window.addEventListener("resize", () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                composer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // ── DOF user settings (driven by the DOF panel sliders) ───────
+            let dofAperture    = 0.00004;
+            let dofFocusInside = 200;
+            let dofMaxblur     = 0.005;
+
+            let membraneWaveMesh    = null;
+            let membraneWaveOrigPos = null;
+            let membraneWaveRadius  = 3750;
+            let currentMemRadius    = 3750; // set by CellMembrane / BacterialMembrane on create()
+
+            // ── Lipid bilayer shared constants ────────────────────────────
+            const BP_PATCH_RADIUS = 8.0;
+            const BP_MOL_SPACING  = 0.55;
+            const BP_MAX_SLOTS    = 800;
+            const _bpZeroMatrix   = new THREE.Matrix4().makeScale(0, 0, 0);
+
+            function _bpHash(i, j) {
+                let h = (Math.imul(i, 92837111) + Math.imul(j, 689287499)) | 0;
+                h = Math.imul(h ^ (h >>> 15), 0x2c1b3c6d) | 0;
+                h = Math.imul(h ^ (h >>> 12), 0x297a2d39) | 0;
+                return ((h ^ (h >>> 15)) & 0x7fffffff) / 0x7fffffff;
+            }
+
+            // ── Starfield Background ──────────────────────────────────────
+            (function createStars() {
+                const count = 3000;
+                const pos = new Float32Array(count * 3);
+                for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * 20000;
+                const geo = new THREE.BufferGeometry();
+                geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+                const mat = new THREE.PointsMaterial({ color: 0x334466, size: 8, sizeAttenuation: true });
+                scene.add(new THREE.Points(geo, mat));
+            })();
+
+            // ═══════════════════════════════════════════════════════════════
+            // BASE CELL COMPONENT CLASS
+            // ═══════════════════════════════════════════════════════════════
+            class CellComponent {
+                constructor(scene) {
+                    this.scene = scene;
+                    this.objects = []; // THREE.Object3D
+                    this.color = 0xffffff;
+                    this.name = "Component";
+                    this.description = "";
+                    this.driftAmplitude = 0;   // scene units; 0 = stationary
+                    this.driftPhase = Math.random() * Math.PI * 2;
+                    this._homePosition = null; // lazily captured on first update()
+                }
+
+                addObject(obj) {
+                    this.objects.push(obj);
+                    this.scene.add(obj);
+                }
+
+                remove() {
+                    this.objects.forEach((obj) => {
+                        this.scene.remove(obj);
+                        obj.traverse((child) => {
+                            if (child.geometry) child.geometry.dispose();
+                            if (child.material) {
+                                if (Array.isArray(child.material)) child.material.forEach((m) => m.dispose());
+                                else child.material.dispose();
+                            }
+                        });
+                    });
+                    this.objects = [];
+                }
+
+                // Register meshes for raycasting tooltips
+                register(mesh, name, desc) {
+                    mesh.userData.info = { name: name || this.name, desc: desc || this.description };
+                    pickables.push(mesh);
+                }
+
+                // Glow shell
+                addGlow(parent, radius, color, opacity = 0.12) {
+                    const geo = new THREE.SphereGeometry(radius, 16, 16);
+                    const mat = new THREE.MeshBasicMaterial({
+                        color,
+                        transparent: true,
+                        opacity,
+                        side: THREE.BackSide,
+                        depthWrite: false,
+                        blending: THREE.AdditiveBlending,
+                    });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    parent.add(mesh);
+                    return mesh;
+                }
+
+                // Gently float the organelle around its spawn position.
+                // Uses three out-of-phase sinusoids so motion feels organic, not circular.
+                update(t) {
+                    if (!this.driftAmplitude || !this.objects.length) return;
+                    const obj = this.objects[0];
+                    if (!this._homePosition) this._homePosition = obj.position.clone();
+                    const A = this.driftAmplitude, p = this.driftPhase;
+                    obj.position.set(
+                        this._homePosition.x + Math.sin(t * 0.70 + p)       * A,
+                        this._homePosition.y + Math.sin(t * 0.53 + p + 1.1) * A * 0.75,
+                        this._homePosition.z + Math.sin(t * 0.61 + p + 2.3) * A
+                    );
+                }
+
+                randomInSphere(r) {
+                    const u = Math.random(),
+                        v = Math.random();
+                    const theta = 2 * Math.PI * u;
+                    const phi = Math.acos(2 * v - 1);
+                    const rr = r * Math.cbrt(Math.random());
+                    return new THREE.Vector3(
+                        rr * Math.sin(phi) * Math.cos(theta),
+                        rr * Math.sin(phi) * Math.sin(theta),
+                        rr * Math.cos(phi)
+                    );
+                }
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // LIPID SHELL COMPONENT — base for any surface with a bilayer
+            // ═══════════════════════════════════════════════════════════════
+            class LipidShellComponent extends CellComponent {
+                constructor(scene) {
+                    super(scene);
+                    this.shellRadius = 0;
+                    this.shellCenter = new THREE.Vector3();
+                    this._shellMats  = []; // transparent shell materials to fade on approach
+                    this._lipid      = null;
+                }
+
+                // Call at end of create() with the surface radius.
+                _setupLipidShell(radius) {
+                    this.shellRadius = radius;
+                    if (this.objects.length) this.shellCenter.copy(this.objects[0].position);
+
+                    const outerHeadGeo = new THREE.SphereGeometry(0.2, 8, 8);
+                    const innerHeadGeo = new THREE.SphereGeometry(0.2, 8, 8);
+                    const outerTailGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.75, 6);
+                    const innerTailGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.75, 6);
+                    [outerHeadGeo, innerHeadGeo, outerTailGeo, innerTailGeo].forEach((geo) => {
+                        geo.setAttribute('instanceAlpha',
+                            new THREE.InstancedBufferAttribute(new Float32Array(BP_MAX_SLOTS), 1));
+                    });
+
+                    const applyAlpha = (mat) => {
+                        mat.onBeforeCompile = (shader) => {
+                            shader.vertexShader = shader.vertexShader.replace(
+                                'void main() {',
+                                'attribute float instanceAlpha;\nvarying float vAlpha;\nvoid main() {\n  vAlpha = instanceAlpha;'
+                            );
+                            shader.fragmentShader = shader.fragmentShader.replace(
+                                'void main() {', 'varying float vAlpha;\nvoid main() {'
+                            );
+                            shader.fragmentShader = shader.fragmentShader.replace(
+                                'gl_FragColor = vec4( outgoingLight, diffuseColor.a );',
+                                'gl_FragColor = vec4( outgoingLight, diffuseColor.a * vAlpha );'
+                            );
+                        };
+                        return mat;
+                    };
+
+                    const outerHeadMat = applyAlpha(new THREE.MeshPhongMaterial({ color: 0x2277aa, emissive: 0x071520, transparent: true, opacity: 0, shininess: 90 }));
+                    const innerHeadMat = applyAlpha(new THREE.MeshPhongMaterial({ color: 0xaa5522, emissive: 0x150800, transparent: true, opacity: 0, shininess: 90 }));
+                    const outerTailMat = applyAlpha(new THREE.MeshPhongMaterial({ color: 0x3a4a2a, emissive: 0x050805, transparent: true, opacity: 0, shininess: 10 }));
+                    const innerTailMat = applyAlpha(new THREE.MeshPhongMaterial({ color: 0x3a4a2a, emissive: 0x050805, transparent: true, opacity: 0, shininess: 10 }));
+
+                    const outerHeads = new THREE.InstancedMesh(outerHeadGeo, outerHeadMat, BP_MAX_SLOTS);
+                    const innerHeads = new THREE.InstancedMesh(innerHeadGeo, innerHeadMat, BP_MAX_SLOTS);
+                    const outerTails = new THREE.InstancedMesh(outerTailGeo, outerTailMat, BP_MAX_SLOTS);
+                    const innerTails = new THREE.InstancedMesh(innerTailGeo, innerTailMat, BP_MAX_SLOTS);
+
+                    for (let k = 0; k < BP_MAX_SLOTS; k++) {
+                        outerHeads.setMatrixAt(k, _bpZeroMatrix);
+                        innerHeads.setMatrixAt(k, _bpZeroMatrix);
+                        outerTails.setMatrixAt(k, _bpZeroMatrix);
+                        innerTails.setMatrixAt(k, _bpZeroMatrix);
+                    }
+                    [outerHeads, innerHeads, outerTails, innerTails].forEach((m) => {
+                        m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+                        m.frustumCulled = false;
+                        m.visible = false;
+                        this.scene.add(m);
+                    });
+
+                    this._lipid = {
+                        outerHeads, innerHeads, outerTails, innerTails,
+                        outerHeadGeo, innerHeadGeo, outerTailGeo, innerTailGeo,
+                        outerHeadMat, innerHeadMat, outerTailMat, innerTailMat,
+                        lastUsedCount: 0,
+                    };
+                }
+
+                _disposeLipidShell() {
+                    if (!this._lipid) return;
+                    this._shellMats.forEach((m) => { if (m._baseOpacity !== undefined) m.opacity = m._baseOpacity; });
+                    const { outerHeads, innerHeads, outerTails, innerTails,
+                            outerHeadGeo, innerHeadGeo, outerTailGeo, innerTailGeo } = this._lipid;
+                    [outerHeads, innerHeads, outerTails, innerTails].forEach((m) => this.scene.remove(m));
+                    [outerHeadGeo, innerHeadGeo, outerTailGeo, innerTailGeo].forEach((g) => g.dispose());
+                    this._lipid = null;
+                }
+
+                _updateLipidShell(t) {
+                    if (!this._lipid) return;
+                    const { outerHeads, innerHeads, outerTails, innerTails,
+                            outerHeadGeo, innerHeadGeo, outerTailGeo, innerTailGeo,
+                            outerHeadMat, innerHeadMat, outerTailMat, innerTailMat } = this._lipid;
+
+                    // Camera position in the organelle's local frame.
+                    const localCam    = camera.position.clone().sub(this.shellCenter);
+                    const distToSurf  = Math.abs(localCam.length() - this.shellRadius);
+                    const FADE_FAR = 40, FADE_NEAR = 2;
+                    const blend = THREE.MathUtils.clamp(
+                        1 - (distToSurf - FADE_NEAR) / (FADE_FAR - FADE_NEAR), 0, 1
+                    );
+
+                    this._shellMats.forEach((m) => {
+                        if (m._baseOpacity !== undefined)
+                            m.opacity = m._baseOpacity * (1 - blend * 0.92);
+                    });
+
+                    const show = blend > 0.01;
+                    outerHeads.visible = innerHeads.visible = outerTails.visible = innerTails.visible = show;
+                    if (!show) return;
+
+                    const molAlpha = Math.min(blend * 1.5, 1);
+                    outerHeadMat.opacity = innerHeadMat.opacity = outerTailMat.opacity = innerTailMat.opacity = molAlpha;
+
+                    const camDir     = localCam.clone().normalize();
+                    const theta_cam  = Math.atan2(camDir.x, camDir.z);
+                    const phi_cam    = Math.asin(THREE.MathUtils.clamp(camDir.y, -1, 1));
+                    const cosPhi_cam = Math.max(Math.cos(phi_cam), 0.01);
+
+                    const angSpacing = BP_MOL_SPACING / this.shellRadius;
+                    const patchAngR  = BP_PATCH_RADIUS / this.shellRadius;
+                    const halfCells  = Math.ceil(patchAngR / angSpacing) + 2;
+
+                    const outerHR   = this.shellRadius + 0.8;
+                    const outerTMid = this.shellRadius + 0.2;
+                    const innerTMid = this.shellRadius - 0.2;
+                    const innerHR   = this.shellRadius - 0.8;
+
+                    const cx = this.shellCenter.x, cy = this.shellCenter.y, cz = this.shellCenter.z;
+                    const dummy = new THREE.Object3D();
+                    const yAxis = new THREE.Vector3(0, 1, 0);
+                    const _vc   = new THREE.Color();
+
+                    const outerHeadAlpha = outerHeadGeo.attributes.instanceAlpha;
+                    const innerHeadAlpha = innerHeadGeo.attributes.instanceAlpha;
+                    const outerTailAlpha = outerTailGeo.attributes.instanceAlpha;
+                    const innerTailAlpha = innerTailGeo.attributes.instanceAlpha;
+
+                    const iCenter = Math.round(theta_cam / angSpacing);
+                    const jCenter = Math.round(phi_cam   / angSpacing);
+
+                    let slot = 0;
+                    outer: for (let gi = iCenter - halfCells; gi <= iCenter + halfCells; gi++) {
+                        for (let gj = jCenter - halfCells; gj <= jCenter + halfCells; gj++) {
+                            if (slot >= BP_MAX_SLOTS) break outer;
+
+                            const jAng  = angSpacing * 0.25;
+                            const theta = gi * angSpacing + (_bpHash(gi * 7,     gj * 13    ) - 0.5) * jAng * 2;
+                            const phi   = gj * angSpacing + (_bpHash(gi * 7 + 3, gj * 13 + 5) - 0.5) * jAng * 2;
+
+                            const dTheta  = theta - theta_cam;
+                            const dPhi    = phi   - phi_cam;
+                            const angDist = Math.sqrt(dTheta * dTheta * cosPhi_cam * cosPhi_cam + dPhi * dPhi);
+                            if (angDist > patchAngR) continue;
+
+                            const frac  = angDist / patchAngR;
+                            const alpha = Math.cos(frac * Math.PI * 0.5);
+
+                            const sinTheta = Math.sin(theta);
+                            const cosTheta = Math.cos(theta);
+                            const sinPhi   = Math.sin(phi);
+                            const cosPhi   = Math.cos(phi);
+                            const dir = new THREE.Vector3(sinTheta * cosPhi, sinPhi, cosTheta * cosPhi);
+
+                            const bPhase0 = _bpHash(gi * 31,      gj * 17     ) * Math.PI * 2;
+                            const bPhase1 = _bpHash(gi * 17 + 99, gj * 31 + 77) * Math.PI * 2;
+                            const buzzAmp = 0.05;
+                            const bT = Math.sin(t * 120 + bPhase0) * buzzAmp;
+                            const bP = Math.cos(t * 120 + bPhase1) * buzzAmp;
+                            const bx =  cosTheta * cosPhi * bT - sinTheta * sinPhi * bP;
+                            const by =  cosPhi * bP;
+                            const bz = -sinTheta * cosPhi * bT - cosTheta * sinPhi * bP;
+
+                            dummy.quaternion.setFromUnitVectors(yAxis, dir);
+
+                            dummy.position.set(dir.x * outerHR  + cx + bx, dir.y * outerHR  + cy + by, dir.z * outerHR  + cz + bz);
+                            dummy.updateMatrix(); outerHeads.setMatrixAt(slot, dummy.matrix);
+
+                            dummy.position.set(dir.x * outerTMid + cx + bx, dir.y * outerTMid + cy + by, dir.z * outerTMid + cz + bz);
+                            dummy.updateMatrix(); outerTails.setMatrixAt(slot, dummy.matrix);
+
+                            dummy.position.set(dir.x * innerTMid + cx + bx, dir.y * innerTMid + cy + by, dir.z * innerTMid + cz + bz);
+                            dummy.updateMatrix(); innerTails.setMatrixAt(slot, dummy.matrix);
+
+                            dummy.position.set(dir.x * innerHR  + cx + bx, dir.y * innerHR  + cy + by, dir.z * innerHR  + cz + bz);
+                            dummy.updateMatrix(); innerHeads.setMatrixAt(slot, dummy.matrix);
+
+                            outerHeadAlpha.array[slot] = alpha;
+                            innerHeadAlpha.array[slot] = alpha;
+                            outerTailAlpha.array[slot] = alpha;
+                            innerTailAlpha.array[slot] = alpha;
+
+                            _vc.setScalar(0.65 + _bpHash(gi, gj) * 0.55);
+                            outerHeads.setColorAt(slot, _vc); innerHeads.setColorAt(slot, _vc);
+                            _vc.setScalar(0.75 + _bpHash(gi + 1000, gj + 1000) * 0.35);
+                            outerTails.setColorAt(slot, _vc); innerTails.setColorAt(slot, _vc);
+
+                            slot++;
+                        }
+                    }
+
+                    const prevCount = this._lipid.lastUsedCount;
+                    if (slot < prevCount) {
+                        for (let k = slot; k < prevCount; k++) {
+                            outerHeads.setMatrixAt(k, _bpZeroMatrix); innerHeads.setMatrixAt(k, _bpZeroMatrix);
+                            outerTails.setMatrixAt(k, _bpZeroMatrix); innerTails.setMatrixAt(k, _bpZeroMatrix);
+                            outerHeadAlpha.array[k] = innerHeadAlpha.array[k] = 0;
+                            outerTailAlpha.array[k] = innerTailAlpha.array[k] = 0;
+                        }
+                    }
+                    this._lipid.lastUsedCount = slot;
+
+                    outerHeads.instanceMatrix.needsUpdate = innerHeads.instanceMatrix.needsUpdate = true;
+                    outerTails.instanceMatrix.needsUpdate = innerTails.instanceMatrix.needsUpdate = true;
+                    outerHeadAlpha.needsUpdate = innerHeadAlpha.needsUpdate = true;
+                    outerTailAlpha.needsUpdate = innerTailAlpha.needsUpdate = true;
+                    if (outerHeads.instanceColor) outerHeads.instanceColor.needsUpdate = true;
+                    if (innerHeads.instanceColor) innerHeads.instanceColor.needsUpdate = true;
+                    if (outerTails.instanceColor) outerTails.instanceColor.needsUpdate = true;
+                    if (innerTails.instanceColor) innerTails.instanceColor.needsUpdate = true;
+                }
+
+                update(t) {
+                    super.update(t);
+                    if (this.driftAmplitude && this.objects.length) {
+                        this.shellCenter.copy(this.objects[0].position);
+                    }
+                    this._updateLipidShell(t);
+                }
+
+                remove() {
+                    this._disposeLipidShell();
+                    super.remove();
+                }
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // MOLECULE / ORGANELLE CLASSES
+            // ═══════════════════════════════════════════════════════════════
+
+            class CellMembrane extends LipidShellComponent {
+                constructor(scene, radius = 38) {
+                    super(scene);
+                    this.radius = radius;
+                    this.name = "Cell Membrane";
+                    this.description = "Phospholipid bilayer that encloses the cell and regulates transport.";
+                    this.color = 0x00d4ff;
+                }
+                create() {
+                    const group = new THREE.Group();
+
+                    // Outer transparent shell
+                    const geo = new THREE.SphereGeometry(this.radius, 64, 64);
+                    const mat = new THREE.MeshPhongMaterial({
+                        color: 0x00aaff,
+                        emissive: 0x001133,
+                        transparent: true,
+                        opacity: 0.07,
+                        side: THREE.DoubleSide,
+                        depthWrite: false,
+                    });
+                    mat._baseOpacity = 0.07;
+                    this._shellMats.push(mat);
+                    const mesh = new THREE.Mesh(geo, mat);
+                    // Store for wave animation — normals stay correct under pure radial deformation.
+                    membraneWaveMesh    = mesh;
+                    membraneWaveOrigPos = geo.attributes.position.array.slice();
+                    membraneWaveRadius  = this.radius;
+                    this.register(mesh, this.name, this.description);
+                    group.add(mesh);
+
+                    // Glow
+                    this.addGlow(group, this.radius * 1.05, 0x00d4ff, 0.06);
+
+                    this.addObject(group);
+                    currentMemRadius = this.radius;
+                    this._setupLipidShell(this.radius);
+                }
+            }
+
+            class CellWall extends CellComponent {
+                constructor(scene, radius = 42) {
+                    super(scene);
+                    this.radius = radius;
+                    this.name = "Cell Wall";
+                    this.description = "Rigid cellulose wall providing structural support in plant cells.";
+                    this.color = 0x88cc44;
+                    this.opacityGroup = 'Cell Wall';
+                }
+                create() {
+                    const group = new THREE.Group();
+
+                    const geo = new THREE.SphereGeometry(this.radius, 32, 32);
+                    const mat = new THREE.MeshPhongMaterial({
+                        color: 0x88cc44,
+                        transparent: true,
+                        opacity: 0.12,
+                        side: THREE.DoubleSide,
+                        depthWrite: false,
+                    });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    this.register(mesh, this.name, this.description);
+                    group.add(mesh);
+
+                    const wMat = new THREE.MeshBasicMaterial({
+                        color: 0xaaff55,
+                        wireframe: true,
+                        transparent: true,
+                        opacity: 0.15,
+                    });
+                    group.add(new THREE.Mesh(new THREE.SphereGeometry(this.radius * 1.003, 28, 28), wMat));
+
+                    this.addObject(group);
+                }
+            }
+
+            class Nucleus extends LipidShellComponent {
+                constructor(scene, position, radius = 10) {
+                    super(scene);
+                    this.position = position || new THREE.Vector3(0, 0, 0);
+                    this.radius = radius;
+                    this.name = "Nucleus";
+                    this.description = "Contains DNA and directs cell activities. Bounded by nuclear envelope.";
+                    this.color = 0x7b2fff;
+                    this.driftAmplitude = 80;
+                    this.opacityGroup = 'Nucleus';
+                }
+                create() {
+                    const group = new THREE.Group();
+
+                    // Nuclear envelope
+                    const geo = new THREE.SphereGeometry(this.radius, 32, 32);
+                    const mat = new THREE.MeshPhongMaterial({
+                        color: 0x5511cc,
+                        emissive: 0x220055,
+                        transparent: true,
+                        opacity: 0.6,
+                        side: THREE.DoubleSide,
+                    });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    this.register(mesh, this.name, this.description);
+                    group.add(mesh);
+
+                    // Nuclear pores (small cylinders) — ~100 nm diameter = 50 units
+                    const poreGeo = new THREE.CylinderGeometry(50, 50, 30, 8);
+                    const poreMat = new THREE.MeshPhongMaterial({ color: 0xaa88ff, emissive: 0x330055 });
+                    for (let i = 0; i < 20; i++) {
+                        const theta = (i / 20) * Math.PI * 2;
+                        const phi = Math.acos(2 * Math.random() - 1);
+                        const pore = new THREE.Mesh(poreGeo, poreMat);
+                        const r = this.radius + 10;
+                        pore.position.set(
+                            r * Math.sin(phi) * Math.cos(theta),
+                            r * Math.sin(phi) * Math.sin(theta),
+                            r * Math.cos(phi)
+                        );
+                        pore.lookAt(pore.position.clone().multiplyScalar(2));
+                        group.add(pore);
+                    }
+
+                    // Nucleolus
+                    const nGeo = new THREE.SphereGeometry(this.radius * 0.38, 16, 16);
+                    const nMat = new THREE.MeshPhongMaterial({ color: 0xcc44ff, emissive: 0x440077 });
+                    const nMesh = new THREE.Mesh(nGeo, nMat);
+                    nMesh.position.set(this.radius * 0.3, this.radius * 0.1, 0);
+                    this.register(nMesh, "Nucleolus", "Dense region within nucleus; synthesizes ribosomal RNA.");
+                    group.add(nMesh);
+
+                    // Chromatin wisps — chromatin fiber ~30 nm = 15 units diameter
+                    for (let i = 0; i < 8; i++) {
+                        const curve = new THREE.CatmullRomCurve3([
+                            this.randomInSphere(this.radius * 0.5),
+                            this.randomInSphere(this.radius * 0.5),
+                            this.randomInSphere(this.radius * 0.5),
+                            this.randomInSphere(this.radius * 0.5),
+                        ]);
+                        const tGeo = new THREE.TubeGeometry(curve, 20, 15, 6, false);
+                        const tMat = new THREE.MeshPhongMaterial({ color: 0x8844dd, emissive: 0x220033 });
+                        group.add(new THREE.Mesh(tGeo, tMat));
+                    }
+
+                    this.addGlow(group, this.radius * 1.3, 0x7b2fff, 0.18);
+                    group.position.copy(this.position);
+                    this.addObject(group);
+                    this._setupLipidShell(this.radius);
+                }
+            }
+
+            class Mitochondrion extends LipidShellComponent {
+                constructor(scene, position, scale = 1) {
+                    super(scene);
+                    this.position = position;
+                    this.scale = scale;
+                    this.name = "Mitochondrion";
+                    this.description = "Powerhouse of the cell. Generates ATP through oxidative phosphorylation.";
+                    this.color = 0xff6622;
+                    this.driftAmplitude = 150;
+                    this.opacityGroup = 'Mitochondria';
+                }
+                create() {
+                    const group = new THREE.Group();
+
+                    // Outer membrane (elongated sphere) — mito ~1 µm wide = 500 units radius
+                    const outerGeo = new THREE.SphereGeometry(300, 24, 24);
+                    const outerMat = new THREE.MeshPhongMaterial({
+                        color: 0xdd4411,
+                        emissive: 0x441100,
+                        transparent: true,
+                        opacity: 0.75,
+                    });
+                    const outer = new THREE.Mesh(outerGeo, outerMat);
+                    outer.scale.set(2.4, 1, 1);
+                    this.register(outer, this.name, this.description);
+                    group.add(outer);
+
+                    // Inner membrane (slightly smaller)
+                    const innerGeo = new THREE.SphereGeometry(250, 20, 20);
+                    const innerMat = new THREE.MeshPhongMaterial({
+                        color: 0xff8833,
+                        emissive: 0x330e00,
+                        transparent: true,
+                        opacity: 0.5,
+                    });
+                    const inner = new THREE.Mesh(innerGeo, innerMat);
+                    inner.scale.set(2.2, 0.85, 0.85);
+                    group.add(inner);
+
+                    // Cristae (inner folds as flat tori)
+                    const cristaeMat = new THREE.MeshPhongMaterial({ color: 0xffaa44, emissive: 0x221100 });
+                    for (let i = 0; i < 5; i++) {
+                        const r = 120 - i * 6;
+                        const cGeo = new THREE.TorusGeometry(r, 18, 6, 20);
+                        const cMesh = new THREE.Mesh(cGeo, cristaeMat);
+                        cMesh.rotation.y = Math.PI / 2;
+                        cMesh.position.x = (i - 2) * 110;
+                        cMesh.scale.y = 0.6;
+                        group.add(cMesh);
+                    }
+
+                    this.addGlow(group, 400, 0xff5500, 0.14);
+                    group.position.copy(this.position);
+                    group.rotation.set(
+                        Math.random() * Math.PI * 2,
+                        Math.random() * Math.PI * 2,
+                        Math.random() * Math.PI * 2
+                    );
+                    group.scale.setScalar(this.scale);
+                    this.addObject(group);
+                    this._setupLipidShell(300 * this.scale);
+                    return group;
+                }
+            }
+
+            class Ribosome extends CellComponent {
+                constructor(scene, position) {
+                    super(scene);
+                    this.position = position;
+                    this.name = "Ribosome";
+                    this.description = "Molecular machine that translates mRNA into proteins (large + small subunit).";
+                    this.color = 0xffcc00;
+                    this.driftAmplitude = 100;
+                    this.opacityGroup = 'Ribosomes';
+                }
+                create() {
+                    const group = new THREE.Group();
+                    const mat = new THREE.MeshPhongMaterial({ color: 0xffcc00, emissive: 0x332200 });
+
+                    // Large subunit — ~15 nm radius = 7.5 units
+                    const lGeo = new THREE.SphereGeometry(6, 8, 8);
+                    const lMesh = new THREE.Mesh(lGeo, mat);
+                    lMesh.position.set(0, 3, 0);
+                    this.register(lMesh, this.name, this.description);
+                    group.add(lMesh);
+
+                    // Small subunit — ~10 nm radius = 5 units
+                    const sMat = new THREE.MeshPhongMaterial({ color: 0xffee44, emissive: 0x332200 });
+                    const sGeo = new THREE.SphereGeometry(4, 8, 8);
+                    const sMesh = new THREE.Mesh(sGeo, sMat);
+                    sMesh.position.set(0, -4, 0);
+                    group.add(sMesh);
+
+                    group.position.copy(this.position);
+                    this.addObject(group);
+                }
+            }
+
+            class EndoplasmicReticulum extends CellComponent {
+                constructor(scene, rough = true) {
+                    super(scene);
+                    this.rough = rough;
+                    this.name = rough ? "Rough ER" : "Smooth ER";
+                    this.description = rough
+                        ? "Studded with ribosomes; folds and processes proteins for secretion."
+                        : "Synthesizes lipids and detoxifies chemicals; lacks ribosomes.";
+                    this.color = rough ? 0x00ffaa : 0x00ddff;
+                    this.opacityGroup = rough ? 'Rough ER' : 'Smooth ER';
+                }
+                create() {
+                    const color = this.rough ? 0x00cc88 : 0x0099cc;
+                    const emissive = this.rough ? 0x002211 : 0x001122;
+
+                    for (let t = 0; t < 4; t++) {
+                        const pts = [];
+                        const startAngle = (t / 4) * Math.PI * 2;
+                        for (let i = 0; i <= 12; i++) {
+                            const a = startAngle + (i / 12) * Math.PI * 1.5;
+                            const r = 1400 + Math.sin(a * 3) * 400;
+                            pts.push(
+                                new THREE.Vector3(
+                                    r * Math.cos(a) + (Math.random() - 0.5) * 300,
+                                    (Math.random() - 0.5) * 1800,
+                                    r * Math.sin(a) + (Math.random() - 0.5) * 300
+                                )
+                            );
+                        }
+                        const curve = new THREE.CatmullRomCurve3(pts);
+                        const tubGeo = new THREE.TubeGeometry(curve, 40, 50, 6, false);
+                        const tubMat = new THREE.MeshPhongMaterial({
+                            color,
+                            emissive,
+                            transparent: true,
+                            opacity: 0.8,
+                        });
+                        const tube = new THREE.Mesh(tubGeo, tubMat);
+                        this.register(tube, this.name, this.description);
+                        this.addObject(tube);
+
+                        // Ribosomes on rough ER
+                        if (this.rough) {
+                            for (let i = 0; i < 12; i++) {
+                                const t2 = i / 12;
+                                const pt = curve.getPoint(t2);
+                                const r = new Ribosome(
+                                    this.scene,
+                                    pt
+                                        .clone()
+                                        .add(
+                                            new THREE.Vector3(
+                                                (Math.random() - 0.5) * 150,
+                                                (Math.random() - 0.5) * 150,
+                                                (Math.random() - 0.5) * 150
+                                            )
+                                        )
+                                );
+                                r.create();
+                            }
+                        }
+                    }
+                }
+            }
+
+            class GolgiApparatus extends CellComponent {
+                constructor(scene, position) {
+                    super(scene);
+                    this.position = position || new THREE.Vector3(15, -5, 10);
+                    this.name = "Golgi Apparatus";
+                    this.description = "Modifies, packages and ships proteins via vesicles to their destinations.";
+                    this.color = 0xff44aa;
+                    this.driftAmplitude = 120;
+                    this.opacityGroup = 'Golgi Apparatus';
+                }
+                create() {
+                    const group = new THREE.Group();
+                    const colors = [0xff22aa, 0xff44bb, 0xff66cc, 0xff88dd, 0xffaaee];
+                    const mat = new THREE.MeshPhongMaterial({ color: 0xff44aa, emissive: 0x440022 });
+
+                    // Golgi stack — cisternae ~1 µm diameter = 500 units radius
+                    for (let i = 0; i < 5; i++) {
+                        const r = 550 - i * 30;
+                        const tGeo = new THREE.TorusGeometry(r, 55, 8, 40);
+                        const tMat = new THREE.MeshPhongMaterial({ color: colors[i], emissive: 0x330011 });
+                        const tMesh = new THREE.Mesh(tGeo, tMat);
+                        tMesh.position.y = (i - 2) * 130;
+                        tMesh.rotation.x = Math.PI / 2;
+                        this.register(tMesh, this.name, this.description);
+                        group.add(tMesh);
+                    }
+
+                    // Vesicles budding off — ~100 nm = 50 units radius
+                    const vMat = new THREE.MeshPhongMaterial({
+                        color: 0xff88cc,
+                        emissive: 0x220011,
+                        transparent: true,
+                        opacity: 0.85,
+                    });
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i / 6) * Math.PI * 2;
+                        const vGeo = new THREE.SphereGeometry(70, 8, 8);
+                        const vMesh = new THREE.Mesh(vGeo, vMat);
+                        vMesh.position.set(
+                            (550 + 250) * Math.cos(a),
+                            (Math.random() - 0.5) * 400,
+                            (550 + 250) * Math.sin(a)
+                        );
+                        this.register(vMesh, "Golgi Vesicle", "Transport vesicle budding from the Golgi apparatus.");
+                        group.add(vMesh);
+                    }
+
+                    this.addGlow(group, 800, 0xff44aa, 0.12);
+                    group.position.copy(this.position);
+                    this.addObject(group);
+                }
+            }
+
+            class Lysosome extends LipidShellComponent {
+                constructor(scene, position) {
+                    super(scene);
+                    this.position = position;
+                    this.name = "Lysosome";
+                    this.description =
+                        "Contains digestive enzymes that break down waste materials and cellular debris.";
+                    this.color = 0xff2266;
+                    this.driftAmplitude = 180;
+                    this.opacityGroup = 'Lysosomes';
+                }
+                create() {
+                    const group = new THREE.Group();
+                    // Lysosome ~200 nm radius = 100 units
+                    const geo = new THREE.SphereGeometry(100, 16, 16);
+                    const mat = new THREE.MeshPhongMaterial({
+                        color: 0xdd1144,
+                        emissive: 0x440011,
+                        transparent: true,
+                        opacity: 0.8,
+                    });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    this.register(mesh, this.name, this.description);
+                    group.add(mesh);
+                    this.addGlow(group, 140, 0xff0044, 0.15);
+                    group.position.copy(this.position);
+                    this.addObject(group);
+                    this._setupLipidShell(100);
+                }
+            }
+
+            class Vacuole extends LipidShellComponent {
+                constructor(scene, position, radius = 300, large = false) {
+                    super(scene);
+                    this.position = position;
+                    this.radius = radius;
+                    this.large = large;
+                    this.name = large ? "Central Vacuole" : "Vacuole";
+                    this.description = large
+                        ? "Large water-filled organelle in plant cells; maintains turgor pressure."
+                        : "Storage organelle containing water, ions, and molecules.";
+                    this.color = large ? 0x44aaff : 0x2266cc;
+                    this.driftAmplitude = large ? 50 : 160;
+                    this.opacityGroup = large ? 'Central Vacuole' : 'Vacuoles';
+                }
+                create() {
+                    const group = new THREE.Group();
+                    const geo = new THREE.SphereGeometry(this.radius, 20, 20);
+                    const mat = new THREE.MeshPhongMaterial({
+                        color: this.large ? 0x44aaff : 0x2255cc,
+                        emissive: this.large ? 0x001133 : 0x000e22,
+                        transparent: true,
+                        opacity: this.large ? 0.35 : 0.6,
+                        side: THREE.DoubleSide,
+                        depthWrite: false,
+                    });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    this.register(mesh, this.name, this.description);
+                    group.add(mesh);
+                    this.addGlow(group, this.radius * 1.2, 0x2266ff, 0.1);
+                    group.position.copy(this.position);
+                    this.addObject(group);
+                    this._setupLipidShell(this.radius);
+                }
+            }
+
+            class Chloroplast extends LipidShellComponent {
+                constructor(scene, position) {
+                    super(scene);
+                    this.position = position;
+                    this.name = "Chloroplast";
+                    this.description = "Site of photosynthesis. Contains thylakoid membranes and chlorophyll.";
+                    this.color = 0x22dd55;
+                    this.driftAmplitude = 150;
+                    this.opacityGroup = 'Chloroplasts';
+                }
+                create() {
+                    const group = new THREE.Group();
+
+                    // Outer shell — chloroplast ~3 µm long = 1500 units
+                    const geo = new THREE.SphereGeometry(350, 24, 24);
+                    const mat = new THREE.MeshPhongMaterial({
+                        color: 0x119922,
+                        emissive: 0x052209,
+                        transparent: true,
+                        opacity: 0.7,
+                    });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    mesh.scale.set(1.8, 0.7, 1);
+                    this.register(mesh, this.name, this.description);
+                    group.add(mesh);
+
+                    // Thylakoid stacks (grana) — disc ~500 nm = 250 units radius
+                    const granaPos = [
+                        new THREE.Vector3(-200, 0, 0),
+                        new THREE.Vector3(0, 0, 0),
+                        new THREE.Vector3(200, 0, 0),
+                    ];
+                    const tMat = new THREE.MeshPhongMaterial({ color: 0x33ff66, emissive: 0x052e0f });
+                    granaPos.forEach((gPos) => {
+                        for (let k = 0; k < 4; k++) {
+                            const dGeo = new THREE.CylinderGeometry(110, 110, 25, 16);
+                            const disc = new THREE.Mesh(dGeo, tMat);
+                            disc.position.copy(gPos);
+                            disc.position.y = (k - 1.5) * 35;
+                            group.add(disc);
+                        }
+                    });
+
+                    this.addGlow(group, 500, 0x00ff44, 0.14);
+                    group.position.copy(this.position);
+                    group.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+                    this.addObject(group);
+                    this._setupLipidShell(350);
+                }
+            }
+
+            class Peroxisome extends LipidShellComponent {
+                constructor(scene, position) {
+                    super(scene);
+                    this.position = position;
+                    this.name = "Peroxisome";
+                    this.description = "Breaks down fatty acids and detoxifies hydrogen peroxide using catalase.";
+                    this.color = 0xffaa00;
+                    this.driftAmplitude = 200;
+                    this.opacityGroup = 'Peroxisomes';
+                }
+                create() {
+                    const group = new THREE.Group();
+                    // Peroxisome ~200 nm radius = 100 units
+                    const geo = new THREE.SphereGeometry(100, 12, 12);
+                    const mat = new THREE.MeshPhongMaterial({ color: 0xdd8800, emissive: 0x221100 });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    this.register(mesh, this.name, this.description);
+                    group.add(mesh);
+                    // Crystal-like inner body
+                    const cGeo = new THREE.OctahedronGeometry(40, 0);
+                    const cMat = new THREE.MeshPhongMaterial({ color: 0xffdd44, emissive: 0x443300 });
+                    group.add(new THREE.Mesh(cGeo, cMat));
+                    this.addGlow(group, 150, 0xffaa00, 0.13);
+                    group.position.copy(this.position);
+                    this.addObject(group);
+                    this._setupLipidShell(100);
+                }
+            }
+
+            class CytoplasmParticles extends CellComponent {
+                constructor(scene, count = 600, radius = 3500) {
+                    super(scene);
+                    this.count = count;
+                    this.radius = radius;
+                    this.name = "Cytoplasm";
+                    this.description = "Aqueous solution within the cell membrane containing organelles and solutes.";
+                    this.color = 0x114466;
+                    this.opacityGroup = 'Cytoplasm';
+                }
+                create() {
+                    const positions = new Float32Array(this.count * 3);
+                    for (let i = 0; i < this.count; i++) {
+                        const v = this.randomInSphere(this.radius * 0.95);
+                        positions[i * 3] = v.x;
+                        positions[i * 3 + 1] = v.y;
+                        positions[i * 3 + 2] = v.z;
+                    }
+                    const geo = new THREE.BufferGeometry();
+                    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+                    const mat = new THREE.PointsMaterial({
+                        color: 0x224466,
+                        size: 20,
+                        sizeAttenuation: true,
+                        transparent: true,
+                        opacity: 0.6,
+                        blending: THREE.AdditiveBlending,
+                        depthWrite: false,
+                    });
+                    const pts = new THREE.Points(geo, mat);
+                    this.addObject(pts);
+                }
+            }
+
+            class Nucleoid extends CellComponent {
+                constructor(scene) {
+                    super(scene);
+                    this.name = "Nucleoid";
+                    this.description = "Region in prokaryotes containing the circular chromosome. Not membrane-bound.";
+                    this.color = 0xcc88ff;
+                    this.driftAmplitude = 80;
+                    this.opacityGroup = 'Nucleoid (DNA)';
+                }
+                create() {
+                    const group = new THREE.Group();
+
+                    // DNA coil — nucleoid ~1 µm diameter, DNA ~30 nm wide
+                    const pts = [];
+                    for (let i = 0; i < 200; i++) {
+                        const t = i / 200;
+                        const a = t * Math.PI * 12;
+                        const r = 700 * (1 - Math.abs(t - 0.5) * 1.2);
+                        pts.push(new THREE.Vector3(r * Math.cos(a), (t - 0.5) * 1600, r * Math.sin(a)));
+                    }
+                    const curve = new THREE.CatmullRomCurve3(pts, true);
+                    const tGeo = new THREE.TubeGeometry(curve, 200, 15, 6, true);
+                    const tMat = new THREE.MeshPhongMaterial({ color: 0xbb66ff, emissive: 0x220033 });
+                    const tMesh = new THREE.Mesh(tGeo, tMat);
+                    this.register(tMesh, this.name, this.description);
+                    group.add(tMesh);
+
+                    this.addGlow(group, 1000, 0xaa44ff, 0.12);
+                    this.addObject(group);
+                }
+            }
+
+            class BacterialFlagellum extends CellComponent {
+                constructor(scene) {
+                    super(scene);
+                    this.name = "Flagellum";
+                    this.description = "Whip-like appendage used for bacterial locomotion, powered by a rotary motor.";
+                    this.color = 0x44ffcc;
+                    this.opacityGroup = 'Flagellum';
+                }
+                create() {
+                    const pts = [];
+                    for (let i = 0; i < 60; i++) {
+                        const t = i / 60;
+                        pts.push(
+                            new THREE.Vector3(
+                                2200 + t * 5500,
+                                Math.sin(t * Math.PI * 8) * 400 * (1 - t * 0.5),
+                                Math.cos(t * Math.PI * 8) * 400 * (1 - t * 0.5)
+                            )
+                        );
+                    }
+                    const curve = new THREE.CatmullRomCurve3(pts);
+                    const fGeo = new THREE.TubeGeometry(curve, 80, 25, 6, false);
+                    const fMat = new THREE.MeshPhongMaterial({ color: 0x44ffcc, emissive: 0x00221a });
+                    const mesh = new THREE.Mesh(fGeo, fMat);
+                    this.register(mesh, this.name, this.description);
+                    this.addObject(mesh);
+
+                    // Hook
+                    const hGeo = new THREE.TorusGeometry(200, 40, 8, 20, Math.PI * 0.7);
+                    const hMat = new THREE.MeshPhongMaterial({ color: 0x22ddaa, emissive: 0x001111 });
+                    const hook = new THREE.Mesh(hGeo, hMat);
+                    hook.position.set(2000, 0, 0);
+                    hook.rotation.z = Math.PI / 2;
+                    this.addObject(hook);
+                }
+            }
+
+            class Pili extends CellComponent {
+                constructor(scene) {
+                    super(scene);
+                    this.name = "Pili";
+                    this.description = "Short protein filaments on bacterial surface for adhesion and conjugation.";
+                    this.color = 0xffeebb;
+                    this.opacityGroup = 'Pili';
+                }
+                create() {
+                    const mat = new THREE.MeshPhongMaterial({ color: 0xddcc99, emissive: 0x111100 });
+                    for (let i = 0; i < 8; i++) {
+                        const a = (i / 8) * Math.PI * 2;
+                        const bx = 1900 * Math.cos(a);
+                        const bz = 1900 * Math.sin(a);
+                        const pts = [];
+                        for (let j = 0; j <= 10; j++) {
+                            const t = j / 10;
+                            pts.push(
+                                new THREE.Vector3(
+                                    bx * (1 + t * 0.2) + Math.sin(t * Math.PI * 3) * 50,
+                                    t * 1200,
+                                    bz * (1 + t * 0.2) + Math.cos(t * Math.PI * 3) * 50
+                                )
+                            );
+                        }
+                        const curve = new THREE.CatmullRomCurve3(pts);
+                        const pGeo = new THREE.TubeGeometry(curve, 20, 18, 5, false);
+                        const mesh = new THREE.Mesh(pGeo, mat);
+                        this.register(mesh, this.name, this.description);
+                        this.addObject(mesh);
+                    }
+                }
+            }
+
+            class BacterialMembrane extends LipidShellComponent {
+                constructor(scene) {
+                    super(scene);
+                    this.name = "Bacterial Cell Wall (Peptidoglycan)";
+                    this.description = "Rigid peptidoglycan layer providing structural integrity to the prokaryote.";
+                    this.color = 0x66ffaa;
+                }
+                create() {
+                    const group = new THREE.Group();
+
+                    // E. coli ~1 µm radius = 500 units (rod shape scaled 2.2×)
+                    const geo = new THREE.SphereGeometry(500, 32, 32);
+                    geo.scale(2.2, 1, 1); // rod-shaped bacterium
+
+                    const mat = new THREE.MeshPhongMaterial({
+                        color: 0x33cc77,
+                        transparent: true,
+                        opacity: 0.1,
+                        side: THREE.DoubleSide,
+                        depthWrite: false,
+                    });
+                    mat._baseOpacity = 0.1;
+                    this._shellMats.push(mat);
+                    const mesh = new THREE.Mesh(geo, mat);
+                    this.register(mesh, this.name, this.description);
+                    group.add(mesh);
+
+                    const wGeo = new THREE.SphereGeometry(505, 28, 28);
+                    wGeo.scale(2.2, 1, 1);
+                    const wMat = new THREE.MeshBasicMaterial({
+                        color: 0x44ffaa,
+                        wireframe: true,
+                        transparent: true,
+                        opacity: 0.1,
+                    });
+                    group.add(new THREE.Mesh(wGeo, wMat));
+
+                    this.addObject(group);
+                    currentMemRadius = 500;
+                    this._setupLipidShell(500);
+                }
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // CELL FACTORY
+            // ═══════════════════════════════════════════════════════════════
+            let currentComponents = [];
+
+            function clearCell() {
+                pickables = [];
+                currentComponents.forEach((c) => c.remove());
+                currentComponents = [];
+                membraneWaveMesh    = null;
+                membraneWaveOrigPos = null;
+            }
+
+            function buildAnimalCell() {
+                clearCell();
+                const components = [];
+
+                components.push(new CytoplasmParticles(scene, 700, 3600));
+                components.push(new CellMembrane(scene, 3750));
+
+                const nucleus = new Nucleus(scene, new THREE.Vector3(-200, 200, 0), 1000);
+                components.push(nucleus);
+
+                const er = new EndoplasmicReticulum(scene, true);
+                components.push(er);
+                const ser = new EndoplasmicReticulum(scene, false);
+                components.push(ser);
+
+                const golgi = new GolgiApparatus(scene, new THREE.Vector3(1600, -400, 800));
+                components.push(golgi);
+
+                // Mitochondria
+                const mitoPositions = [
+                    new THREE.Vector3(-2200, 800, 500),
+                    new THREE.Vector3(2000, 1200, -1000),
+                    new THREE.Vector3(-1500, -1500, 1200),
+                    new THREE.Vector3(1000, -1800, -1400),
+                    new THREE.Vector3(-800, 2000, -1600),
+                    new THREE.Vector3(2200, -800, 1400),
+                    new THREE.Vector3(-2000, 600, -2000),
+                    new THREE.Vector3(600, 1600, 2200),
+                ];
+                mitoPositions.forEach((pos) => {
+                    components.push(new Mitochondrion(scene, pos, 0.9 + Math.random() * 0.4));
+                });
+
+                // Lysosomes
+                for (let i = 0; i < 7; i++) {
+                    const angle = (i / 7) * Math.PI * 2;
+                    const r = 1800 + Math.random() * 800;
+                    components.push(
+                        new Lysosome(
+                            scene,
+                            new THREE.Vector3(
+                                r * Math.cos(angle) + (Math.random() - 0.5) * 400,
+                                (Math.random() - 0.5) * 2000,
+                                r * Math.sin(angle) + (Math.random() - 0.5) * 400
+                            )
+                        )
+                    );
+                }
+
+                // Vacuoles
+                for (let i = 0; i < 4; i++) {
+                    const v = new Vacuole(
+                        scene,
+                        new THREE.Vector3(
+                            (Math.random() - 0.5) * 2800,
+                            (Math.random() - 0.5) * 2800,
+                            (Math.random() - 0.5) * 2800
+                        ),
+                        250 + Math.random() * 200
+                    );
+                    components.push(v);
+                }
+
+                // Peroxisomes
+                for (let i = 0; i < 5; i++) {
+                    components.push(
+                        new Peroxisome(
+                            scene,
+                            new THREE.Vector3(
+                                (Math.random() - 0.5) * 3000,
+                                (Math.random() - 0.5) * 3000,
+                                (Math.random() - 0.5) * 3000
+                            )
+                        )
+                    );
+                }
+
+                // Free ribosomes
+                for (let i = 0; i < 80; i++) {
+                    const base = new CellComponent(scene);
+                    const pos = base.randomInSphere(3400);
+                    const r = new Ribosome(scene, pos);
+                    r.create();
+                    components.push(r);
+                }
+
+                components.forEach((c) => c.create && c.create());
+                currentComponents = components;
+                boostEmissive();
+                collectOpacityMaterials();
+
+                return [
+                    { name: "Cell Membrane", color: 0x00d4ff },
+                    { name: "Nucleus", color: 0x7b2fff },
+                    { name: "Mitochondria", color: 0xff6622 },
+                    { name: "Rough ER", color: 0x00ffaa },
+                    { name: "Golgi Apparatus", color: 0xff44aa },
+                    { name: "Lysosomes", color: 0xff2266 },
+                    { name: "Vacuoles", color: 0x2266cc },
+                    { name: "Ribosomes", color: 0xffcc00 },
+                    { name: "Peroxisomes", color: 0xffaa00 },
+                    { name: "Cytoplasm", color: 0x224466 },
+                ];
+            }
+
+            function buildPlantCell() {
+                clearCell();
+                const components = [];
+
+                components.push(new CytoplasmParticles(scene, 700, 3600));
+                components.push(new CellWall(scene, 4200));
+                components.push(new CellMembrane(scene, 3750));
+
+                const nucleus = new Nucleus(scene, new THREE.Vector3(-300, 1000, 500), 900);
+                components.push(nucleus);
+
+                // Large central vacuole — ~2 µm radius = 1000 units
+                const cv = new Vacuole(scene, new THREE.Vector3(0, -200, 0), 1800, true);
+                components.push(cv);
+
+                // Chloroplasts
+                const chloroPositions = [
+                    new THREE.Vector3(-2800, 500, 0),
+                    new THREE.Vector3(2800, 500, 0),
+                    new THREE.Vector3(0, 500, -2800),
+                    new THREE.Vector3(0, 500, 2800),
+                    new THREE.Vector3(-2000, 1800, -1500),
+                    new THREE.Vector3(2000, 1800, 1500),
+                    new THREE.Vector3(-1500, -1800, 2000),
+                    new THREE.Vector3(2000, -1800, -1800),
+                ];
+                chloroPositions.forEach((pos) => {
+                    components.push(new Chloroplast(scene, pos));
+                });
+
+                // Mitochondria (fewer than animal)
+                for (let i = 0; i < 5; i++) {
+                    const a = (i / 5) * Math.PI * 2;
+                    components.push(
+                        new Mitochondrion(
+                            scene,
+                            new THREE.Vector3(2500 * Math.cos(a), (Math.random() - 0.5) * 1200, 2500 * Math.sin(a)),
+                            0.85
+                        )
+                    );
+                }
+
+                const er = new EndoplasmicReticulum(scene, true);
+                components.push(er);
+
+                const golgi = new GolgiApparatus(scene, new THREE.Vector3(-1800, 1200, -1000));
+                components.push(golgi);
+
+                for (let i = 0; i < 60; i++) {
+                    const base = new CellComponent(scene);
+                    const r = new Ribosome(scene, base.randomInSphere(3600));
+                    r.create();
+                    components.push(r);
+                }
+
+                components.forEach((c) => c.create && c.create());
+                currentComponents = components;
+                boostEmissive();
+                collectOpacityMaterials();
+
+                return [
+                    { name: "Cell Wall", color: 0x88cc44 },
+                    { name: "Cell Membrane", color: 0x00d4ff },
+                    { name: "Nucleus", color: 0x7b2fff },
+                    { name: "Chloroplasts", color: 0x22dd55 },
+                    { name: "Central Vacuole", color: 0x44aaff },
+                    { name: "Mitochondria", color: 0xff6622 },
+                    { name: "Golgi Apparatus", color: 0xff44aa },
+                    { name: "Rough ER", color: 0x00ffaa },
+                    { name: "Ribosomes", color: 0xffcc00 },
+                    { name: "Cytoplasm", color: 0x224466 },
+                ];
+            }
+
+            function buildBacterium() {
+                clearCell();
+                const components = [];
+
+                components.push(new BacterialMembrane(scene));
+
+                // Scale cytoplasm to rod shape handled by particles
+                const cyt = new CytoplasmParticles(scene, 400, 1800);
+                const oldCreate = cyt.create.bind(cyt);
+                cyt.create = function () {
+                    const count = 400;
+                    const positions = new Float32Array(count * 3);
+                    for (let i = 0; i < count; i++) {
+                        const v = this.randomInSphere(1700);
+                        positions[i * 3] = v.x * 2.2;
+                        positions[i * 3 + 1] = v.y;
+                        positions[i * 3 + 2] = v.z;
+                    }
+                    const geo = new THREE.BufferGeometry();
+                    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+                    const mat = new THREE.PointsMaterial({
+                        color: 0x113322,
+                        size: 20,
+                        sizeAttenuation: true,
+                        transparent: true,
+                        opacity: 0.6,
+                        blending: THREE.AdditiveBlending,
+                        depthWrite: false,
+                    });
+                    this.addObject(new THREE.Points(geo, mat));
+                };
+                components.push(cyt);
+
+                components.push(new Nucleoid(scene));
+                components.push(new BacterialFlagellum(scene));
+                components.push(new Pili(scene));
+
+                // Many ribosomes (prokaryotes are packed with them)
+                for (let i = 0; i < 120; i++) {
+                    const base = new CellComponent(scene);
+                    const v = base.randomInSphere(1600);
+                    const r = new Ribosome(scene, new THREE.Vector3(v.x * 2.2, v.y, v.z));
+                    r.create();
+                    components.push(r);
+                }
+
+                // Inclusion bodies (storage granules) — ~200-400 nm = 100-200 units
+                for (let i = 0; i < 5; i++) {
+                    const v = new CellComponent(scene);
+                    const pos = v.randomInSphere(1400);
+                    pos.x *= 2;
+                    const geo = new THREE.SphereGeometry(100 + Math.random() * 80, 10, 10);
+                    const mat = new THREE.MeshPhongMaterial({
+                        color: 0x88aaff,
+                        emissive: 0x111133,
+                        transparent: true,
+                        opacity: 0.75,
+                    });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    mesh.position.copy(pos);
+                    mesh.userData.info = {
+                        name: "Inclusion Body",
+                        desc: "Granule storing energy reserves like glycogen or polyhydroxyalkanoate.",
+                    };
+                    pickables.push(mesh);
+                    scene.add(mesh);
+                    components.push({
+                        remove: () => {
+                            scene.remove(mesh);
+                            mesh.geometry.dispose();
+                            mesh.material.dispose();
+                        },
+                        create: () => {},
+                    });
+                }
+
+                components.forEach((c) => c.create && c.create());
+                currentComponents = components;
+                boostEmissive();
+                collectOpacityMaterials();
+
+                return [
+                    { name: "Cell Wall (Peptidoglycan)", color: 0x66ffaa },
+                    { name: "Nucleoid (DNA)", color: 0xcc88ff },
+                    { name: "Flagellum", color: 0x44ffcc },
+                    { name: "Pili", color: 0xffeebb },
+                    { name: "Ribosomes", color: 0xffcc00 },
+                    { name: "Inclusion Bodies", color: 0x88aaff },
+                    { name: "Cytoplasm", color: 0x113322 },
+                ];
+            }
+
+            // ── Emissive Boost ────────────────────────────────────────────
+            // After building a cell, traverse every mesh and set emissive to
+            // 45% of its diffuse color.  This guarantees organelles self-illuminate
+            // and are readable from any angle, regardless of light position.
+            // Membrane materials (tagged _baseOpacity) and BasicMaterial (no emissive
+            // property) are skipped automatically.
+            function boostEmissive() {
+                scene.traverse((obj) => {
+                    if (!obj.isMesh) return;
+                    const mat = obj.material;
+                    if (!mat || mat._baseOpacity !== undefined) return; // skip membrane fade mats
+                    if (!mat.emissive) return;                           // skip MeshBasicMaterial
+                    if (mat._isBilayer) return;                          // skip bilayer molecules
+                    mat.emissive.copy(mat.color).multiplyScalar(0.45);
+                });
+            }
+
+            // ── Opacity group tracking ────────────────────────────────────
+            // Maps legend name → [{mat, nativeOpacity}] for slider control.
+            let opacityGroups = {};
+
+            function collectOpacityMaterials() {
+                opacityGroups = {};
+                currentComponents.forEach((c) => {
+                    if (!c.opacityGroup || !c.objects) return;
+                    const grp = c.opacityGroup;
+                    if (!opacityGroups[grp]) opacityGroups[grp] = [];
+                    c.objects.forEach((obj) => {
+                        obj.traverse((child) => {
+                            if (!child.material) return;
+                            const mats = Array.isArray(child.material) ? child.material : [child.material];
+                            mats.forEach((m) => {
+                                if (m._baseOpacity !== undefined) return; // shell-fade materials
+                                if (m.wireframe) return;
+                                if (m.side === THREE.BackSide) return;    // glow shells
+                                if (opacityGroups[grp].some((e) => e.mat === m)) return;
+                                opacityGroups[grp].push({ mat: m, nativeOpacity: m.opacity });
+                            });
+                        });
+                    });
+                });
+            }
+
+            // ── Legend Builder ────────────────────────────────────────────
+            function buildLegend(items) {
+                legendItems.innerHTML = "";
+                items.forEach((item) => {
+                    const div = document.createElement("div");
+                    div.className = "legend-item";
+                    const hex = "#" + item.color.toString(16).padStart(6, "0");
+                    div.innerHTML = `
+      <div class="legend-dot" style="background:${hex}; box-shadow: 0 0 6px ${hex}"></div>
+      <span class="legend-label">${item.name}</span>
+      <input type="range" class="opacity-slider" min="0" max="100" step="1" value="100" data-group="${item.name}" title="Opacity">
+    `;
+                    legendItems.appendChild(div);
+                });
+                legendItems.querySelectorAll(".opacity-slider").forEach((slider) => {
+                    slider.addEventListener("input", (e) => {
+                        const v = parseInt(e.target.value) / 100;
+                        const entries = opacityGroups[e.target.dataset.group];
+                        if (!entries) return;
+                        entries.forEach(({ mat, nativeOpacity }) => {
+                            mat.opacity = nativeOpacity * v;
+                        });
+                    });
+                });
+            }
+
+            // ── Cell Type Switch ──────────────────────────────────────────
+            let currentCellType = "animal";
+
+            const cellBuilders = {
+                animal: buildAnimalCell,
+                plant: buildPlantCell,
+                bacteria: buildBacterium,
+            };
+
+            document.querySelectorAll(".cell-tab").forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    const type = tab.dataset.type;
+                    if (type === currentCellType) return;
+                    currentCellType = type;
+                    document.querySelectorAll(".cell-tab").forEach((t) => t.classList.remove("active"));
+                    tab.classList.add("active");
+
+                    // Reset camera
+                    camState.position.set(0, 0, 3760);
+                    camState.velocity.set(0, 0, 0);
+                    camState.yaw = 0;
+                    camState.pitch = 0;
+
+                    const legendData = cellBuilders[type]();
+                    buildLegend(legendData);
+                    applyCameraOrbit();
+                });
+            });
+
+            // ── Tooltip & Raycasting ─────────────────────────────────────
+            function updateTooltip(e) {
+                raycaster.setFromCamera(mouse, camera);
+                const hits = raycaster.intersectObjects(pickables, false);
+                if (hits.length > 0 && hits[0].object.userData.info) {
+                    const info = hits[0].object.userData.info;
+                    ttName.textContent = info.name;
+                    ttDesc.textContent = info.desc;
+                    tooltip.style.display = "block";
+                    tooltip.style.left = e.clientX + 16 + "px";
+                    tooltip.style.top = e.clientY + 16 + "px";
+                    // Clamp to viewport
+                    const r = tooltip.getBoundingClientRect();
+                    if (r.right > window.innerWidth - 10) tooltip.style.left = e.clientX - r.width - 10 + "px";
+                    if (r.bottom > window.innerHeight - 10) tooltip.style.top = e.clientY - r.height - 10 + "px";
+                } else {
+                    tooltip.style.display = "none";
+                }
+            }
+            window.addEventListener("mousemove", updateTooltip);
+
+            // ── Animate rotating organelle lights ────────────────────────
+            let t = 0;
+            function animateLights() {
+                t += 0.005;
+                pLight1.position.set(3000 * Math.sin(t * 0.5), 2000, 3000 * Math.cos(t * 0.5));
+                pLight2.position.set(-2000 * Math.cos(t * 0.3), -1000 * Math.sin(t * 0.7), 2000 * Math.sin(t * 0.3));
+            }
+
+            // ── Render Loop ───────────────────────────────────────────────
+            function animate() {
+                animFrame = requestAnimationFrame(animate);
+                handleFlyKeys();
+                updateSpotlight();
+                animateLights();
+
+                // Slowly pulse ambient
+                ambient.intensity = 1.8 + Math.sin(t * 2) * 0.1;
+
+                // ── Membrane wave deformation ─────────────────────────────
+                // Purely radial displacement so vertex normals stay correct.
+                if (membraneWaveMesh) {
+                    const pos  = membraneWaveMesh.geometry.attributes.position;
+                    const orig = membraneWaveOrigPos;
+                    const R    = membraneWaveRadius;
+                    const A    = R * 0.006; // amplitude ≈ 0.6% of radius
+                    for (let vi = 0, vn = pos.count; vi < vn; vi++) {
+                        const i3 = vi * 3;
+                        const ox = orig[i3], oy = orig[i3 + 1], oz = orig[i3 + 2];
+                        const nx = ox / R,   ny = oy / R,        nz = oz / R;
+                        const w  = A * (
+                            Math.sin(6.0 * (nx + 0.3 * ny) + 1.2 * t        ) * 0.50 +
+                            Math.sin(4.5 * (nz - 0.5 * ny) + 0.7 * t + 1.7  ) * 0.35 +
+                            Math.sin(7.0 * (0.6 * nx - 0.8 * nz) + 1.0 * t + 4.1) * 0.25
+                        );
+                        const r = 1 + w / R;
+                        pos.array[i3]     = ox * r;
+                        pos.array[i3 + 1] = oy * r;
+                        pos.array[i3 + 2] = oz * r;
+                    }
+                    pos.needsUpdate = true;
+                }
+
+                // ── Organelle drift + lipid shells ────────────────────────
+                currentComponents.forEach((c) => c.update && c.update(t));
+
+                // ── Depth-of-field update ─────────────────────────────────
+                // linear depth = dist / farClip  (camera.far = 10000)
+                {
+                    const camDist = camera.position.length();
+                    const memR    = currentMemRadius;
+                    const distOut = camDist - memR; // positive = outside cell
+
+                    let targetFocus, targetMaxblur;
+                    if (distOut >= 0) {
+                        // Outside: focal plane sits on the membrane surface.
+                        // Everything deeper inside the cell drifts out of focus.
+                        targetFocus   = Math.max(8, distOut);  // scene units: focal plane on membrane
+                        targetMaxblur = dofMaxblur + 0.001;
+                    } else {
+                        // Inside: focal plane near the camera so closer = sharper,
+                        // farther = progressively blurrier.
+                        targetFocus   = dofFocusInside;
+                        targetMaxblur = dofMaxblur;
+                    }
+                    // Smooth the focal distance to avoid sudden jumps during transitions.
+                    const cf = bokehPass.uniforms['focus'].value;
+                    bokehPass.uniforms['focus'].value    = cf + (targetFocus - cf) * 0.06;
+                    bokehPass.uniforms['aperture'].value = dofAperture;
+                    bokehPass.uniforms['maxblur'].value  = targetMaxblur;
+                }
+
+                composer.render();
+
+                // Infobar
+                const p = camera.position;
+                // 1 unit = 2 nm; show position in nm
+                infobar.textContent = `POS  x:${(p.x*2).toFixed(0)}nm  y:${(p.y*2).toFixed(0)}nm  z:${(p.z*2).toFixed(0)}nm  |  BEAM ${(beamDist*2).toFixed(0)}nm  |  ${currentCellType.toUpperCase()} CELL`;
+            }
+
+            // ── Init ──────────────────────────────────────────────────────
+            // ── DOF panel slider wiring ───────────────────────────────────
+            document.getElementById('dof-aperture').addEventListener('input', (e) => {
+                dofAperture = parseInt(e.target.value) * 0.000001;
+                document.getElementById('dof-aperture-val').textContent = (dofAperture * 1e6).toFixed(0) + 'e-6';
+            });
+            document.getElementById('dof-focus').addEventListener('input', (e) => {
+                dofFocusInside = parseInt(e.target.value);
+                document.getElementById('dof-focus-val').textContent = dofFocusInside + 'u';
+            });
+            document.getElementById('dof-maxblur').addEventListener('input', (e) => {
+                dofMaxblur = parseInt(e.target.value) / 1000;
+                document.getElementById('dof-maxblur-val').textContent = dofMaxblur.toFixed(3);
+            });
+
+            applyCameraOrbit();
+            const legendData = buildAnimalCell();
+            buildLegend(legendData);
+            animate();
+        </script>
+    </body>
+</html>
