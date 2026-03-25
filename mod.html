@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Middle Earth — 3D Terrain</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a12;
+    overflow: hidden;
+    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    color: #c8b89a;
+  }
+
+  canvas { display: block; }
+
+  /* ── Loading Screen ── */
+  #loading-screen {
+    position: fixed; inset: 0;
+    background: #0a0a12;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 100;
+    transition: opacity 0.8s ease;
+  }
+  #loading-screen.fade-out { opacity: 0; pointer-events: none; }
+
+  .load-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: 0.25em;
+    color: #c8b89a;
+    margin-bottom: 0.4em;
+    text-transform: uppercase;
+  }
+  .load-subtitle {
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    color: #8a7a60;
+    margin-bottom: 3em;
+  }
+  .progress-bar {
+    width: min(320px, 80vw);
+    height: 2px;
+    background: #1e1e2e;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8a7a60, #c8b89a);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .load-status {
+    margin-top: 1.2em;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    color: #5a4a34;
+  }
+  .error-msg {
+    color: #c07060;
+    margin-top: 1em;
+    font-size: 0.85rem;
+    text-align: center;
+    max-width: 400px;
+    display: none;
+  }
+
+  /* ── HUD ── */
+  #hud {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 1.5rem 2rem;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    pointer-events: none;
+    opacity: 0; transition: opacity 1s ease 0.5s;
+  }
+  #hud.visible { opacity: 1; }
+
+  .hud-title h1 {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #d4c4a0;
+    text-shadow: 0 0 30px rgba(200,184,154,0.3);
+  }
+  .hud-title p {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: #7a6a50;
+    margin-top: 0.25em;
+    font-style: italic;
+  }
+
+  .hud-controls {
+    text-align: right;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    color: #6a5a40;
+  }
+  .hud-controls span { color: #9a8a6a; }
+
+  /* ── Bottom bar ── */
+  #bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    opacity: 0; transition: opacity 1s ease 0.5s;
+    pointer-events: none;
+  }
+  #bottom-bar.visible { opacity: 1; }
+
+  .mode-indicator {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: #5a4a34;
+  }
+  .mode-indicator b { color: #9a8a6a; }
+
+  /* ── Sliders ── */
+  #controls-panel {
+    position: fixed; right: 1.5rem; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 1.2rem;
+    pointer-events: auto;
+    opacity: 0; transition: opacity 1s ease 0.5s;
+  }
+  #controls-panel.visible { opacity: 1; }
+
+  .slider-group label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: #7a6a50;
+    margin-bottom: 0.3em;
+    text-transform: uppercase;
+  }
+  .slider-group input[type=range] {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 2px;
+    background: #2a2a3a;
+    outline: none;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .slider-group input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #c8b89a;
+    cursor: pointer;
+  }
+  .slider-val {
+    font-size: 0.65rem; color: #9a8a6a;
+    margin-left: 0.5em;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="load-title">Middle Earth</div>
+  <div class="load-subtitle">Digital Elevation Model · J.R.R. Tolkien's Arda</div>
+  <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+  <div class="load-status" id="load-status">Summoning the DEM from bburns/Arda…</div>
+  <div class="error-msg" id="error-msg">
+    Could not load terrain textures from GitHub.<br>
+    Displaying procedural fallback terrain.<br>
+    <small style="color:#7a6a50;margin-top:0.5em;display:block;">CORS or network issue — try opening locally.</small>
+  </div>
+</div>
+
+<!-- HUD -->
+<div id="hud">
+  <div class="hud-title">
+    <h1>Arda</h1>
+    <p>10,000 × 10,000 px DEM · 2000 km · 200 m/px resolution</p>
+  </div>
+  <div class="hud-controls">
+    <div><span>Drag</span> — Orbit</div>
+    <div><span>Scroll</span> — Zoom</div>
+    <div><span>Right drag</span> — Pan</div>
+    <div><span>Double-click</span> — Reset view</div>
+  </div>
+</div>
+
+<!-- Bottom bar -->
+<div id="bottom-bar">
+  <div class="mode-indicator">Source: <b>github.com/bburns/Arda</b> · DEM + Hillshade overlay</div>
+  <div class="mode-indicator" id="coord-readout">θ — φ —</div>
+</div>
+
+<!-- Sliders -->
+<div id="controls-panel">
+  <div class="slider-group">
+    <label>Elevation Scale</label>
+    <input type="range" id="sl-elev" min="5" max="200" value="60" step="1">
+    <span class="slider-val" id="sl-elev-val">60</span>
+  </div>
+  <div class="slider-group">
+    <label>Fog Density</label>
+    <input type="range" id="sl-fog" min="0" max="100" value="20" step="1">
+    <span class="slider-val" id="sl-fog-val">20</span>
+  </div>
+  <div class="slider-group">
+    <label>Light Angle</label>
+    <input type="range" id="sl-light" min="0" max="360" value="315" step="1">
+    <span class="slider-val" id="sl-light-val">315°</span>
+  </div>
+  <div class="slider-group">
+    <label>Wireframe</label>
+    <input type="range" id="sl-wire" min="0" max="1" value="0" step="1">
+    <span class="slider-val" id="sl-wire-val">Off</span>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function() {
+  // ── State ──────────────────────────────────────────────────────────────
+  const loadEl   = document.getElementById('loading-screen');
+  const progEl   = document.getElementById('prog');
+  const statusEl = document.getElementById('load-status');
+  const errorEl  = document.getElementById('error-msg');
+  const hud      = document.getElementById('hud');
+  const bottomBar= document.getElementById('bottom-bar');
+  const ctrlPanel= document.getElementById('controls-panel');
+
+  // ── Scene Setup ────────────────────────────────────────────────────────
+  const scene    = new THREE.Scene();
+  const W = window.innerWidth, H = window.innerHeight;
+  const camera   = new THREE.PerspectiveCamera(55, W / H, 0.5, 8000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.9;
+  document.body.appendChild(renderer.domElement);
+
+  // Fog
+  scene.background = new THREE.Color(0x0a0c14);
+  scene.fog = new THREE.FogExp2(0x0a0c14, 0.0007);
+
+  // ── Lights ─────────────────────────────────────────────────────────────
+  const ambient = new THREE.AmbientLight(0x304060, 0.6);
+  scene.add(ambient);
+
+  const sunLight = new THREE.DirectionalLight(0xfff5e8, 1.4);
+  sunLight.position.set(Math.sin(Math.PI * 315 / 180) * 200, 200, Math.cos(Math.PI * 315 / 180) * 200);
+  sunLight.castShadow = true;
+  scene.add(sunLight);
+
+  // subtle fill from below (bounce)
+  const fillLight = new THREE.HemisphereLight(0x405080, 0x201510, 0.35);
+  scene.add(fillLight);
+
+  // ── Terrain Config ─────────────────────────────────────────────────────
+  const PLANE_SIZE  = 500;
+  const SEGMENTS    = 512; // 512×512 = 262k verts — good balance
+  let   DISP_SCALE  = 60;
+
+  // ── Geometry ───────────────────────────────────────────────────────────
+  const geometry = new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, SEGMENTS, SEGMENTS);
+  geometry.rotateX(-Math.PI / 2);
+
+  // ── Material ───────────────────────────────────────────────────────────
+  const material = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    roughness: 0.9,
+    metalness: 0.0,
+    displacementScale: DISP_SCALE,
+    displacementBias:  -10,
+    wireframe: false,
+  });
+
+  const terrain = new THREE.Mesh(geometry, material);
+  terrain.receiveShadow = true;
+  terrain.castShadow    = true;
+  scene.add(terrain);
+
+  // ── Water Plane ────────────────────────────────────────────────────────
+  const waterGeo  = new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, 1, 1);
+  waterGeo.rotateX(-Math.PI / 2);
+  const waterMat  = new THREE.MeshStandardMaterial({
+    color: 0x1a2a4a,
+    roughness: 0.05,
+    metalness: 0.6,
+    transparent: true,
+    opacity: 0.82,
+  });
+  const water = new THREE.Mesh(waterGeo, waterMat);
+  water.position.y = -8;
+  //scene.add(water);
+
+  // ── Camera / Orbit State ───────────────────────────────────────────────
+  const DEFAULT = { theta: 0.4, phi: 1.1, radius: 420, target: new THREE.Vector3(0, 0, 0) };
+  let sph = { ...DEFAULT, target: DEFAULT.target.clone() };
+
+  function updateCamera() {
+    const { theta, phi, radius, target } = sph;
+    camera.position.set(
+      target.x + radius * Math.sin(phi) * Math.sin(theta),
+      target.y + radius * Math.cos(phi),
+      target.z + radius * Math.sin(phi) * Math.cos(theta)
+    );
+    camera.lookAt(target);
+    document.getElementById('coord-readout').textContent =
+      `θ ${(theta * 180 / Math.PI | 0)}°  φ ${(phi * 180 / Math.PI | 0)}°  r ${radius | 0}`;
+  }
+  updateCamera();
+
+  // ── Mouse Controls ─────────────────────────────────────────────────────
+  let drag = null;  // { type: 'orbit'|'pan', x, y }
+
+  renderer.domElement.addEventListener('mousedown', e => {
+    drag = { type: e.button === 2 ? 'pan' : 'orbit', x: e.clientX, y: e.clientY };
+  });
+  window.addEventListener('mouseup', () => { drag = null; });
+  window.addEventListener('mousemove', e => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x;
+    const dy = e.clientY - drag.y;
+    drag.x = e.clientX; drag.y = e.clientY;
+    if (drag.type === 'orbit') {
+      sph.theta -= dx * 0.004;
+      sph.phi    = Math.max(0.08, Math.min(Math.PI * 0.48, sph.phi + dy * 0.004));
+    } else {
+      // pan in camera's local XZ
+      const right = new THREE.Vector3();
+      const up    = new THREE.Vector3(0, 1, 0);
+      right.crossVectors(camera.getWorldDirection(new THREE.Vector3()), up).normalize();
+      const panSpeed = sph.radius * 0.001;
+      sph.target.addScaledVector(right, -dx * panSpeed);
+      sph.target.y += dy * panSpeed * 0.5;
+    }
+    updateCamera();
+  });
+
+  renderer.domElement.addEventListener('wheel', e => {
+    e.preventDefault();
+    sph.radius = Math.max(30, Math.min(1200, sph.radius + e.deltaY * 0.35));
+    updateCamera();
+  }, { passive: false });
+
+  renderer.domElement.addEventListener('contextmenu', e => e.preventDefault());
+
+  renderer.domElement.addEventListener('dblclick', () => {
+    // Reset to default view with smooth lerp
+    animateReset();
+  });
+
+  // smooth reset
+  let resetting = false;
+  function animateReset() {
+    resetting = true;
+    const start = { theta: sph.theta, phi: sph.phi, radius: sph.radius };
+    const startTarget = sph.target.clone();
+    let t = 0;
+    function step() {
+      if (!resetting) return;
+      t += 0.04;
+      if (t >= 1) { t = 1; resetting = false; }
+      const ease = 1 - Math.pow(1 - t, 3);
+      sph.theta  = start.theta  + (DEFAULT.theta  - start.theta)  * ease;
+      sph.phi    = start.phi    + (DEFAULT.phi    - start.phi)    * ease;
+      sph.radius = start.radius + (DEFAULT.radius - start.radius) * ease;
+      sph.target.lerpVectors(startTarget, DEFAULT.target, ease);
+      updateCamera();
+      if (t < 1) requestAnimationFrame(step);
+    }
+    step();
+  }
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // ── Sliders ────────────────────────────────────────────────────────────
+  const slElev  = document.getElementById('sl-elev');
+  const slFog   = document.getElementById('sl-fog');
+  const slLight = document.getElementById('sl-light');
+  const slWire  = document.getElementById('sl-wire');
+
+  slElev.addEventListener('input', () => {
+    const v = parseFloat(slElev.value);
+    material.displacementScale = v;
+    water.position.y = -Math.max(3, v * 0.12);
+    document.getElementById('sl-elev-val').textContent = v;
+  });
+  slFog.addEventListener('input', () => {
+    const v = parseFloat(slFog.value);
+    scene.fog.density = v * 0.00003;
+    document.getElementById('sl-fog-val').textContent = v;
+  });
+  slLight.addEventListener('input', () => {
+    const deg = parseFloat(slLight.value);
+    const rad = deg * Math.PI / 180;
+    sunLight.position.set(Math.sin(rad) * 200, 200, Math.cos(rad) * 200);
+    document.getElementById('sl-light-val').textContent = deg + '°';
+  });
+  slWire.addEventListener('input', () => {
+    const on = parseInt(slWire.value) === 1;
+    material.wireframe = on;
+    document.getElementById('sl-wire-val').textContent = on ? 'On' : 'Off';
+  });
+
+  // ── Texture Loading ────────────────────────────────────────────────────
+  const RAW = 'https://raw.githubusercontent.com/bburns/Arda/main/data/rasters/';
+  const DEM_URL       = RAW + '10k.jpg';
+  const HILLSHADE_URL = RAW + 'hillshade.jpg';
+
+  let loadedCount = 0;
+  const TOTAL = 2;
+  let useFallback = false;
+
+  function onProgress(n) {
+    loadedCount += n;
+    const pct = Math.min(100, loadedCount / TOTAL * 100);
+    progEl.style.width = pct + '%';
+  }
+
+  function onAllLoaded() {
+    statusEl.textContent = 'Forging the world…';
+    progEl.style.width = '100%';
+    setTimeout(() => {
+      loadEl.classList.add('fade-out');
+      hud.classList.add('visible');
+      bottomBar.classList.add('visible');
+      ctrlPanel.classList.add('visible');
+    }, 600);
+  }
+
+  function fallbackProcedural() {
+    useFallback = true;
+    statusEl.textContent = 'Generating procedural terrain…';
+    errorEl.style.display = 'block';
+
+    // Generate a canvas-based procedural DEM
+    const size = 512;
+    const canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // Simple multi-octave noise approximation via multiple gradients
+    const img = ctx.createImageData(size, size);
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        // Layered sine/cosine noise approximation
+        const nx = x / size, ny = y / size;
+        let h = 0;
+        h += 0.5 * Math.sin(nx * 6 + 0.5) * Math.cos(ny * 7 - 0.3);
+        h += 0.25 * Math.sin(nx * 13 + 1.2) * Math.cos(ny * 15 + 0.8);
+        h += 0.12 * Math.sin(nx * 27 - 0.7) * Math.cos(ny * 29 + 1.5);
+        h += 0.06 * Math.sin(nx * 55 + 2.1) * Math.cos(ny * 61 - 0.9);
+        // mountain ridges
+        h += 0.3 * Math.max(0, 1 - Math.abs(Math.sin(nx * 4 + ny * 3)));
+        // normalize 0-1
+        h = (h + 1) * 0.4;
+        h = Math.max(0, Math.min(1, h));
+        const v = h * 255 | 0;
+        const i = (y * size + x) * 4;
+        img.data[i] = img.data[i+1] = img.data[i+2] = v;
+        img.data[i+3] = 255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+
+    const demTex = new THREE.CanvasTexture(canvas);
+    material.displacementMap = demTex;
+    material.color.set(0x7a8870);
+    material.needsUpdate = true;
+
+    onAllLoaded();
+  }
+
+  // Attempt to load real textures
+  const loader = new THREE.TextureLoader();
+  loader.crossOrigin = 'anonymous';
+
+  let timedOut = false;
+  const timeout = setTimeout(() => {
+    if (loadedCount < TOTAL) {
+      timedOut = true;
+      fallbackProcedural();
+    }
+  }, 15000); // 15s timeout
+
+  statusEl.textContent = 'Loading DEM (10k.jpg)…';
+  loader.load(
+    DEM_URL,
+    (tex) => {
+      if (timedOut) return;
+      material.displacementMap = tex;
+      material.needsUpdate = true;
+      onProgress(1);
+      statusEl.textContent = 'Loading hillshade…';
+      if (loadedCount >= TOTAL) { clearTimeout(timeout); onAllLoaded(); }
+    },
+    undefined,
+    () => { if (!timedOut) { clearTimeout(timeout); fallbackProcedural(); } }
+  );
+
+  loader.load(
+    HILLSHADE_URL,
+    (tex) => {
+      if (timedOut) return;
+      material.map = tex;
+      material.needsUpdate = true;
+      onProgress(1);
+      if (loadedCount >= TOTAL) { clearTimeout(timeout); onAllLoaded(); }
+    },
+    undefined,
+    () => { /* DEM handler will catch fallback */ }
+  );
+
+  // ── Animate ────────────────────────────────────────────────────────────
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.005;
+
+    // Gentle water shimmer
+    waterMat.color.setHSL(0.6, 0.6, 0.12 + Math.sin(time) * 0.02);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+})();
+</script>
+</body>
+</html>

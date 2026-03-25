@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequencer</title>
+    <style>
+        :root {
+            --bg: #000;
+            --surface: #0d0d0d;
+            --surface2: #141414;
+            --border: #1e1e1e;
+            --border2: #2a2a2a;
+            --text: #e0e0e0;
+            --dim: #444;
+            --accent: #4a9eff;
+            --red: #e05555;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── Navbar ──────────────────────────────────────────── */
+        .navbar {
+            padding: 22px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar h1 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .navbar-hint {
+            font-size: 0.7rem;
+            color: var(--dim);
+            letter-spacing: 0.05em;
+        }
+
+        /* ── Controls ────────────────────────────────────────── */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            padding: 14px 32px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .play-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: opacity 0.15s;
+        }
+        .play-btn:hover { opacity: 0.8; }
+        .play-btn.playing { background: var(--red); }
+
+        .ctrl-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ctrl-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--dim);
+        }
+
+        .bpm-input {
+            width: 58px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            text-align: center;
+            -moz-appearance: textfield;
+        }
+        .bpm-input::-webkit-inner-spin-button,
+        .bpm-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+        .bpm-input:focus { outline: none; border-color: var(--accent); }
+
+        .steps-group { display: flex; gap: 4px; }
+        .steps-btn {
+            padding: 5px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--dim);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.78rem;
+            transition: all 0.15s;
+        }
+        .steps-btn:hover { border-color: var(--accent); color: var(--text); }
+        .steps-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+        .ctrl-divider {
+            width: 1px;
+            height: 22px;
+            background: var(--border2);
+            flex-shrink: 0;
+        }
+
+        .filter-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 110px;
+            height: 3px;
+            background: var(--border2);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+        .filter-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+        }
+        .filter-slider::-moz-range-thumb {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            cursor: pointer;
+        }
+        .filter-val {
+            font-size: 0.68rem;
+            color: var(--dim);
+            min-width: 50px;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.02em;
+        }
+
+        /* ── Sequencer ───────────────────────────────────────── */
+        .sequencer { padding: 28px 32px 0; }
+
+        .tracks-scroll { overflow-x: auto; padding-bottom: 32px; }
+
+        .beat-nums {
+            display: flex;
+            margin-bottom: 8px;
+            padding-left: 110px;
+        }
+        .beat-nums-group {
+            display: flex;
+            gap: 3px;
+            margin-right: 8px;
+        }
+        .beat-num {
+            width: 34px;
+            text-align: center;
+            font-size: 0.6rem;
+            color: #333;
+        }
+        .beat-num.major { color: #555; }
+
+        /* ── Track row ───────────────────────────────────────── */
+        .track {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 7px;
+        }
+
+        .track-label {
+            width: 96px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--dim);
+            flex-shrink: 0;
+            text-align: right;
+            padding-right: 6px;
+        }
+
+        .track-pads { display: flex; }
+
+        .pad-group {
+            display: flex;
+            gap: 3px;
+            margin-right: 8px;
+        }
+        .pad-group:last-child { margin-right: 0; }
+
+        .pad {
+            width: 34px;
+            height: 34px;
+            border-radius: 3px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.08s, border-color 0.08s;
+        }
+        .pad:hover { border-color: #3a3a3a; }
+        .pad.downbeat { background: #111; }
+
+        .pad.lit {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        .pad.current {
+            background: #17243a;
+            border-color: #1f3357;
+        }
+        .pad.lit.current {
+            background: #8ecfff;
+            border-color: #8ecfff;
+        }
+
+        .track-remove {
+            width: 26px;
+            height: 26px;
+            background: transparent;
+            border: 1px solid var(--border2);
+            color: #333;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 15px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.15s;
+        }
+        .track-remove:hover { border-color: var(--red); color: var(--red); }
+
+        /* ── Divider between tracks ──────────────────────────── */
+        .tracks-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 10px 0 14px 110px;
+        }
+
+        /* ── Empty state ─────────────────────────────────────── */
+        .empty-state {
+            padding: 64px 32px;
+            color: #333;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        /* ── Add sound bar ───────────────────────────────────── */
+        .add-area {
+            padding: 18px 32px;
+            border-top: 1px solid var(--border);
+        }
+        .add-btn {
+            padding: 9px 18px;
+            background: transparent;
+            border: 1px solid var(--border2);
+            color: var(--dim);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            transition: all 0.15s;
+        }
+        .add-btn:hover { border-color: var(--accent); color: var(--text); }
+
+        /* ── Modal ───────────────────────────────────────────── */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.78);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            padding: 24px;
+            width: 320px;
+        }
+        .modal-title {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--dim);
+            margin-bottom: 16px;
+        }
+        .sound-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .sound-opt {
+            padding: 11px 14px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.82rem;
+            text-align: left;
+            transition: all 0.15s;
+        }
+        .sound-opt:hover {
+            border-color: var(--accent);
+            background: rgba(74, 158, 255, 0.08);
+        }
+        .cancel-btn {
+            width: 100%;
+            padding: 9px;
+            background: transparent;
+            border: 1px solid var(--border2);
+            color: var(--dim);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.82rem;
+            transition: all 0.15s;
+        }
+        .cancel-btn:hover { color: var(--text); border-color: #444; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <h1>Sequencer</h1>
+    <span class="navbar-hint">Space to play / stop</span>
+</nav>
+
+<div class="controls">
+    <button class="play-btn" id="playBtn" onclick="togglePlay()">&#9654;</button>
+
+    <div class="ctrl-group">
+        <label class="ctrl-label" for="bpmInput">BPM</label>
+        <input class="bpm-input" type="number" id="bpmInput" value="120" min="40" max="240">
+    </div>
+
+    <div class="ctrl-group">
+        <label class="ctrl-label">Steps</label>
+        <div class="steps-group">
+            <button class="steps-btn" onclick="setSteps(4)">4</button>
+            <button class="steps-btn" onclick="setSteps(8)">8</button>
+            <button class="steps-btn active" onclick="setSteps(16)">16</button>
+            <button class="steps-btn" onclick="setSteps(32)">32</button>
+        </div>
+    </div>
+
+    <div class="ctrl-divider"></div>
+
+    <div class="ctrl-group">
+        <label class="ctrl-label">HP</label>
+        <input type="range" class="filter-slider" id="hpSlider" min="0" max="100" value="0">
+        <span class="filter-val" id="hpVal">20 Hz</span>
+    </div>
+
+    <div class="ctrl-group">
+        <label class="ctrl-label">LP</label>
+        <input type="range" class="filter-slider" id="lpSlider" min="0" max="100" value="100">
+        <span class="filter-val" id="lpVal">20 kHz</span>
+    </div>
+</div>
+
+<div class="sequencer">
+    <div class="tracks-scroll">
+        <div class="beat-nums" id="beatNums"></div>
+        <div id="tracks"></div>
+    </div>
+    <div class="empty-state" id="emptyState">No sounds yet — click Add Sound below.</div>
+</div>
+
+<div class="add-area">
+    <button class="add-btn" onclick="openModal()">+ Add Sound</button>
+</div>
+
+<div class="overlay" id="overlay" style="display:none" onclick="overlayClick(event)">
+    <div class="modal">
+        <div class="modal-title">Choose a sound</div>
+        <div class="sound-grid" id="soundGrid"></div>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    // ── State ──────────────────────────────────────────────────────
+    let tracks    = [];
+    let steps     = 16;
+    let bpm       = 120;
+    let playing   = false;
+    let step      = 0;
+    let nextTime  = 0;
+    let timer     = null;
+    let seqId     = 0;       // invalidates stale visual callbacks on stop
+    let audioCtx  = null;
+    let masterHP  = null;
+    let masterLP  = null;
+
+    const AHEAD    = 0.1;    // seconds to schedule ahead
+    const INTERVAL = 25;     // scheduler poll ms
+
+    const SOUNDS = [
+        { id: 'kick',    label: 'Kick'          },
+        { id: 'snare',   label: 'Snare'         },
+        { id: 'clap',    label: 'Clap'          },
+        { id: 'hihat_c', label: 'Hi-Hat Closed' },
+        { id: 'hihat_o', label: 'Hi-Hat Open'   },
+        { id: 'tom_hi',  label: 'Tom Hi'        },
+        { id: 'tom_lo',  label: 'Tom Low'       },
+        { id: 'rim',     label: 'Rim'           },
+    ];
+
+    // ── Audio context ──────────────────────────────────────────────
+    function ac() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            masterHP = audioCtx.createBiquadFilter();
+            masterLP = audioCtx.createBiquadFilter();
+            masterHP.type = 'highpass';
+            masterLP.type = 'lowpass';
+            masterHP.frequency.value = 20;
+            masterLP.frequency.value = 20000;
+            masterHP.connect(masterLP);
+            masterLP.connect(audioCtx.destination);
+        }
+        return audioCtx;
+    }
+
+    // ── Synthesis helpers ──────────────────────────────────────────
+    function synOsc(c, t, type, f0, f1, dur, vol) {
+        const o = c.createOscillator();
+        const g = c.createGain();
+        o.type = type;
+        o.frequency.setValueAtTime(f0, t);
+        if (f1) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+        g.gain.setValueAtTime(vol, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        o.connect(g); g.connect(masterHP);
+        o.start(t); o.stop(t + dur);
+    }
+
+    function synNoise(c, t, dur, filterType, filterHz, vol) {
+        const n    = Math.floor(c.sampleRate * dur);
+        const buf  = c.createBuffer(1, n, c.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < n; i++) data[i] = Math.random() * 2 - 1;
+        const src = c.createBufferSource();
+        src.buffer = buf;
+        const f = c.createBiquadFilter();
+        f.type = filterType; f.frequency.value = filterHz;
+        const g = c.createGain();
+        g.gain.setValueAtTime(vol, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        src.connect(f); f.connect(g); g.connect(masterHP);
+        src.start(t); src.stop(t + dur);
+    }
+
+    // ── Drum sounds ────────────────────────────────────────────────
+    function playSound(type, t) {
+        const c = ac();
+        switch (type) {
+            case 'kick':
+                synOsc(c, t, 'sine', 160, 0.01, 0.5, 1.0);
+                break;
+            case 'snare':
+                synNoise(c, t, 0.22, 'highpass', 1000, 0.85);
+                synOsc(c, t, 'triangle', 220, 100, 0.1, 0.5);
+                break;
+            case 'clap':
+                for (let i = 0; i < 3; i++)
+                    synNoise(c, t + i * 0.012, 0.12, 'bandpass', 1200, 0.75);
+                break;
+            case 'hihat_c':
+                synNoise(c, t, 0.07, 'highpass', 8000, 0.7);
+                break;
+            case 'hihat_o':
+                synNoise(c, t, 0.38, 'highpass', 7000, 0.65);
+                break;
+            case 'tom_hi':
+                synOsc(c, t, 'sine', 220, 90, 0.35, 0.9);
+                break;
+            case 'tom_lo':
+                synOsc(c, t, 'sine', 140, 55, 0.4, 0.9);
+                break;
+            case 'rim':
+                synOsc(c, t, 'square', 600, null, 0.04, 0.55);
+                synNoise(c, t, 0.03, 'highpass', 3000, 0.4);
+                break;
+        }
+    }
+
+    // ── Scheduler ─────────────────────────────────────────────────
+    function stepDur() { return (60 / bpm) * (4 / steps); }
+
+    function tick() {
+        const c = ac();
+        while (nextTime < c.currentTime + AHEAD) {
+            const s   = step;
+            const id  = seqId;
+            const delay = Math.max(0, (nextTime - c.currentTime) * 1000);
+
+            tracks.forEach(tr => { if (tr.pads[s]) playSound(tr.type, nextTime); });
+
+            setTimeout(() => {
+                if (seqId !== id) return;
+                document.querySelectorAll('.pad.current').forEach(p => p.classList.remove('current'));
+                document.querySelectorAll(`.pad[data-step="${s}"]`).forEach(p => p.classList.add('current'));
+            }, delay);
+
+            nextTime += stepDur();
+            step = (step + 1) % steps;
+        }
+        timer = setTimeout(tick, INTERVAL);
+    }
+
+    // ── Play / Stop ────────────────────────────────────────────────
+    function togglePlay() {
+        const c = ac();
+        if (c.state === 'suspended') c.resume();
+        playing = !playing;
+        const btn = document.getElementById('playBtn');
+        if (playing) {
+            step     = 0;
+            nextTime = c.currentTime;
+            tick();
+            btn.innerHTML = '&#9632;';
+            btn.classList.add('playing');
+        } else {
+            seqId++;
+            clearTimeout(timer);
+            document.querySelectorAll('.pad.current').forEach(p => p.classList.remove('current'));
+            btn.innerHTML = '&#9654;';
+            btn.classList.remove('playing');
+        }
+    }
+
+    document.getElementById('bpmInput').addEventListener('input', e => {
+        bpm = Math.max(40, Math.min(240, parseInt(e.target.value) || 120));
+    });
+
+    function sliderToFreq(val, min, max) {
+        return Math.round(min * Math.pow(max / min, val / 100));
+    }
+
+    function fmtFreq(hz) {
+        return hz >= 1000 ? (hz / 1000).toFixed(1) + ' kHz' : hz + ' Hz';
+    }
+
+    document.getElementById('hpSlider').addEventListener('input', e => {
+        const freq = sliderToFreq(+e.target.value, 20, 8000);
+        document.getElementById('hpVal').textContent = fmtFreq(freq);
+        if (masterHP) masterHP.frequency.value = freq;
+    });
+
+    document.getElementById('lpSlider').addEventListener('input', e => {
+        const freq = sliderToFreq(+e.target.value, 200, 20000);
+        document.getElementById('lpVal').textContent = fmtFreq(freq);
+        if (masterLP) masterLP.frequency.value = freq;
+    });
+
+    function setSteps(n) {
+        steps = n;
+        if (step >= n) step = 0;
+        tracks.forEach(tr => {
+            if (tr.pads.length < n)
+                while (tr.pads.length < n) tr.pads.push(false);
+            else
+                tr.pads = tr.pads.slice(0, n);
+        });
+        document.querySelectorAll('.steps-btn').forEach(b =>
+            b.classList.toggle('active', parseInt(b.textContent) === n)
+        );
+        render();
+    }
+
+    // ── Tracks ────────────────────────────────────────────────────
+    function addTrack(type, label) {
+        tracks.push({ id: Date.now(), type, label, pads: Array(steps).fill(false) });
+        render();
+        closeModal();
+    }
+
+    function removeTrack(id) {
+        tracks = tracks.filter(t => t.id !== id);
+        render();
+    }
+
+    function togglePad(trackId, s) {
+        const tr = tracks.find(t => t.id === trackId);
+        if (!tr) return;
+        tr.pads[s] = !tr.pads[s];
+        const pad = document.querySelector(`.pad[data-track="${trackId}"][data-step="${s}"]`);
+        if (pad) pad.classList.toggle('lit', tr.pads[s]);
+    }
+
+    // ── Render ────────────────────────────────────────────────────
+    function render() {
+        const tracksEl  = document.getElementById('tracks');
+        const numsEl    = document.getElementById('beatNums');
+        const emptyEl   = document.getElementById('emptyState');
+        tracksEl.innerHTML = '';
+
+        if (tracks.length === 0) {
+            emptyEl.style.display = 'block';
+            numsEl.innerHTML = '';
+            return;
+        }
+        emptyEl.style.display = 'none';
+
+        const groups = Math.ceil(steps / 4);
+
+        // Beat numbers
+        numsEl.innerHTML = '';
+        for (let g = 0; g < groups; g++) {
+            const grp = document.createElement('div');
+            grp.className = 'beat-nums-group';
+            const start = g * 4;
+            const end   = Math.min(start + 4, steps);
+            for (let i = start; i < end; i++) {
+                const n = document.createElement('div');
+                n.className = 'beat-num' + (i % 4 === 0 ? ' major' : '');
+                n.textContent = i + 1;
+                grp.appendChild(n);
+            }
+            numsEl.appendChild(grp);
+        }
+
+        // Track rows
+        tracks.forEach((tr, idx) => {
+            const row = document.createElement('div');
+            row.className = 'track';
+
+            const label = document.createElement('div');
+            label.className = 'track-label';
+            label.textContent = tr.label;
+            row.appendChild(label);
+
+            const padsRow = document.createElement('div');
+            padsRow.className = 'track-pads';
+
+            for (let g = 0; g < groups; g++) {
+                const grp   = document.createElement('div');
+                grp.className = 'pad-group';
+                const start = g * 4;
+                const end   = Math.min(start + 4, steps);
+                for (let i = start; i < end; i++) {
+                    const pad = document.createElement('div');
+                    let cls = 'pad';
+                    if (tr.pads[i])  cls += ' lit';
+                    if (i % 4 === 0) cls += ' downbeat';
+                    pad.className = cls;
+                    pad.dataset.track = tr.id;
+                    pad.dataset.step  = i;
+                    pad.onclick = () => togglePad(tr.id, i);
+                    grp.appendChild(pad);
+                }
+                padsRow.appendChild(grp);
+            }
+            row.appendChild(padsRow);
+
+            const rm = document.createElement('button');
+            rm.className = 'track-remove';
+            rm.textContent = '×';
+            rm.onclick = () => removeTrack(tr.id);
+            row.appendChild(rm);
+
+            tracksEl.appendChild(row);
+
+            // Divider between tracks (not after last)
+            if (idx < tracks.length - 1) {
+                const div = document.createElement('div');
+                div.className = 'tracks-divider';
+                tracksEl.appendChild(div);
+            }
+        });
+    }
+
+    // ── Modal ──────────────────────────────────────────────────────
+    function openModal() {
+        const grid = document.getElementById('soundGrid');
+        grid.innerHTML = '';
+        SOUNDS.forEach(s => {
+            const btn = document.createElement('button');
+            btn.className = 'sound-opt';
+            btn.textContent = s.label;
+            btn.onclick = () => addTrack(s.id, s.label);
+            grid.appendChild(btn);
+        });
+        document.getElementById('overlay').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function overlayClick(e) {
+        if (e.target === document.getElementById('overlay')) closeModal();
+    }
+
+    // ── Keyboard ───────────────────────────────────────────────────
+    document.addEventListener('keydown', e => {
+        if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+            e.preventDefault();
+            togglePlay();
+        }
+    });
+
+    // ── Init ───────────────────────────────────────────────────────
+    render();
+</script>
+</body>
+</html>

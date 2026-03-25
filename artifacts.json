@@ -1,22 +1,62 @@
 [
     {
-        "title":"Resilience Report",
-        "description":".",
+        "title":"Exploration of a Cell",
+        "description":"Dive into a Eukaryotic Cell.",
         "subtitle":"",
         "footer":"",
-        "category": "Finance",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "link":"/cell.html"
+    },
+    {
+        "title":"MN Explained",
+        "description":"Free educational resources for Minnesotans about Minnesota.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "link":"https://minnesotaexplained.github.io"
+    },
+    {
+        "title":"Loonatic Productions",
+        "description":"Music Production studio in south Minneapolis.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "link":"https://www.loonaticproductions.com"
+    },
+    {
+        "title":"Resilience Report",
+        "description":"Strategic Financial Analysis: The 2026 Resilience Report",
+        "subtitle":"Navigating the gold rush, dollar devaluation, and the path to economic stability in an era of unprecedented change.",
+        "footer":"",
+        "category": "Random",
         "type":"link",
         "image":"",
         "link":"/2026-resilience-report.html"
     },
     {
-        "title":"Ultimate Frisbee Season Creator",
-        "description":".",
+        "title":"Masterbook Season Creator",
+        "description":"Demo of the masterbook creator for frisbee seasons.",
         "subtitle":"",
         "footer":"",
-        "category": "Frisbee",
+        "category": "Random",
         "type":"link",
         "image":"",
         "link":"/frisbee-season.html"
+    },
+    {
+        "title":"Audio Sequencer",
+        "description":"Sequence your audio.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "link":"/sequencer.html"
     }
 ]

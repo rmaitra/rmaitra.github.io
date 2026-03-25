@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Disc Route Creator</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.17/paper-full.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f0f2f5;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* ── Demo shell ──────────────────────────────────────────────────────── */
+    .demo-shell {
+      width: 100%;
+      max-width: 1140px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .demo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .demo-header h1 { font-size: 1.3rem; color: #1a1a2e; letter-spacing: .5px; }
+    .demo-header .vue-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: #42b883;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: .5px;
+    }
+    .demo-hint {
+      font-size: 0.75rem;
+      color: #9a9ab0;
+      text-align: center;
+    }
+
+    /* ── Component root ──────────────────────────────────────────────────── */
+    .disc-route-creator {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── Toolbar ─────────────────────────────────────────────────────────── */
+    .drc-toolbar {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-wrap: wrap;
+      background: #fff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.09);
+      border: 1px solid #e4e6ea;
+    }
+    .drc-toolbar .tb-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #aaa;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .tb-sep { width: 1px; height: 30px; background: #e4e6ea; margin: 0 3px; }
+
+    .tb-btn {
+      padding: 7px 15px;
+      border: 2px solid transparent;
+      border-radius: 7px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .18s;
+      background: #f3f4f6;
+      color: #555;
+      white-space: nowrap;
+    }
+    .tb-btn:hover { filter: brightness(.93); }
+
+    .tb-btn.circle  { border-color: #29b6f6; color: #0288d1; }
+    .tb-btn.active  { background: #29b6f6; color: #fff; }
+    .tb-btn.xmark   { border-color: #ef5350; color: #c62828; }
+    .tb-btn.xmark.active   { background: #ef5350; color: #fff; }
+    .tb-btn.route   { border-color: #43a047; color: #2e7d32; }
+    .tb-btn.route.active   { background: #43a047; color: #fff; }
+    .tb-btn.throw   { border-color: #ab47bc; color: #7b1fa2; }
+    .tb-btn.throw.active   { background: #ab47bc; color: #fff; }
+    .tb-btn.eraser  { border-color: #ff7043; color: #bf360c; }
+    .tb-btn.eraser.active  { background: #ff7043; color: #fff; }
+
+    .tb-btn.offense { border-color: #29b6f6; color: #0288d1; }
+    .tb-btn.offense.active { background: #29b6f6; color: #fff; }
+    .tb-btn.defense { border-color: #ef5350; color: #c62828; }
+    .tb-btn.defense.active { background: #ef5350; color: #fff; }
+
+    .tb-btn.undo   { border-color: #ffa726; color: #e65100; }
+    .tb-btn.clear  { border-color: #bdbdbd; color: #616161; }
+    .tb-btn.view-json {
+      border-color: #7c4dff; color: #5e35b1;
+      margin-left: auto;
+    }
+    .tb-btn.view-json.active { background: #7c4dff; color: #fff; }
+
+    /* ── Field wrap ──────────────────────────────────────────────────────── */
+    .drc-field-wrap { width: 100%; position: relative; }
+
+    .drc-canvas {
+      width: 100%;
+      display: block;
+      cursor: crosshair;
+    }
+    .drc-canvas.eraser-cur { cursor: cell; }
+
+    .drc-field-labels {
+      position: relative;
+      height: 20px;
+      margin-top: 4px;
+      width: 100%;
+    }
+    .drc-field-labels .fl-ez {
+      position: absolute;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #999;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+    .drc-field-labels .fl-yd {
+      position: absolute;
+      font-size: 0.62rem;
+      color: #bbb;
+      transform: translateX(-50%);
+    }
+
+    /* ── Status bar ──────────────────────────────────────────────────────── */
+    .drc-status {
+      font-size: 0.82rem;
+      color: #666;
+      background: #fff;
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 1px solid #e4e6ea;
+      align-self: center;
+    }
+    .drc-status .hl-route  { color: #43a047; font-weight: 700; }
+    .drc-status .hl-throw  { color: #ab47bc; font-weight: 700; }
+    .drc-status .hl-eraser { color: #ff7043; font-weight: 700; }
+    .drc-status .hl-warn   { color: #ffa726; font-weight: 700; }
+    .drc-status strong     { color: #222; }
+
+    .drc-shortcuts { font-size: 0.7rem; color: #c5c5d0; align-self: center; }
+
+    /* ── JSON Modal ──────────────────────────────────────────────────────── */
+    .json-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .json-modal {
+      background: #1e1e2e;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      overflow: hidden;
+    }
+    .json-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid #2e2e42;
+    }
+    .json-modal-header h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #e0e0f0;
+      letter-spacing: .3px;
+    }
+    .json-modal-header .type-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #7c4dff;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .json-close-btn {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: color .15s;
+    }
+    .json-close-btn:hover { color: #fff; }
+    .json-modal-body {
+      overflow-y: auto;
+      padding: 16px 20px;
+      flex: 1;
+    }
+    .json-modal-body pre {
+      font-family: 'Cascadia Code', 'Fira Code', 'Menlo', monospace;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: #c0c8e0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    /* Syntax highlighting via CSS */
+    .json-modal-body pre .k { color: #79b8ff; } /* keys */
+    .json-modal-body pre .s { color: #9ecbff; } /* strings */
+    .json-modal-body pre .n { color: #f8c555; } /* numbers */
+    .json-modal-body pre .b { color: #f97583; } /* booleans/null */
+
+    .json-modal-footer {
+      padding: 10px 20px;
+      border-top: 1px solid #2e2e42;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .json-action-btn {
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: filter .15s;
+    }
+    .json-action-btn:hover { filter: brightness(1.15); }
+    .json-action-btn.copy { background: #7c4dff; color: #fff; }
+    .json-action-btn.close { background: #2e2e42; color: #aaa; }
+
+    /* copy flash */
+    .copy-flash { color: #66bb6a !important; }
+
+    /* ── Edit toggle button ──────────────────────────────────────────────── */
+    .drc-edit-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 0 2px;
+    }
+    .drc-edit-bar .edit-hint {
+      font-size: 0.75rem;
+      color: #b0b0c0;
+    }
+    .tb-btn.edit-toggle {
+      border-color: #42b883;
+      color: #1a7a52;
+      background: #edfaf4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tb-btn.edit-toggle.active {
+      background: #42b883;
+      color: #fff;
+    }
+
+    /* ── Color scheme dropdown ───────────────────────────────────────────── */
+    .scheme-select {
+      padding: 7px 12px;
+      border: 2px solid #ab47bc;
+      border-radius: 7px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #6a0080;
+      background: #f9f0fc;
+      cursor: pointer;
+      outline: none;
+      transition: all .18s;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236a0080' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .scheme-select:hover { filter: brightness(.93); }
+    .scheme-select:focus { box-shadow: 0 0 0 3px rgba(171,71,188,.2); }
+
+    /* ── Canvas disabled overlay ─────────────────────────────────────────── */
+    .drc-field-wrap { position: relative; }
+    .drc-canvas-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      cursor: default;
+      border-radius: 0;
+    }
+    .drc-canvas.view-mode { cursor: default; }
+  </style>
+</head>
+<body>
+
+<div id="app" class="demo-shell">
+  <div class="demo-header">
+    <h1>🥏 Disc Route Creator</h1>
+    <span class="vue-badge">Vue 3 Component</span>
+  </div>
+
+  <disc-route-creator v-model="routeModel"></disc-route-creator>
+
+  <p class="demo-hint">
+    This is the <code>&lt;disc-route-creator&gt;</code> Vue 3 component. 
+    It emits a <strong>DiscRouteModel</strong> on every change and re-hydrates from an input model.
+  </p>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  DiscRouteModel — Data shape
+// ════════════════════════════════════════════════════════════════
+//
+//  {
+//    version: '1.0',
+//    markers: [
+//      {
+//        id:     string,           // unique id
+//        type:   'circle'|'x'|'route'|'throw',
+//        team:   'offense'|'defense',
+//        color:  string,           // hex color used to render
+//        points: [{ x: number, y: number }]
+//                                  // normalized 0-1 relative to canvas w/h
+//      }
+//    ]
+//  }
+//
+// ════════════════════════════════════════════════════════════════
+
+const {
+    createApp,
+    ref,
+    watch,
+    onMounted,
+    onUnmounted,
+    nextTick
+} = Vue;
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function uid() {
+    return Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
+}
+
+function syntaxHighlight(json) {
+    const str = typeof json === 'string' ? json : JSON.stringify(json, null, 2);
+    return str.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(m) {
+        if (/^"/.test(m)) {
+            if (/:$/.test(m)) return `<span class="k">${m}</span>`;
+            return `<span class="s">${m}</span>`;
+        }
+        if (/true|false|null/.test(m)) return `<span class="b">${m}</span>`;
+        return `<span class="n">${m}</span>`;
+    });
+}
+
+// ── disc-route-creator component ─────────────────────────────────────────────
+const DiscRouteCreator = {
+    name: 'DiscRouteCreator',
+
+    props: {
+        modelValue: {
+            type: Object,
+            default: () => ({
+                version: '1.0',
+                markers: []
+            })
+        }
+    },
+
+    emits: ['update:modelValue'],
+
+    template: `
+    <div class="disc-route-creator">
+
+      <!-- Edit toggle bar (always visible) -->
+      <div class="drc-edit-bar">
+        <span class="edit-hint" v-if="!editMode">View mode — click Edit to make changes</span>
+        <button class="tb-btn edit-toggle" :class="{ active: editMode }" @click="toggleEdit">
+          <span>{{ editMode ? '✓ Done Editing' : '✏️ Edit' }}</span>
+        </button>
+      </div>
+
+      <!-- Toolbar (only shown in edit mode) -->
+      <div class="drc-toolbar" v-if="editMode">
+        <span class="tb-label">Shape</span>
+        <button class="tb-btn"  :class="{ active: mode==='circle'  }" @click="setMode('circle')">⬤ Circle</button>
+        <button class="tb-btn"   :class="{ active: mode==='x'       }" @click="setMode('x')">✕ X</button>
+        <button class="tb-btn"   :class="{ active: mode==='route'   }" @click="setMode('route')">↗ Route</button>
+        <button class="tb-btn"   :class="{ active: mode==='throw'   }" @click="setMode('throw')">〜 Throw</button>
+        <button class="tb-btn"  :class="{ active: mode==='eraser'  }" @click="setMode('eraser')">⌫ Eraser</button>
+
+        <div class="tb-sep"></div>
+
+        <span class="tb-label">Colors</span>
+        <select class="scheme-select" :value="colorScheme" @change="setColorScheme($event.target.value)">
+          <option value="classic">🔵 Classic</option>
+          <option value="crimson">🔴 Crimson</option>
+          <option value="ocean">🟦 Ocean</option>
+          <option value="sunset">🟠 Sunset</option>
+          <option value="forest">🟢 Forest</option>
+        </select>
+
+        <div class="tb-sep"></div>
+
+        <button class="tb-btn undo"  @click="undo">↩ Undo</button>
+        <button class="tb-btn clear" @click="clearAll">🗑 Clear</button>
+
+        <button class="tb-btn view-json" :class="{ active: showJson }" @click="showJson = !showJson">
+          { } View JSON
+        </button>
+      </div>
+
+      <!-- Field Canvas -->
+      <div class="drc-field-wrap">
+        <div v-if="!editMode" class="drc-canvas-overlay"></div>
+        <canvas ref="canvasEl" class="drc-canvas" :class="{ 'eraser-cur': mode==='eraser' && editMode, 'view-mode': !editMode }"></canvas>
+        <div class="drc-field-labels" ref="labelsEl"></div>
+      </div>
+
+      <!-- Status & Shortcuts (only in edit mode) -->
+      <template v-if="editMode">
+        <div class="drc-status" v-html="statusHtml"></div>
+        <div class="drc-shortcuts">
+          C = Circle &nbsp;·&nbsp; X = X mark &nbsp;·&nbsp; R = Route &nbsp;·&nbsp;
+          T = Throw &nbsp;·&nbsp; E = Eraser &nbsp;·&nbsp; Z = Undo
+        </div>
+      </template>
+
+      <!-- JSON Modal -->
+      <teleport to="body">
+        <transition name="fade">
+          <div v-if="showJson" class="json-modal-overlay" @mousedown.self="showJson=false">
+            <div class="json-modal">
+              <div class="json-modal-header">
+                <h2>DiscRouteModel</h2>
+                <span class="type-badge">v-model output</span>
+                <button class="json-close-btn" @click="showJson=false">✕</button>
+              </div>
+              <div class="json-modal-body">
+                <pre v-html="highlightedJson"></pre>
+              </div>
+              <div class="json-modal-footer">
+                <button class="json-action-btn copy" :class="{ 'copy-flash': copyFlash }" @click="copyJson">
+                  {{ copyFlash ? '✓ Copied!' : '⎘ Copy JSON' }}
+                </button>
+                <button class="json-action-btn close" @click="showJson=false">Close</button>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </teleport>
+    </div>
+  `,
+
+    setup(props, {
+        emit
+    }) {
+        const canvasEl = ref(null);
+        const labelsEl = ref(null);
+        const mode = ref('circle');
+        const colorScheme = ref('classic');
+        const editMode = ref(false);
+        const showJson = ref(false);
+        const copyFlash = ref(false);
+        const statusHtml = ref('Click the field to place a marker.');
+        const highlightedJson = ref('');
+
+        // ── Paper.js state (imperative, non-reactive) ─────────────────────────
+        const ENDZONE = 25;
+        const PLAY_FIELD = 70;
+        const TOTAL_LEN = 2 * ENDZONE + PLAY_FIELD;
+        const TOTAL_WID = 40;
+        let CANVAS_W = 1140;
+        let CANVAS_H = Math.round(CANVAS_W * (TOTAL_WID / TOTAL_LEN));
+
+        let scaleX = CANVAS_W / TOTAL_LEN;
+        let scaleY = CANVAS_H / TOTAL_WID;
+        const RADIUS = Math.min(scaleX, scaleY) * 1.2;
+
+        const COLORS = {
+            classic: {
+                fill: '#ffffff',
+                stroke: '#0288d1',
+                route: '#f9a825',
+                throw: '#f48fb1'
+            },
+            crimson: {
+                fill: '#ef9a9a',
+                stroke: '#c62828',
+                route: '#ff8a65',
+                throw: '#b39ddb'
+            },
+            ocean: {
+                fill: '#b2ebf2',
+                stroke: '#00838f',
+                route: '#3949ab',
+                throw: '#a5d6a7'
+            },
+            sunset: {
+                fill: '#ffe0b2',
+                stroke: '#e65100',
+                route: '#e91e63',
+                throw: '#fdd835'
+            },
+            forest: {
+                fill: '#c8e6c9',
+                stroke: '#2e7d32',
+                route: '#6d4c41',
+                throw: '#29b6f6'
+            }
+        };
+
+        // Internal marker registry: { id, type, team, color, points (normalized), paperItem }
+        let registry = [];
+        let drawPoints = []; // in-progress raw paper Points
+        let drawDots = [];
+        let drawPreview = null;
+        let highlight = null;
+        let mousePos = null;
+        let paperTool = null;
+        let markerLayer = null;
+
+        // Flag to suppress watch→emit loop when loading from prop
+        let loadingFromProp = false;
+
+        // ── Coordinate helpers ────────────────────────────────────────────────
+        function norm(paperPoint) {
+            return {
+                x: paperPoint.x / CANVAS_W,
+                y: paperPoint.y / CANVAS_H
+            };
+        }
+
+        function denorm(normPt) {
+            return new paper.Point(normPt.x * CANVAS_W, normPt.y * CANVAS_H);
+        }
+
+        // ── Color helper ──────────────────────────────────────────────────────
+        function colorFor(t, type) {
+            const c = COLORS[t];
+            if (type === 'route') return c.route;
+            if (type === 'throw') return c.throw;
+            return c.fill;
+        }
+
+        // ── Model serialization ───────────────────────────────────────────────
+        function buildModel() {
+            return {
+                version: '1.0',
+                markers: registry.map(r => ({
+                    id: r.id,
+                    type: r.type,
+                    team: r.team,
+                    color: r.color,
+                    points: r.points // already normalized
+                }))
+            };
+        }
+
+        function emitModel() {
+            if (loadingFromProp) return;
+            const model = buildModel();
+            if (showJson.value) highlightedJson.value = syntaxHighlight(model);
+            emit('update:modelValue', model);
+        }
+
+        // ── Draw: circle ──────────────────────────────────────────────────────
+        function drawCircle(pt, t) {
+            markerLayer.activate();
+            const c = new paper.Path.Circle(pt, RADIUS);
+            c.fillColor = COLORS[t].fill;
+            c.strokeColor = COLORS[t].stroke;
+            c.strokeWidth = 1.5;
+            return c;
+        }
+
+        // ── Draw: X ───────────────────────────────────────────────────────────
+        function drawX(pt, t) {
+            markerLayer.activate();
+            const r = RADIUS;
+            const g = new paper.Group();
+            const l1 = new paper.Path.Line(pt.add([-r, -r]), pt.add([r, r]));
+            const l2 = new paper.Path.Line(pt.add([r, -r]), pt.add([-r, r]));
+            [l1, l2].forEach(l => {
+                l.strokeColor = COLORS[t].stroke;
+                l.strokeWidth = 3.5;
+                l.strokeCap = 'round';
+            });
+            const hit = new paper.Path.Circle(pt, r * 1.3);
+            hit.fillColor = 'rgba(0,0,0,0)';
+            g.addChildren([hit, l1, l2]);
+            return g;
+        }
+
+        // ── Draw: arrowhead ───────────────────────────────────────────────────
+        function makeArrow(tip, tangent, color) {
+            const len = RADIUS * 2.0;
+            const wid = RADIUS * 0.9;
+            const base = tip.subtract(tangent.multiply(len));
+            const perp = new paper.Point(-tangent.y, tangent.x);
+            const arrow = new paper.Path([
+                base.add(perp.multiply(wid)),
+                tip,
+                base.subtract(perp.multiply(wid))
+            ]);
+            arrow.closed = true;
+            arrow.fillColor = color;
+            arrow.strokeColor = color;
+            arrow.strokeWidth = 1;
+            arrow.strokeJoin = 'round';
+            return arrow;
+        }
+
+        // ── Draw: route group ─────────────────────────────────────────────────
+        function drawRoute(pts, color) {
+            markerLayer.activate();
+            const g = new paper.Group();
+            const path = new paper.Path();
+            path.strokeColor = color;
+            path.strokeWidth = 2.5;
+            path.strokeCap = 'round';
+            path.strokeJoin = 'round';
+            path.dashArray = [9, 6];
+            pts.forEach(p => path.add(p));
+            g.addChild(path);
+            for (let i = 0; i < pts.length - 1; i++) {
+                const dot = new paper.Path.Circle(pts[i], RADIUS * 0.38);
+                dot.fillColor = color;
+                g.addChild(dot);
+            }
+            if (pts.length >= 2) {
+                const last = pts[pts.length - 1];
+                const prev = pts[pts.length - 2];
+                const dir = last.subtract(prev).normalize();
+                g.addChild(makeArrow(last, dir, color));
+            }
+            return g;
+        }
+
+        // ── Draw: throw group ─────────────────────────────────────────────────
+        function drawThrow(pts, color) {
+            markerLayer.activate();
+            const g = new paper.Group();
+            const path = new paper.Path();
+            path.strokeColor = color;
+            path.strokeWidth = 2.5;
+            path.strokeCap = 'round';
+            path.strokeJoin = 'round';
+            pts.forEach(p => path.add(p));
+            path.smooth({
+                type: 'catmull-rom',
+                factor: 0.5
+            });
+            g.addChild(path);
+            for (let i = 0; i < pts.length - 1; i++) {
+                const dot = new paper.Path.Circle(pts[i], RADIUS * 0.38);
+                dot.fillColor = color;
+                g.addChild(dot);
+            }
+            if (pts.length >= 2 && path.length > 0) {
+                const tangent = path.getTangentAt(path.length).normalize();
+                const tip = path.lastSegment.point;
+                g.addChild(makeArrow(tip, tangent, color));
+            }
+            return g;
+        }
+
+        // ── Eraser helpers ────────────────────────────────────────────────────
+        function markerIndexAt(pt) {
+            const hitOpts = {
+                tolerance: RADIUS * 1.6,
+                fill: true,
+                stroke: true
+            };
+            for (let i = registry.length - 1; i >= 0; i--) {
+                if (registry[i].paperItem.hitTest(pt, hitOpts)) return i;
+            }
+            return -1;
+        }
+
+        function clearHighlight() {
+            if (highlight) {
+                highlight.remove();
+                highlight = null;
+            }
+        }
+
+        function showHighlight(item) {
+            clearHighlight();
+            highlight = item.clone();
+            highlight.opacity = 0.45;
+
+            function tintRed(it) {
+                if (it.children) it.children.forEach(tintRed);
+                if (it.strokeColor) it.strokeColor = '#ff1744';
+                if (it.fillColor && it.fillColor.alpha > 0) it.fillColor = '#ff1744';
+            }
+            tintRed(highlight);
+        }
+
+        // ── In-progress preview ───────────────────────────────────────────────
+        function refreshPreview() {
+            if (drawPreview) {
+                drawPreview.remove();
+                drawPreview = null;
+            }
+            if (drawPoints.length === 0 || !mousePos) return;
+
+            const m = mode.value;
+            const color = COLORS[colorScheme.value][m];
+            const pts = [...drawPoints, mousePos];
+
+            drawPreview = new paper.Group();
+            const path = new paper.Path();
+            path.strokeColor = color;
+            path.strokeWidth = 2;
+            path.strokeCap = 'round';
+            path.opacity = 0.5;
+            pts.forEach(p => path.add(p));
+            if (m === 'throw' && pts.length >= 2) {
+                path.smooth({
+                    type: 'catmull-rom',
+                    factor: 0.5
+                });
+            } else {
+                path.dashArray = [7, 5];
+            }
+            drawPreview.addChild(path);
+
+            if (pts.length >= 2) {
+                let tangent;
+                if (m === 'throw' && path.length > 0) {
+                    tangent = path.getTangentAt(path.length).normalize();
+                } else {
+                    tangent = mousePos.subtract(pts[pts.length - 2]).normalize();
+                }
+                const arr = makeArrow(mousePos, tangent, color);
+                arr.opacity = 0.5;
+                drawPreview.addChild(arr);
+            }
+        }
+
+        function clearInProgress() {
+            drawDots.forEach(d => d.remove());
+            drawDots = [];
+            drawPoints = [];
+            if (drawPreview) {
+                drawPreview.remove();
+                drawPreview = null;
+            }
+        }
+
+        function isLinearMode() {
+            return mode.value === 'route' || mode.value === 'throw';
+        }
+
+        // ── Commit / cancel ───────────────────────────────────────────────────
+        function commitDraw() {
+            if (drawPoints.length < 2) {
+                clearInProgress();
+                updateStatus();
+                return;
+            }
+            const m = mode.value;
+            const t = colorScheme.value;
+            const color = COLORS[t][m];
+            const item = m === 'throw' ?
+                drawThrow(drawPoints.slice(), color) :
+                drawRoute(drawPoints.slice(), color);
+
+            registry.push({
+                id: uid(),
+                type: m,
+                team: t,
+                color,
+                points: drawPoints.map(norm),
+                paperItem: item
+            });
+            clearInProgress();
+            emitModel();
+            updateStatus();
+        }
+
+        function cancelDraw() {
+            clearInProgress();
+            updateStatus();
+        }
+
+        // ── Status ────────────────────────────────────────────────────────────
+        function updateStatus() {
+            const m = mode.value;
+            if (m === 'eraser') {
+                statusHtml.value = '<span class="hl-eraser">Eraser mode</span> — click any marker, route, or throw to delete it.';
+                return;
+            }
+            if (m === 'route' || m === 'throw') {
+                const cls = m === 'throw' ? 'hl-throw' : 'hl-route';
+                const label = m === 'throw' ? 'Throw' : 'Route';
+                if (drawPoints.length === 0) {
+                    statusHtml.value = `<span class="${cls}">${label} mode</span> — click waypoints on the field, then press <span class="${cls}">Enter</span> to finish.`;
+                } else {
+                    statusHtml.value = `${drawPoints.length} waypoint${drawPoints.length > 1 ? 's' : ''} placed — press <span class="${cls}">Enter</span> to finish &nbsp;|&nbsp; <span class="hl-warn">Escape</span> to cancel.`;
+                }
+                return;
+            }
+            statusHtml.value = `Placing: <strong>${m.toUpperCase()}</strong> &nbsp;|&nbsp; Scheme: <strong>${colorScheme.value.charAt(0).toUpperCase() + colorScheme.value.slice(1)}</strong>`;
+        }
+
+        // ── Load from DiscRouteModel ──────────────────────────────────────────
+        function loadModel(model) {
+            if (!model || !model.markers) return;
+            loadingFromProp = true;
+
+            // Remap legacy team names to schemes
+            const legacyMap = { offense: 'classic', defense: 'crimson' };
+
+            // Clear existing
+            cancelDraw();
+            clearHighlight();
+            registry.forEach(r => r.paperItem.remove());
+            registry = [];
+
+            // Rebuild each marker
+            model.markers.forEach(m => {
+                const pts = m.points.map(denorm);
+                const scheme = legacyMap[m.team] || (COLORS[m.team] ? m.team : 'classic');
+                let item;
+                if (m.type === 'circle') {
+                    item = drawCircle(pts[0], scheme);
+                } else if (m.type === 'x') {
+                    item = drawX(pts[0], scheme);
+                } else if (m.type === 'route') {
+                    item = drawRoute(pts, m.color);
+                } else if (m.type === 'throw') {
+                    item = drawThrow(pts, m.color);
+                }
+                registry.push({
+                    id: m.id,
+                    type: m.type,
+                    team: scheme,
+                    color: m.color,
+                    points: m.points,
+                    paperItem: item
+                });
+            });
+
+            paper.view.draw();
+            loadingFromProp = false;
+        }
+
+        // ── Mode / team setters ───────────────────────────────────────────────
+        function setMode(m) {
+            if (isLinearMode() && m !== mode.value) cancelDraw();
+            clearHighlight();
+            mode.value = m;
+            updateStatus();
+        }
+
+        function setColorScheme(s) {
+            colorScheme.value = s;
+            updateStatus();
+        }
+
+        function toggleEdit() {
+            editMode.value = !editMode.value;
+            if (!editMode.value) {
+                // Cancel any in-progress drawing when leaving edit mode
+                cancelDraw();
+                clearHighlight();
+            }
+        }
+
+        // ── Undo / clear ──────────────────────────────────────────────────────
+        function undo() {
+            if (isLinearMode() && drawPoints.length > 0) {
+                drawPoints.pop();
+                const d = drawDots.pop();
+                if (d) d.remove();
+                refreshPreview();
+                updateStatus();
+                return;
+            }
+            if (registry.length > 0) {
+                const last = registry.pop();
+                last.paperItem.remove();
+                clearHighlight();
+                emitModel();
+                paper.view.draw();
+            }
+        }
+
+        function clearAll() {
+            cancelDraw();
+            clearHighlight();
+            registry.forEach(r => r.paperItem.remove());
+            registry = [];
+            emitModel();
+            paper.view.draw();
+        }
+
+        // ── JSON copy ─────────────────────────────────────────────────────────
+        function copyJson() {
+            const text = JSON.stringify(buildModel(), null, 2);
+            navigator.clipboard.writeText(text).then(() => {
+                copyFlash.value = true;
+                setTimeout(() => {
+                    copyFlash.value = false;
+                }, 1800);
+            });
+        }
+
+        // ── Watch showJson → refresh highlighted JSON ─────────────────────────
+        watch(showJson, (v) => {
+            if (v) highlightedJson.value = syntaxHighlight(buildModel());
+        });
+
+        // ── Watch modelValue prop ─────────────────────────────────────────────
+        watch(() => props.modelValue, (newVal) => {
+            if (!loadingFromProp && newVal) {
+                loadModel(newVal);
+            }
+        }, {
+            deep: true
+        });
+
+        // ── Paper.js setup ────────────────────────────────────────────────────
+        function buildField() {
+            line_color = "#dddddd";
+            field_lines_color = "#3E7958";
+            field_color = "#355E3B";
+
+            const fieldLayer = new paper.Layer();
+            fieldLayer.name = 'field';
+
+            const bg = new paper.Path.Rectangle(new paper.Rectangle(0, 0, (2 * ENDZONE + PLAY_FIELD) * scaleX, CANVAS_H));
+            bg.fillColor = field_color;
+
+            const ez1 = new paper.Path.Rectangle(
+                new paper.Rectangle(
+                    new paper.Point(0, 0),
+                    new paper.Point(ENDZONE * scaleX, CANVAS_H)
+                )
+            );
+            ez1.fillColor = field_color;
+
+            const ez2 = new paper.Path.Rectangle(
+                new paper.Rectangle(
+                    new paper.Point((ENDZONE + PLAY_FIELD) * scaleX, 0),
+                    new paper.Point(CANVAS_W, CANVAS_H)
+                )
+            );
+            ez2.fillColor = field_color;
+
+            for (let yd = 0; yd <= PLAY_FIELD; yd += 10) {
+                const x = (ENDZONE + yd) * scaleX;
+                const ln = new paper.Path.Line(new paper.Point(x, 0), new paper.Point(x, CANVAS_H));
+                ln.strokeColor = field_lines_color;
+                ln.strokeWidth = (yd === 0 || yd === PLAY_FIELD) ? 2 : 1;
+            }
+
+            for (let ez = 5; ez < ENDZONE; ez += 5) {
+                [ez, ENDZONE + PLAY_FIELD + ez].forEach(yd => {
+                    const xp = yd * scaleX;
+                    const hl = new paper.Path.Line(new paper.Point(xp, 0), new paper.Point(xp, CANVAS_H));
+                    hl.strokeColor = field_lines_color;
+                    hl.strokeWidth = 1;
+                    hl.dashArray = [4, 4];
+                });
+            }
+
+            const ol = new paper.Path.Rectangle(new paper.Rectangle(1, 1, CANVAS_W - 2, CANVAS_H - 2));
+            ol.strokeColor = line_color;
+            ol.strokeWidth = 2;
+
+            [ENDZONE, ENDZONE + PLAY_FIELD].forEach(yd => {
+                const x = yd * scaleX;
+                const gl = new paper.Path.Line(new paper.Point(x, 0), new paper.Point(x, CANVAS_H));
+                gl.strokeColor = line_color;
+                gl.strokeWidth = 2;
+            });
+        }
+
+        function buildLabels() {
+            const el = labelsEl.value;
+            if (!el) return;
+            el.innerHTML = '';
+
+            function pct(canvasX) {
+                return (canvasX / CANVAS_W * 100).toFixed(3) + '%';
+            }
+
+            ['Left End Zone', 'Right End Zone'].forEach((txt, i) => {
+                const xc = i === 0 ? ENDZONE / 2 : ENDZONE + PLAY_FIELD + ENDZONE / 2;
+                const div = document.createElement('div');
+                div.className = 'fl-ez';
+                div.textContent = txt;
+                div.style.left = pct(xc * scaleX);
+                el.appendChild(div);
+            });
+
+            [10, 20, 30, 40, 50, 60, 70].forEach(yd => {
+                const dist = yd <= 35 ? yd : 70 - yd;
+                const div = document.createElement('div');
+                div.className = 'fl-yd';
+                div.textContent = String(dist);
+                div.style.left = pct((ENDZONE + yd) * scaleX);
+                el.appendChild(div);
+            });
+        }
+
+        // ── Paper.js event tool ───────────────────────────────────────────────
+        function setupTool() {
+            paperTool = new paper.Tool();
+
+            paperTool.onMouseMove = function(event) {
+                if (!editMode.value) return;
+                mousePos = event.point;
+                const m = mode.value;
+
+                if (m === 'eraser') {
+                    clearHighlight();
+                    const idx = markerIndexAt(event.point);
+                    if (idx >= 0) showHighlight(registry[idx].paperItem);
+                    return;
+                }
+                if (m === 'route' || m === 'throw') refreshPreview();
+            };
+
+            paperTool.onMouseDown = function(event) {
+                if (!editMode.value) return;
+                markerLayer.activate();
+                const pt = event.point;
+                const m = mode.value;
+                const t = colorScheme.value;
+
+                if (m === 'circle') {
+                    const item = drawCircle(pt, t);
+                    registry.push({
+                        id: uid(),
+                        type: 'circle',
+                        team: t,
+                        color: COLORS[t].fill,
+                        points: [norm(pt)],
+                        paperItem: item
+                    });
+                    emitModel();
+
+                } else if (m === 'x') {
+                    const item = drawX(pt, t);
+                    registry.push({
+                        id: uid(),
+                        type: 'x',
+                        team: t,
+                        color: COLORS[t].stroke,
+                        points: [norm(pt)],
+                        paperItem: item
+                    });
+                    emitModel();
+
+                } else if (m === 'route' || m === 'throw') {
+                    drawPoints.push(pt);
+                    const color = COLORS[t][m];
+                    const dot = new paper.Path.Circle(pt, RADIUS * 0.42);
+                    dot.fillColor = color;
+                    dot.opacity = 0.8;
+                    drawDots.push(dot);
+                    mousePos = pt;
+                    refreshPreview();
+
+                } else if (m === 'eraser') {
+                    const idx = markerIndexAt(pt);
+                    if (idx >= 0) {
+                        registry[idx].paperItem.remove();
+                        registry.splice(idx, 1);
+                        clearHighlight();
+                        emitModel();
+                    }
+                }
+
+                updateStatus();
+            };
+
+            paperTool.activate();
+        }
+
+        // ── Keyboard handler ──────────────────────────────────────────────────
+        function onKeyDown(e) {
+            const tag = document.activeElement.tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+            if (!editMode.value) return;
+            const m = mode.value;
+
+            if (e.key === 'Enter' && (m === 'route' || m === 'throw')) {
+                e.preventDefault();
+                commitDraw();
+            }
+            if (e.key === 'Escape' && (m === 'route' || m === 'throw')) {
+                cancelDraw();
+            }
+            if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+                const keyMap = {
+                    c: 'circle',
+                    C: 'circle',
+                    x: 'x',
+                    X: 'x',
+                    r: 'route',
+                    R: 'route',
+                    t: 'throw',
+                    T: 'throw',
+                    e: 'eraser',
+                    E: 'eraser'
+                };
+                if (keyMap[e.key]) setMode(keyMap[e.key]);
+                if (e.key === 'z' || e.key === 'Z') undo();
+            }
+        }
+
+        function rescale(){
+            scaleX = CANVAS_W / TOTAL_LEN;
+            scaleY = CANVAS_H / TOTAL_WID;
+        }
+
+        // ── Lifecycle ─────────────────────────────────────────────────────────
+        onMounted(async () => {
+            await nextTick();
+
+            // Set canvas internal resolution
+            const canvas = canvasEl.value;
+            CANVAS_W = canvas.offsetWidth;
+            CANVAS_H = canvas.offsetHeight;
+            console.log(CANVAS_H)
+            rescale();
+
+            paper.setup(canvas);
+
+            buildField();
+
+            markerLayer = new paper.Layer();
+            markerLayer.name = 'markers';
+            markerLayer.activate();
+
+            buildLabels();
+            setupTool();
+            updateStatus();
+
+            document.addEventListener('keydown', onKeyDown);
+
+            // Hydrate from initial modelValue
+            if (props.modelValue && props.modelValue.markers && props.modelValue.markers.length > 0) {
+                loadModel(props.modelValue);
+            }
+        });
+
+        onUnmounted(() => {
+            document.removeEventListener('keydown', onKeyDown);
+            if (paperTool) paperTool.remove();
+        });
+
+        return {
+            canvasEl,
+            labelsEl,
+            mode,
+            colorScheme,
+            editMode,
+            showJson,
+            copyFlash,
+            statusHtml,
+            highlightedJson,
+            setMode,
+            setColorScheme,
+            toggleEdit,
+            undo,
+            clearAll,
+            copyJson
+        };
+    }
+};
+
+// ── Mount app ─────────────────────────────────────────────────────────────────
+const app = createApp({
+    components: {
+        DiscRouteCreator
+    },
+    setup() {
+        // Start with an empty model — swap this for a pre-populated DiscRouteModel
+        // to test hydration from JSON input
+        const routeModel = ref({
+            version: '1.0',
+            markers: []
+        });
+
+        // Uncomment to test hydration from a preset model:
+        // const routeModel = ref({
+        //   version: '1.0',
+        //   markers: [
+        //     { id: 'preset1', type: 'circle', team: 'offense', color: '#4fc3f7',
+        //       points: [{ x: 0.35, y: 0.5 }] },
+        //     { id: 'preset2', type: 'route',  team: 'offense', color: '#f9a825',
+        //       points: [{ x: 0.35, y: 0.5 }, { x: 0.5, y: 0.25 }, { x: 0.65, y: 0.5 }] },
+        //     { id: 'preset3', type: 'throw',  team: 'offense', color: '#f48fb1',
+        //       points: [{ x: 0.35, y: 0.5 }, { x: 0.55, y: 0.75 }] }
+        //   ]
+        // });
+
+        return {
+            routeModel
+        };
+    },
+    template: `<disc-route-creator v-model="routeModel"></disc-route-creator>`
+});
+
+app.mount('#app');
+</script>
+
+<style>
+.fade-enter-active, .fade-leave-active { transition: opacity .2s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+</style>
+
+</body>
+</html>
