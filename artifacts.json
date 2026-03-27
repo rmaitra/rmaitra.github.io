@@ -58,5 +58,15 @@
         "type":"link",
         "image":"",
         "link":"/sequencer.html"
+    },
+    {
+        "title":"Grandpa Devine",
+        "description":"Life Events.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "link":"/fam.html"
     }
 ]
