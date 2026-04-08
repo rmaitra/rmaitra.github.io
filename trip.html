@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>East Coast Escapes — May 7–10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --ink: #0f1923;
+    --paper: #f5f0e8;
+    --cream: #faf7f2;
+    --ocean: #1a4a6b;
+    --wave: #2e7bb5;
+    --pine: #2d5a3d;
+    --rust: #c4552a;
+    --gold: #c9963a;
+    --fog: #8a9aac;
+    --sand: #d4c4a0;
+    --accent1: #e8734a;
+    --accent2: #3a7bc8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ─────────────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+    border-bottom: 2px solid var(--gold);
+  }
+
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--paper);
+    letter-spacing: 0.04em;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    height: 100%;
+  }
+
+  .nav-tab {
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    color: var(--fog);
+    cursor: pointer;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .nav-tab:hover { color: var(--paper); }
+
+  .nav-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ── HAMBURGER ───────────────────────────────────────── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    background: none;
+    border: none;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--fog);
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 640px) {
+    .nav-brand {
+      font-size: 0.82rem;
+      max-width: calc(100% - 50px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-hamburger { display: flex; }
+
+    .nav-tabs {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: var(--ink);
+      border-top: 1px solid rgba(201,150,58,0.3);
+      z-index: 999;
+    }
+
+    .nav-tabs.open { display: flex; }
+
+    .nav-tab {
+      height: 50px;
+      padding: 0 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-left: 3px solid transparent;
+      font-size: 0.8rem;
+    }
+
+    .nav-tab.active {
+      border-bottom-color: transparent;
+      border-left-color: var(--gold);
+    }
+  }
+
+  /* ── PAGES ───────────────────────────────────────── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── HERO ────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    background-color: var(--ink);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.05);
+    transition: transform 8s ease;
+    filter: brightness(0.55);
+  }
+
+  .hero:hover .hero-bg { transform: scale(1); }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2.5rem 3rem;
+    width: 100%;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: var(--paper);
+    line-height: 1.1;
+    font-weight: 700;
+  }
+
+  .hero-sub {
+    color: var(--fog);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── LAYOUT ──────────────────────────────────────── */
+  .content-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── SECTION LABEL ───────────────────────────────── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fog);
+    margin-bottom: 1rem;
+  }
+
+  /* ── MAP ─────────────────────────────────────────── */
+  .map-card {
+    background: var(--ink);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    top: 80px;
+  }
+
+  .map-header {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .map-title {
+    font-size: 0.75rem;
+    color: var(--fog);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .map-stats {
+    display: flex;
+    gap: 1.2rem;
+  }
+
+  .map-stat {
+    text-align: right;
+  }
+
+  .map-stat-val {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--gold);
+  }
+
+  .map-stat-lbl {
+    font-size: 0.62rem;
+    color: var(--fog);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  #map1, #map2 {
+    height: 320px;
+    width: 100%;
+  }
+
+  .map-legend {
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    color: var(--fog);
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── TIMELINE ────────────────────────────────────── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), var(--accent2), var(--pine));
+  }
+
+  .day-block {
+    position: relative;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .day-block:nth-child(1) { animation-delay: 0.1s; }
+  .day-block:nth-child(2) { animation-delay: 0.2s; }
+  .day-block:nth-child(3) { animation-delay: 0.3s; }
+  .day-block:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .day-node {
+    position: absolute;
+    left: -2.4rem;
+    top: 0.3rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: var(--cream);
+  }
+
+  .day-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    font-style: italic;
+  }
+
+  .day-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .day-image-placeholder {
+    width: 100%;
+    height: 180px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--ocean) 0%, var(--pine) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.3);
+    font-size: 2rem;
+  }
+
+  .activity-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .activity-item {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    padding: 0.6rem 0.8rem;
+    background: white;
+    border-radius: 6px;
+    border-left: 3px solid transparent;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .activity-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  .activity-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--fog);
+    min-width: 52px;
+    margin-top: 1px;
+  }
+
+  .activity-text {
+    font-size: 0.85rem;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+
+  .activity-tip {
+    font-size: 0.75rem;
+    color: var(--fog);
+    margin-top: 0.2rem;
+  }
+
+  /* Color per day */
+  .day-1 .day-node { border-color: var(--accent1); }
+  .day-1 .activity-item { border-left-color: var(--accent1); }
+  .day-1 .day-date { color: var(--accent1); }
+  .day-2 .day-node { border-color: var(--wave); }
+  .day-2 .activity-item { border-left-color: var(--wave); }
+  .day-2 .day-date { color: var(--wave); }
+  .day-3 .day-node { border-color: var(--pine); }
+  .day-3 .activity-item { border-left-color: var(--pine); }
+  .day-3 .day-date { color: var(--pine); }
+  .day-4 .day-node { border-color: var(--gold); }
+  .day-4 .activity-item { border-left-color: var(--gold); }
+  .day-4 .day-date { color: var(--gold); }
+
+  /* ── COST TABLE ──────────────────────────────────── */
+  .cost-card {
+    background: var(--ink);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 2rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+
+  .cost-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .cost-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--paper);
+    font-weight: 400;
+  }
+
+  .cost-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.83rem;
+  }
+
+  .cost-row .label { color: var(--fog); }
+  .cost-row .value { color: var(--paper); font-family: 'DM Mono', monospace; }
+
+  .cost-row.total {
+    background: rgba(201,150,58,0.12);
+    padding: 1rem 1.5rem;
+  }
+
+  .cost-row.total .label {
+    color: var(--paper);
+    font-weight: 500;
+  }
+
+  .cost-row.total .value {
+    color: var(--gold);
+    font-size: 1rem;
+  }
+
+  /* ── COMPARE PAGE ────────────────────────────────── */
+  .compare-hero {
+    background: var(--ink);
+    padding: 3rem;
+    text-align: center;
+    border-bottom: 2px solid var(--gold);
+  }
+
+  .compare-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--paper);
+    margin-bottom: 0.5rem;
+  }
+
+  .compare-hero p {
+    color: var(--fog);
+    font-size: 0.9rem;
+  }
+
+  .compare-grid {
+    max-width: 1100px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  @media (max-width: 780px) {
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-vs { display: none; }
+  }
+
+  .compare-col {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  }
+
+  .compare-col-header {
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .compare-col:first-child .compare-col-header { background: var(--ocean); }
+  .compare-col:last-child .compare-col-header { background: var(--pine); }
+
+  .compare-col-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+
+  .compare-col-header p {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .compare-vs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1.5rem;
+  }
+
+  .vs-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .compare-section {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid #f0ebe0;
+  }
+
+  .compare-section:last-child { border-bottom: none; }
+
+  .compare-section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fog);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 0.5rem;
+  }
+
+  .compare-section p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .compare-score {
+    display: flex;
+    gap: 0.3rem;
+    margin-top: 0.4rem;
+  }
+
+  .score-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: #e8e0d0;
+  }
+
+  .score-dot.filled-ocean { background: var(--ocean); }
+  .score-dot.filled-pine { background: var(--pine); }
+
+  /* ── VERDICT ─────────────────────────────────────── */
+  .verdict-section {
+    max-width: 780px;
+    margin: 0 auto 4rem;
+    padding: 0 2rem;
+  }
+
+  .verdict-card {
+    background: var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .verdict-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(42,123,181,0.15) 0%, rgba(45,90,61,0.15) 100%);
+  }
+
+  .verdict-inner {
+    position: relative;
+    padding: 2.5rem;
+    text-align: center;
+  }
+
+  .verdict-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  .verdict-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--paper);
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .verdict-text {
+    color: var(--fog);
+    font-size: 0.9rem;
+    line-height: 1.75;
+    max-width: 560px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .verdict-reasons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+
+  @media (max-width: 600px) {
+    .verdict-reasons { grid-template-columns: 1fr; }
+  }
+
+  .verdict-reason {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    border-top: 2px solid var(--pine);
+  }
+
+  .verdict-reason-icon { font-size: 1.3rem; margin-bottom: 0.4rem; }
+
+  .verdict-reason h4 {
+    font-size: 0.78rem;
+    color: var(--paper);
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+  }
+
+  .verdict-reason p {
+    font-size: 0.75rem;
+    color: var(--fog);
+    line-height: 1.5;
+  }
+
+  /* ── LEAFLET OVERRIDES ───────────────────────────── */
+  .leaflet-container { background: #1a2a3a; }
+
+  .custom-marker {
+    width: 28px;
+    height: 28px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    border: 1px solid rgba(201,150,58,0.3);
+  }
+
+  .leaflet-popup-tip { background: var(--ink); }
+
+  .leaflet-popup-content {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+  }
+
+  .popup-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .popup-desc { color: var(--fog); line-height: 1.5; }
+
+  /* ── RESPONSIVE ──────────────────────────────────── */
+  @media (max-width: 600px) {
+    .hero-title { font-size: 2rem; }
+    .hero-content { padding: 1.5rem; }
+    .content-grid { padding: 1.5rem 1rem; }
+    .map-stats { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">✦ Boris, Tyler and Raj Escape to the East · May 7–10, 2026</div>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-tabs" id="navTabs">
+    <div class="nav-tab active" onclick="showPage('page1')">Option 1 · Coastal</div>
+    <div class="nav-tab" onclick="showPage('page2')">Option 2 · French Canada</div>
+    <div class="nav-tab" onclick="showPage('compare')">Compare</div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PAGE 1: ATLANTIC COASTAL DASH -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="page1" class="page active">
+  <div class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">Option 01 · Road Trip</span>
+      <h1 class="hero-title">The Atlantic Coastal Dash</h1>
+      <p class="hero-sub">Portland, ME → Bar Harbor → Bay of Fundy → Prince Edward Island &nbsp;·&nbsp; ~9–10 hrs driving</p>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <!-- LEFT: TIMELINE -->
+    <div>
+      <div class="section-label">Day-by-Day Itinerary</div>
+      <div class="timeline">
+
+        <!-- DAY 1 -->
+        <div class="day-block day-1">
+          <div class="day-node"></div>
+          <div class="day-date">May 7 · Wednesday</div>
+          <div class="day-title">Arrival & the Maine Coast</div>
+          <img class="day-image" src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80" alt="Maine coastline" onerror="this.style.display='none'">
+          <ul class="activity-list">
+            <li class="activity-item">
+              <span class="activity-time">Midday</span>
+              <div>
+                <div class="activity-text">✈ Fly into Portland (PWM) and pick up your rental car</div>
+                <div class="activity-tip">Book your car in advance — May is the start of tourist season</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">1:00 PM</span>
+              <div>
+                <div class="activity-text">🦞 Lobster rolls at The Highroller Lobster Co. on Commercial St.</div>
+                <div class="activity-tip">Try the Connecticut-style warm butter roll — a regional classic</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">2:30 PM</span>
+              <div>
+                <div class="activity-text">🚗 Scenic drive north on Rte 1 toward Bar Harbor (3 hrs)</div>
+                <div class="activity-tip">Stop at Rockport or Camden if you have time — stunning harbor towns</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">6:00 PM</span>
+              <div>
+                <div class="activity-text">🌅 Catch the sunset at Sand Beach in Acadia National Park</div>
+                <div class="activity-tip">The pink granite cliffs glow orange — genuinely surreal light</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">8:00 PM</span>
+              <div>
+                <div class="activity-text">🍺 Dinner on Main St, Bar Harbor — try Café This Way or Havana</div>
+                <div class="activity-tip">Reservations recommended; Bar Harbor fills up fast in May</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DAY 2 -->
+        <div class="day-block day-2">
+          <div class="day-node"></div>
+          <div class="day-date">May 8 · Thursday</div>
+          <div class="day-title">The International Trek</div>
+          <img class="day-image" src="https://images.unsplash.com/photo-1625053750985-00ac44df11b2?w=800&q=80" alt="Cadillac Mountain sunrise" onerror="this.style.display='none'">
+          <ul class="activity-list">
+            <li class="activity-item">
+              <span class="activity-time">5:00 AM</span>
+              <div>
+                <div class="activity-text">🌄 Sunrise at Cadillac Mountain — first place in the US to see the sun</div>
+                <div class="activity-tip">Reserve a timed entry pass; temps at summit can be near freezing in May</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">8:00 AM</span>
+              <div>
+                <div class="activity-text">🚗 Begin the 4.5-hour drive to New Brunswick via the Canadian border</div>
+                <div class="activity-tip">Have your passport ready. The crossing at St. Stephen is usually quick</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">1:30 PM</span>
+              <div>
+                <div class="activity-text">🪨 Hopewell Rocks — walk on the ocean floor at low tide</div>
+                <div class="activity-tip">Check the tide schedule! The rocks are only walkable ~2hrs around low tide</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">4:00 PM</span>
+              <div>
+                <div class="activity-text">🌉 Cross the 8-mile Confederation Bridge into Prince Edward Island</div>
+                <div class="activity-tip">The only fixed link to the island — a genuinely dramatic drive over open water</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">Evening</span>
+              <div>
+                <div class="activity-text">🏡 Check in and explore Charlottetown's waterfront</div>
+                <div class="activity-tip">PEI time is 1hr ahead of EDT — plan accordingly</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DAY 3 -->
+        <div class="day-block day-3">
+          <div class="day-node"></div>
+          <div class="day-date">May 9 · Friday</div>
+          <div class="day-title">PEI Island Life</div>
+          <img class="day-image" src="https://images.unsplash.com/photo-1558612776-c90bfb498455?w=800&q=80" alt="PEI red sand beaches" onerror="this.style.display='none'">
+          <ul class="activity-list">
+            <li class="activity-item">
+              <span class="activity-time">9:00 AM</span>
+              <div>
+                <div class="activity-text">📗 Anne of Green Gables Heritage Place in Cavendish</div>
+                <div class="activity-tip">Even if you haven't read the books, the restored farmhouse is charming</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">11:30 AM</span>
+              <div>
+                <div class="activity-text">🏖 PEI National Park — red sandstone cliffs and sweeping dunes</div>
+                <div class="activity-tip">The water is cold in May (10°C) but the beaches are completely empty</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">2:00 PM</span>
+              <div>
+                <div class="activity-text">🚴 Rent bikes and cycle the Confederation Trail — flat & gorgeous</div>
+                <div class="activity-tip">The trail follows old railway beds through pastoral farmland</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">6:00 PM</span>
+              <div>
+                <div class="activity-text">🦪 Oyster dinner in Charlottetown — try The Lobster on the Wharf</div>
+                <div class="activity-tip">Malpeque Bay oysters are world-famous. Order by the dozen.</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">8:30 PM</span>
+              <div>
+                <div class="activity-text">🎻 Live Celtic fiddle music at The Old Triangle Irish Alehouse</div>
+                <div class="activity-tip">PEI has a strong Acadian/Celtic heritage — this is the real deal</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DAY 4 -->
+        <div class="day-block day-4">
+          <div class="day-node"></div>
+          <div class="day-date">May 10 · Saturday</div>
+          <div class="day-title">The Long Haul Home</div>
+          <img class="day-image" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Open road road trip" onerror="this.style.display='none'">
+          <ul class="activity-list">
+            <li class="activity-item">
+              <span class="activity-time">6:00 AM</span>
+              <div>
+                <div class="activity-text">🌅 Early departure — pack coffee and a breakfast sandwich</div>
+                <div class="activity-tip">9+ hour drive: break it at Moncton (NB) and then again at Bangor (ME)</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">En route</span>
+              <div>
+                <div class="activity-text">🍁 Quick stop at Fundy Trail Parkway for coastal views</div>
+                <div class="activity-tip">Worth 30 minutes — dramatic cliffs over the Bay of Fundy</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">3:00 PM</span>
+              <div>
+                <div class="activity-text">🦞 Final Maine lobster stop — Red's Eats in Wiscasset</div>
+                <div class="activity-tip">Legendary lobster roll. Expect a line but it moves fast.</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">5:00 PM</span>
+              <div>
+                <div class="activity-text">✈ Return car and depart from Portland (PWM)</div>
+                <div class="activity-tip">Book evening flights out — the drive leaves no buffer for early departures</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: MAP + COSTS -->
+    <div>
+      <div class="section-label">Route Map</div>
+      <div class="map-card">
+        <div class="map-header">
+          <span class="map-title">Portland → PEI</span>
+          <div class="map-stats">
+            <div class="map-stat">
+              <span class="map-stat-val">~620</span>
+              <span class="map-stat-lbl">miles one-way</span>
+            </div>
+            <div class="map-stat">
+              <span class="map-stat-val">9–10h</span>
+              <span class="map-stat-lbl">drive time</span>
+            </div>
+          </div>
+        </div>
+        <div id="map1"></div>
+        <div class="map-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#e8734a"></div> Start/End</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2e7bb5"></div> Stop</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2d5a3d"></div> Destination</div>
+        </div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-header">
+          <h3>Estimated Cost Per Person</h3>
+        </div>
+        <div class="cost-row"><span class="label">Flights (R/T from SFO)</span><span class="value">~$350</span></div>
+        <div class="cost-row"><span class="label">Car Rental + Gas (÷3)</span><span class="value">~$250</span></div>
+        <div class="cost-row"><span class="label">Lodging · 3 Nights</span><span class="value">~$450</span></div>
+        <div class="cost-row"><span class="label">Food & Activities</span><span class="value">~$300</span></div>
+        <div class="cost-row total"><span class="label">Total (excl. flights)</span><span class="value">~$1,000</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PAGE 2: FRENCH-CANADIAN ESCAPE -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="page2" class="page">
+  <div class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">Option 02 · Train Journey</span>
+      <h1 class="hero-title">The French-Canadian Escape</h1>
+      <p class="hero-sub">Montréal → VIA Rail → Québec City &nbsp;·&nbsp; Classic, walkable, European feeling</p>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <!-- LEFT: TIMELINE -->
+    <div>
+      <div class="section-label">Day-by-Day Itinerary</div>
+      <div class="timeline">
+
+        <!-- DAY 1 -->
+        <div class="day-block day-1">
+          <div class="day-node"></div>
+          <div class="day-date">May 7 · Wednesday</div>
+          <div class="day-title">Welcome to Montréal</div>
+          <img class="day-image" src="https://images.unsplash.com/photo-1514924527133-3ba2d0617285?w=800&q=80" alt="Montreal skyline" onerror="this.style.display='none'">
+          <ul class="activity-list">
+            <li class="activity-item">
+              <span class="activity-time">Midday</span>
+              <div>
+                <div class="activity-text">✈ Fly into Montréal-Trudeau (YUL) and head to Old Montreal</div>
+                <div class="activity-tip">Take the 747 express bus from the airport — quick and cheap</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">2:00 PM</span>
+              <div>
+                <div class="activity-text">⛪ Visit the Notre-Dame Basilica — stunning Gothic Revival interior</div>
+                <div class="activity-tip">Book the AURA light show (evening) for a jaw-dropping experience</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">4:00 PM</span>
+              <div>
+                <div class="activity-text">🧱 Walk the cobblestone streets of Vieux-Montréal and the waterfront</div>
+                <div class="activity-tip">Rue Saint-Paul is the oldest commercial street in North America</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">6:00 PM</span>
+              <div>
+                <div class="activity-text">🍟 Poutine at La Banquise — open 24/7, over 30 varieties</div>
+                <div class="activity-tip">Try the "T-Rex" — fries, gravy, cheese curds, and pulled pork</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">Night</span>
+              <div>
+                <div class="activity-text">🍸 Explore the cocktail scene on Rue Saint-Denis or Plateau area</div>
+                <div class="activity-tip">Montréal has one of the best bar cultures in North America</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DAY 2 -->
+        <div class="day-block day-2">
+          <div class="day-node"></div>
+          <div class="day-date">May 8 · Thursday</div>
+          <div class="day-title">Mount Royal & The Train</div>
+          <img class="day-image" src="https://images.unsplash.com/photo-1580977285586-bd6e8a92bafe?w=800&q=80" alt="VIA Rail train" onerror="this.style.display='none'">
+          <ul class="activity-list">
+            <li class="activity-item">
+              <span class="activity-time">8:30 AM</span>
+              <div>
+                <div class="activity-text">🌲 Hike up Mount Royal Park to the Kondiaronk Belvedere lookout</div>
+                <div class="activity-tip">45-min walk up; or take the shuttle in May if the road is open</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">11:00 AM</span>
+              <div>
+                <div class="activity-text">☕ Brunch at Olive + Gourmando in Old Montreal before the train</div>
+                <div class="activity-tip">Best avocado toast in the city — worth the short line</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">1:30 PM</span>
+              <div>
+                <div class="activity-text">🚂 Board the VIA Rail at Gare Centrale — 3 scenic hours to Québec City</div>
+                <div class="activity-tip">Upgrade to Business Class (~$40 extra) for wide seats, wine, and snacks</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">4:30 PM</span>
+              <div>
+                <div class="activity-text">🏰 Arrive in Québec City, check in, explore Petit-Champlain</div>
+                <div class="activity-tip">The funicular connects Upper and Lower Town — a fun ride</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">7:00 PM</span>
+              <div>
+                <div class="activity-text">🍷 Dinner in the Petit Champlain district — the most beautiful street in Canada</div>
+                <div class="activity-tip">Try Lapin Sauté for French-Canadian game dishes in a cozy bistro setting</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DAY 3 -->
+        <div class="day-block day-3">
+          <div class="day-node"></div>
+          <div class="day-date">May 9 · Friday</div>
+          <div class="day-title">Québec City Charm</div>
+          <img class="day-image" src="https://images.unsplash.com/photo-1536185577694-2c2ba4b62de0?w=800&q=80" alt="Quebec City Chateau Frontenac" onerror="this.style.display='none'">
+          <ul class="activity-list">
+            <li class="activity-item">
+              <span class="activity-time">9:00 AM</span>
+              <div>
+                <div class="activity-text">🏰 Tour the Château Frontenac — book a guided history tour inside</div>
+                <div class="activity-tip">The most photographed hotel in the world, perched over the St. Lawrence</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">10:30 AM</span>
+              <div>
+                <div class="activity-text">🚶 Walk the Dufferin Terrace boardwalk for panoramic St. Lawrence views</div>
+                <div class="activity-tip">Walk to the Plains of Abraham — site of the 1759 Battle of Quebec</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">1:00 PM</span>
+              <div>
+                <div class="activity-text">💦 Montmorency Falls — taller than Niagara, only 15 min from the city</div>
+                <div class="activity-tip">Take the cable car to the top and walk across the suspension bridge</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">4:00 PM</span>
+              <div>
+                <div class="activity-text">🛍 Browse the art galleries and boutiques of Rue Saint-Jean</div>
+                <div class="activity-tip">Great for local maple products, ice wine, and Québécois folk art</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">7:00 PM</span>
+              <div>
+                <div class="activity-text">🍖 Traditional Québécois feast at Aux Anciens Canadiens</div>
+                <div class="activity-tip">Housed in one of the oldest buildings in Québec City (1675). Get the tourtière.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DAY 4 -->
+        <div class="day-block day-4">
+          <div class="day-node"></div>
+          <div class="day-date">May 10 · Saturday</div>
+          <div class="day-title">Last Crêpes & Departure</div>
+          <img class="day-image" src="https://images.unsplash.com/photo-1568051243859-7f12c8a80db2?w=800&q=80" alt="French croissants pastries" onerror="this.style.display='none'">
+          <ul class="activity-list">
+            <li class="activity-item">
+              <span class="activity-time">8:00 AM</span>
+              <div>
+                <div class="activity-text">🥐 Breakfast at Paillard — best croissants, brioche, and coffee in QC</div>
+                <div class="activity-tip">Arrive early. The pastry case sells out quickly on weekends.</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">10:00 AM</span>
+              <div>
+                <div class="activity-text">🚂 Morning train back to Montréal (3 hrs) — OR fly from YQB</div>
+                <div class="activity-tip">Jean Lesage Airport (YQB) has direct connections — check if it saves time</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">En route</span>
+              <div>
+                <div class="activity-text">📖 Read, relax, and enjoy the St. Lawrence River valley scenery</div>
+                <div class="activity-tip">This is the payoff for choosing the train — you arrive refreshed</div>
+              </div>
+            </li>
+            <li class="activity-item">
+              <span class="activity-time">Afternoon</span>
+              <div>
+                <div class="activity-text">✈ Afternoon or evening flights home from YUL</div>
+                <div class="activity-tip">Build in 2.5 hrs before departure — Trudeau airport can be slow</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: MAP + COSTS -->
+    <div>
+      <div class="section-label">Route Map</div>
+      <div class="map-card">
+        <div class="map-header">
+          <span class="map-title">Montréal → Québec City</span>
+          <div class="map-stats">
+            <div class="map-stat">
+              <span class="map-stat-val">~160</span>
+              <span class="map-stat-lbl">miles by rail</span>
+            </div>
+            <div class="map-stat">
+              <span class="map-stat-val">3h</span>
+              <span class="map-stat-lbl">train time</span>
+            </div>
+          </div>
+        </div>
+        <div id="map2"></div>
+        <div class="map-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#e8734a"></div> Arrival City</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2e7bb5"></div> Highlight</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2d5a3d"></div> Destination</div>
+        </div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-header">
+          <h3>Estimated Cost Per Person</h3>
+        </div>
+        <div class="cost-row"><span class="label">Flights (R/T from SFO)</span><span class="value">~$420</span></div>
+        <div class="cost-row"><span class="label">VIA Rail (Business Class)</span><span class="value">$70–$110</span></div>
+        <div class="cost-row"><span class="label">Lodging · 3 Nights</span><span class="value">~$500</span></div>
+        <div class="cost-row"><span class="label">Food & Activities</span><span class="value">~$350</span></div>
+        <div class="cost-row total"><span class="label">Total (excl. flights)</span><span class="value">~$950</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- COMPARE PAGE -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="compare" class="page">
+  <div class="compare-hero">
+    <h2>Side-by-Side Comparison</h2>
+    <p>Which escape suits your group? Here's an honest breakdown.</p>
+  </div>
+
+  <div class="compare-grid">
+    <!-- OPTION 1 -->
+    <div class="compare-col">
+      <div class="compare-col-header">
+        <h3>The Atlantic Coastal Dash</h3>
+        <p>Option 01 · Road Trip</p>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Vibe</div>
+        <p>Rugged, salty-air adventure. Sea spray, lobster shacks, and open highways. Feels like a bucket-list road trip.</p>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Effort Level</div>
+        <p>High. Long days of driving, early morning hikes, and a 9-hour return push. You'll need energy.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Scenery</div>
+        <p>Spectacular and varied: pink granite seacoasts, ocean floor tides, red sand cliffs, and pastoral island farms.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Food & Culture</div>
+        <p>Seafood-centric. Lobster, Malpeque oysters, chowder, and fiddlehead ferns. Acadian Celtic heritage.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Logistics</div>
+        <p>Requires a rental car for the whole trip. Passport required for Canada. Tidal timing at Hopewell Rocks is critical.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot"></div>
+          <div class="score-dot"></div>
+          <div class="score-dot"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Group Size Fit</div>
+        <p>Great for 3 (splits car costs). Works best if everyone is comfortable with long drives and flexible spontaneity.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot filled-ocean"></div>
+          <div class="score-dot"></div>
+          <div class="score-dot"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Total Per Person</div>
+        <p style="font-family:'Playfair Display',serif;font-size:1.2rem;">~$1,350 <span style="font-size:0.75rem;color:var(--fog);">incl. flight</span></p>
+      </div>
+    </div>
+
+    <div class="compare-vs">
+      <div class="vs-circle">vs</div>
+    </div>
+
+    <!-- OPTION 2 -->
+    <div class="compare-col">
+      <div class="compare-col-header" style="">
+        <h3>The French-Canadian Escape</h3>
+        <p>Option 02 · Train Journey</p>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Vibe</div>
+        <p>Sophisticated, cosmopolitan, "pretend you're in Europe." Cobblestones, wine on the train, world-class food.</p>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Effort Level</div>
+        <p>Low to medium. The train does the work. Days are full but never exhausting. Perfect for a relaxing group trip.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot"></div>
+          <div class="score-dot"></div>
+          <div class="score-dot"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Scenery</div>
+        <p>Classic and gorgeous: Old World architecture, St. Lawrence River valley, waterfalls, and the UNESCO-worthy walled city.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Food & Culture</div>
+        <p>Outstanding. French-Canadian cuisine, world-class brunch culture, tourtière, maple everything, and great cocktail bars.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Logistics</div>
+        <p>Very straightforward. Fly in, walk everywhere in Montréal, board the train, walk everywhere in Québec City. No car needed.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Group Size Fit</div>
+        <p>Works for any group size. No coordination of drivers or car costs. Everyone can relax and stay together easily.</p>
+        <div class="compare-score">
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot filled-pine"></div>
+          <div class="score-dot"></div>
+        </div>
+      </div>
+
+      <div class="compare-section">
+        <div class="compare-section-label">Total Per Person</div>
+        <p style="font-family:'Playfair Display',serif;font-size:1.2rem;">~$1,370 <span style="font-size:0.75rem;color:var(--fog);">incl. flight</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict-section">
+    <div class="verdict-card">
+      <div class="verdict-inner">
+        <div class="verdict-badge">✦ Our Recommendation</div>
+        <div class="verdict-title">Go French-Canadian.</div>
+        <p class="verdict-text">
+          For a 4-day group trip in May, <strong style="color:var(--paper)">Option 2 is the smarter choice</strong>. The Atlantic Coastal Dash is an incredible adventure — but it's a grueling one. You'd spend nearly half of your 4 days just driving, arrive home exhausted, and be at the mercy of tide tables and long border crossings. Option 2 delivers maximum delight per hour of effort: two of the most beautiful cities in North America, incredible food, a scenic train ride with a glass of wine, and you return home feeling genuinely refreshed. The costs are nearly identical, making this an easy call.
+        </p>
+        <p class="verdict-text" style="margin-bottom:0">
+          <em style="color:rgba(255,255,255,0.4)">That said: if your group specifically lives for road trips, hates cities, and someone already has TSA PreCheck + Canadian border pass — Option 1 is a once-in-a-lifetime run.</em>
+        </p>
+        <div class="verdict-reasons">
+          <div class="verdict-reason">
+            <div class="verdict-reason-icon">🚂</div>
+            <h4>Zero Driving Stress</h4>
+            <p>The train does the heavy lifting. Everyone arrives at the destination relaxed, not road-weary.</p>
+          </div>
+          <div class="verdict-reason">
+            <div class="verdict-reason-icon">🍽</div>
+            <h4>World-Class Food</h4>
+            <p>Montréal and Québec City consistently rank among the top dining destinations in North America.</p>
+          </div>
+          <div class="verdict-reason">
+            <div class="verdict-reason-icon">📅</div>
+            <h4>Better Use of 4 Days</h4>
+            <p>Option 1 loses nearly an entire day to a return drive. Option 2 keeps all 4 days productive and enjoyable.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── NAV TOGGLE ────────────────────────────────────────
+function toggleNav() {
+  const btn = document.getElementById('navHamburger');
+  const tabs = document.getElementById('navTabs');
+  btn.classList.toggle('open');
+  tabs.classList.toggle('open');
+}
+
+// ── PAGE SWITCHING ────────────────────────────────────
+function showPage(id) {
+  // Close mobile nav
+  document.getElementById('navHamburger').classList.remove('open');
+  document.getElementById('navTabs').classList.remove('open');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  if (id === 'page1') tabs[0].classList.add('active');
+  else if (id === 'page2') tabs[1].classList.add('active');
+  else tabs[2].classList.add('active');
+
+  // Init maps lazily
+  setTimeout(() => {
+    if (id === 'page1' && !map1Initialized) initMap1();
+    if (id === 'page2' && !map2Initialized) initMap2();
+  }, 100);
+}
+
+// ── MAP 1: ATLANTIC COASTAL DASH ──────────────────────
+let map1Initialized = false;
+function initMap1() {
+  map1Initialized = true;
+  const map = L.map('map1', { zoomControl: false }).setView([45.2, -66.5], 5);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '©CartoDB',
+    subdomains: 'abcd'
+  }).addTo(map);
+
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  const stops = [
+    { lat: 43.6591, lng: -70.2568, name: 'Portland, ME', desc: 'Day 1: Fly in · Lobster rolls at Highroller · Drive north', color: '#e8734a', day: 'Day 1' },
+    { lat: 44.3876, lng: -68.2039, name: 'Bar Harbor / Acadia', desc: 'Day 1–2: Sunset at Sand Beach · Sunrise on Cadillac Mountain', color: '#2e7bb5', day: 'Day 1–2' },
+    { lat: 45.8200, lng: -64.5800, name: 'Hopewell Rocks, NB', desc: 'Day 2: World\'s highest tides · Walk the ocean floor at low tide', color: '#2e7bb5', day: 'Day 2' },
+    { lat: 46.2328, lng: -63.9397, name: 'Confederation Bridge', desc: 'Day 2: 8-mile crossing into Prince Edward Island', color: '#2e7bb5', day: 'Day 2' },
+    { lat: 46.2382, lng: -63.1311, name: 'Charlottetown, PEI', desc: 'Day 3: Anne of Green Gables · Red sand beaches · Oyster dinner', color: '#2d5a3d', day: 'Day 3' },
+  ];
+
+  const routeCoords = stops.map(s => [s.lat, s.lng]);
+
+  // Draw animated route
+  L.polyline(routeCoords, {
+    color: '#c9963a',
+    weight: 2.5,
+    opacity: 0.7,
+    dashArray: '8, 6'
+  }).addTo(map);
+
+  stops.forEach((stop, i) => {
+    const icon = L.divIcon({
+      html: `<div style="
+        width:${i===0||i===stops.length-1?'14px':'10px'};
+        height:${i===0||i===stops.length-1?'14px':'10px'};
+        background:${stop.color};
+        border-radius:50%;
+        border:2px solid white;
+        box-shadow:0 0 8px ${stop.color}88;
+      "></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+      className: ''
+    });
+
+    L.marker([stop.lat, stop.lng], { icon })
+      .addTo(map)
+      .bindPopup(`<div class="popup-title">${stop.name}</div><div class="popup-desc">${stop.desc}</div>`);
+  });
+}
+
+// ── MAP 2: FRENCH-CANADIAN ESCAPE ─────────────────────
+let map2Initialized = false;
+function initMap2() {
+  map2Initialized = true;
+  const map = L.map('map2', { zoomControl: false }).setView([46.0, -72.5], 6);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '©CartoDB',
+    subdomains: 'abcd'
+  }).addTo(map);
+
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  const stops = [
+    { lat: 45.5017, lng: -73.5673, name: 'Montréal', desc: 'Day 1–2: Notre-Dame Basilica · Old Montreal · La Banquise poutine', color: '#e8734a' },
+    { lat: 45.5291, lng: -73.6236, name: 'Mont Royal Park', desc: 'Day 2 morning: Best panoramic view of the city', color: '#2e7bb5' },
+    { lat: 46.8139, lng: -71.2082, name: 'Québec City', desc: 'Day 2–4: Château Frontenac · Petit Champlain · Dufferin Terrace', color: '#2d5a3d' },
+    { lat: 46.8839, lng: -71.1508, name: 'Montmorency Falls', desc: 'Day 3: 272ft waterfall — taller than Niagara. Cable car to the top.', color: '#2e7bb5' },
+  ];
+
+  // Train route
+  L.polyline([
+    [45.5017, -73.5673],
+    [45.9, -72.9],
+    [46.3, -72.2],
+    [46.8139, -71.2082]
+  ], {
+    color: '#c9963a',
+    weight: 3,
+    opacity: 0.8,
+    dashArray: '10, 6'
+  }).addTo(map);
+
+  // Local connection to Montmorency
+  L.polyline([
+    [46.8139, -71.2082],
+    [46.8839, -71.1508]
+  ], {
+    color: '#2e7bb5',
+    weight: 2,
+    opacity: 0.5,
+    dashArray: '4, 4'
+  }).addTo(map);
+
+  stops.forEach((stop, i) => {
+    const icon = L.divIcon({
+      html: `<div style="
+        width:${i===0||i===2?'14px':'10px'};
+        height:${i===0||i===2?'14px':'10px'};
+        background:${stop.color};
+        border-radius:50%;
+        border:2px solid white;
+        box-shadow:0 0 8px ${stop.color}88;
+      "></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+      className: ''
+    });
+
+    L.marker([stop.lat, stop.lng], { icon })
+      .addTo(map)
+      .bindPopup(`<div class="popup-title">${stop.name}</div><div class="popup-desc">${stop.desc}</div>`);
+  });
+}
+
+// Init map1 on load (page1 is default active)
+window.addEventListener('load', () => {
+  setTimeout(initMap1, 200);
+});
+</script>
+</body>
+</html>
