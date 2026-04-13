@@ -369,13 +369,12 @@
 // To update a channel ID: go to the channel on YouTube,
 // view page source, and search for "channelId".
 const CHANNELS = [
-    //{ name: "The Young Turks",    id: "UC1yBKRuGpC1tSM73A0ZjYjQ", color: "#c8102e" },
     {name: "PBS Newshour", id: "UC6ZFN9Tx6xh-skXCuRHCDpQ", color: "#2a8a4a" },
     {name: "Washington Week", id: "UC2s0uKOc2WgB9eGta7cUUEA", color: "#7c3aed" },
     {name: "More Perfect Union", id: "UCehBVAPy-bxmnbNARF-_tvA", color: "#0e7490" },
     {name: "Last Week Tonight with John Oliver", id:"UC3XTzVzaHQEd30rQbuvCtTQ", color:"#d45f0a"},
     {name: "NASA", id:"UCLA_DiR1FfKNvjuUpBHmylQ", color:"#2a8a4a"},
-    {name: "Johnny Harris", id:"UCmGSJVG3mCRXVOP4yZrU1Dw", color:"#1a6faf"},
+    {name: "Johnny Harris", id:"UULFmGSJVG3mCRXVOP4yZrU1Dw", color:"#1a6faf"},
     {name: "Tangle", id:"UC3SXZ16R98huyTvFKH2368w", color:"#0e7490"},
     {name: "Search Party", id:"UC7KbIaEOuY7H2j-cvhJ3mYA", color:"#1a6faf"},
     {name: "NowThis News", id: "UCn4sPeUomNGIr26bElVdDYg", color: "#d45f0a" },
@@ -390,19 +389,18 @@ const CHANNELS = [
     {name: "Space Time", id:"UC7_gcs09iThXybpVgjHZ_7g", color:"#1a6faf"},
     {name: "Deep Look", id:"UC-3SbfTPJsL8fJAPKiVqBLg", color:"#d45f0a"},
     {name: "Real Engineering", id:"UCR1IuLEqb6UEA_zQ81kwXfg", color:"#2a8a4a"}
-    //{ name: "AJ+",                id: "UCV3Nm3T-XAgVhKH9jT0ViRg", color: "#2a8a4a" },
-    //{ name: "BreakThrough News",  id: "UCwtyN3q2UqFbEoVL0YZ7rGQ", color: "#047857" },
-    //{ name: "The Intercept",      id: "UCNye4nEJaBQfTvABDSbz8JA", color: "#475569" },
-    //UCLXo7UDZvByw2ixzpQCufnA  vox
-    //UCiKFyG2M8e62HOrDDJ7HYbw wedgelive
-    // UC7KbIaEOuY7H2j-cvhJ3mYA, UC3SXZ16R98huyTvFKH2368w
 ];
 
 const PROXY = 'https://rmaitra-cors-proxy-8ff64f217b6a.herokuapp.com/proxy?url=';
 const MAX_VIDEOS = 12;
 
-function rssUrl(id) {
-    return `https://www.youtube.com/feeds/videos.xml?channel_id=${id}`;
+function rssUrl(channel) {
+    if(channel.id){
+        return `https://www.youtube.com/feeds/videos.xml?channel_id=${channel.id}`;
+    }
+    if(channel.playlist_id){
+        return `https://www.youtube.com/feeds/videos.xml?playslist_id=${channel.playlist_id}`;
+    }
 }
 
 function timeAgo(dateStr) {
@@ -540,7 +538,7 @@ async function loadChannel(ch) {
     document.getElementById('main').appendChild(divider);
 
     try {
-        const url = PROXY + encodeURIComponent(rssUrl(ch.id));
+        const url = PROXY + encodeURIComponent(rssUrl(ch));
         //const url = rssUrl(ch.id);
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
