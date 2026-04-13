@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Progressive Lens</title>
+        <title>Progressive Source</title>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
         <style>
             *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -377,7 +377,6 @@ const CHANNELS = [
     {name: "Johnny Harris", playlist_id:"UULFmGSJVG3mCRXVOP4yZrU1Dw", color:"#1a6faf"},
     {name: "Tangle", playlist_id:"UULF3SXZ16R98huyTvFKH2368w", color:"#0e7490"},
     {name: "Search Party", id:"UC7KbIaEOuY7H2j-cvhJ3mYA", color:"#1a6faf"},
-    {name: "NowThis News", playlist_id: "UULFn4sPeUomNGIr26bElVdDYg", color: "#d45f0a" },
     {name: "Vox", playlist_id: "UULFLXo7UDZvByw2ixzpQCufnA", color: "#7c3aed" },
     {name: "Democracy Now!", playlist_id: "UULFzuqE7-t13O4NIDYJfakrhw", color: "#1a6faf" },
     {name: "WedgeLIVE!", id: "UCiKFyG2M8e62HOrDDJ7HYbw", color: "#0e7490" },
@@ -392,6 +391,7 @@ const CHANNELS = [
 ];
 
 const PROXY = 'https://rmaitra-cors-proxy-8ff64f217b6a.herokuapp.com/proxy?url=';
+//const PROXY = 'http://localhost:4000/proxy?url=';
 const MAX_VIDEOS = 12;
 
 function rssUrl(channel) {
@@ -399,7 +399,7 @@ function rssUrl(channel) {
         return `https://www.youtube.com/feeds/videos.xml?channel_id=${channel.id}`;
     }
     if(channel.playlist_id){
-        return `https://www.youtube.com/feeds/videos.xml?playslist_id=${channel.playlist_id}`;
+        return `https://www.youtube.com/feeds/videos.xml?playlist_id=${channel.playlist_id}`;
     }
 }
 
