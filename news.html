@@ -429,7 +429,7 @@ async function loadChannel(ch) {
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
-        const videos = parseRSS(json.videos);
+        const videos = json.videos;
 
         section.removeChild(skeletons);
 
