@@ -20,6 +20,16 @@
         "link":"https://minnesotaexplained.github.io"
     },
     {
+        "title":"Progressive News",
+        "description":"Progressive news RSS app.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "link":"/news.html"
+    },
+    {
         "title":"Loonatic Productions",
         "description":"Music Production studio in south Minneapolis.",
         "subtitle":"",
