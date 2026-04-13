@@ -262,6 +262,68 @@
             background: var(--border);
             margin: 0.5rem 2.5rem 0;
             }
+            /* MODAL */
+            .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0,0,0,0.85);
+            align-items: center;
+            justify-content: center;
+            }
+            .modal-backdrop.open { display: flex; }
+            .modal-box {
+            position: relative;
+            width: min(880px, 92vw);
+            background: #0b1520;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+            }
+            .modal-video-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            }
+            .modal-video-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            }
+            .modal-info {
+            padding: 0.75rem 1rem;
+            }
+            .modal-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--text);
+            }
+            .modal-close {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.6rem;
+            width: 32px;
+            height: 32px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1.1rem;
+            line-height: 1;
+            transition: background 0.15s;
+            z-index: 1;
+            }
+            .modal-close:hover { background: rgba(255,255,255,0.15); }
             /* FOOTER */
             footer {
             margin-top: 3rem;
@@ -285,8 +347,22 @@
             <div class="hero-sub">Latest videos from leading progressive and documentary sources — updated from YouTube RSS feeds</div>
         </div>
         <main id="main"></main>
+
+        <!-- VIDEO MODAL -->
+        <div class="modal-backdrop" id="videoModal" role="dialog" aria-modal="true">
+            <div class="modal-box">
+                <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+                <div class="modal-video-wrap">
+                    <iframe id="modalIframe" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+                </div>
+                <div class="modal-info">
+                    <div class="modal-title" id="modalTitle"></div>
+                </div>
+            </div>
+        </div>
+
         <footer>
-            Videos sourced via YouTube RSS feeds &middot; Channel IDs may need updating if a feed fails to load &middot; Click any video to watch on YouTube
+            Videos sourced via YouTube RSS feeds &middot; Channel IDs may need updating if a feed fails to load &middot; Click any video to play in-page &middot; Use "All videos ↗" to visit the channel
         </footer>
         <script>
 // ─── CHANNEL LIST ────────────────────────────────────────────────────────────
@@ -298,6 +374,7 @@ const CHANNELS = [
     {name: "Washington Week", id: "UC2s0uKOc2WgB9eGta7cUUEA", color: "#7c3aed" },
     {name: "More Perfect Union", id: "UCehBVAPy-bxmnbNARF-_tvA", color: "#0e7490" },
     {name: "Last Week Tonight with John Oliver", id:"UC3XTzVzaHQEd30rQbuvCtTQ", color:"#d45f0a"},
+    {name: "NASA", id:"UCLA_DiR1FfKNvjuUpBHmylQ", color:"#2a8a4a"},
     {name: "Johnny Harris", id:"UCmGSJVG3mCRXVOP4yZrU1Dw", color:"#1a6faf"},
     {name: "Tangle", id:"UC3SXZ16R98huyTvFKH2368w", color:"#0e7490"},
     {name: "Search Party", id:"UC7KbIaEOuY7H2j-cvhJ3mYA", color:"#1a6faf"},
@@ -305,6 +382,14 @@ const CHANNELS = [
     {name: "Vox", id: "UCLXo7UDZvByw2ixzpQCufnA", color: "#7c3aed" },
     {name: "Democracy Now!", id: "UCzuqE7-t13O4NIDYJfakrhw", color: "#1a6faf" },
     {name: "WedgeLIVE!", id: "UCiKFyG2M8e62HOrDDJ7HYbw", color: "#0e7490" },
+    {name: "Fall of Civilizations", id:"UCT6Y5JJPKe_JDMivpKgVXew", color:"#2a8a4a"},
+    {name: "BBC Earth Science", id:"UCdsOTr6SmDrxuWE7sJFrkhQ", color:"#047857"},
+    {name: "Frontline", id:"UC3ScyryU9Oy9Wse3a8OAmYQ", color:"#d45f0a"},
+    {name: "Veritasium", id:"UCHnyfMqiRRG1u-2MsSQLbXA", color:"#1a6faf"},
+    {name: "Kurzgesagt – In a Nutshell", id:"UCsXVk37bltHxD1rDPwtNM8Q", color:"#1a6faf"},
+    {name: "Space Time", id:"UC7_gcs09iThXybpVgjHZ_7g", color:"#1a6faf"},
+    {name: "Deep Look", id:"UC-3SbfTPJsL8fJAPKiVqBLg", color:"#d45f0a"},
+    {name: "Real Engineering", id:"UCR1IuLEqb6UEA_zQ81kwXfg", color:"#2a8a4a"}
     //{ name: "AJ+",                id: "UCV3Nm3T-XAgVhKH9jT0ViRg", color: "#2a8a4a" },
     //{ name: "BreakThrough News",  id: "UCwtyN3q2UqFbEoVL0YZ7rGQ", color: "#047857" },
     //{ name: "The Intercept",      id: "UCNye4nEJaBQfTvABDSbz8JA", color: "#475569" },
@@ -375,12 +460,38 @@ function makeSkeleton() {
     return row;
 }
 
+// ─── MODAL ───────────────────────────────────────────────────────────────────
+const modal    = document.getElementById('videoModal');
+const iframe   = document.getElementById('modalIframe');
+const modalTitle = document.getElementById('modalTitle');
+
+function openModal(videoId, title) {
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+    modalTitle.textContent = title;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    modal.classList.remove('open');
+    iframe.src = '';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
 function makeCard(video) {
     const a = document.createElement('a');
     a.className = 'video-card';
     a.href = `https://www.youtube.com/watch?v=${video.videoId}`;
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        openModal(video.videoId, video.title);
+    });
 
     const badge = isNew(video.published) ? '<div class="new-badge">New</div>' : '';
 
