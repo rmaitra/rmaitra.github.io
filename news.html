@@ -8,14 +8,14 @@
         <style>
             *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
             :root {
-            --bg: #0d0d0d;
-            --surface: #171717;
-            --card: #1f1f1f;
-            --accent: #c8102e;
-            --accent2: #e8c068;
-            --text: #efefef;
-            --muted: #777;
-            --border: #272727;
+            --bg: #0b1520;
+            --surface: #0f1e2e;
+            --card: #162840;
+            --accent: #2478cc;
+            --accent2: #6aabde;
+            --text: #dde8f0;
+            --muted: #6a8ea8;
+            --border: #1e3348;
             }
             body {
             background: var(--bg);
@@ -33,7 +33,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: linear-gradient(to bottom, #0d0d0d 80%, transparent);
+            background: linear-gradient(to bottom, #0b1520 80%, transparent);
             border-bottom: 1px solid var(--border);
             }
             .logo {
@@ -276,12 +276,12 @@
     <body>
         <header>
             <div class="logo">
-                <span class="logo-word">Progressive<span class="logo-accent">Lens</span></span>
+                <span class="logo-word">Progressive<span class="logo-accent"><em>Source</em></span></span>
             </div>
-            <div class="header-right">Independent News · Documentary</div>
+            <div class="header-right">Public News · Independent News · Documentary</div>
         </header>
         <div class="hero-bar">
-            <h1>The news they <em>don't</em> want you to miss.</h1>
+            <h4>Progress at it's source: public media, independent news and documentarians at the forefront. Less of the capitalism, more community forward.</h4>
             <div class="hero-sub">Latest videos from leading progressive and documentary sources — updated from YouTube RSS feeds</div>
         </div>
         <main id="main"></main>
@@ -295,17 +295,22 @@
 const CHANNELS = [
     //{ name: "The Young Turks",    id: "UC1yBKRuGpC1tSM73A0ZjYjQ", color: "#c8102e" },
     {name: "PBS Newshour", id: "UC6ZFN9Tx6xh-skXCuRHCDpQ", color: "#2a8a4a" },
-    {name: "Washington Week", id: "UC2s0uKOc2WgB9eGta7cUUEA", color: "#2a8a4a" },
+    {name: "Washington Week", id: "UC2s0uKOc2WgB9eGta7cUUEA", color: "#7c3aed" },
     {name: "More Perfect Union", id: "UCehBVAPy-bxmnbNARF-_tvA", color: "#0e7490" },
-    //{ name: "AJ+",                id: "UCV3Nm3T-XAgVhKH9jT0ViRg", color: "#2a8a4a" },
+    {name: "Last Week Tonight with John Oliver", id:"UC3XTzVzaHQEd30rQbuvCtTQ", color:"#d45f0a"},
+    {name: "Johnny Harris", id:"UCmGSJVG3mCRXVOP4yZrU1Dw", color:"#1a6faf"},
+    {name: "Tangle", id:"UC3SXZ16R98huyTvFKH2368w", color:"#0e7490"},
+    {name: "Search Party", id:"UC7KbIaEOuY7H2j-cvhJ3mYA", color:"#1a6faf"},
     {name: "NowThis News", id: "UCn4sPeUomNGIr26bElVdDYg", color: "#d45f0a" },
     {name: "Vox", id: "UCLXo7UDZvByw2ixzpQCufnA", color: "#7c3aed" },
     {name: "Democracy Now!", id: "UCzuqE7-t13O4NIDYJfakrhw", color: "#1a6faf" },
     {name: "WedgeLIVE!", id: "UCiKFyG2M8e62HOrDDJ7HYbw", color: "#0e7490" },
+    //{ name: "AJ+",                id: "UCV3Nm3T-XAgVhKH9jT0ViRg", color: "#2a8a4a" },
     //{ name: "BreakThrough News",  id: "UCwtyN3q2UqFbEoVL0YZ7rGQ", color: "#047857" },
     //{ name: "The Intercept",      id: "UCNye4nEJaBQfTvABDSbz8JA", color: "#475569" },
     //UCLXo7UDZvByw2ixzpQCufnA  vox
     //UCiKFyG2M8e62HOrDDJ7HYbw wedgelive
+    // UC7KbIaEOuY7H2j-cvhJ3mYA, UC3SXZ16R98huyTvFKH2368w
 ];
 
 const PROXY = 'https://rmaitra-cors-proxy-8ff64f217b6a.herokuapp.com/proxy?url=';
