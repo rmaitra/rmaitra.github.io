@@ -262,6 +262,49 @@
             background: var(--border);
             margin: 0.5rem 2.5rem 0;
             }
+            /* SCIENCE ARTICLE CARDS */
+            .article-card {
+            flex: 0 0 260px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.9rem 1rem;
+            border-left: 3px solid #16a34a;
+            transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s;
+            }
+            .article-card:hover {
+            transform: scale(1.03) translateY(-2px);
+            border-left-color: #4ade80;
+            }
+            .article-label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #4ade80;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            }
+            .article-title {
+            font-size: 0.82rem;
+            font-weight: 500;
+            line-height: 1.45;
+            color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+            }
+            .article-date {
+            color: var(--muted);
+            font-size: 0.7rem;
+            font-weight: 300;
+            margin-top: 0.6rem;
+            }
             /* MODAL */
             .modal-backdrop {
             display: none;
@@ -365,42 +408,96 @@
             Videos sourced via YouTube RSS feeds &middot; Channel IDs may need updating if a feed fails to load &middot; Click any video to play in-page &middot; Use "All videos ↗" to visit the channel
         </footer>
         <script>
+// ─── FEED MODELS ─────────────────────────────────────────────────────────────
+// The proxy converts XML to JSON via xmlToJson(). Conventions:
+//   text-only nodes  → plain string
+//   attributes       → ._attr{ key: value }
+//   repeated tags    → promoted to array automatically
+//
+// YouTube Atom feed shape (after xmlToJson):
+//   json.feed.entry[]
+//     ["yt:videoId"]                           → video ID string
+//     .title                                   → title string
+//     .published                               → ISO date string
+//     ["media:group"]["media:thumbnail"]._attr.url → thumbnail URL
+//
+// Science.org RSS 2.0 shape (after xmlToJson):
+//   json.rss.channel.item[]
+//     .title   → article title string
+//     .link    → article URL string  (text node → plain string)
+//     .pubDate → RFC 822 date string
+
+const MAX_ARTICLES = 20;
+
+function asArray(val) {
+    if (!val) return [];
+    return Array.isArray(val) ? val : [val];
+}
+
+function parseYouTubeFeed(json) {
+    const entries = asArray(json?.feed?.entry);
+    return entries.slice(0, MAX_VIDEOS).map(e => {
+        const videoId   = e['yt:videoId'] || '';
+        const title     = e.title || 'Untitled';
+        const published = e.published || '';
+        const thumbnail =
+            e['media:group']?.['media:thumbnail']?._attr?.url ||
+            (videoId ? `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg` : '');
+        return { videoId, title, published, thumbnail };
+    }).filter(v => v.videoId);
+}
+
+function parseScienceFeed(json) {
+    let items;
+    if(json.rss){
+        items = asArray(json?.rss?.channel.item);
+    }
+    if(json["rdf:RDF"]){
+        items = asArray(json["rdf:RDF"].item);
+    }
+    return items.slice(0, MAX_ARTICLES).map(item => ({
+        title:   item.title   || 'Untitled',
+        link:    item.link    || '#',
+        pubDate: item.pubDate || item["dc:date"] || ''
+    })).filter(a => a.link && a.link !== '#');
+}
+
 // ─── CHANNEL LIST ────────────────────────────────────────────────────────────
-// To update a channel ID: go to the channel on YouTube,
-// view page source, and search for "channelId".
+// type:'youtube' channels use id or playlist_id to build the feed URL.
+// type:'science' channels supply rssUrl and siteUrl directly.
 const CHANNELS = [
-    {name: "PBS Newshour", id: "UC6ZFN9Tx6xh-skXCuRHCDpQ", color: "#2a8a4a" },
-    {name: "Washington Week", id: "UC2s0uKOc2WgB9eGta7cUUEA", color: "#7c3aed" },
-    {name: "More Perfect Union", playlist_id: "UULFehBVAPy-bxmnbNARF-_tvA", color: "#0e7490" },
-    {name: "Last Week Tonight with John Oliver", playlist_id:"UULF3XTzVzaHQEd30rQbuvCtTQ", color:"#d45f0a"},
-    {name: "NASA", id:"UCLA_DiR1FfKNvjuUpBHmylQ", color:"#2a8a4a"},
-    {name: "Johnny Harris", playlist_id:"UULFmGSJVG3mCRXVOP4yZrU1Dw", color:"#1a6faf"},
-    {name: "Tangle", playlist_id:"UULF3SXZ16R98huyTvFKH2368w", color:"#0e7490"},
-    {name: "Search Party", id:"UC7KbIaEOuY7H2j-cvhJ3mYA", color:"#1a6faf"},
-    {name: "Vox", playlist_id: "UULFLXo7UDZvByw2ixzpQCufnA", color: "#7c3aed" },
-    {name: "Democracy Now!", playlist_id: "UULFzuqE7-t13O4NIDYJfakrhw", color: "#1a6faf" },
-    {name: "WedgeLIVE!", id: "UCiKFyG2M8e62HOrDDJ7HYbw", color: "#0e7490" },
-    {name: "Fall of Civilizations", playlist_id:"UULFT6Y5JJPKe_JDMivpKgVXew", color:"#2a8a4a"},
-    {name: "BBC Earth Science", id:"UCdsOTr6SmDrxuWE7sJFrkhQ", color:"#047857"},
-    {name: "Frontline", id:"UC3ScyryU9Oy9Wse3a8OAmYQ", color:"#d45f0a"},
-    {name: "Veritasium", playlist_id:"UULFHnyfMqiRRG1u-2MsSQLbXA", color:"#1a6faf"},
-    {name: "Kurzgesagt – In a Nutshell", id:"UCsXVk37bltHxD1rDPwtNM8Q", color:"#1a6faf"},
-    {name: "Space Time", id:"UC7_gcs09iThXybpVgjHZ_7g", color:"#1a6faf"},
-    {name: "Deep Look", playlist_id:"UULF-3SbfTPJsL8fJAPKiVqBLg", color:"#d45f0a"},
-    {name: "Real Engineering", playlist_id:"UULFR1IuLEqb6UEA_zQ81kwXfg", color:"#2a8a4a"}
+    {name: "Science Daily", type: "science", rssUrl: "https://www.sciencedaily.com/rss/top/science.xml", siteUrl: "https://www.science.org/news", color: "#16a34a"},
+    {name: "PBS Newshour", type: "youtube", id: "UC6ZFN9Tx6xh-skXCuRHCDpQ", color: "#2a8a4a" },
+    {name: "Washington Week", type: "youtube", id: "UC2s0uKOc2WgB9eGta7cUUEA", color: "#7c3aed" },
+    {name: "More Perfect Union", type: "youtube", playlist_id: "UULFehBVAPy-bxmnbNARF-_tvA", color: "#0e7490" },
+    {name: "Last Week Tonight with John Oliver", type: "youtube", playlist_id:"UULF3XTzVzaHQEd30rQbuvCtTQ", color:"#d45f0a"},
+    {name: "NASA", type: "youtube", id:"UCLA_DiR1FfKNvjuUpBHmylQ", color:"#2a8a4a"},
+    {name: "Johnny Harris", type: "youtube", playlist_id:"UULFmGSJVG3mCRXVOP4yZrU1Dw", color:"#1a6faf"},
+    {name: "Tangle", type: "youtube", playlist_id:"UULF3SXZ16R98huyTvFKH2368w", color:"#0e7490"},
+    {name: "Search Party", type: "youtube", id:"UC7KbIaEOuY7H2j-cvhJ3mYA", color:"#1a6faf"},
+    {name: "Vox", type: "youtube", playlist_id: "UULFLXo7UDZvByw2ixzpQCufnA", color: "#7c3aed" },
+    {name: "Nature", type: "science", rssUrl: "https://www.nature.com/nature.rss", siteUrl: "https://www.nature.com/", color: "#16a34a"},
+    {name: "Nature Podcast", type: "youtube", playlist_id: "UULFdbyeEGP-NPfOoL4R8TfDsg", color: "#2a8a4a"},
+    {name: "Democracy Now!", type: "youtube", playlist_id: "UULFzuqE7-t13O4NIDYJfakrhw", color: "#1a6faf" },
+    {name: "WedgeLIVE!", type: "youtube", id: "UCiKFyG2M8e62HOrDDJ7HYbw", color: "#0e7490" },
+    {name: "Fall of Civilizations", type: "youtube", playlist_id:"UULFT6Y5JJPKe_JDMivpKgVXew", color:"#2a8a4a"},
+    {name: "BBC Earth Science", type: "youtube", id:"UCdsOTr6SmDrxuWE7sJFrkhQ", color:"#047857"},
+    {name: "Frontline", type: "youtube", id:"UC3ScyryU9Oy9Wse3a8OAmYQ", color:"#d45f0a"},
+    {name: "Veritasium", type: "youtube", playlist_id:"UULFHnyfMqiRRG1u-2MsSQLbXA", color:"#1a6faf"},
+    {name: "Kurzgesagt – In a Nutshell", type: "youtube", id:"UCsXVk37bltHxD1rDPwtNM8Q", color:"#1a6faf"},
+    {name: "Space Time", type: "youtube", id:"UC7_gcs09iThXybpVgjHZ_7g", color:"#1a6faf"},
+    {name: "Deep Look", type: "youtube", playlist_id:"UULF-3SbfTPJsL8fJAPKiVqBLg", color:"#d45f0a"},
+    {name: "Real Engineering", type: "youtube", playlist_id:"UULFR1IuLEqb6UEA_zQ81kwXfg", color:"#2a8a4a"}
 ];
 
 const PROXY = 'https://rmaitra-cors-proxy-8ff64f217b6a.herokuapp.com/proxy?url=';
 //const PROXY = 'http://localhost:4000/proxy?url=';
 const MAX_VIDEOS = 12;
 
-function rssUrl(channel) {
-    if(channel.id){
-        return `https://www.youtube.com/feeds/videos.xml?channel_id=${channel.id}`;
-    }
-    if(channel.playlist_id){
-        return `https://www.youtube.com/feeds/videos.xml?playlist_id=${channel.playlist_id}`;
-    }
+function feedUrl(ch) {
+    if (ch.rssUrl) return ch.rssUrl;
+    if (ch.id) return `https://www.youtube.com/feeds/videos.xml?channel_id=${ch.id}`;
+    if (ch.playlist_id) return `https://www.youtube.com/feeds/videos.xml?playlist_id=${ch.playlist_id}`;
 }
 
 function timeAgo(dateStr) {
@@ -422,28 +519,6 @@ function isNew(dateStr) {
     return Date.now() - new Date(dateStr).getTime() < 86400000 * 3;
 }
 
-function parseRSS(xmlStr) {
-    const doc = new DOMParser().parseFromString(xmlStr, 'application/xml');
-    const ns = 'http://www.youtube.com/xml/schemas/2015';
-    const entries = [...doc.querySelectorAll('entry')];
-    return entries.slice(0, MAX_VIDEOS).map(e => {
-        let videoId = e.getElementsByTagNameNS(ns, 'videoId')[0]?.textContent;
-        if (!videoId) {
-            const idEl = e.querySelector('id');
-            if (idEl) videoId = idEl.textContent.split(':').pop();
-        }
-        const title = e.querySelector('title')?.textContent || 'Untitled';
-        const published = e.querySelector('published')?.textContent || '';
-        const thumb = e.querySelector('thumbnail')?.getAttribute('url') ||
-            (videoId ? `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg` : '');
-        return {
-            videoId,
-            title,
-            published,
-            thumb
-        };
-    }).filter(v => v.videoId);
-}
 
 function makeSkeleton() {
     const row = document.createElement('div');
@@ -515,17 +590,36 @@ function makeCard(video) {
     return a;
 }
 
+function makeArticleCard(article) {
+    const a = document.createElement('a');
+    a.className = 'article-card';
+    a.href = article.link;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    const dateStr = article.pubDate ? timeAgo(article.pubDate) : '';
+    const fresh = article.pubDate && isNew(article.pubDate);
+    a.innerHTML = `
+        <div class="article-label">Science${fresh ? ' · <span style="color:#2478cc">New</span>' : ''}</div>
+        <div class="article-title">${article.title.replace(/</g,'&lt;')}</div>
+        <div class="article-date">${dateStr}</div>
+    `;
+    return a;
+}
+
 async function loadChannel(ch) {
     const section = document.createElement('div');
     section.className = 'channel-section';
 
+    const siteHref  = ch.siteUrl || (ch.id ? `https://www.youtube.com/channel/${ch.id}` : '#');
+    const siteLabel = ch.type === 'science' ? `${ch.name.toLowerCase()}.org ↗` : 'All videos ↗';
+
     const hdr = document.createElement('div');
     hdr.className = 'channel-header';
     hdr.innerHTML = `
-                <div class="channel-bar" style="background:${ch.color}"></div>
-                <div class="channel-name">${ch.name}</div>
-                <a class="channel-link" href="https://www.youtube.com/channel/${ch.id}" target="_blank" rel="noopener">All videos ↗</a>
-              `;
+        <div class="channel-bar" style="background:${ch.color}"></div>
+        <div class="channel-name">${ch.name}</div>
+        <a class="channel-link" href="${siteHref}" target="_blank" rel="noopener">${siteLabel}</a>
+    `;
 
     const skeletons = makeSkeleton();
     section.appendChild(hdr);
@@ -538,38 +632,48 @@ async function loadChannel(ch) {
     document.getElementById('main').appendChild(divider);
 
     try {
-        const url = PROXY + encodeURIComponent(rssUrl(ch));
-        //const url = rssUrl(ch.id);
+        const url = PROXY + encodeURIComponent(feedUrl(ch));
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
-        const videos = json.videos;
+
+        const items = ch.type === 'science'
+            ? parseScienceFeed(json)
+            : parseYouTubeFeed(json);
 
         section.removeChild(skeletons);
 
-        if (!videos.length) {
+        console.log(items)
+
+        if (!items.length) {
             const err = document.createElement('div');
             err.className = 'error-msg';
-            err.textContent = 'No videos found — the channel ID may need updating.';
+            err.textContent = ch.type === 'science'
+                ? 'No articles found.'
+                : 'No videos found — the channel ID may need updating.';
             section.appendChild(err);
             return;
         }
 
         const row = document.createElement('div');
         row.className = 'scroll-row';
-        videos.forEach(v => row.appendChild(makeCard(v)));
+        if (ch.type === 'science') {
+            items.forEach(a => row.appendChild(makeArticleCard(a)));
+        } else {
+            items.forEach(v => row.appendChild(makeCard(v)));
+        }
         section.appendChild(row);
 
     } catch (e) {
         section.removeChild(skeletons);
         const err = document.createElement('div');
         err.className = 'error-msg';
-        err.textContent = `Could not load feed — ${e.message}. Try refreshing or updating the channel ID.`;
+        err.textContent = `Could not load feed — ${e.message}.`;
         section.appendChild(err);
     }
 }
 
-// Stagger channel loads slightly so the page feels progressive
+// Stagger all channel loads — Science is first in the array so it appears at top
 CHANNELS.forEach((ch, i) => {
     setTimeout(() => loadChannel(ch), i * 120);
 });
