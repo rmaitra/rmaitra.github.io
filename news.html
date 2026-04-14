@@ -375,6 +375,175 @@
             z-index: 1;
             }
             .modal-close:hover { background: rgba(255,255,255,0.15); }
+            /* PODCAST CARD */
+            .podcast-card {
+            flex: 0 0 200px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            border-left: 3px solid #7c3aed;
+            transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s;
+            cursor: pointer;
+            }
+            .podcast-card:hover {
+            transform: scale(1.03) translateY(-2px);
+            border-left-color: #a78bfa;
+            }
+            .podcast-card-art {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            background: var(--border);
+            overflow: hidden;
+            }
+            .podcast-card-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            }
+            .podcast-art-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2d1f5e 0%, #1a1040 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #7c3aed;
+            }
+            .podcast-art-placeholder::after { content: '🎙'; }
+            .podcast-play-icon {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0);
+            transition: background 0.2s;
+            }
+            .podcast-card:hover .podcast-play-icon { background: rgba(0,0,0,0.45); }
+            .podcast-play-icon::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            background: #7c3aed;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.7);
+            transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 22px;
+            }
+            .podcast-card:hover .podcast-play-icon::after {
+            opacity: 1;
+            transform: scale(1);
+            }
+            .podcast-card-body {
+            padding: 0.7rem 0.8rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            }
+            .podcast-label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #a78bfa;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            }
+            .podcast-title {
+            font-size: 0.78rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+            }
+            .podcast-date {
+            color: var(--muted);
+            font-size: 0.68rem;
+            font-weight: 300;
+            margin-top: 0.5rem;
+            }
+            /* PODCAST MODAL */
+            .podcast-modal-box {
+            width: min(600px, 92vw);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            }
+            .podcast-modal-header {
+            display: flex;
+            gap: 1rem;
+            padding: 1.25rem 1rem 0.75rem;
+            align-items: flex-start;
+            }
+            .podcast-modal-art {
+            width: 96px;
+            height: 96px;
+            border-radius: 6px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--card);
+            border: 1px solid var(--border);
+            }
+            .podcast-modal-art-placeholder {
+            width: 96px;
+            height: 96px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #2d1f5e 0%, #1a1040 100%);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            }
+            .podcast-modal-meta {
+            flex: 1;
+            min-width: 0;
+            }
+            .podcast-modal-label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #a78bfa;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            }
+            .podcast-modal-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--text);
+            }
+            .podcast-modal-date {
+            color: var(--muted);
+            font-size: 0.72rem;
+            margin-top: 0.35rem;
+            }
+            .podcast-modal-player {
+            padding: 0.5rem 1rem 1.1rem;
+            }
+            .podcast-modal-player audio {
+            width: 100%;
+            accent-color: #7c3aed;
+            }
             /* FOOTER */
             footer {
             margin-top: 3rem;
@@ -408,6 +577,24 @@
                 </div>
                 <div class="modal-info">
                     <div class="modal-title" id="modalTitle"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PODCAST MODAL -->
+        <div class="modal-backdrop" id="podcastModal" role="dialog" aria-modal="true">
+            <div class="modal-box podcast-modal-box">
+                <button class="modal-close" id="podcastModalClose" aria-label="Close">&times;</button>
+                <div class="podcast-modal-header">
+                    <div id="podcastModalArtWrap"></div>
+                    <div class="podcast-modal-meta">
+                        <div class="podcast-modal-label">Podcast</div>
+                        <div class="podcast-modal-title" id="podcastModalTitle"></div>
+                        <div class="podcast-modal-date" id="podcastModalDate"></div>
+                    </div>
+                </div>
+                <div class="podcast-modal-player">
+                    <audio id="podcastModalAudio" controls preload="none"></audio>
                 </div>
             </div>
         </div>
@@ -456,6 +643,32 @@ function parseYouTubeFeed(json) {
     }).filter(v => v.videoId);
 }
 
+function parsePodcastFeed(json) {
+    const channel = json?.rss?.channel;
+    if (!channel) return [];
+    const channelArt = channel['itunes:image']?._attr?.href
+        || channel['itunes:image']
+        || channel.image?.url
+        || '';
+    const items = asArray(channel.item);
+    return items.slice(0, MAX_ARTICLES).map(item => {
+        const enc = item.enclosure;
+        const enclosureUrl = enc?._attr?.url || enc?.url || (typeof enc === 'string' ? enc : '');
+        if (!enclosureUrl) return null;
+        const artwork = item['itunes:image']?._attr?.href
+            || (typeof item['itunes:image'] === 'string' ? item['itunes:image'] : '')
+            || channelArt;
+        const duration = item['itunes:duration'] || '';
+        return {
+            title:       item.title   || 'Untitled',
+            enclosureUrl,
+            pubDate:     item.pubDate || '',
+            artwork,
+            duration
+        };
+    }).filter(Boolean);
+}
+
 function parseScienceFeed(json) {
     let items;
     if(json.rss){
@@ -499,7 +712,8 @@ const CHANNELS = [
     {name: "Space Time", type: "youtube", id:"UC7_gcs09iThXybpVgjHZ_7g", color:"#1a6faf"},
     {name: "Deep Look", type: "youtube", playlist_id:"UULF-3SbfTPJsL8fJAPKiVqBLg", color:"#d45f0a"},
     {name: "Real Engineering", type: "youtube", playlist_id:"UULFR1IuLEqb6UEA_zQ81kwXfg", color:"#2a8a4a"},
-    {name: "Free Documentaries", type:"youtube", id:"UCQtW2oz8ec8pHjjxawujNjg", color:"#1a6faf"}
+    {name: "Free Documentaries", type:"youtube", id:"UCQtW2oz8ec8pHjjxawujNjg", color:"#1a6faf"},
+    {name: "Science Vs", type: "podcast", rssUrl: "https://feeds.megaphone.fm/sciencevs", siteUrl: "https://gimletmedia.com/shows/science-vs", color: "#7c3aed"}
 ];
 
 const PROXY = 'https://rmaitra-cors-proxy-8ff64f217b6a.herokuapp.com/proxy?url=';
@@ -565,7 +779,35 @@ function closeModal() {
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
 modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closePodcastModal(); } });
+
+// ─── PODCAST MODAL ────────────────────────────────────────────────────────────
+const podcastModal      = document.getElementById('podcastModal');
+const podcastAudio      = document.getElementById('podcastModalAudio');
+const podcastModalTitle = document.getElementById('podcastModalTitle');
+const podcastModalDate  = document.getElementById('podcastModalDate');
+const podcastModalArtWrap = document.getElementById('podcastModalArtWrap');
+
+function openPodcastModal(episode) {
+    podcastAudio.src = episode.enclosureUrl;
+    podcastModalTitle.textContent = episode.title;
+    podcastModalDate.textContent  = episode.pubDate ? timeAgo(episode.pubDate) + (episode.duration ? ' · ' + episode.duration : '') : episode.duration;
+    podcastModalArtWrap.innerHTML = episode.artwork
+        ? `<img class="podcast-modal-art" src="${episode.artwork}" alt="">`
+        : `<div class="podcast-modal-art-placeholder">🎙</div>`;
+    podcastModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePodcastModal() {
+    podcastModal.classList.remove('open');
+    podcastAudio.pause();
+    podcastAudio.src = '';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('podcastModalClose').addEventListener('click', closePodcastModal);
+podcastModal.addEventListener('click', e => { if (e.target === podcastModal) closePodcastModal(); });
 
 function makeCard(video) {
     const a = document.createElement('a');
@@ -618,12 +860,38 @@ function makeArticleCard(article) {
     return a;
 }
 
+function makePodcastCard(episode) {
+    const a = document.createElement('a');
+    a.className = 'podcast-card';
+    a.href = '#';
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        openPodcastModal(episode);
+    });
+    const dateStr = episode.pubDate ? timeAgo(episode.pubDate) : '';
+    const fresh   = episode.pubDate && isNew(episode.pubDate);
+    const artHtml = episode.artwork
+        ? `<img src="${episode.artwork}" alt="" loading="lazy">`
+        : `<div class="podcast-art-placeholder"></div>`;
+    a.innerHTML = `
+        <div class="podcast-card-art">${artHtml}<div class="podcast-play-icon"></div></div>
+        <div class="podcast-card-body">
+            <div class="podcast-label">Podcast${fresh ? ' · <span style="color:#2478cc">New</span>' : ''}</div>
+            <div class="podcast-title">${episode.title.replace(/</g,'&lt;')}</div>
+            <div class="podcast-date">${dateStr}${episode.duration ? ' · ' + episode.duration : ''}</div>
+        </div>
+    `;
+    return a;
+}
+
 async function loadChannel(ch) {
     const section = document.createElement('div');
     section.className = 'channel-section';
 
     const siteHref  = ch.siteUrl || (ch.id ? `https://www.youtube.com/channel/${ch.id}` : '#');
-    const siteLabel = ch.type === 'science' ? `${ch.name.toLowerCase()}.org ↗` : 'All videos ↗';
+    const siteLabel = ch.type === 'science' ? `${ch.name.toLowerCase()}.org ↗`
+                    : ch.type === 'podcast' ? 'All episodes ↗'
+                    : 'All videos ↗';
 
     const hdr = document.createElement('div');
     hdr.className = 'channel-header';
@@ -649,9 +917,9 @@ async function loadChannel(ch) {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
 
-        const items = ch.type === 'science'
-            ? parseScienceFeed(json)
-            : parseYouTubeFeed(json);
+        const items = ch.type === 'science'   ? parseScienceFeed(json)
+                    : ch.type === 'podcast'  ? parsePodcastFeed(json)
+                    : parseYouTubeFeed(json);
 
         section.removeChild(skeletons);
 
@@ -660,8 +928,8 @@ async function loadChannel(ch) {
         if (!items.length) {
             const err = document.createElement('div');
             err.className = 'error-msg';
-            err.textContent = ch.type === 'science'
-                ? 'No articles found.'
+            err.textContent = ch.type === 'science' ? 'No articles found.'
+                : ch.type === 'podcast' ? 'No episodes found.'
                 : 'No videos found — the channel ID may need updating.';
             section.appendChild(err);
             return;
@@ -671,6 +939,8 @@ async function loadChannel(ch) {
         row.className = 'scroll-row';
         if (ch.type === 'science') {
             items.forEach(a => row.appendChild(makeArticleCard(a)));
+        } else if (ch.type === 'podcast') {
+            items.forEach(ep => row.appendChild(makePodcastCard(ep)));
         } else {
             items.forEach(v => row.appendChild(makeCard(v)));
         }
