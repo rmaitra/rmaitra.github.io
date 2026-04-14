@@ -3,57 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raj Maitra</title>
+    <title>rmaitra.github.io</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #000000;
             --bg-secondary: #0d0d0d;
-            --bg-tertiary: #111111;
             --text-primary: #e0e0e0;
             --text-secondary: #aaaaaa;
             --text-tertiary: #888888;
-            --text-quaternary: #555555;
             --border-primary: #1e1e1e;
-            --border-secondary: #1e1e1e;
-            --border-tertiary: #161616;
             --accent-primary: #4a9eff;
-            --accent-secondary: #3a8ef0;
-            --accent-tertiary: #6eb4ff;
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
             --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
-            --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.6);
-            --hover-bg: #111111;
-            --table-hover: #0d0d0d;
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.7);
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .navbar {
-            background: #000000;
-            color: var(--text-primary);
-            padding: 20px 40px;
-            top: 0;
+            background: #000;
+            padding: 22px 40px;
             display: flex;
             align-items: center;
-            gap: 20px;
         }
 
         .navbar-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            margin: 0 0 5px 0;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.9em;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
         }
 
         .cards-container {
@@ -65,56 +54,63 @@
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-primary);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 1.6rem 1.5rem;
+            transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease, border-color 0.2s;
             cursor: pointer;
-            box-shadow: var(--shadow-md);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
             position: relative;
-            font-size: small;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            min-height: 140px;
         }
 
         .card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px) scale(1.01);
             box-shadow: var(--shadow-lg);
-            border-color: var(--accent-primary);
+            border-color: rgba(255,255,255,0.22);
         }
 
-        .card::before {
-            content: '';
+        .card-svg {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
+            bottom: -12px;
+            right: -12px;
+            width: 140px;
+            height: 140px;
+            pointer-events: none;
             z-index: 0;
         }
 
-        .card > * {
+        .card-svg svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-body {
             position: relative;
             z-index: 1;
         }
 
         .card-title {
-            font-weight: 200;
-            margin-bottom: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0 0 0.6rem 0;
+            color: #fff;
+            letter-spacing: -0.2px;
         }
 
         .card-description {
-            color: var(--text-tertiary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.82rem;
             line-height: 1.6;
-            margin-bottom: 0;
+            margin: 0;
         }
 
         .loading {
@@ -139,23 +135,14 @@
         }
 
         @media (max-width: 768px) {
-            .navbar {
-                padding: 15px 20px;
-            }
-
-            .navbar-title {
-                font-size: 1.5em;
-            }
-        }
-
-        .text-muted{
-            color:#888;
+            .navbar { padding: 15px 20px; }
+            .navbar-title { font-size: 1.5em; }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <h1 class="navbar-title">rmaitra</h1>
+        <h1 class="navbar-title">Projects by Raj Maitra</h1>
     </nav>
 
     <div class="cards-container">
@@ -163,11 +150,97 @@
             <div class="loading-spinner"></div>
             <p>Loading...</p>
         </div>
-        <div class="text-muted">Various projects by Raj Maitra</div>
         <div id="categoriesContainer"></div>
     </div>
 
     <script>
+        const CARD_SVGS = {
+            "MN Explained": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="42" fill="none" stroke="white" stroke-width="0.7" opacity="0.35"/>
+                <circle cx="50" cy="50" r="22" fill="none" stroke="white" stroke-width="0.5" opacity="0.25"/>
+                <polygon points="50,8 54,45 50,50 46,45" fill="white" opacity="0.85"/>
+                <polygon points="50,92 54,55 50,50 46,55" fill="white" opacity="0.35"/>
+                <polygon points="8,50 44,46 50,50 44,54" fill="white" opacity="0.35"/>
+                <polygon points="92,50 56,46 50,50 56,54" fill="white" opacity="0.35"/>
+                <circle cx="50" cy="50" r="4.5" fill="white" opacity="0.8"/>
+            </svg>`,
+
+            "Libre Broadcast": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="62" r="6" fill="white" opacity="0.9"/>
+                <path d="M32 46 A25 25 0 0 1 68 46" fill="none" stroke="white" stroke-width="2" opacity="0.65" stroke-linecap="round"/>
+                <path d="M18 32 A45 45 0 0 1 82 32" fill="none" stroke="white" stroke-width="1.5" opacity="0.45" stroke-linecap="round"/>
+                <path d="M5 18 A64 64 0 0 1 95 18" fill="none" stroke="white" stroke-width="1" opacity="0.25" stroke-linecap="round"/>
+                <line x1="50" y1="62" x2="50" y2="82" stroke="white" stroke-width="2" opacity="0.7"/>
+                <line x1="38" y1="82" x2="62" y2="82" stroke="white" stroke-width="2" opacity="0.7"/>
+            </svg>`,
+
+            "Loonatic Productions": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="43" fill="none" stroke="white" stroke-width="0.6" opacity="0.45"/>
+                <circle cx="50" cy="50" r="34" fill="none" stroke="white" stroke-width="0.5" opacity="0.35"/>
+                <circle cx="50" cy="50" r="25" fill="none" stroke="white" stroke-width="0.5" opacity="0.3"/>
+                <circle cx="50" cy="50" r="16" fill="none" stroke="white" stroke-width="0.5" opacity="0.3"/>
+                <circle cx="50" cy="50" r="7" fill="white" opacity="0.8"/>
+                <path d="M4 50 Q16 28 28 50 Q40 72 52 50 Q64 28 76 50 Q88 72 96 50" fill="none" stroke="white" stroke-width="1.6" opacity="0.55"/>
+            </svg>`,
+
+            "Exploration of a Cell": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <ellipse cx="50" cy="50" rx="44" ry="38" fill="none" stroke="white" stroke-width="1.2" opacity="0.65"/>
+                <circle cx="50" cy="50" r="14" fill="none" stroke="white" stroke-width="1.4" opacity="0.75"/>
+                <circle cx="50" cy="50" r="6" fill="white" opacity="0.7"/>
+                <circle cx="22" cy="38" r="5" fill="none" stroke="white" stroke-width="1" opacity="0.55"/>
+                <circle cx="74" cy="42" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.55"/>
+                <circle cx="28" cy="66" r="6" fill="none" stroke="white" stroke-width="1" opacity="0.55"/>
+                <circle cx="70" cy="68" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.55"/>
+                <circle cx="62" cy="22" r="3" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
+            </svg>`,
+
+            "Masterbook Season Creator": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <ellipse cx="50" cy="54" rx="41" ry="14" fill="none" stroke="white" stroke-width="1.5" opacity="0.75"/>
+                <ellipse cx="50" cy="54" rx="30" ry="10" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+                <ellipse cx="50" cy="47" rx="14" ry="5" fill="white" opacity="0.35"/>
+                <path d="M8 54 Q28 18 52 30 Q72 40 92 54" fill="none" stroke="white" stroke-width="0.9" stroke-dasharray="5 3" opacity="0.45"/>
+                <path d="M12 64 Q35 88 58 76 Q78 66 92 54" fill="none" stroke="white" stroke-width="0.9" stroke-dasharray="5 3" opacity="0.28"/>
+            </svg>`,
+
+            "Audio Sequencer": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <rect x="8"  y="38" width="13" height="47" rx="2" fill="white" opacity="0.22"/>
+                <rect x="26" y="22" width="13" height="63" rx="2" fill="white" opacity="0.42"/>
+                <rect x="44" y="10" width="13" height="75" rx="2" fill="white" opacity="0.72"/>
+                <rect x="62" y="26" width="13" height="59" rx="2" fill="white" opacity="0.42"/>
+                <rect x="80" y="44" width="13" height="41" rx="2" fill="white" opacity="0.22"/>
+                <line x1="5" y1="90" x2="95" y2="90" stroke="white" stroke-width="0.9" opacity="0.45"/>
+            </svg>`,
+
+            "Resilience Report": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <line x1="12" y1="90" x2="90" y2="90" stroke="white" stroke-width="0.9" opacity="0.45"/>
+                <line x1="12" y1="10" x2="12" y2="90" stroke="white" stroke-width="0.9" opacity="0.45"/>
+                <polyline points="12,80 28,66 44,71 60,43 76,30 90,15" fill="none" stroke="white" stroke-width="2" opacity="0.85"/>
+                <circle cx="12" cy="80" r="2.5" fill="white" opacity="0.7"/>
+                <circle cx="28" cy="66" r="2.5" fill="white" opacity="0.7"/>
+                <circle cx="44" cy="71" r="2.5" fill="white" opacity="0.7"/>
+                <circle cx="60" cy="43" r="2.5" fill="white" opacity="0.7"/>
+                <circle cx="76" cy="30" r="2.5" fill="white" opacity="0.7"/>
+                <circle cx="90" cy="15" r="3.5" fill="white"/>
+            </svg>`,
+
+            "Grandpa Devine": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <line x1="50" y1="90" x2="50" y2="62" stroke="white" stroke-width="2.5" opacity="0.75"/>
+                <line x1="50" y1="62" x2="22" y2="42" stroke="white" stroke-width="1.8" opacity="0.65"/>
+                <line x1="50" y1="62" x2="78" y2="42" stroke="white" stroke-width="1.8" opacity="0.65"/>
+                <line x1="22" y1="42" x2="10" y2="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
+                <line x1="22" y1="42" x2="34" y2="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
+                <line x1="78" y1="42" x2="66" y2="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
+                <line x1="78" y1="42" x2="90" y2="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
+                <circle cx="50" cy="90" r="4"   fill="white" opacity="0.9"/>
+                <circle cx="22" cy="42" r="4"   fill="white" opacity="0.75"/>
+                <circle cx="78" cy="42" r="4"   fill="white" opacity="0.75"/>
+                <circle cx="10" cy="22" r="3"   fill="white" opacity="0.6"/>
+                <circle cx="34" cy="22" r="3"   fill="white" opacity="0.6"/>
+                <circle cx="66" cy="22" r="3"   fill="white" opacity="0.6"/>
+                <circle cx="90" cy="22" r="3"   fill="white" opacity="0.6"/>
+            </svg>`
+        };
+
         async function loadData() {
             try {
                 const response = await fetch('./artifacts.json');
@@ -196,7 +269,6 @@
 
                 const title = document.createElement('h2');
                 title.className = 'category-title';
-                title.textContent = category;
                 section.appendChild(title);
 
                 const grid = document.createElement('div');
@@ -206,11 +278,16 @@
                     const card = document.createElement('div');
                     card.className = 'card';
                     card.onclick = () => window.location.href = artifact.link;
+                    if (artifact.gradient) card.style.background = artifact.gradient;
+
+                    const svgMarkup = CARD_SVGS[artifact.title] || '';
                     card.innerHTML = `
-                        <h2 class="card-title">${artifact.title}</h2>
-                        <p class="card-description">${artifact.description}</p>
+                        <div class="card-svg">${svgMarkup}</div>
+                        <div class="card-body">
+                            <h2 class="card-title">${artifact.title}</h2>
+                            <p class="card-description">${artifact.description}</p>
+                        </div>
                     `;
-                    if (artifact.image) card.style.backgroundImage = `url('${artifact.image}')`;
                     grid.appendChild(card);
                 });
 
