@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LibreBroadcast</title>
+        <title>Libre Broadcast</title>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
         <style>
             *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -64,6 +64,14 @@
             letter-spacing: 2.5px;
             text-transform: uppercase;
             color: var(--muted);
+            }
+            @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.4rem;
+                padding: 1rem 1.25rem;
+            }
             }
             /* HERO BAR */
             .hero-bar {
