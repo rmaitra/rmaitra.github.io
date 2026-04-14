@@ -553,9 +553,25 @@
             font-size: 0.72rem;
             letter-spacing: 0.5px;
             }
+            /* TOPBAR */
+            .topbar {
+            display: block;
+            text-align: center;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 3px 0;
+            font-size: 0.6rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.15s, background 0.15s;
+            }
+            .topbar:hover { color: var(--accent2); background: var(--card); }
         </style>
     </head>
     <body>
+        <a class="topbar" href="index.html">Powered by rmaitra.github.io</a>
         <header>
             <div class="logo">
                 <span class="logo-word">Libre<span class="logo-accent"><em>Broadcast</em></span></span>
