@@ -966,7 +966,15 @@ async function loadChannel(ch) {
         section.removeChild(skeletons);
         const err = document.createElement('div');
         err.className = 'error-msg';
-        err.textContent = `Could not load feed — ${e.message}.`;
+        if (ch.type === 'youtube') {
+            const hour = new Date().getHours();
+            const inDowntime = hour >= 21 || hour < 0;
+            err.textContent = inDowntime
+                ? `YouTube feeds are currently unavailable — they tend to go down between 9 PM and midnight. Check back in a couple hours.`
+                : `Could not load YouTube feed — ${e.message}. (YouTube feeds sometimes go down between 9 PM and midnight.)`;
+        } else {
+            err.textContent = `Could not load feed — ${e.message}.`;
+        }
         section.appendChild(err);
     }
 }
