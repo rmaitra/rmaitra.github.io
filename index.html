@@ -37,7 +37,6 @@
         }
 
         .navbar-title {
-            font-family: 'Syne', sans-serif;
             font-size: 1.9em;
             font-weight: 800;
             margin: 0;
@@ -155,89 +154,152 @@
 
     <script>
         const CARD_SVGS = {
-            "MN Explained": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="42" fill="none" stroke="white" stroke-width="0.7" opacity="0.35"/>
-                <circle cx="50" cy="50" r="22" fill="none" stroke="white" stroke-width="0.5" opacity="0.25"/>
-                <polygon points="50,8 54,45 50,50 46,45" fill="white" opacity="0.85"/>
-                <polygon points="50,92 54,55 50,50 46,55" fill="white" opacity="0.35"/>
-                <polygon points="8,50 44,46 50,50 44,54" fill="white" opacity="0.35"/>
-                <polygon points="92,50 56,46 50,50 56,54" fill="white" opacity="0.35"/>
-                <circle cx="50" cy="50" r="4.5" fill="white" opacity="0.8"/>
+            // North Star — Minnesota's state symbol
+            "MN Explained": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="7" y="1" width="2" height="5" fill="white" opacity="0.85"/>
+                <rect x="7" y="10" width="2" height="5" fill="white" opacity="0.85"/>
+                <rect x="1" y="7" width="5" height="2" fill="white" opacity="0.85"/>
+                <rect x="10" y="7" width="5" height="2" fill="white" opacity="0.85"/>
+                <rect x="6" y="6" width="4" height="4" fill="white" opacity="0.95"/>
+                <rect x="5" y="5" width="1" height="1" fill="white" opacity="0.65"/>
+                <rect x="4" y="4" width="1" height="1" fill="white" opacity="0.5"/>
+                <rect x="3" y="3" width="1" height="1" fill="white" opacity="0.38"/>
+                <rect x="10" y="5" width="1" height="1" fill="white" opacity="0.65"/>
+                <rect x="11" y="4" width="1" height="1" fill="white" opacity="0.5"/>
+                <rect x="12" y="3" width="1" height="1" fill="white" opacity="0.38"/>
+                <rect x="5" y="10" width="1" height="1" fill="white" opacity="0.65"/>
+                <rect x="4" y="11" width="1" height="1" fill="white" opacity="0.5"/>
+                <rect x="3" y="12" width="1" height="1" fill="white" opacity="0.38"/>
+                <rect x="10" y="10" width="1" height="1" fill="white" opacity="0.65"/>
+                <rect x="11" y="11" width="1" height="1" fill="white" opacity="0.5"/>
+                <rect x="12" y="12" width="1" height="1" fill="white" opacity="0.38"/>
             </svg>`,
 
-            "Libre Broadcast": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <circle cx="50" cy="62" r="6" fill="white" opacity="0.9"/>
-                <path d="M32 46 A25 25 0 0 1 68 46" fill="none" stroke="white" stroke-width="2" opacity="0.65" stroke-linecap="round"/>
-                <path d="M18 32 A45 45 0 0 1 82 32" fill="none" stroke="white" stroke-width="1.5" opacity="0.45" stroke-linecap="round"/>
-                <path d="M5 18 A64 64 0 0 1 95 18" fill="none" stroke="white" stroke-width="1" opacity="0.25" stroke-linecap="round"/>
-                <line x1="50" y1="62" x2="50" y2="82" stroke="white" stroke-width="2" opacity="0.7"/>
-                <line x1="38" y1="82" x2="62" y2="82" stroke="white" stroke-width="2" opacity="0.7"/>
+            // Newspaper — RSS / news reader
+            "Libre Broadcast": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="1" y="1" width="14" height="2" fill="white" opacity="0.9"/>
+                <rect x="1" y="4" width="14" height="1" fill="white" opacity="0.75"/>
+                <rect x="1" y="5" width="10" height="1" fill="white" opacity="0.65"/>
+                <rect x="8" y="7" width="1" height="8" fill="white" opacity="0.22"/>
+                <rect x="1" y="7" width="6" height="1" fill="white" opacity="0.5"/>
+                <rect x="1" y="9" width="5" height="1" fill="white" opacity="0.5"/>
+                <rect x="1" y="11" width="6" height="1" fill="white" opacity="0.5"/>
+                <rect x="1" y="13" width="4" height="1" fill="white" opacity="0.5"/>
+                <rect x="9" y="7" width="6" height="1" fill="white" opacity="0.5"/>
+                <rect x="9" y="9" width="5" height="1" fill="white" opacity="0.5"/>
+                <rect x="9" y="11" width="6" height="1" fill="white" opacity="0.5"/>
+                <rect x="9" y="13" width="4" height="1" fill="white" opacity="0.5"/>
             </svg>`,
 
-            "Loonatic Productions": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="43" fill="none" stroke="white" stroke-width="0.6" opacity="0.45"/>
-                <circle cx="50" cy="50" r="34" fill="none" stroke="white" stroke-width="0.5" opacity="0.35"/>
-                <circle cx="50" cy="50" r="25" fill="none" stroke="white" stroke-width="0.5" opacity="0.3"/>
-                <circle cx="50" cy="50" r="16" fill="none" stroke="white" stroke-width="0.5" opacity="0.3"/>
-                <circle cx="50" cy="50" r="7" fill="white" opacity="0.8"/>
-                <path d="M4 50 Q16 28 28 50 Q40 72 52 50 Q64 28 76 50 Q88 72 96 50" fill="none" stroke="white" stroke-width="1.6" opacity="0.55"/>
+            // Beamed eighth notes — music production studio
+            "Loonatic Productions": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="3" y="2" width="10" height="2" fill="white" opacity="0.85"/>
+                <rect x="3" y="2" width="1" height="9" fill="white" opacity="0.85"/>
+                <rect x="12" y="2" width="1" height="8" fill="white" opacity="0.85"/>
+                <rect x="1" y="11" width="4" height="2" fill="white" opacity="0.85"/>
+                <rect x="2" y="10" width="3" height="1" fill="white" opacity="0.65"/>
+                <rect x="2" y="13" width="2" height="1" fill="white" opacity="0.45"/>
+                <rect x="10" y="10" width="4" height="2" fill="white" opacity="0.85"/>
+                <rect x="11" y="9"  width="3" height="1" fill="white" opacity="0.65"/>
+                <rect x="11" y="12" width="2" height="1" fill="white" opacity="0.45"/>
             </svg>`,
 
-            "Exploration of a Cell": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <ellipse cx="50" cy="50" rx="44" ry="38" fill="none" stroke="white" stroke-width="1.2" opacity="0.65"/>
-                <circle cx="50" cy="50" r="14" fill="none" stroke="white" stroke-width="1.4" opacity="0.75"/>
-                <circle cx="50" cy="50" r="6" fill="white" opacity="0.7"/>
-                <circle cx="22" cy="38" r="5" fill="none" stroke="white" stroke-width="1" opacity="0.55"/>
-                <circle cx="74" cy="42" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.55"/>
-                <circle cx="28" cy="66" r="6" fill="none" stroke="white" stroke-width="1" opacity="0.55"/>
-                <circle cx="70" cy="68" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.55"/>
-                <circle cx="62" cy="22" r="3" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
+            // Cell membrane + nucleus + organelle dots
+            "Exploration of a Cell": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="5" y="1" width="4" height="1" fill="white" opacity="0.7"/>
+                <rect x="3" y="2" width="2" height="1" fill="white" opacity="0.65"/>
+                <rect x="9" y="2" width="2" height="1" fill="white" opacity="0.65"/>
+                <rect x="2" y="3" width="1" height="1" fill="white" opacity="0.6"/>
+                <rect x="11" y="3" width="1" height="1" fill="white" opacity="0.6"/>
+                <rect x="1" y="4" width="1" height="7" fill="white" opacity="0.6"/>
+                <rect x="12" y="4" width="1" height="7" fill="white" opacity="0.6"/>
+                <rect x="2" y="11" width="1" height="1" fill="white" opacity="0.6"/>
+                <rect x="11" y="11" width="1" height="1" fill="white" opacity="0.6"/>
+                <rect x="3" y="12" width="2" height="1" fill="white" opacity="0.65"/>
+                <rect x="9" y="12" width="2" height="1" fill="white" opacity="0.65"/>
+                <rect x="5" y="13" width="4" height="1" fill="white" opacity="0.7"/>
+                <rect x="6" y="5" width="2" height="1" fill="white" opacity="0.85"/>
+                <rect x="5" y="6" width="4" height="3" fill="white" opacity="0.85"/>
+                <rect x="6" y="9" width="2" height="1" fill="white" opacity="0.85"/>
+                <rect x="3" y="4"  width="1" height="1" fill="white" opacity="0.45"/>
+                <rect x="10" y="9" width="1" height="1" fill="white" opacity="0.45"/>
+                <rect x="2"  y="9" width="1" height="1" fill="white" opacity="0.35"/>
             </svg>`,
 
-            "Masterbook Season Creator": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <ellipse cx="50" cy="54" rx="41" ry="14" fill="none" stroke="white" stroke-width="1.5" opacity="0.75"/>
-                <ellipse cx="50" cy="54" rx="30" ry="10" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
-                <ellipse cx="50" cy="47" rx="14" ry="5" fill="white" opacity="0.35"/>
-                <path d="M8 54 Q28 18 52 30 Q72 40 92 54" fill="none" stroke="white" stroke-width="0.9" stroke-dasharray="5 3" opacity="0.45"/>
-                <path d="M12 64 Q35 88 58 76 Q78 66 92 54" fill="none" stroke="white" stroke-width="0.9" stroke-dasharray="5 3" opacity="0.28"/>
+            // Flying disc — frisbee sport
+            "Masterbook Season Creator": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="5" y="1" width="4" height="1" fill="white" opacity="0.85"/>
+                <rect x="3" y="2" width="2" height="1" fill="white" opacity="0.75"/>
+                <rect x="9" y="2" width="2" height="1" fill="white" opacity="0.75"/>
+                <rect x="2" y="3" width="1" height="1" fill="white" opacity="0.7"/>
+                <rect x="11" y="3" width="1" height="1" fill="white" opacity="0.7"/>
+                <rect x="1" y="4" width="1" height="6" fill="white" opacity="0.7"/>
+                <rect x="12" y="4" width="1" height="6" fill="white" opacity="0.7"/>
+                <rect x="2" y="10" width="1" height="1" fill="white" opacity="0.7"/>
+                <rect x="11" y="10" width="1" height="1" fill="white" opacity="0.7"/>
+                <rect x="3" y="11" width="2" height="1" fill="white" opacity="0.75"/>
+                <rect x="9" y="11" width="2" height="1" fill="white" opacity="0.75"/>
+                <rect x="5" y="12" width="4" height="1" fill="white" opacity="0.85"/>
+                <rect x="5" y="4" width="4" height="1" fill="white" opacity="0.5"/>
+                <rect x="4" y="5" width="1" height="1" fill="white" opacity="0.45"/>
+                <rect x="9" y="5" width="1" height="1" fill="white" opacity="0.45"/>
+                <rect x="4" y="6" width="6" height="1" fill="white" opacity="0.35"/>
+                <rect x="6" y="7" width="2" height="2" fill="white" opacity="0.8"/>
             </svg>`,
 
-            "Audio Sequencer": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <rect x="8"  y="38" width="13" height="47" rx="2" fill="white" opacity="0.22"/>
-                <rect x="26" y="22" width="13" height="63" rx="2" fill="white" opacity="0.42"/>
-                <rect x="44" y="10" width="13" height="75" rx="2" fill="white" opacity="0.72"/>
-                <rect x="62" y="26" width="13" height="59" rx="2" fill="white" opacity="0.42"/>
-                <rect x="80" y="44" width="13" height="41" rx="2" fill="white" opacity="0.22"/>
-                <line x1="5" y1="90" x2="95" y2="90" stroke="white" stroke-width="0.9" opacity="0.45"/>
+            // 4×4 step-sequencer grid with a beat pattern lit up
+            "Audio Sequencer": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="1"  y="1" width="3" height="3" fill="white" opacity="0.9"/>
+                <rect x="5"  y="1" width="3" height="3" fill="white" opacity="0.22"/>
+                <rect x="9"  y="1" width="3" height="3" fill="white" opacity="0.9"/>
+                <rect x="13" y="1" width="3" height="3" fill="white" opacity="0.22"/>
+                <rect x="1"  y="5" width="3" height="3" fill="white" opacity="0.22"/>
+                <rect x="5"  y="5" width="3" height="3" fill="white" opacity="0.85"/>
+                <rect x="9"  y="5" width="3" height="3" fill="white" opacity="0.22"/>
+                <rect x="13" y="5" width="3" height="3" fill="white" opacity="0.85"/>
+                <rect x="1"  y="9" width="3" height="3" fill="white" opacity="0.9"/>
+                <rect x="5"  y="9" width="3" height="3" fill="white" opacity="0.22"/>
+                <rect x="9"  y="9" width="3" height="3" fill="white" opacity="0.85"/>
+                <rect x="13" y="9" width="3" height="3" fill="white" opacity="0.22"/>
+                <rect x="1"  y="13" width="3" height="3" fill="white" opacity="0.22"/>
+                <rect x="5"  y="13" width="3" height="3" fill="white" opacity="0.85"/>
+                <rect x="9"  y="13" width="3" height="3" fill="white" opacity="0.22"/>
+                <rect x="13" y="13" width="3" height="3" fill="white" opacity="0.85"/>
             </svg>`,
 
-            "Resilience Report": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <line x1="12" y1="90" x2="90" y2="90" stroke="white" stroke-width="0.9" opacity="0.45"/>
-                <line x1="12" y1="10" x2="12" y2="90" stroke="white" stroke-width="0.9" opacity="0.45"/>
-                <polyline points="12,80 28,66 44,71 60,43 76,30 90,15" fill="none" stroke="white" stroke-width="2" opacity="0.85"/>
-                <circle cx="12" cy="80" r="2.5" fill="white" opacity="0.7"/>
-                <circle cx="28" cy="66" r="2.5" fill="white" opacity="0.7"/>
-                <circle cx="44" cy="71" r="2.5" fill="white" opacity="0.7"/>
-                <circle cx="60" cy="43" r="2.5" fill="white" opacity="0.7"/>
-                <circle cx="76" cy="30" r="2.5" fill="white" opacity="0.7"/>
-                <circle cx="90" cy="15" r="3.5" fill="white"/>
+            // Line chart trending upward with axes and data-point highlights
+            "Resilience Report": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="2" y="1" width="1" height="13" fill="white" opacity="0.45"/>
+                <rect x="2" y="13" width="13" height="1" fill="white" opacity="0.45"/>
+                <rect x="3"  y="12" width="2" height="1" fill="white" opacity="0.8"/>
+                <rect x="4"  y="11" width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="5"  y="10" width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="6"  y="11" width="2" height="1" fill="white" opacity="0.8"/>
+                <rect x="7"  y="10" width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="8"  y="9"  width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="9"  y="7"  width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="10" y="6"  width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="11" y="5"  width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="12" y="4"  width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="13" y="3"  width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="14" y="2"  width="1" height="1" fill="white" opacity="0.8"/>
+                <rect x="3"  y="11" width="2" height="2" fill="white" opacity="0.95"/>
+                <rect x="8"  y="8"  width="2" height="2" fill="white" opacity="0.95"/>
+                <rect x="13" y="2"  width="2" height="2" fill="white" opacity="0.95"/>
             </svg>`,
 
-            "Grandpa Devine": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <line x1="50" y1="90" x2="50" y2="62" stroke="white" stroke-width="2.5" opacity="0.75"/>
-                <line x1="50" y1="62" x2="22" y2="42" stroke="white" stroke-width="1.8" opacity="0.65"/>
-                <line x1="50" y1="62" x2="78" y2="42" stroke="white" stroke-width="1.8" opacity="0.65"/>
-                <line x1="22" y1="42" x2="10" y2="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
-                <line x1="22" y1="42" x2="34" y2="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
-                <line x1="78" y1="42" x2="66" y2="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
-                <line x1="78" y1="42" x2="90" y2="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
-                <circle cx="50" cy="90" r="4"   fill="white" opacity="0.9"/>
-                <circle cx="22" cy="42" r="4"   fill="white" opacity="0.75"/>
-                <circle cx="78" cy="42" r="4"   fill="white" opacity="0.75"/>
-                <circle cx="10" cy="22" r="3"   fill="white" opacity="0.6"/>
-                <circle cx="34" cy="22" r="3"   fill="white" opacity="0.6"/>
-                <circle cx="66" cy="22" r="3"   fill="white" opacity="0.6"/>
-                <circle cx="90" cy="22" r="3"   fill="white" opacity="0.6"/>
+            // Person silhouette — life / family
+            "Grandpa Devine": `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="6" y="1" width="4" height="1" fill="white" opacity="0.85"/>
+                <rect x="5" y="2" width="6" height="2" fill="white" opacity="0.85"/>
+                <rect x="6" y="4" width="4" height="1" fill="white" opacity="0.85"/>
+                <rect x="7" y="5" width="2" height="1" fill="white" opacity="0.75"/>
+                <rect x="3" y="6" width="10" height="2" fill="white" opacity="0.8"/>
+                <rect x="3" y="8" width="2" height="3" fill="white" opacity="0.65"/>
+                <rect x="11" y="8" width="2" height="3" fill="white" opacity="0.65"/>
+                <rect x="5" y="8" width="6" height="4" fill="white" opacity="0.8"/>
+                <rect x="5" y="12" width="2" height="4" fill="white" opacity="0.75"/>
+                <rect x="9" y="12" width="2" height="4" fill="white" opacity="0.75"/>
             </svg>`
         };
 
@@ -282,7 +344,6 @@
 
                     const svgMarkup = CARD_SVGS[artifact.title] || '';
                     card.innerHTML = `
-                        <div class="card-svg">${svgMarkup}</div>
                         <div class="card-body">
                             <h2 class="card-title">${artifact.title}</h2>
                             <p class="card-description">${artifact.description}</p>
