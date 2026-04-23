@@ -259,6 +259,72 @@
   #main::-webkit-scrollbar { width: 6px; }
   #main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
+  /* ── Mobile top bar ── */
+  #topbar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    z-index: 50;
+  }
+  #menu-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 4px 6px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  #topbar-title { font-size: 14px; font-weight: 700; color: var(--accent2); letter-spacing: .04em; text-transform: uppercase; }
+
+  /* ── Sidebar overlay ── */
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 90;
+  }
+  #overlay.visible { display: block; }
+
+  /* ── Mobile breakpoint ── */
+  @media (max-width: 640px) {
+    #topbar { display: flex; }
+
+    #app { display: block; height: auto; overflow: visible; }
+
+    #sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      width: 80vw;
+      max-width: 300px;
+      z-index: 100;
+      transform: translateX(-100%);
+      transition: transform .25s ease;
+    }
+    #sidebar.sidebar-open { transform: translateX(0); }
+
+    #main {
+      margin-top: 52px;
+      padding: 20px 16px;
+      min-height: calc(100vh - 52px);
+    }
+
+    .article-table { display: block; overflow-x: auto; }
+
+    .welcome-hero h2 { font-size: 22px; }
+    .pipeline { flex-wrap: nowrap; }
+    .explainer-grid { grid-template-columns: 1fr; }
+  }
+
   /* ── Welcome page ── */
   .welcome-hero h2 { font-size: 28px; font-weight: 800; color: var(--accent2); }
   .welcome-hero .subtitle { font-size: 15px; color: var(--muted); margin-top: 6px; max-width: 600px; line-height: 1.6; }
@@ -354,9 +420,122 @@
     font-size: 11px;
     font-family: var(--mono);
   }
+
+  /* ── Vertical nav ── */
+  .vertical-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    margin-top: 4px;
+  }
+  .vertical-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color .15s;
+  }
+  .vertical-card:hover { border-color: var(--accent); }
+  .vertical-card-header {
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .vertical-card-header .vc-icon { font-size: 20px; flex-shrink: 0; }
+  .vertical-card-header .vc-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .vertical-card-header .vc-count {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .vertical-card-desc {
+    padding: 10px 18px 6px;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .vertical-cluster-list { padding: 6px 10px 12px; }
+  .vertical-cluster-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .vertical-cluster-item:hover { background: var(--surface2); }
+  .vertical-cluster-item .vci-label { font-size: 12.5px; color: var(--text); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .vertical-cluster-item .vci-count { font-size: 11px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .vertical-cluster-item .vci-arrow { color: var(--accent); font-size: 11px; flex-shrink: 0; }
+
+  /* ── About view ── */
+  #about { display: none; }
+  .about-author {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 36px;
+  }
+  .about-author .aa-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--tag-bg);
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .about-author .aa-name { font-size: 18px; font-weight: 800; color: var(--text); }
+  .about-author .aa-role { font-size: 13px; color: var(--accent2); margin-top: 2px; }
+  .about-author .aa-bio  { font-size: 13.5px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+  .about-author .aa-links { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .about-author .aa-link {
+    font-size: 12px;
+    color: var(--accent2);
+    background: var(--tag-bg);
+    border: 1px solid #312e6e;
+    border-radius: 20px;
+    padding: 3px 12px;
+    text-decoration: none;
+  }
+  .about-author .aa-link:hover { border-color: var(--accent); }
+
+  /* ── Sidebar about link ── */
+  #sidebar-about-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    transition: background .12s, color .12s;
+  }
+  #sidebar-about-btn:hover { background: var(--surface2); color: var(--text); }
+  #sidebar-about-btn.active { color: var(--accent2); background: var(--surface2); border-left: 3px solid var(--accent); padding-left: 13px; }
+
+  @media (max-width: 640px) {
+    .vertical-grid { grid-template-columns: 1fr; }
+    .about-author { flex-direction: column; gap: 16px; padding: 18px; }
+  }
 </style>
 </head>
 <body>
+<div id="topbar">
+  <button id="menu-btn" onclick="toggleSidebar()" aria-label="Toggle menu">&#9776;</button>
+  <span id="topbar-title">Endo Research</span>
+</div>
+<div id="overlay" onclick="closeSidebar()"></div>
+
 <div id="app">
 
   <!-- Sidebar -->
@@ -364,6 +543,9 @@
     <div id="sidebar-header">
       <h1>Endo Research</h1>
       <p id="sidebar-subtitle">Loading clusters…</p>
+    </div>
+    <div id="sidebar-about-btn" onclick="showAbout()">
+      <span>ℹ</span> About this project
     </div>
     <div id="search-wrap">
       <input id="search" type="text" placeholder="Search clusters…" autocomplete="off">
@@ -380,6 +562,66 @@
       </div>
 
       <div class="welcome-stats" id="welcome-stats"></div>
+
+      <!-- Vertical navigation -->
+      <div class="welcome-section">
+        <h3>Explore by research area</h3>
+        <div class="vertical-grid" id="vertical-grid"></div>
+      </div>
+
+      <!-- Usage hint -->
+      <div class="welcome-section" style="margin-bottom:40px">
+        <h3>How to use this</h3>
+        <div class="explainer-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px,1fr))">
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">📖</div>
+            <h4>Read a Review</h4>
+            <p>Pick a cluster from any research area above or the sidebar. The Review Article section gives you a Sonnet-written synthesis of everything the literature says on that theme.</p>
+          </div>
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">🔍</div>
+            <h4>Drill Into Groups</h4>
+            <p>Expand "Group Summaries" to see how findings vary across 50-article cohorts within a cluster — useful for spotting contradictions.</p>
+          </div>
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">📄</div>
+            <h4>Find Source Articles</h4>
+            <p>Load individual article summaries to trace a claim back to its source paper. Each PMCID links directly to PubMed Central.</p>
+          </div>
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">ℹ</div>
+            <h4>About &amp; Methods</h4>
+            <p>Curious how this was built? The <span style="color:var(--accent2);cursor:pointer" onclick="showAbout()">About</span> section explains the full pipeline — from PMC scrape to hierarchical AI summarization.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="cluster-view" style="display:none"></div>
+
+    <!-- About view -->
+    <div id="about">
+      <div id="breadcrumb" style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:22px;flex-wrap:wrap">
+        <span onclick="showWelcome()" style="cursor:pointer">Home</span>
+        <span style="color:var(--border)">›</span>
+        <span style="color:var(--text)">About</span>
+      </div>
+
+      <!-- Author intro -->
+      <div class="about-author">
+        <div class="aa-avatar">👨‍💻</div>
+        <div>
+          <div class="aa-name">Raj Maitra</div>
+          <div class="aa-role">Software Engineer · Minneapolis, Minnesota</div>
+          <div class="aa-bio">
+            This knowledge base was built by Raj Maitra as a personal research project. Motivated by the need for better structured access to endometriosis literature, Raj designed and ran the full data pipeline — from scraping 10,000 open-access PubMed Central articles to building a Neo4j knowledge graph and generating AI-synthesized review articles using Claude. The goal is to make a dense and fragmented research landscape navigable for patients, clinicians, and researchers alike.
+          </div>
+          <div class="aa-links">
+            <a class="aa-link" href="https://github.com/rmaitra" target="_blank">GitHub</a>
+            <a class="aa-link" href="https://rmaitra.github.io" target="_blank">Website</a>
+          </div>
+        </div>
+      </div>
 
       <!-- Pipeline diagram -->
       <div class="welcome-section">
@@ -429,7 +671,7 @@
           <div class="pipe-arrow">›</div>
           <div class="pipe-step">
             <div class="pipe-node">
-              <div class="pn-badge">35</div>
+              <div class="pn-badge">33</div>
               <div class="pn-icon">🗂️</div>
               <div class="pn-title">Clustering</div>
               <div class="pn-sub">TF-IDF + LSA + K-means</div>
@@ -447,84 +689,49 @@
       </div>
 
       <!-- Step-by-step explainer -->
-      <div class="welcome-section">
+      <div class="welcome-section" style="margin-bottom:40px">
         <h3>Pipeline explained</h3>
         <div class="explainer-grid">
-
           <div class="explainer-card">
             <div class="ec-step">Step 1 — Data Collection</div>
             <h4>PubMed Central Scrape</h4>
             <p>All 10,000 articles were retrieved from PubMed Central (PMC), the NIH's free full-text archive of biomedical literature. The NCBI E-utilities API was used to download complete article text — abstracts, results, discussion, and conclusions — filtered to endometriosis and related reproductive health topics.</p>
             <span class="ec-tool">scrape_pmc.py · download_articles.py</span>
           </div>
-
           <div class="explainer-card">
             <div class="ec-step">Step 2 — Named Entity Recognition</div>
             <h4>What is NER?</h4>
             <p>Named Entity Recognition (NER) is the process of automatically identifying and labeling specific types of things mentioned in text — genes, proteins, drugs, diseases, cell types — so a computer can reason about them. SciSpacy, a biomedical NLP library built on spaCy, was used here because it's pre-trained on scientific literature and understands terminology like "IL-6", "GPX4", and "endometrial stromal cells" that general-purpose models miss.</p>
             <span class="ec-tool">SciSpacy · en_core_sci_lg</span>
           </div>
-
           <div class="explainer-card">
             <div class="ec-step">Step 3 — Relation Extraction</div>
             <h4>Subject → Predicate → Object Triples</h4>
             <p>After identifying entities, the next step is understanding how they relate to each other. Claude Haiku was used via the Anthropic Batch API to read each article and extract structured triples — for example: <em>estrogen → upregulates → aromatase</em> or <em>dienogest → treats → endometriosis</em>. Each triple includes the supporting evidence sentence, confidence level, and the section of the paper it came from. This produced 459,000 unique relationships across all 10,000 articles.</p>
             <span class="ec-tool">extract_relations.py · claude-haiku-4-5</span>
           </div>
-
           <div class="explainer-card">
             <div class="ec-step">Step 4 — Knowledge Graph</div>
             <h4>Neo4j Graph Database</h4>
             <p>All extracted triples were loaded into Neo4j, a graph database optimized for relationship queries. Entities become nodes (270,000 unique), and relationships become edges weighted by how many articles support them. This enables queries like "what inhibits IL-6?", "what pathways does ferroptosis regulate?", or "which drugs are used for PCOS that haven't been tried for endometriosis?" — questions impossible to answer with keyword search alone.</p>
             <span class="ec-tool">import_to_neo4j.py · Neo4j Community</span>
           </div>
-
           <div class="explainer-card">
             <div class="ec-step">Step 5 — Clustering</div>
             <h4>Grouping Articles by Research Theme</h4>
-            <p>Rather than treating all 10,000 articles as a flat list, they were grouped into 35 thematic clusters using unsupervised machine learning. Each article's extracted triples were converted into a TF-IDF vector — a numerical fingerprint of which entities and relationships it mentions most. TruncatedSVD (Latent Semantic Analysis) then reduced these to 100 dimensions to capture latent themes, and K-means clustering grouped similar articles together. Claude Haiku labeled each cluster based on its top entities.</p>
+            <p>Rather than treating all 10,000 articles as a flat list, they were grouped into 33 thematic clusters using unsupervised machine learning. Each article's extracted triples were converted into a TF-IDF vector — a numerical fingerprint of which entities and relationships it mentions most. TruncatedSVD (Latent Semantic Analysis) then reduced these to 100 dimensions to capture latent themes, and K-means clustering grouped similar articles together. Claude Haiku labeled each cluster based on its top entities.</p>
             <span class="ec-tool">cluster_articles.py · scikit-learn</span>
           </div>
-
           <div class="explainer-card">
             <div class="ec-step">Step 6 — Hierarchical Summarization</div>
             <h4>Three Levels of Summary</h4>
             <p>Each cluster was summarized in three passes. <strong>Level 1</strong>: Claude Haiku wrote a 4–6 sentence findings summary for every individual article from its extracted triples. <strong>Level 2</strong>: Claude Sonnet synthesized each group of 50 L1 summaries into a 200–300 word thematic rollup. <strong>Level 3</strong>: Sonnet read all L2 rollups for a cluster and wrote a structured review article — covering consensus findings, controversies, mechanistic gaps, and clinical relevance. The result is what you're reading now.</p>
             <span class="ec-tool">summarize_clusters.py · claude-sonnet-4-6</span>
           </div>
-
         </div>
       </div>
-
-      <!-- Usage hint -->
-      <div class="welcome-section" style="margin-bottom:40px">
-        <h3>How to use this</h3>
-        <div class="explainer-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px,1fr))">
-          <div class="explainer-card">
-            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">📖</div>
-            <h4>Read a Review</h4>
-            <p>Pick a cluster from the sidebar. The Review Article section gives you a Sonnet-written synthesis of everything the literature says on that theme.</p>
-          </div>
-          <div class="explainer-card">
-            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">🔍</div>
-            <h4>Drill Into Groups</h4>
-            <p>Expand "Group Summaries" to see how findings vary across 50-article cohorts within a cluster — useful for spotting contradictions.</p>
-          </div>
-          <div class="explainer-card">
-            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">📄</div>
-            <h4>Find Source Articles</h4>
-            <p>Load individual article summaries to trace a claim back to its source paper. Each PMCID links directly to PubMed Central.</p>
-          </div>
-          <div class="explainer-card">
-            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">🕸️</div>
-            <h4>Query the Graph</h4>
-            <p>For mechanistic questions ("what upregulates GPX4?"), use the Neo4j Browser at <code style="font-size:11px;color:var(--accent)">localhost:7474</code> with the provided Cypher query library.</p>
-          </div>
-        </div>
-      </div>
-
     </div>
-    <div id="cluster-view" style="display:none"></div>
+
   </div>
 
 </div>
@@ -546,6 +753,64 @@ function md(text) {
     .replace(/(^|\n)(?!<)(.+)/g, '$1<p>$2</p>');
 }
 
+// ── Research verticals ─────────────────────────────────────────────────────────
+const VERTICALS = [
+  {
+    name: 'Molecular Biology',
+    icon: '🧬',
+    desc: 'Cellular mechanisms, signaling pathways, gene regulation, and molecular drivers of disease.',
+    ids: [2, 11, 24, 26, 31]
+  },
+  {
+    name: 'Immunology & Inflammation',
+    icon: '🛡️',
+    desc: 'Immune cell activity, cytokine networks, macrophage behavior, and inflammatory angiogenesis.',
+    ids: [18, 7]
+  },
+  {
+    name: 'Hormones & Physiology',
+    icon: '⚗️',
+    desc: 'Estrogen, progesterone, androgens, PCOS overlap, and the hormonal landscape underlying endometriosis.',
+    ids: [14, 27, 10, 8, 29]
+  },
+  {
+    name: 'Cancer & Oncology',
+    icon: '🔴',
+    desc: 'Malignant transformation, ovarian and endometrial cancer risk, biomarkers, and tumor biology.',
+    ids: [3, 16, 28, 1]
+  },
+  {
+    name: 'Diagnosis & Imaging',
+    icon: '🩻',
+    desc: 'Clinical presentations, MRI and ultrasound findings, AI-assisted detection, and diagnostic criteria.',
+    ids: [6, 4, 9]
+  },
+  {
+    name: 'Treatment & Surgery',
+    icon: '💊',
+    desc: 'Pharmacotherapy, natural compounds, laparoscopic procedures, and pain management strategies.',
+    ids: [17, 12, 34, 30, 23]
+  },
+  {
+    name: 'Reproductive Health & Fertility',
+    icon: '🌱',
+    desc: 'IVF outcomes, endometrial receptivity, pregnancy complications, and infertility mechanisms.',
+    ids: [0, 15, 19]
+  },
+  {
+    name: 'Pain & Mental Health',
+    icon: '🧠',
+    desc: 'Chronic pelvic pain, dysmenorrhea, psychological impact, sexual dysfunction, and comorbid conditions.',
+    ids: [21, 22, 32, 13]
+  },
+  {
+    name: 'Microbiome & Environment',
+    icon: '🌍',
+    desc: 'Gut dysbiosis, endocrine-disrupting chemical exposures, and environmental triggers of disease.',
+    ids: [20, 33]
+  }
+];
+
 // ── State ──────────────────────────────────────────────────────────────────────
 let clusters = [];
 let articleCache = {};
@@ -560,6 +825,7 @@ fetch('data.json')
     document.getElementById('sidebar-subtitle').textContent =
       `${clusters.length} clusters · ${clusters.reduce((s,c) => s+c.article_count,0).toLocaleString()} articles`;
     renderWelcomeStats();
+    renderVerticalNav();
   });
 
 // ── Sidebar ────────────────────────────────────────────────────────────────────
@@ -580,6 +846,36 @@ document.getElementById('search').addEventListener('input', e => {
     c.top_entities.some(([e]) => e.toLowerCase().includes(q))
   ));
 });
+
+// ── Vertical nav ───────────────────────────────────────────────────────────────
+function renderVerticalNav() {
+  const grid = document.getElementById('vertical-grid');
+  if (!grid) return;
+  grid.innerHTML = VERTICALS.map(v => {
+    const items = v.ids.map(id => {
+      const c = clusters.find(x => x.id === id);
+      if (!c) return '';
+      return `<div class="vertical-cluster-item" onclick="selectCluster(${c.id})">
+        <span class="vci-label">${escHtml(c.label)}</span>
+        <span class="vci-count">${c.article_count.toLocaleString()} articles</span>
+        <span class="vci-arrow">›</span>
+      </div>`;
+    }).join('');
+    const total = v.ids.reduce((s, id) => {
+      const c = clusters.find(x => x.id === id);
+      return s + (c ? c.article_count : 0);
+    }, 0);
+    return `<div class="vertical-card">
+      <div class="vertical-card-header">
+        <span class="vc-icon">${v.icon}</span>
+        <span class="vc-name">${v.name}</span>
+        <span class="vc-count">${v.ids.length} clusters · ${total.toLocaleString()} articles</span>
+      </div>
+      <div class="vertical-card-desc">${v.desc}</div>
+      <div class="vertical-cluster-list">${items}</div>
+    </div>`;
+  }).join('');
+}
 
 // ── Welcome stats ──────────────────────────────────────────────────────────────
 function renderWelcomeStats() {
@@ -605,6 +901,8 @@ function selectCluster(id) {
   const view = document.getElementById('cluster-view');
   view.style.display = 'block';
   renderCluster(c, view);
+  closeSidebar();
+  if (window.innerWidth <= 640) window.scrollTo(0, 0);
 }
 
 function renderCluster(c, view) {
@@ -750,11 +1048,37 @@ function showWelcome() {
   activeClusterId = null;
   document.getElementById('welcome').style.display = 'block';
   document.getElementById('cluster-view').style.display = 'none';
+  document.getElementById('about').style.display = 'none';
   document.querySelectorAll('.cluster-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('sidebar-about-btn').classList.remove('active');
+}
+
+function showAbout() {
+  activeClusterId = null;
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('cluster-view').style.display = 'none';
+  document.getElementById('about').style.display = 'block';
+  document.querySelectorAll('.cluster-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('sidebar-about-btn').classList.add('active');
+  closeSidebar();
+  if (window.innerWidth <= 640) window.scrollTo(0, 0);
 }
 
 function escHtml(s) {
   return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Mobile sidebar ─────────────────────────────────────────────────────────────
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('sidebar-open');
+  document.getElementById('overlay').classList.add('visible');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('sidebar-open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.contains('sidebar-open') ? closeSidebar() : openSidebar();
 }
 
 </script>
