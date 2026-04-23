@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endometriosis Research Summaries</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3348;
+    --accent: #7c6af7;
+    --accent2: #a78bfa;
+    --text: #e2e4ef;
+    --muted: #8b90a8;
+    --tag-bg: #1e2240;
+    --tag-text: #a78bfa;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --radius: 10px;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── Layout ── */
+  #app { display: flex; height: 100vh; overflow: hidden; }
+
+  #sidebar {
+    width: 320px;
+    min-width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 40px;
+  }
+
+  /* ── Sidebar ── */
+  #sidebar-header {
+    padding: 20px 16px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  #sidebar-header h1 { font-size: 14px; font-weight: 700; color: var(--accent2); letter-spacing: .04em; text-transform: uppercase; }
+  #sidebar-header p  { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  #search-wrap { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  #search {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 13px;
+    padding: 7px 10px;
+    outline: none;
+  }
+  #search:focus { border-color: var(--accent); }
+
+  #cluster-list { flex: 1; overflow-y: auto; }
+  #cluster-list::-webkit-scrollbar { width: 4px; }
+  #cluster-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .cluster-item {
+    padding: 11px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background .12s;
+  }
+  .cluster-item:hover    { background: var(--surface2); }
+  .cluster-item.active   { background: var(--surface2); border-left: 3px solid var(--accent); padding-left: 13px; }
+  .cluster-item .ci-label { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; }
+  .cluster-item .ci-meta  { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .cluster-item .ci-count {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+
+  /* ── Breadcrumb ── */
+  #breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  #breadcrumb span { cursor: pointer; }
+  #breadcrumb span:hover { color: var(--accent2); }
+  #breadcrumb .sep { color: var(--border); }
+  #breadcrumb .current { color: var(--text); cursor: default; }
+
+  /* ── View panels ── */
+  #welcome h2 { font-size: 26px; font-weight: 700; color: var(--accent2); }
+  #welcome p  { color: var(--muted); margin-top: 8px; max-width: 520px; }
+  #welcome .stats { display: flex; gap: 24px; margin-top: 28px; flex-wrap: wrap; }
+  #welcome .stat  { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 22px; }
+  #welcome .stat .val { font-size: 28px; font-weight: 800; color: var(--accent2); }
+  #welcome .stat .lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* ── Section card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+    transition: background .1s;
+  }
+  .card-header:hover { background: var(--surface2); }
+  .card-header.open  { border-bottom-color: var(--border); }
+  .card-header h3    { font-size: 14px; font-weight: 700; color: var(--accent2); }
+  .card-header .chev { color: var(--muted); font-size: 12px; transition: transform .2s; }
+  .card-header.open .chev { transform: rotate(180deg); }
+  .card-body { padding: 20px; display: none; }
+  .card-body.open { display: block; }
+
+  /* ── Cluster detail ── */
+  .cluster-title { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .cluster-meta  { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+
+  .entity-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+  .entity-tag  {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid #312e6e;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+  .entity-tag .cnt { opacity: .6; font-size: 11px; margin-left: 3px; }
+
+  /* ── Markdown rendering ── */
+  .prose { font-size: 14.5px; line-height: 1.75; color: var(--text); }
+  .prose h1 { font-size: 20px; font-weight: 800; color: var(--accent2); margin: 0 0 14px; }
+  .prose h2 { font-size: 16px; font-weight: 700; color: var(--accent2); margin: 22px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+  .prose h3 { font-size: 14px; font-weight: 700; color: var(--accent2); margin: 16px 0 8px; }
+  .prose p  { margin-bottom: 12px; }
+  .prose strong { color: var(--accent2); font-weight: 600; }
+  .prose em     { color: var(--amber); font-style: italic; }
+  .prose ul, .prose ol { padding-left: 20px; margin-bottom: 12px; }
+  .prose li { margin-bottom: 4px; }
+
+  /* ── L2 group list ── */
+  .group-list { display: flex; flex-direction: column; gap: 10px; }
+  .group-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .group-card-header {
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+  .group-card-header:hover { background: var(--surface2); }
+  .group-card-header .gh-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .group-card-header .gh-meta  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .group-card-body { display: none; padding: 16px; border-top: 1px solid var(--border); }
+  .group-card-body.open { display: block; }
+
+  /* ── Article table ── */
+  .articles-btn {
+    margin-top: 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent2);
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .articles-btn:hover { background: var(--border); }
+
+  .article-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; }
+  .article-table th {
+    text-align: left;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .article-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .article-table tr:last-child td { border-bottom: none; }
+  .article-table tr:hover td { background: var(--surface2); }
+  .article-table .pmcid { font-family: var(--mono); font-size: 11px; color: var(--accent); white-space: nowrap; }
+  .article-table .pmcid a { color: inherit; text-decoration: none; }
+  .article-table .pmcid a:hover { text-decoration: underline; }
+  .article-table .art-title { color: var(--text); font-weight: 500; max-width: 320px; }
+  .article-table .art-journal { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .article-table .art-date { color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+  .article-summary-row td {
+    background: var(--bg);
+    padding: 10px 14px 14px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .expand-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0;
+  }
+  .expand-btn:hover { text-decoration: underline; }
+
+  /* ── Loading ── */
+  .loading { color: var(--muted); font-size: 13px; padding: 20px 0; }
+  .loading::after { content: ''; animation: dots 1.2s infinite; }
+  @keyframes dots { 0%,20%{content:'.'} 40%{content:'..'} 60%,100%{content:'...'} }
+
+  /* ── Scrollbar ── */
+  #main::-webkit-scrollbar { width: 6px; }
+  #main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── Welcome page ── */
+  .welcome-hero h2 { font-size: 28px; font-weight: 800; color: var(--accent2); }
+  .welcome-hero .subtitle { font-size: 15px; color: var(--muted); margin-top: 6px; max-width: 600px; line-height: 1.6; }
+
+  .welcome-stats { display: flex; gap: 16px; margin: 28px 0; flex-wrap: wrap; }
+  .welcome-stat  { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 22px; min-width: 130px; }
+  .welcome-stat .val { font-size: 26px; font-weight: 800; color: var(--accent2); }
+  .welcome-stat .lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .welcome-section { margin-top: 36px; }
+  .welcome-section h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 16px; }
+
+  /* ── Pipeline diagram ── */
+  .pipeline {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 36px;
+  }
+  .pipeline::-webkit-scrollbar { height: 4px; }
+  .pipeline::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .pipe-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 130px;
+    max-width: 140px;
+  }
+  .pipe-node {
+    width: 110px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 10px 12px;
+    text-align: center;
+    position: relative;
+    transition: border-color .15s, background .15s;
+  }
+  .pipe-node:hover { border-color: var(--accent); background: var(--surface2); }
+  .pipe-node .pn-icon { font-size: 22px; margin-bottom: 7px; }
+  .pipe-node .pn-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .pipe-node .pn-sub   { font-size: 10px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .pipe-node .pn-badge {
+    position: absolute;
+    top: -8px; right: -8px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  .pipe-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 2px;
+    padding-top: 38px;   /* vertically align with node center */
+    color: var(--border);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ── Explainer cards ── */
+  .explainer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .explainer-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .explainer-card .ec-step {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .explainer-card h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .explainer-card p  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .explainer-card .ec-tool {
+    display: inline-block;
+    margin-top: 10px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-family: var(--mono);
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div id="sidebar-header">
+      <h1>Endo Research</h1>
+      <p id="sidebar-subtitle">Loading clusters…</p>
+    </div>
+    <div id="search-wrap">
+      <input id="search" type="text" placeholder="Search clusters…" autocomplete="off">
+    </div>
+    <div id="cluster-list"></div>
+  </div>
+
+  <!-- Main panel -->
+  <div id="main">
+    <div id="welcome">
+      <div class="welcome-hero">
+        <h2>Endometriosis Research Knowledge Base</h2>
+        <p class="subtitle">A machine-built synthesis of 10,000 open-access scientific articles, structured into a searchable knowledge graph, clustered by research theme, and summarized at three levels of granularity.</p>
+      </div>
+
+      <div class="welcome-stats" id="welcome-stats"></div>
+
+      <!-- Pipeline diagram -->
+      <div class="welcome-section">
+        <h3>How it was built</h3>
+        <div class="pipeline" id="pipeline-diagram">
+          <div class="pipe-step">
+            <div class="pipe-node">
+              <div class="pn-badge">10,000</div>
+              <div class="pn-icon">🔬</div>
+              <div class="pn-title">PubMed Central</div>
+              <div class="pn-sub">Open-access article corpus</div>
+            </div>
+          </div>
+          <div class="pipe-arrow">›</div>
+          <div class="pipe-step">
+            <div class="pipe-node">
+              <div class="pn-icon">🕷️</div>
+              <div class="pn-title">Web Scrape</div>
+              <div class="pn-sub">NCBI E-utilities API · full-text .txt</div>
+            </div>
+          </div>
+          <div class="pipe-arrow">›</div>
+          <div class="pipe-step">
+            <div class="pipe-node">
+              <div class="pn-icon">🏷️</div>
+              <div class="pn-title">NER</div>
+              <div class="pn-sub">SciSpacy · biomedical entity tagging</div>
+            </div>
+          </div>
+          <div class="pipe-arrow">›</div>
+          <div class="pipe-step">
+            <div class="pipe-node">
+              <div class="pn-badge">459k</div>
+              <div class="pn-icon">🔗</div>
+              <div class="pn-title">Relations</div>
+              <div class="pn-sub">Claude Haiku · Batch API triples</div>
+            </div>
+          </div>
+          <div class="pipe-arrow">›</div>
+          <div class="pipe-step">
+            <div class="pipe-node">
+              <div class="pn-icon">🕸️</div>
+              <div class="pn-title">Knowledge Graph</div>
+              <div class="pn-sub">Neo4j · 270k nodes</div>
+            </div>
+          </div>
+          <div class="pipe-arrow">›</div>
+          <div class="pipe-step">
+            <div class="pipe-node">
+              <div class="pn-badge">35</div>
+              <div class="pn-icon">🗂️</div>
+              <div class="pn-title">Clustering</div>
+              <div class="pn-sub">TF-IDF + LSA + K-means</div>
+            </div>
+          </div>
+          <div class="pipe-arrow">›</div>
+          <div class="pipe-step">
+            <div class="pipe-node">
+              <div class="pn-icon">📝</div>
+              <div class="pn-title">Summaries</div>
+              <div class="pn-sub">Haiku → Sonnet · 3-level hierarchy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step-by-step explainer -->
+      <div class="welcome-section">
+        <h3>Pipeline explained</h3>
+        <div class="explainer-grid">
+
+          <div class="explainer-card">
+            <div class="ec-step">Step 1 — Data Collection</div>
+            <h4>PubMed Central Scrape</h4>
+            <p>All 10,000 articles were retrieved from PubMed Central (PMC), the NIH's free full-text archive of biomedical literature. The NCBI E-utilities API was used to download complete article text — abstracts, results, discussion, and conclusions — filtered to endometriosis and related reproductive health topics.</p>
+            <span class="ec-tool">scrape_pmc.py · download_articles.py</span>
+          </div>
+
+          <div class="explainer-card">
+            <div class="ec-step">Step 2 — Named Entity Recognition</div>
+            <h4>What is NER?</h4>
+            <p>Named Entity Recognition (NER) is the process of automatically identifying and labeling specific types of things mentioned in text — genes, proteins, drugs, diseases, cell types — so a computer can reason about them. SciSpacy, a biomedical NLP library built on spaCy, was used here because it's pre-trained on scientific literature and understands terminology like "IL-6", "GPX4", and "endometrial stromal cells" that general-purpose models miss.</p>
+            <span class="ec-tool">SciSpacy · en_core_sci_lg</span>
+          </div>
+
+          <div class="explainer-card">
+            <div class="ec-step">Step 3 — Relation Extraction</div>
+            <h4>Subject → Predicate → Object Triples</h4>
+            <p>After identifying entities, the next step is understanding how they relate to each other. Claude Haiku was used via the Anthropic Batch API to read each article and extract structured triples — for example: <em>estrogen → upregulates → aromatase</em> or <em>dienogest → treats → endometriosis</em>. Each triple includes the supporting evidence sentence, confidence level, and the section of the paper it came from. This produced 459,000 unique relationships across all 10,000 articles.</p>
+            <span class="ec-tool">extract_relations.py · claude-haiku-4-5</span>
+          </div>
+
+          <div class="explainer-card">
+            <div class="ec-step">Step 4 — Knowledge Graph</div>
+            <h4>Neo4j Graph Database</h4>
+            <p>All extracted triples were loaded into Neo4j, a graph database optimized for relationship queries. Entities become nodes (270,000 unique), and relationships become edges weighted by how many articles support them. This enables queries like "what inhibits IL-6?", "what pathways does ferroptosis regulate?", or "which drugs are used for PCOS that haven't been tried for endometriosis?" — questions impossible to answer with keyword search alone.</p>
+            <span class="ec-tool">import_to_neo4j.py · Neo4j Community</span>
+          </div>
+
+          <div class="explainer-card">
+            <div class="ec-step">Step 5 — Clustering</div>
+            <h4>Grouping Articles by Research Theme</h4>
+            <p>Rather than treating all 10,000 articles as a flat list, they were grouped into 35 thematic clusters using unsupervised machine learning. Each article's extracted triples were converted into a TF-IDF vector — a numerical fingerprint of which entities and relationships it mentions most. TruncatedSVD (Latent Semantic Analysis) then reduced these to 100 dimensions to capture latent themes, and K-means clustering grouped similar articles together. Claude Haiku labeled each cluster based on its top entities.</p>
+            <span class="ec-tool">cluster_articles.py · scikit-learn</span>
+          </div>
+
+          <div class="explainer-card">
+            <div class="ec-step">Step 6 — Hierarchical Summarization</div>
+            <h4>Three Levels of Summary</h4>
+            <p>Each cluster was summarized in three passes. <strong>Level 1</strong>: Claude Haiku wrote a 4–6 sentence findings summary for every individual article from its extracted triples. <strong>Level 2</strong>: Claude Sonnet synthesized each group of 50 L1 summaries into a 200–300 word thematic rollup. <strong>Level 3</strong>: Sonnet read all L2 rollups for a cluster and wrote a structured review article — covering consensus findings, controversies, mechanistic gaps, and clinical relevance. The result is what you're reading now.</p>
+            <span class="ec-tool">summarize_clusters.py · claude-sonnet-4-6</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Usage hint -->
+      <div class="welcome-section" style="margin-bottom:40px">
+        <h3>How to use this</h3>
+        <div class="explainer-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px,1fr))">
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">📖</div>
+            <h4>Read a Review</h4>
+            <p>Pick a cluster from the sidebar. The Review Article section gives you a Sonnet-written synthesis of everything the literature says on that theme.</p>
+          </div>
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">🔍</div>
+            <h4>Drill Into Groups</h4>
+            <p>Expand "Group Summaries" to see how findings vary across 50-article cohorts within a cluster — useful for spotting contradictions.</p>
+          </div>
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">📄</div>
+            <h4>Find Source Articles</h4>
+            <p>Load individual article summaries to trace a claim back to its source paper. Each PMCID links directly to PubMed Central.</p>
+          </div>
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">🕸️</div>
+            <h4>Query the Graph</h4>
+            <p>For mechanistic questions ("what upregulates GPX4?"), use the Neo4j Browser at <code style="font-size:11px;color:var(--accent)">localhost:7474</code> with the provided Cypher query library.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="cluster-view" style="display:none"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Simple markdown renderer ───────────────────────────────────────────────────
+function md(text) {
+  if (!text) return '';
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\n\n+/g, '</p><p>')
+    .replace(/^(?!<[h1-6]|<\/p>)(.+)/gm, '$1')
+    .replace(/^<\/p><p>/, '')
+    .replace(/(^|\n)(?!<)(.+)/g, '$1<p>$2</p>');
+}
+
+// ── State ──────────────────────────────────────────────────────────────────────
+let clusters = [];
+let articleCache = {};
+let activeClusterId = null;
+
+// ── Boot ───────────────────────────────────────────────────────────────────────
+fetch('data.json')
+  .then(r => r.json())
+  .then(data => {
+    clusters = data;
+    renderSidebar(clusters);
+    document.getElementById('sidebar-subtitle').textContent =
+      `${clusters.length} clusters · ${clusters.reduce((s,c) => s+c.article_count,0).toLocaleString()} articles`;
+    renderWelcomeStats();
+  });
+
+// ── Sidebar ────────────────────────────────────────────────────────────────────
+function renderSidebar(list) {
+  const el = document.getElementById('cluster-list');
+  el.innerHTML = list.map(c => `
+    <div class="cluster-item ${c.id === activeClusterId ? 'active' : ''}"
+         onclick="selectCluster(${c.id})">
+      <div class="ci-label">${escHtml(c.label)}<span class="ci-count">${c.article_count}</span></div>
+      <div class="ci-meta">${c.top_entities.slice(0,3).map(([e])=>e).join(', ')}</div>
+    </div>`).join('');
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  renderSidebar(clusters.filter(c =>
+    c.label.toLowerCase().includes(q) ||
+    c.top_entities.some(([e]) => e.toLowerCase().includes(q))
+  ));
+});
+
+// ── Welcome stats ──────────────────────────────────────────────────────────────
+function renderWelcomeStats() {
+  const total = clusters.reduce((s,c) => s+c.article_count, 0);
+  const l2    = clusters.reduce((s,c) => s+c.l2_groups.length, 0);
+  document.getElementById('welcome-stats').innerHTML = `
+    <div class="welcome-stat"><div class="val">${clusters.length}</div><div class="lbl">Research Clusters</div></div>
+    <div class="welcome-stat"><div class="val">${total.toLocaleString()}</div><div class="lbl">Articles</div></div>
+    <div class="welcome-stat"><div class="val">459k</div><div class="lbl">Extracted Relations</div></div>
+    <div class="welcome-stat"><div class="val">270k</div><div class="lbl">Graph Nodes</div></div>
+    <div class="welcome-stat"><div class="val">${l2}</div><div class="lbl">Group Summaries</div></div>
+    <div class="welcome-stat"><div class="val">3</div><div class="lbl">Summary Levels</div></div>`;
+}
+
+// ── Cluster view ───────────────────────────────────────────────────────────────
+function selectCluster(id) {
+  activeClusterId = id;
+  document.querySelectorAll('.cluster-item').forEach(el => {
+    el.classList.toggle('active', parseInt(el.getAttribute('onclick').match(/\d+/)[0]) === id);
+  });
+  const c = clusters.find(x => x.id === id);
+  document.getElementById('welcome').style.display = 'none';
+  const view = document.getElementById('cluster-view');
+  view.style.display = 'block';
+  renderCluster(c, view);
+}
+
+function renderCluster(c, view) {
+  const tags = c.top_entities.map(([name, count]) =>
+    `<span class="entity-tag">${escHtml(name)}<span class="cnt">${count}</span></span>`
+  ).join('');
+
+  view.innerHTML = `
+    <div id="breadcrumb">
+      <span onclick="showWelcome()">Home</span>
+      <span class="sep">›</span>
+      <span class="current">${escHtml(c.label)}</span>
+    </div>
+
+    <div class="cluster-title">${escHtml(c.label)}</div>
+    <div class="cluster-meta">${c.article_count} articles · ${c.l2_groups.length} group summaries</div>
+    <div class="entity-tags">${tags}</div>
+
+    ${collapsibleCard('Review Article', renderProse(c.l3), true)}
+    ${collapsibleCard('Group Summaries (L2)', renderGroupList(c), false)}
+    <div id="articles-section">${renderArticlesSection(c)}</div>
+  `;
+
+  // wire up collapsibles
+  view.querySelectorAll('.card-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.classList.toggle('open');
+      h.nextElementSibling.classList.toggle('open');
+      h.querySelector('.chev').textContent = h.classList.contains('open') ? '▲' : '▼';
+    });
+  });
+  // wire up group cards
+  view.querySelectorAll('.group-card-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.nextElementSibling.classList.toggle('open');
+    });
+  });
+}
+
+function collapsibleCard(title, body, startOpen) {
+  return `
+    <div class="card">
+      <div class="card-header ${startOpen ? 'open' : ''}">
+        <h3>${title}</h3>
+        <span class="chev">${startOpen ? '▲' : '▼'}</span>
+      </div>
+      <div class="card-body ${startOpen ? 'open' : ''}">${body}</div>
+    </div>`;
+}
+
+function renderProse(text) {
+  return `<div class="prose">${md(text)}</div>`;
+}
+
+function renderGroupList(c) {
+  return `<div class="group-list">` + c.l2_groups.map(g => `
+    <div class="group-card">
+      <div class="group-card-header">
+        <div>
+          <div class="gh-title">Group ${g.group + 1} of ${c.l2_groups.length}</div>
+          <div class="gh-meta">${g.pmcids.length} articles</div>
+        </div>
+        <span style="color:var(--muted);font-size:12px;">▼</span>
+      </div>
+      <div class="group-card-body">
+        <div class="prose">${md(g.text)}</div>
+      </div>
+    </div>`).join('') + `</div>`;
+}
+
+function renderArticlesSection(c) {
+  return `
+    <div class="card">
+      <div class="card-header">
+        <h3>Individual Articles (L1) · ${c.article_count} total</h3>
+        <span class="chev">▼</span>
+      </div>
+      <div class="card-body" id="articles-body-${c.id}">
+        <button class="articles-btn" onclick="loadArticles(${c.id})">
+          Load ${c.article_count} article summaries
+        </button>
+      </div>
+    </div>`;
+}
+
+// ── Article loading ────────────────────────────────────────────────────────────
+function loadArticles(clusterId) {
+  const body = document.getElementById(`articles-body-${clusterId}`);
+  body.innerHTML = '<div class="loading">Fetching article summaries</div>';
+
+  if (articleCache[clusterId]) {
+    renderArticleTable(clusterId, articleCache[clusterId]);
+    return;
+  }
+
+  fetch(`articles/${clusterId}.json`)
+    .then(r => r.json())
+    .then(articles => {
+      articleCache[clusterId] = articles;
+      renderArticleTable(clusterId, articles);
+    });
+}
+
+function renderArticleTable(clusterId, articles) {
+  const body = document.getElementById(`articles-body-${clusterId}`);
+
+  const rows = articles.map((a, i) => `
+    <tr>
+      <td class="pmcid">
+        <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/${escHtml(a.pmcid)}/" target="_blank">
+          ${escHtml(a.pmcid)}
+        </a>
+      </td>
+      <td class="art-title">${escHtml(a.title)}</td>
+      <td class="art-journal">${escHtml(a.journal)}</td>
+      <td class="art-date">${escHtml(a.date)}</td>
+      <td><button class="expand-btn" onclick="toggleSummary(${i}, ${clusterId})">Summary</button></td>
+    </tr>
+    <tr id="summary-${clusterId}-${i}" style="display:none">
+      <td colspan="5" class="article-summary-row" style="padding:12px 16px">
+        ${escHtml(a.summary)}
+      </td>
+    </tr>`).join('');
+
+  body.innerHTML = `
+    <table class="article-table">
+      <thead>
+        <tr>
+          <th>PMCID</th><th>Title</th><th>Journal</th><th>Year</th><th></th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+function toggleSummary(idx, clusterId) {
+  const row = document.getElementById(`summary-${clusterId}-${idx}`);
+  row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function showWelcome() {
+  activeClusterId = null;
+  document.getElementById('welcome').style.display = 'block';
+  document.getElementById('cluster-view').style.display = 'none';
+  document.querySelectorAll('.cluster-item').forEach(el => el.classList.remove('active'));
+}
+
+function escHtml(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+</script>
+</body>
+</html>
