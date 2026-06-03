@@ -523,6 +523,20 @@
   #sidebar-about-btn:hover { background: var(--surface2); color: var(--text); }
   #sidebar-about-btn.active { color: var(--accent2); background: var(--surface2); border-left: 3px solid var(--accent); padding-left: 13px; }
 
+  #sidebar-genes-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: background .12s, color .12s;
+  }
+  #sidebar-genes-btn:hover { background: var(--surface2); color: var(--text); }
+
   @media (max-width: 640px) {
     .vertical-grid { grid-template-columns: 1fr; }
     .about-author { flex-direction: column; gap: 16px; padding: 18px; }
@@ -547,6 +561,9 @@
     <div id="sidebar-about-btn" onclick="showAbout()">
       <span>ℹ</span> About this project
     </div>
+    <a id="sidebar-genes-btn" href="./genes.html">
+      <span>🧬</span> Gene Reference
+    </a>
     <div id="search-wrap">
       <input id="search" type="text" placeholder="Search clusters…" autocomplete="off">
     </div>
@@ -587,6 +604,11 @@
             <div class="pn-icon" style="font-size:20px;margin-bottom:6px">📄</div>
             <h4>Find Source Articles</h4>
             <p>Load individual article summaries to trace a claim back to its source paper. Each PMCID links directly to PubMed Central.</p>
+          </div>
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">🧬</div>
+            <h4>Gene Reference</h4>
+            <p>Browse every gene studied in endometriosis research, organized by biological pathway, with roles and direct links to the cluster review where it's discussed. <a href="./genes.html" style="color:var(--accent2)">Open Gene Reference →</a></p>
           </div>
           <div class="explainer-card">
             <div class="pn-icon" style="font-size:20px;margin-bottom:6px">ℹ</div>
@@ -826,6 +848,12 @@ fetch('data.json')
       `${clusters.length} clusters · ${clusters.reduce((s,c) => s+c.article_count,0).toLocaleString()} articles`;
     renderWelcomeStats();
     renderVerticalNav();
+    // Support direct cluster navigation via URL hash (e.g. genes.html links to #cluster-11)
+    const hash = window.location.hash;
+    if (hash.startsWith('#cluster-')) {
+      const id = parseInt(hash.slice(9));
+      if (!isNaN(id)) selectCluster(id);
+    }
   });
 
 // ── Sidebar ────────────────────────────────────────────────────────────────────

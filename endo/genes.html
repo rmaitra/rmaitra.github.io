@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gene Reference — Endometriosis Research</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3348;
+    --accent: #7c6af7;
+    --accent2: #a78bfa;
+    --text: #e2e4ef;
+    --muted: #8b90a8;
+    --tag-bg: #1e2240;
+    --tag-text: #a78bfa;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --radius: 10px;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── Top nav ── */
+  #topnav {
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 40;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 54px;
+  }
+  #back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color .15s;
+    flex-shrink: 0;
+  }
+  #back-btn:hover { color: var(--accent2); }
+  #back-btn .arrow { font-size: 16px; }
+  #topnav-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent2);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  #topnav-sep { color: var(--border); flex-shrink: 0; }
+
+  #search-bar {
+    flex: 1;
+    max-width: 420px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 13px;
+    padding: 7px 12px;
+    outline: none;
+  }
+  #search-bar:focus { border-color: var(--accent); }
+  #search-bar::placeholder { color: var(--muted); }
+
+  #gene-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  #gene-count span { color: var(--accent2); font-weight: 700; }
+
+  /* ── Main content ── */
+  #main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 28px 60px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    margin-bottom: 36px;
+  }
+  .hero h1 { font-size: 26px; font-weight: 800; color: var(--accent2); margin-bottom: 8px; }
+  .hero p  { font-size: 14px; color: var(--muted); max-width: 700px; line-height: 1.7; }
+
+  /* ── Stats bar ── */
+  .stats-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .stat-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 18px;
+    min-width: 120px;
+  }
+  .stat-chip .val { font-size: 22px; font-weight: 800; color: var(--accent2); }
+  .stat-chip .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: .05em; }
+
+  /* ── Section / card ── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .1s;
+    border-bottom: 1px solid transparent;
+  }
+  .section-header:hover { background: var(--surface2); }
+  .section-header.open  { border-bottom-color: var(--border); }
+  .section-header .sh-icon  { font-size: 18px; flex-shrink: 0; }
+  .section-header .sh-title { font-size: 14px; font-weight: 700; color: var(--accent2); flex: 1; }
+  .section-header .sh-meta  { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .section-header .sh-cluster {
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid #312e6e;
+    border-radius: 10px;
+    padding: 2px 9px;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: border-color .12s;
+  }
+  .section-header .sh-cluster:hover { border-color: var(--accent); }
+  .section-header .chev { color: var(--muted); font-size: 12px; transition: transform .2s; flex-shrink: 0; }
+  .section-header.open .chev { transform: rotate(180deg); }
+
+  .section-body { display: none; }
+  .section-body.open { display: block; }
+
+  /* ── Gene table ── */
+  .gene-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .gene-table thead { background: var(--bg); }
+  .gene-table th {
+    text-align: left;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .gene-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .gene-table tr:last-child td { border-bottom: none; }
+  .gene-table tr.gene-row:hover td { background: rgba(124, 106, 247, 0.04); }
+  .gene-table tr.hidden { display: none; }
+
+  .gene-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+  .gene-role  { color: var(--text); line-height: 1.55; max-width: 480px; }
+  .gene-pathway {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid #312e6e;
+    border-radius: 12px;
+    padding: 2px 9px;
+    font-size: 11px;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .gene-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent);
+    font-size: 12px;
+    text-decoration: none;
+    background: var(--tag-bg);
+    border: 1px solid #312e6e;
+    border-radius: 6px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    transition: border-color .12s, color .12s;
+  }
+  .gene-link:hover { border-color: var(--accent); color: var(--accent2); }
+
+  /* ── No results ── */
+  #no-results {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 640px) {
+    #topnav { padding: 0 14px; gap: 10px; }
+    #topnav-title { display: none; }
+    #topnav-sep   { display: none; }
+    #main { padding: 20px 14px 48px; }
+    .hero h1 { font-size: 20px; }
+    .gene-table th:nth-child(3),
+    .gene-table td:nth-child(3) { display: none; }
+    .section-header .sh-cluster { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="topnav">
+  <a href="./index.html" id="back-btn">
+    <span class="arrow">←</span> Research Home
+  </a>
+  <span id="topnav-sep">|</span>
+  <span id="topnav-title">Gene Reference</span>
+  <input id="search-bar" type="text" placeholder="Search genes, roles, pathways…" autocomplete="off">
+  <div id="gene-count">Showing <span id="visible-count">—</span> of <span id="total-count">—</span> genes</div>
+</div>
+
+<div id="main">
+  <div class="hero">
+    <h1>Gene Reference</h1>
+    <p>Every gene and protein identified across 10,000+ endometriosis research articles, organized by biological pathway. Each entry links to the AI-synthesized cluster review where the gene is discussed in depth.</p>
+  </div>
+
+  <div class="stats-row" id="stats-row">
+    <div class="stat-chip"><div class="val" id="stat-genes">—</div><div class="lbl">Genes &amp; Proteins</div></div>
+    <div class="stat-chip"><div class="val">22</div><div class="lbl">Biological Pathways</div></div>
+    <div class="stat-chip"><div class="val">10k+</div><div class="lbl">Source Articles</div></div>
+    <div class="stat-chip"><div class="val">33</div><div class="lbl">Cluster Reviews</div></div>
+  </div>
+
+  <div id="sections-container"></div>
+  <div id="no-results">No genes match your search.</div>
+</div>
+
+<script>
+// ── Gene data ──────────────────────────────────────────────────────────────────
+// cluster IDs reference the research cluster in index.html
+// Link format: ./index.html#cluster-{id}
+
+const CLUSTER_LABELS = {
+  2:  "Autophagy &amp; Metabolic Reprogramming",
+  3:  "Molecular Pathology &amp; Cancer",
+  7:  "Inflammatory Mechanisms &amp; Angiogenesis",
+  8:  "Endometrial Dysfunction",
+  11: "NLRP3 Inflammasome Signaling",
+  14: "Hormonal Regulation",
+  16: "Ovarian Cancer Biomarkers",
+  18: "Inflammatory Immune Response",
+  20: "Microbiota &amp; Dysbiosis",
+  23: "Pain Management",
+  24: "Ferroptosis &amp; Oxidative Stress",
+  26: "Oxidative Stress &amp; Infertility",
+  27: "PCOS &amp; Insulin Resistance",
+  28: "Endometriosis-Associated Malignancy",
+  31: "Exosomal miRNAs",
+  32: "Chronic Pain &amp; Comorbidities",
+};
+
+const SECTIONS = [
+  {
+    title: "NLRP3 Inflammasome",
+    icon: "🔥",
+    primaryCluster: 11,
+    genes: [
+      { name: "NLRP3",  role: "Central inflammasome sensor; initiates caspase-1-dependent IL-1β and IL-18 maturation; drives pyroptotic cell death; upregulated by estrogen-ER signaling", pathway: "Innate Immunity", cluster: 11 },
+      { name: "ASC",    role: "NLRP3 inflammasome adaptor protein; bridges NLRP3 to caspase-1 activation", pathway: "Inflammasome", cluster: 11 },
+      { name: "GSDMD",  role: "Gasdermin D; cleaved by caspase-1; forms membrane pores permitting pyroptotic cell death and IL-1β/IL-18 release", pathway: "Inflammasome/Cell Death", cluster: 11 },
+      { name: "P2X7",   role: "Purinergic receptor; ATP-mediated NLRP3 inflammasome activator in peritoneal macrophages", pathway: "Ion Channel/Inflammasome", cluster: 11 },
+      { name: "TLR4",   role: "Toll-like receptor 4; engagement by LPS drives NLRP3 priming via TLR4/MyD88-dependent NF-κB activation", pathway: "Innate Immunity", cluster: 11 },
+      { name: "MyD88",  role: "Myeloid differentiation primary response 88; TLR signaling adaptor upstream of NLRP3 priming", pathway: "Innate Immunity", cluster: 11 },
+      { name: "Caspase-1", role: "Processed by NLRP3/ASC; cleaves pro-IL-1β/IL-18 to mature forms and cleaves GSDMD to trigger pyroptosis", pathway: "Inflammasome", cluster: 11 },
+    ]
+  },
+  {
+    title: "Inflammatory Signaling",
+    icon: "⚡",
+    primaryCluster: 18,
+    genes: [
+      { name: "NF-κB",   role: "Master pro-inflammatory transcription factor; activated by TLR4/MyD88, TNF-α, IL-1β; central survival hub in ectopic lesions", pathway: "Inflammatory Signaling", cluster: 18 },
+      { name: "STAT3",   role: "Signal transducer activated downstream of IL-6/gp130; drives proliferation, immune evasion, and M2 macrophage polarization", pathway: "Signaling/Transcription", cluster: 18 },
+      { name: "COX-2 (PTGS2)", role: "Cyclooxygenase-2; elevated in ectopic tissue; produces PGE2 and PGF2α; promotes aromatase upregulation; sustains inflammation", pathway: "Inflammatory Signaling", cluster: 18 },
+      { name: "JAK",     role: "Janus kinase; upstream of STAT3; inhibited by some natural compounds used in endometriosis treatment", pathway: "Signaling", cluster: 18 },
+      { name: "EPHB4",   role: "Ephrin type-B receptor 4; links IL-1β inflammasome activation to SDF-1/CXCR4-mediated angiogenesis and nociception", pathway: "Signaling", cluster: 18 },
+      { name: "IKKβ",    role: "Inhibitor of κB kinase β; drives NF-κB activation; mediates insulin resistance through IRS-1 serine phosphorylation in PCOS overlap", pathway: "Signaling", cluster: 27 },
+      { name: "ERK/MAPK", role: "Extracellular signal-regulated kinase; downstream of EGFR and growth factors; phosphorylates ZEB1; impairs decidualization when dysregulated", pathway: "Signaling", cluster: 3 },
+    ]
+  },
+  {
+    title: "Cytokines & Chemokines",
+    icon: "📡",
+    primaryCluster: 18,
+    genes: [
+      { name: "IL-6",      role: "Pro-inflammatory cytokine; elevated in peritoneal fluid, serum, and ectopic tissue; activates STAT3/JAK/NF-κB; drives macrophage recruitment and angiogenesis", pathway: "Inflammatory Cytokine", cluster: 18 },
+      { name: "TNF-α",     role: "Pro-inflammatory cytokine; elevated peritoneal concentrations; drives NF-κB activation; stimulates lipoxygenase-mediated cardiolipin oxidation in oocytes", pathway: "Inflammatory Cytokine", cluster: 18 },
+      { name: "IL-8 (CXCL8)", role: "Chemotactic and pro-angiogenic; promotes endometrial stromal cell adhesion; correlates with peritoneal disease severity", pathway: "Inflammatory Cytokine", cluster: 7 },
+      { name: "IL-1β",     role: "Drives nociceptor sensitization through EPHB4-mediated SDF-1/CXCR4 signaling; NLRP3 inflammasome cleavage product", pathway: "Inflammatory Cytokine", cluster: 11 },
+      { name: "IL-17 / IL-17A / IL-17C", role: "Th17-derived cytokines; drive fibrosis and angiogenesis; distinct site-specific signatures by lesion type (peritoneal vs ovarian vs fallopian tube)", pathway: "Inflammatory Cytokine", cluster: 18 },
+      { name: "IL-18",     role: "Interferon-gamma-inducing cytokine; NLRP3 inflammasome product; modulates implantation; elevated in endometriosis", pathway: "Inflammatory Cytokine", cluster: 11 },
+      { name: "IL-23",     role: "Characterizes generalized peritoneal endometriosis; IL-23/IL-17A axis drives fibroinflammatory cascades", pathway: "Inflammatory Cytokine", cluster: 18 },
+      { name: "IL-10",     role: "Anti-inflammatory cytokine; paradoxical pro-survival effects on ectopic lesions; context-dependent immunomodulation", pathway: "Immunomodulation", cluster: 18 },
+      { name: "IL-15",     role: "Drives NK cell proliferation; suppressed by progesterone resistance; reduced in endometriosis-associated immune impairment", pathway: "Immune Regulation", cluster: 18 },
+      { name: "IL-24",     role: "Produced by regulatory T cells; contributes to immunosuppressive microenvironment in endometriosis", pathway: "Immunomodulation", cluster: 18 },
+      { name: "IFN-γ",     role: "Interferon-gamma; paradoxical pro-inflammatory yet sometimes co-factors pro-apoptotic effects in endometriosis lesions", pathway: "Cytokine", cluster: 18 },
+      { name: "LIF",       role: "Leukemia inhibitory factor; upregulated by GnRH agonist pretreatment; supports endometrial receptivity; suppressed in endometriosis", pathway: "Cytokine", cluster: 8 },
+      { name: "MCP-1 (CCL2)", role: "Monocyte chemoattractant protein-1; recruits macrophages to peritoneal cavity; upregulated by TET3 demethylation", pathway: "Chemokine", cluster: 18 },
+      { name: "CCL5",      role: "C-C motif chemokine; promotes stromal scarring in endometriosis", pathway: "Chemokine", cluster: 18 },
+      { name: "CXCL1",     role: "Secreted by senescent endometrial stroma; drives SASP-associated inflammation", pathway: "Chemokine", cluster: 18 },
+      { name: "SDF-1 (CXCL12)", role: "Upregulated downstream of IL-1β/EPHB4 axis; drives angiogenesis and lesion vascularization", pathway: "Chemokine", cluster: 7 },
+      { name: "CXCR4",     role: "Elevated expression in endometriosis; inhibition triggers paradoxical compensatory pathway activation", pathway: "Chemokine Signaling", cluster: 7 },
+      { name: "CXCR1/CXCR2", role: "IL-8/CXCL8 receptors; promote endometrial stromal cell adhesion and neovascularization", pathway: "Chemokine Signaling", cluster: 7 },
+      { name: "MIF",       role: "Macrophage migration inhibitory factor; elevated in peritoneal lesion epithelium; drives immune dysregulation", pathway: "Immune Signaling", cluster: 18 },
+    ]
+  },
+  {
+    title: "Angiogenesis & ECM Remodeling",
+    icon: "🩸",
+    primaryCluster: 7,
+    genes: [
+      { name: "VEGF / VEGFA", role: "Central pro-angiogenic mediator; upregulated by HIF-1α hypoxia signaling; suppressed by miR-145; essential for lesion neovascularization", pathway: "Angiogenesis", cluster: 7 },
+      { name: "HIF-1α",   role: "Hypoxia-inducible factor-1 alpha; stabilized in peritoneal hypoxic microenvironment; drives VEGF transcription and glycolytic reprogramming (Warburg effect)", pathway: "Hypoxia Signaling", cluster: 7 },
+      { name: "MMP-2 / MMP-9", role: "Matrix metalloproteases; elevated expression promotes angiogenesis and ECM remodeling; inversely correlate with TIMP inhibitors", pathway: "ECM Remodeling", cluster: 7 },
+      { name: "TIMP3",    role: "Tissue inhibitor of metalloproteinase 3; anti-proliferative; regulated by GAS5/miR-181c lncRNA-miRNA axis; suppressed in endometriosis", pathway: "ECM Remodeling", cluster: 7 },
+      { name: "PAI-1",    role: "Plasminogen activator inhibitor-1; elevated in endometriosis; impairs fibrinolysis; promotes adhesion formation", pathway: "Fibrinolysis", cluster: 7 },
+      { name: "NGF",      role: "Nerve growth factor; drives neuroangiogenesis; upregulated in endometriosis-associated neuropathic pain", pathway: "Growth Factor", cluster: 23 },
+      { name: "TrkA",     role: "Tropomyosin receptor kinase A; NGF receptor; mediates neuropathic pain signaling in endometriosis", pathway: "Signaling", cluster: 23 },
+      { name: "S100A8",   role: "Macrophage-derived calcium-binding protein; promotes stromal scarring and angiogenesis", pathway: "Immune Signaling", cluster: 18 },
+      { name: "SPP1 (Osteopontin)", role: "Macrophage-derived secreted phosphoprotein; promotes stromal scarring and lesion vascularization", pathway: "Immune Signaling", cluster: 18 },
+    ]
+  },
+  {
+    title: "Hormone Signaling & Steroidogenesis",
+    icon: "⚗️",
+    primaryCluster: 14,
+    genes: [
+      { name: "ESR1",     role: "Estrogen receptor-alpha; elevated expression in ectopic tissue; drives proliferation, inflammation, and EMT through ERα-dependent signaling", pathway: "Hormone Signaling", cluster: 14 },
+      { name: "ESR2",     role: "Estrogen receptor-beta; hypermethylated and reduced in endometriosis; exerts anti-proliferative, anti-inflammatory effects when active", pathway: "Hormone Signaling", cluster: 14 },
+      { name: "PGR",      role: "Progesterone receptor; reduced PR-B isoform; hypermethylated promoter; fundamental mediator of progesterone resistance in endometriosis", pathway: "Hormone Signaling", cluster: 14 },
+      { name: "CYP19A1",  role: "Aromatase; massively overexpressed in ectopic lesions; drives local estrogen synthesis; sustained by PGE2-cAMP-CREB feed-forward loop", pathway: "Steroidogenesis", cluster: 14 },
+      { name: "CYP17A1",  role: "Cytochrome P450 17A1; theca cell androgen biosynthesis; elevated in PCOS-endometriosis overlap", pathway: "Steroidogenesis", cluster: 27 },
+      { name: "AMH",      role: "Anti-Müllerian hormone; consistently depleted in endometriosis; biomarker of ovarian reserve damage from endometriomas", pathway: "Ovarian Reserve", cluster: 26 },
+      { name: "AMHR2",    role: "AMH receptor type 2; suppressed by peritoneal endometriosis; reduces AMH responsiveness in granulosa cells", pathway: "Growth Factor Signaling", cluster: 26 },
+      { name: "KITLG",    role: "KIT ligand (stem cell factor); suppressed in granulosa cells by peritoneal endometriosis; impairs folliculogenesis", pathway: "Growth Factor", cluster: 26 },
+      { name: "FSH",      role: "Follicle-stimulating hormone; elevated in endometriosis reflecting reduced ovarian reserve; androgen receptor upregulation enhances sensitivity", pathway: "Reproductive Hormone", cluster: 14 },
+      { name: "LH",       role: "Luteinizing hormone; dysregulated in PCOS-endometriosis overlap; implicated in hyperandrogenism", pathway: "Reproductive Hormone", cluster: 27 },
+      { name: "GnRH",     role: "Gonadotropin-releasing hormone; central hypothalamic-pituitary axis; GnRH agonist pretreatment upregulates LIF and MEIS1", pathway: "Reproductive Hormone", cluster: 14 },
+      { name: "KISS1 / KISS1R", role: "Kisspeptin and receptor; reduced endometrial expression despite elevated circulating kisspeptin in endometriosis; impairs HPG axis feedback", pathway: "Reproductive Signaling", cluster: 14 },
+    ]
+  },
+  {
+    title: "Epigenetic Dysregulation",
+    icon: "🧬",
+    primaryCluster: 14,
+    genes: [
+      { name: "HOXA10",   role: "Homeobox transcription factor; hypermethylated promoter in endometriosis; impaired expression reduces decidualization and endometrial receptivity", pathway: "Epigenetic/Transcription", cluster: 14 },
+      { name: "HOXA11",   role: "Homeobox family member; similar hypermethylation and dysfunction as HOXA10; further suppressed by TGF-β3 from submucosal fibroids", pathway: "Epigenetic/Transcription", cluster: 14 },
+      { name: "DNMT1 / DNMT3A / DNMT3B", role: "DNA methyltransferases; upregulated in endometriosis; drive promoter hypermethylation of HOXA10, HOXA11, and PGR; impair decidualization", pathway: "Epigenetic", cluster: 14 },
+      { name: "EZH2",     role: "Polycomb repressive complex 2 catalytic subunit; mediates H3K27me3 silencing; dysregulated in endometriosis; elevated with ARID1A loss", pathway: "Chromatin Remodeling", cluster: 3 },
+      { name: "ARID1A",   role: "SWI/SNF chromatin remodeling complex member; mutated in 40–100% of endometriosis-associated clear cell cancers; loss activates PI3K/AKT and elevates PD-L1", pathway: "Chromatin Remodeling", cluster: 3 },
+      { name: "SMARCA4 (BRG1)", role: "SWI/SNF-related matrix-associated chromatin regulator; mutations across endometrial cancers; cooperates with ARID1A in chromatin access", pathway: "Chromatin Remodeling", cluster: 3 },
+      { name: "SIRT1",    role: "NAD⁺-dependent histone deacetylase; elevated in ectopic tissue; drives FOXO1 deacetylation; promotes autophagy and EMT programs", pathway: "Epigenetic/Metabolism", cluster: 2 },
+      { name: "METTL3",   role: "N⁶-methyladenosine (m6A) methyltransferase; downregulated in ectopic stromal cells; loss destabilizes WIF1 mRNA and unleashes Wnt proliferation", pathway: "Epitranscriptomic", cluster: 2 },
+      { name: "FTO",      role: "m6A demethylase (eraser); upregulated in ectopic tissue; stabilizes GEF-H1 mRNA; promotes RhoA-dependent cell migration", pathway: "Epitranscriptomic", cluster: 2 },
+      { name: "HDAC2 / HDAC6", role: "Histone deacetylases; HDAC2 loss impairs progesterone responsiveness; HDAC6 elevated alongside ARID1A loss in clear cell cancers", pathway: "Epigenetic", cluster: 14 },
+      { name: "FOXA2",    role: "Forkhead box A2; epigenetically silenced in endometriosis; impairs progesterone responsiveness and endometrial differentiation", pathway: "Transcription Factor", cluster: 14 },
+      { name: "PRMT3",    role: "Protein arginine methyltransferase 3; mediates FOXO1 arginine methylation to impair its transcriptional activity; disrupts decidualization", pathway: "Epigenetic", cluster: 14 },
+      { name: "YTHDC1",   role: "YTH domain m6A reader; coordinates m6A deposition with H3K27me3 repressive chromatin marks during decidualization", pathway: "Epigenetic", cluster: 2 },
+      { name: "GATA6",    role: "GATA binding protein 6; DNA hypomethylated in endometriosis; aberrant expression impairs NF-κB counterbalance", pathway: "Transcription Factor", cluster: 14 },
+      { name: "NR5A1 (SF-1)", role: "Nuclear receptor subfamily 5A1; DNA hypomethylated in ectopic tissue; dysregulated transcriptional regulation of steroidogenic genes", pathway: "Transcription Factor", cluster: 14 },
+      { name: "IGF2BP2",  role: "m6A reader protein; loss activates PI3K/AKT signaling via ITGB4 upregulation", pathway: "Post-transcriptional", cluster: 3 },
+    ]
+  },
+  {
+    title: "PI3K / AKT / mTOR Oncogenic Axis",
+    icon: "🔴",
+    primaryCluster: 3,
+    genes: [
+      { name: "PI3K / AKT / mTOR", role: "Master oncogenic signaling axis; activated by PTEN loss, PIK3CA mutation, or ARID1A deficiency; drives proliferation, invasion, and angiogenesis; mTOR suppresses autophagy", pathway: "Signaling/Cell Survival", cluster: 3 },
+      { name: "PTEN",     role: "Phosphatase suppressing PI3K/AKT; loss activates mTOR; consistently reduced in endometriosis and endometriosis-associated cancers", pathway: "Tumor Suppressor", cluster: 3 },
+      { name: "PIK3CA",   role: "PI3K catalytic subunit; activating mutations in 35–55% of endometriosis-associated cancers; drives AKT/mTOR", pathway: "Signaling", cluster: 3 },
+      { name: "KRAS",     role: "RAS GTPase; mutations in 5–10% of endometriosis; drives MAPK/ERK activation; defines a kinase-dependent endometriosis subtype", pathway: "Signaling", cluster: 3 },
+      { name: "CTNNB1",   role: "β-Catenin; activating mutations characterize a subset of endometrioid carcinomas; drives Wnt target gene activation", pathway: "Wnt/β-Catenin Signaling", cluster: 3 },
+      { name: "TP53",     role: "Tumor suppressor p53; rarely mutated in endometriosis-associated cancers (90–98% TP53 wild-type), distinguishing them from high-grade carcinomas", pathway: "Tumor Suppressor", cluster: 3 },
+      { name: "EGFR",     role: "Epidermal growth factor receptor; GRB2 recruitment; activates PI3K/AKT and ERK cascades; contributes to progesterone resistance", pathway: "Signaling", cluster: 3 },
+      { name: "GRB2",     role: "Growth factor receptor-bound protein 2; adaptor linking EGFR to PI3K/AKT and ERK cascades in endometriosis", pathway: "Signaling", cluster: 3 },
+      { name: "ITGB4",    role: "Integrin beta-4; upregulated downstream of IGF2BP2 loss; drives PI3K/AKT signaling in ectopic stromal cells", pathway: "Signaling", cluster: 3 },
+      { name: "YAP1",     role: "Yes1-associated transcriptional regulator; Hippo pathway effector; essential for decidualization; drives sarcomatogenesis in SWI/SNF-deficient contexts", pathway: "Signaling", cluster: 3 },
+      { name: "WWTR1 (TAZ)", role: "Hippo pathway transcriptional regulator; YAP1 paralogue; governs tissue remodeling and fibroblast-to-myofibroblast transition", pathway: "Signaling", cluster: 3 },
+    ]
+  },
+  {
+    title: "Decidualization & Endometrial Receptivity",
+    icon: "🌱",
+    primaryCluster: 8,
+    genes: [
+      { name: "FOXO1",    role: "Master decidualization transcription factor; suppressed by AKT1/NEK2 phosphorylation, Notch downregulation, and METTL3-mediated m6A modification; impaired in progesterone resistance", pathway: "Decidualization/Transcription", cluster: 8 },
+      { name: "HAND2",    role: "Heart and neural crest derivatives-expressed protein 2; decidualization transcription factor; suppressed in endometriosis-associated endometrial dysfunction", pathway: "Transcription Factor", cluster: 8 },
+      { name: "IGFBP1",   role: "Insulin-like growth factor binding protein 1; canonical decidualization marker; downregulated in endometriosis; progesterone-responsive", pathway: "Decidualization", cluster: 8 },
+      { name: "PRL",      role: "Prolactin; decidualization marker; suppressed in endometriosis; regulates decidual vascular architecture", pathway: "Decidualization", cluster: 8 },
+      { name: "WNT4",     role: "Wnt family member; decidualization marker; suppressed through FOXO1 loss; impaired Wnt4/β-catenin in endometriosis", pathway: "Decidualization/Wnt", cluster: 8 },
+      { name: "BMP2",     role: "Bone morphogenetic protein 2; upstream of FOXO1; promotes decidualization initiation", pathway: "Signaling/Differentiation", cluster: 8 },
+      { name: "MEIS1",    role: "Meis homeobox 1; upregulated by GnRH agonist pretreatment; downregulation in ectopic tissue suppresses caspase-8/caspase-3 apoptotic cascade", pathway: "Transcription Factor", cluster: 8 },
+      { name: "WT1",      role: "Wilms tumor suppressor 1; downregulation contributes to progesterone receptor suppression; impairs decidualization signaling", pathway: "Transcription Factor", cluster: 8 },
+      { name: "ZIP10 / GLI1", role: "SLC39A10 zinc transporter controls zinc homeostasis; regulates GLI1-dependent Hedgehog signaling in decidualization", pathway: "Ion Transport/Signaling", cluster: 8 },
+      { name: "PRICKLE1", role: "Prickle planar cell polarity protein 1; loss triggers EMT and impairs implantation; regulates planar cell polarity in endometrium", pathway: "Development/EMT", cluster: 8 },
+    ]
+  },
+  {
+    title: "Ferroptosis & Iron Metabolism",
+    icon: "🧲",
+    primaryCluster: 24,
+    genes: [
+      { name: "GPX4",     role: "Glutathione peroxidase 4; key ferroptosis regulator; suppressed in endometriosis; loss permits phospholipid hydroperoxide accumulation and cell death", pathway: "Oxidative Stress/Cell Death", cluster: 24 },
+      { name: "SLC7A11",  role: "System Xc⁻ cystine/glutamate antiporter; upregulated in ectopic cells to suppress ferroptosis via glutathione availability", pathway: "Oxidative Stress/Cell Death", cluster: 24 },
+      { name: "NRF2",     role: "Nuclear factor erythroid 2-related factor 2; master transcriptional regulator of antioxidant enzymes; activates ferroptosis resistance genes", pathway: "Oxidative Stress", cluster: 24 },
+      { name: "KEAP1",    role: "Kelch-like ECH-associated protein 1; negative regulator of NRF2; mutations relieve NRF2 suppression activating antioxidant defense", pathway: "Oxidative Stress", cluster: 24 },
+      { name: "HO-1 (HMOX1)", role: "Heme oxygenase-1; cytoprotective antioxidant; paradoxically associates with tumor aggressiveness in malignant endometriosis contexts", pathway: "Oxidative Stress", cluster: 24 },
+      { name: "ACSL4",    role: "Acyl-CoA synthetase long-chain family member 4; ferroptosis driver; suppressed by lactate-driven H3K18 lactylation in ectopic cells", pathway: "Ferroptosis", cluster: 24 },
+      { name: "LPCAT3",   role: "Lysophosphatidylcholine acyltransferase 3; ferroptosis driver; remodels phospholipids to make them susceptible to peroxidation", pathway: "Ferroptosis", cluster: 24 },
+      { name: "ALOX",     role: "Arachidonate lipoxygenase family; enzymatic oxidation of polyunsaturated fatty acids; central mediator of ferroptotic lipid peroxidation", pathway: "Ferroptosis", cluster: 24 },
+      { name: "FTH1",     role: "Ferritin heavy chain 1; iron storage protein; ferritinophagy target (NCOA4-mediated); inversely related to GPX4 in endometriosis", pathway: "Iron Metabolism", cluster: 24 },
+      { name: "BMP6",     role: "Bone morphogenetic protein 6; elevated in peritoneal endometriosis; drives aberrant iron accumulation in ectopic lesions", pathway: "Iron Homeostasis", cluster: 24 },
+      { name: "SLC48A1 (DMT2)", role: "Solute carrier iron transporter; elevated in endometriosis; mediates pathological iron accumulation in lesions", pathway: "Iron Transport", cluster: 24 },
+    ]
+  },
+  {
+    title: "Oxidative Stress",
+    icon: "⚛️",
+    primaryCluster: 26,
+    genes: [
+      { name: "SOD / SOD2", role: "Superoxide dismutases; antioxidant enzymes; suppressed in endometriosis; SOD2 specifically suppressed by miR-199a-5p, linking oxidative stress to PDGF/VEGF upregulation", pathway: "Oxidative Stress", cluster: 26 },
+      { name: "GPX",       role: "Glutathione peroxidase family; antioxidant enzyme family; depleted in endometriosis; essential for ferroptosis resistance", pathway: "Oxidative Stress", cluster: 26 },
+      { name: "NQO1",      role: "NAD(P)H quinone oxidoreductase 1; NRF2-regulated antioxidant enzyme; reduced in oxidative stress contexts", pathway: "Oxidative Stress", cluster: 26 },
+      { name: "SESN2",     role: "Sestrin-2; NRF2 upstream activator; promotes antioxidant compensation in endometriosis stress response", pathway: "Oxidative Stress", cluster: 26 },
+      { name: "SIRT3 / SIRT5", role: "NAD⁺-dependent mitochondrial deacetylases; deficiency compromises mitochondrial antioxidant defense and bioenergetics", pathway: "Oxidative Stress/Metabolism", cluster: 26 },
+      { name: "ACOD1",     role: "Aconitase 1; elevated in macrophages; produces itaconate for immunosuppression and NRF2 pathway activation", pathway: "Immunomodulation", cluster: 18 },
+    ]
+  },
+  {
+    title: "Autophagy & Metabolic Reprogramming",
+    icon: "♻️",
+    primaryCluster: 2,
+    genes: [
+      { name: "AMPK",     role: "AMP-activated protein kinase; master regulator of autophagy and cellular energy; suppresses senescence; dysregulated in endometrial pathology", pathway: "Metabolic Signaling", cluster: 2 },
+      { name: "ULK1",     role: "Unc-51-like autophagy activating kinase 1; AMPK substrate; initiates autophagy; dysregulated in endometriosis-associated cellular stress", pathway: "Autophagy", cluster: 2 },
+      { name: "ATG5",     role: "Autophagy-related protein 5; upregulated by rapamycin; mediates autophagic flux; impaired in endometriosis", pathway: "Autophagy", cluster: 2 },
+      { name: "BECN1",    role: "Beclin-1; autophagy initiator; upregulated by rapamycin; permits canonical autophagic flux", pathway: "Autophagy", cluster: 2 },
+      { name: "LC3",      role: "Microtubule-associated protein light chain 3; autophagy marker; increased LC3-II/LC3-I ratio indicates autophagic flux", pathway: "Autophagy", cluster: 2 },
+      { name: "PINK1 / PARKIN", role: "PTEN-induced kinase 1 and E3 ubiquitin ligase; mitophagy co-mediators; contribute to mitochondrial quality control in reproductive homeostasis", pathway: "Autophagy", cluster: 2 },
+      { name: "GLUT1",    role: "Glucose transporter 1; upregulated in hypoxic ectopic tissue; essential carrier for Warburg effect aerobic glycolysis", pathway: "Metabolism", cluster: 2 },
+      { name: "LDHA",     role: "Lactate dehydrogenase A; upregulated in Warburg metabolism; sustains aerobic glycolysis and lactate production", pathway: "Metabolism", cluster: 2 },
+      { name: "HK2",      role: "Hexokinase 2; glycolytic enzyme; upregulated in hypoxic endometriotic tissue", pathway: "Metabolism", cluster: 2 },
+      { name: "PKM2",     role: "Pyruvate kinase M2; glycolytic enzyme; upregulated in Warburg metabolism; nuclear isoform drives gene expression", pathway: "Metabolism", cluster: 2 },
+      { name: "p300 / KAT2A / TIP60", role: "Histone acetyltransferases; mediate lactate-driven H3K18 and H4K12 lactylation, coupling glycolysis to epigenetic gene expression changes", pathway: "Epigenetic", cluster: 2 },
+      { name: "SUCNR1",   role: "Succinate receptor 1; peritoneal succinate activates HIF-1α; links metabolic reprogramming to inflammasome output", pathway: "Metabolism/Signaling", cluster: 2 },
+      { name: "PGC-1α",   role: "Peroxisome proliferator-activated receptor gamma coactivator 1-alpha; NAD⁺/SIRT-dependent mitochondrial biogenesis regulator", pathway: "Metabolism", cluster: 2 },
+    ]
+  },
+  {
+    title: "Epithelial-Mesenchymal Transition (EMT)",
+    icon: "🔄",
+    primaryCluster: 18,
+    genes: [
+      { name: "ZEB1 / ZEB2", role: "Zinc finger E-box binding homeobox proteins; master EMT transcription factors; upregulated through TGF-β and FAK/LIMK1 signaling; suppressed by miR-200 family", pathway: "EMT", cluster: 18 },
+      { name: "CDH1 (E-cadherin)", role: "Epithelial cadherin; downregulated in EMT; ZEB1/ZEB2-mediated transcriptional suppression enables invasion of ectopic lesions", pathway: "EMT", cluster: 18 },
+      { name: "TGF-β / TGFβ1", role: "Transforming growth factor-beta; drives fibroblast-to-myofibroblast transition; suppresses Wnt antagonists (WIF1); mediates fibrosis and EMT", pathway: "Fibrosis/EMT", cluster: 18 },
+      { name: "TGF-β3",  role: "Distinct TGF-β isoform; suppresses HOXA11; overexpressed from submucosal fibroids; drives tissue remodeling in adenomyosis", pathway: "Fibrosis", cluster: 18 },
+      { name: "SOX9",    role: "SRY-box transcription factor 9; upregulated upon PRICKLE1 loss; EMT driver promoting ectopic cell plasticity", pathway: "Transcription Factor", cluster: 18 },
+      { name: "FAK",     role: "Focal adhesion kinase; phosphorylates ZEB1; drives EMT-associated cytoskeletal reorganization", pathway: "Signaling", cluster: 18 },
+      { name: "LIMK1",   role: "LIM domain kinase 1; downstream of FAK; phosphorylates cofilin; regulates actin dynamics in EMT", pathway: "Signaling", cluster: 18 },
+      { name: "ROCK",    role: "Rho-associated kinase; Rho/ROCK/YAP-TAZ pathway drives fibroblast-to-myofibroblast transition and fibrosis", pathway: "Signaling", cluster: 18 },
+      { name: "GEF-H1",  role: "Guanine nucleotide exchange factor H1; stabilized by FTO m6A demethylase activity; activates RhoA-dependent cell migration", pathway: "Signaling", cluster: 2 },
+      { name: "RhoA",    role: "Ras homolog family member A; RhoA-dependent cell migration activated by GEF-H1 in ectopic stromal cells", pathway: "Signaling", cluster: 2 },
+      { name: "ACTN1 / CFL1 / EZR / MSN", role: "Cytoskeletal remodeling proteins (actinin-1, cofilin-1, ezrin, moesin); collectively upregulated in EMT-associated cytoskeletal reorganization in ectopic tissue", pathway: "Cytoskeleton", cluster: 18 },
+      { name: "WIF1",    role: "Wnt inhibitory factor 1; mRNA destabilized by METTL3 loss-mediated m6A depletion; loss unleashes Wnt-driven proliferation", pathway: "Wnt Inhibition", cluster: 2 },
+    ]
+  },
+  {
+    title: "Wnt & Hippo Signaling",
+    icon: "🌀",
+    primaryCluster: 3,
+    genes: [
+      { name: "FZD7",    role: "Frizzled-7 Wnt receptor; FZD7-Wnt/β-catenin activation suppresses ferroptosis resistance genes in ectopic lesions", pathway: "Wnt Signaling", cluster: 3 },
+      { name: "Notch",   role: "Notch signaling pathway; downregulation impairs FOXO1 activation; contributes to progesterone resistance and decidualization failure", pathway: "Signaling", cluster: 8 },
+      { name: "EphA2",   role: "Ephrin type-A receptor 2; promotes autophagy suppression in endometrial stem cells through a distinct mechanism from EphB4", pathway: "Signaling", cluster: 2 },
+      { name: "TEAD1",   role: "TEA domain transcription factor 1; YAP1 cofactor; regulates downstream Hippo target gene transcription", pathway: "Transcription Factor", cluster: 3 },
+    ]
+  },
+  {
+    title: "Non-coding RNA",
+    icon: "🧵",
+    primaryCluster: 31,
+    genes: [
+      { name: "miR-145",   role: "Downregulated in endometriosis; normally suppresses VEGF; loss permits pathological neovascularization of ectopic lesions", pathway: "microRNA", cluster: 31 },
+      { name: "miR-200 family", role: "Suppress EMT through ZEB1/ZEB2 targeting; consistently downregulated in endometriotic tissue enabling invasion", pathway: "microRNA", cluster: 31 },
+      { name: "miR-21",    role: "Highly elevated in endometriosis; suppresses PTEN; drives apoptosis resistance; upregulates NF-κB pathway", pathway: "microRNA", cluster: 31 },
+      { name: "miR-125b-5p", role: "Downregulated in patient exosomes; loss permits VEGFA expression; contributes to pathological angiogenesis", pathway: "microRNA", cluster: 31 },
+      { name: "miR-181c",  role: "Tumor-suppressive microRNA; downregulated in endometriosis; mediates GAS5 lncRNA–miR-181c–TIMP3 regulatory axis", pathway: "microRNA", cluster: 31 },
+      { name: "miR-92a-3p", role: "Detectable in urine exosomes as non-invasive biomarker; regulates neuroangiogenesis through ENA-78 and CGRP pathways", pathway: "microRNA", cluster: 31 },
+      { name: "miR-4748",  role: "Regulates neuroinflammatory pathways; links exosomal signaling to neuropathic pain in endometriosis", pathway: "microRNA", cluster: 31 },
+      { name: "miR-451",   role: "Context-dependent expression (downregulated in plasma, upregulated in lesions); modulates NF-κB, AMPK, and PI3K pathways", pathway: "microRNA", cluster: 31 },
+      { name: "GAS5",      role: "Growth arrest-specific 5 lncRNA; acts as miR-31-5p sponge in ovarian clear cell carcinoma; modulates ARID1A and TIMP3 expression", pathway: "Non-coding RNA", cluster: 31 },
+    ]
+  },
+  {
+    title: "Immune Dysfunction & Evasion",
+    icon: "🛡️",
+    primaryCluster: 18,
+    genes: [
+      { name: "CD138 (Syndecan-1)", role: "Plasma cell marker; immunohistochemical cornerstone for diagnosing chronic endometritis; elevated levels impair endometrial receptivity", pathway: "Immune Marker", cluster: 18 },
+      { name: "CD56 / CD16", role: "NK cell markers; reduced CD56bright subset predicts implantation failure and pregnancy loss in endometriosis patients", pathway: "Immune Marker", cluster: 18 },
+      { name: "FOXP3",    role: "Forkhead box P3; regulatory T cell master transcription factor; elevated but functionally impaired in endometriosis; genetic loci linked to disease susceptibility", pathway: "Transcription Factor", cluster: 18 },
+      { name: "KIR2DL1 / KIR3DL1", role: "Killer immunoglobulin-like inhibitory receptors; upregulated in endometriosis; suppress NK cytotoxicity against ectopic cells", pathway: "Immune Regulation", cluster: 18 },
+      { name: "NKG2A",    role: "Inhibitory NK group 2 member A; upregulated in endometriosis; suppresses NK cell activating signals", pathway: "Immune Regulation", cluster: 18 },
+      { name: "NKG2D",    role: "Activating NK group 2 member D; downregulated in endometriosis; impairs NK cytotoxic machinery against ectopic lesions", pathway: "Immune Regulation", cluster: 18 },
+      { name: "NKp46 / NKp30", role: "Natural cytotoxicity receptors; activating NK receptors; downregulated in endometriosis contributing to NK exhaustion", pathway: "Immune Regulation", cluster: 18 },
+      { name: "HLA-E / HLA-G", role: "Non-classical MHC molecules; expressed by ectopic lesions; engage inhibitory receptors on NK cells and T cells to suppress cytotoxicity", pathway: "Immune Evasion", cluster: 18 },
+      { name: "FasL",     role: "Fas ligand; secreted in extracellular vesicles from ectopic cells; suppresses immune effector cell viability", pathway: "Immune Evasion", cluster: 18 },
+      { name: "MICA / MICB", role: "MHC class I chain-related molecules A/B; shed in exosomes; desensitizes NK cell NKG2D receptor, impairing cytotoxicity", pathway: "Immune Evasion", cluster: 18 },
+      { name: "PD-L1",    role: "Programmed death-ligand 1; upregulated by ARID1A loss; mediates immune evasion; therapeutic target for checkpoint inhibitor therapy", pathway: "Immune Evasion", cluster: 18 },
+      { name: "CD47",     role: '"Don\'t eat me" signal expressed on ectopic small extracellular vesicles; suppresses macrophage phagocytosis', pathway: "Immune Evasion", cluster: 18 },
+      { name: "HAVCR2 (TIM-3)", role: "Hepatitis A virus cellular receptor 2; CD8+ T cell exhaustion marker; elevated in endometriosis immune microenvironment", pathway: "Immune Checkpoint", cluster: 18 },
+      { name: "TIGIT",    role: "T-cell immunoreceptor with Ig and ITIM domains; CD8+ T cell exhaustion marker; cooperates with TIM-3 in immune suppression", pathway: "Immune Checkpoint", cluster: 18 },
+      { name: "ARG1",     role: "Arginase-1; canonical M2 macrophage polarization marker; upregulated in endometriosis peritoneal macrophages", pathway: "Immunomodulation", cluster: 18 },
+      { name: "C3 / C7",  role: "Complement components; upregulated in endometriotic fibroblasts; drive alternative pathway complement activation around lesions", pathway: "Complement", cluster: 18 },
+    ]
+  },
+  {
+    title: "Apoptosis",
+    icon: "💀",
+    primaryCluster: 3,
+    genes: [
+      { name: "BCL2 / BCL-XL", role: "Anti-apoptotic BCL-2 family proteins; dysregulated ratios impair oocyte maturation and granulosa cell survival in endometriosis", pathway: "Apoptosis", cluster: 3 },
+      { name: "BAX",      role: "BCL2-associated X protein; pro-apoptotic; upregulated in granulosa cell apoptosis in endometriosis; ratios with BCL2 regulate cell fate", pathway: "Apoptosis", cluster: 3 },
+      { name: "Caspase-3", role: "Apoptosis effector caspase; upregulated in endometriosis-associated granulosa cell apoptosis; activated by TNF-α and TNFR1 engagement", pathway: "Apoptosis", cluster: 3 },
+      { name: "Caspase-8", role: "Apoptosis initiator caspase; engaged through TNFR1 death receptor pathway; suppressed by MEIS1 downregulation in ectopic tissue survival", pathway: "Apoptosis", cluster: 3 },
+      { name: "FAS",      role: "Fas cell surface death receptor (CD95); engagement triggers extrinsic apoptotic cascade; dysregulated in ectopic cells to resist immune clearance", pathway: "Apoptosis", cluster: 3 },
+      { name: "TNF-R1",   role: "Tumor necrosis factor receptor 1; MEIS1 downregulation impairs TNFR1-caspase-8-caspase-3 cascade in ectopic tissue", pathway: "Apoptosis Signaling", cluster: 3 },
+    ]
+  },
+  {
+    title: "Pain & Neuroinflammation",
+    icon: "🧠",
+    primaryCluster: 23,
+    genes: [
+      { name: "TRPV1",    role: "Transient receptor potential vanilloid 1; nociceptor sensitization; upregulated by NGF and IL-1β; contributes to visceral hypersensitivity", pathway: "Ion Channel/Nociception", cluster: 23 },
+      { name: "TRPA1",    role: "Transient receptor potential ankyrin 1; nociceptor sensitization; elevated in endometriosis-associated neuropathic pain", pathway: "Ion Channel/Nociception", cluster: 23 },
+      { name: "TRPV4",    role: "Transient receptor potential vanilloid 4; nociceptor sensitization; mediates visceral hypersensitivity in endometriosis", pathway: "Ion Channel/Nociception", cluster: 23 },
+      { name: "CGRP",     role: "Calcitonin gene-related peptide; neuropeptide; elevated in endometriosis-associated pain; CGRP/RAMP1/ERK pathway promotes lesion fibrosis", pathway: "Neuropeptide", cluster: 23 },
+      { name: "RAMP1",    role: "Receptor activity-modifying protein 1; CGRP receptor co-component; CGRP/RAMP1/ERK pathway drives fibrosis in painful endometriosis", pathway: "Signaling", cluster: 23 },
+      { name: "DRD2",     role: "Dopamine receptor D2; genetic locus shared across endometriosis, depression, and dopaminergic dysfunction; mediates pain-mood comorbidity", pathway: "Genetic", cluster: 32 },
+      { name: "PIK3R1",   role: "PI3K regulatory subunit; genetic correlation with depression in endometriosis; dopaminergic pathway involvement", pathway: "Genetic/Signaling", cluster: 32 },
+      { name: "IKZF1",    role: "IKAROS family zinc finger 1; genetic overlap with depression and endometriosis susceptibility", pathway: "Genetic/Transcription", cluster: 32 },
+    ]
+  },
+  {
+    title: "Cancer & Malignant Transformation",
+    icon: "⚠️",
+    primaryCluster: 28,
+    genes: [
+      { name: "JAZF1",    role: "JAZF zinc finger 1; JAZF1::SUZ12 chromosomal translocation defines low-grade endometrial stromal sarcoma", pathway: "Oncogene Fusion", cluster: 28 },
+      { name: "SUZ12",    role: "Polycomb repressive complex 2 member; fusion partner with JAZF1; JAZF1::SUZ12 fusion impairs chromatin-level tumor suppression", pathway: "Fusion Partner", cluster: 28 },
+      { name: "MLH1 / MSH2 / MSH6 / PMS2 (MMR)", role: "Mismatch repair genes; Lynch syndrome mutations; MMR-deficiency predicts immunotherapy response in endometriosis-associated cancers", pathway: "Tumor Suppressor", cluster: 28 },
+      { name: "POLE",     role: "DNA polymerase epsilon; POLE-mutated endometrioid cancers show excellent disease-free survival; ultra-mutator phenotype", pathway: "Tumor Suppressor", cluster: 28 },
+      { name: "NapsinA",  role: "Napsin A aspartic peptidase; immunohistochemical marker of endometriosis-associated clear cell ovarian carcinoma", pathway: "Diagnostic Marker", cluster: 28 },
+      { name: "HNF-1β",   role: "Hepatocyte nuclear factor-1 beta; overexpressed in clear cell ovarian carcinoma; used for immunohistochemical subtyping", pathway: "Diagnostic Marker", cluster: 28 },
+      { name: "AMACR",    role: "Alpha-methylacyl-CoA racemase; immunohistochemical marker of clear cell ovarian carcinoma arising from endometriosis", pathway: "Diagnostic Marker", cluster: 28 },
+      { name: "GATA3",    role: "GATA-binding protein 3; marker of mesonephric-like adenocarcinoma; absent in endometrioid mimics", pathway: "Diagnostic Marker", cluster: 28 },
+      { name: "PAX8",     role: "Paired box 8; Müllerian lineage marker; typically retained in endometriosis-associated carcinomas; aids subclassification", pathway: "Diagnostic Marker", cluster: 28 },
+      { name: "RASSF1A / OPCML / BRCA1", role: "Cell-free DNA methylation biomarkers; panels for endometriosis-associated ovarian cancer detection in liquid biopsy", pathway: "Biomarker", cluster: 28 },
+      { name: "HMGA2",    role: "High mobility group A2; somatic mutations in uterine fibroids; drives Wnt/β-catenin signaling; oncogene", pathway: "Oncogene", cluster: 28 },
+      { name: "MED12",    role: "Mediator complex subunit 12; somatic mutations in ~70% of uterine fibroids; activates Wnt/β-catenin through altered mediator function", pathway: "Oncogene/Transcription", cluster: 28 },
+    ]
+  },
+  {
+    title: "Biomarkers",
+    icon: "🔬",
+    primaryCluster: 16,
+    genes: [
+      { name: "CA-125",   role: "MUC16 carbohydrate antigen; elevated in endometriosis and many benign conditions; limited specificity; most validated diagnostic biomarker", pathway: "Biomarker", cluster: 16 },
+      { name: "HE4 (WFDC2)", role: "Human epididymis protein 4; superior specificity over CA-125 for discriminating endometriosis from malignancy", pathway: "Biomarker", cluster: 16 },
+      { name: "PAEP",     role: "Progestagen-associated endometrial protein; identified in plasma proteomics as endometriosis-specific biomarker", pathway: "Biomarker", cluster: 16 },
+      { name: "HMGB1",    role: "High-mobility group box protein 1; elevated in menstrual effluent; antibody-based biosensing shows diagnostic potential for early detection", pathway: "Biomarker", cluster: 16 },
+      { name: "CEA",      role: "Carcinoembryonic antigen; elevated in deep infiltrating endometriosis; used as prognostic marker", pathway: "Biomarker", cluster: 16 },
+      { name: "CA19-9",   role: "Carbohydrate antigen 19-9; elevated in endometriomas; combined with CA-125 improves diagnostic accuracy", pathway: "Biomarker", cluster: 16 },
+      { name: "TFPI2",    role: "Tissue factor pathway inhibitor 2; clear cell carcinoma-specific biomarker; unaffected by endometriosis (useful in differential diagnosis)", pathway: "Biomarker", cluster: 16 },
+    ]
+  },
+  {
+    title: "PCOS & Metabolic Overlap",
+    icon: "🔁",
+    primaryCluster: 27,
+    genes: [
+      { name: "DENND1A",  role: "DENN domain-containing protein 1A; PCOS genetic susceptibility; regulates androgen biosynthesis in theca cells", pathway: "Genetic", cluster: 27 },
+      { name: "LHCGR",    role: "Luteinizing hormone/choriogonadotropin receptor; PCOS susceptibility locus; elevated LH sensitivity drives hyperandrogenism", pathway: "Genetic", cluster: 27 },
+      { name: "INSR",     role: "Insulin receptor; PCOS susceptibility locus; mediates hyperinsulinemia-driven androgen overproduction", pathway: "Genetic", cluster: 27 },
+      { name: "NR4A1 / NR4A2", role: "Nuclear receptor subfamily 4A members; steroidogenic transcription factors; impaired in PCOS+endometriosis overlap", pathway: "Transcription Factor", cluster: 27 },
+      { name: "FOXA1",    role: "Forkhead box A1; steroidogenic transcription factor; impaired in PCOS-endometriosis comorbidity", pathway: "Transcription Factor", cluster: 27 },
+      { name: "JNK",      role: "c-Jun N-terminal kinase; PCOS insulin resistance mediator; IRS-1 serine phosphorylation impairs insulin signaling", pathway: "Signaling", cluster: 27 },
+      { name: "IRX3",     role: "Iroquois homeobox 3; PCOS-metabolic susceptibility locus; chromosomal neighbor to FTO", pathway: "Genetic", cluster: 27 },
+    ]
+  },
+  {
+    title: "Genetic Susceptibility",
+    icon: "🧩",
+    primaryCluster: 3,
+    genes: [
+      { name: "EFHB",     role: "EF-hand domain protein; genome-wide significant susceptibility locus for endometriosis in GWAS studies", pathway: "Genetic Susceptibility", cluster: 3 },
+      { name: "HGFAC",    role: "Hepatocyte growth factor activator; genetic susceptibility locus for endometriosis identified in GWAS", pathway: "Genetic Susceptibility", cluster: 3 },
+      { name: "BLK",      role: "B lymphocyte kinase; genetic locus shared across pain and immune phenotypes in endometriosis", pathway: "Genetic", cluster: 3 },
+      { name: "CADM2",    role: "Cell adhesion molecule-related protein 2; genetic locus for central sensitization and chronic pelvic pain in endometriosis", pathway: "Genetic", cluster: 32 },
+      { name: "UBE3A",    role: "Ubiquitin protein ligase E3A; genetic locus for shared neuroimmune phenotypes in endometriosis", pathway: "Genetic", cluster: 3 },
+    ]
+  },
+  {
+    title: "Microbiome",
+    icon: "🦠",
+    primaryCluster: 20,
+    genes: [
+      { name: "Lactobacillus crispatus", role: "Dominant protective vaginal/endometrial organism; maintains mucosal barrier integrity; suppresses pro-inflammatory signaling; depleted in endometriosis dysbiosis", pathway: "Microbiota", cluster: 20 },
+      { name: "Lactobacillus gasseri",   role: "Protective vaginal commensal; anti-inflammatory effects similar to L. crispatus; depleted in endometriosis", pathway: "Microbiota", cluster: 20 },
+      { name: "Fusobacterium nucleatum", role: "Gram-negative anaerobe; activates TGF-β signaling; directly promotes endometriotic lesion development in mouse models", pathway: "Microbiota", cluster: 20 },
+      { name: "Streptococcus agalactiae", role: "Group B Streptococcus; promotes lesion angiogenesis through L-carnitine-dependent VEGF upregulation", pathway: "Microbiota", cluster: 20 },
+      { name: "Gardnerella vaginalis",   role: "Pathogenic anaerobe; enriched in dysbiosis; associated with enhanced cervical cancer risk in endometriosis patients", pathway: "Microbiota", cluster: 20 },
+      { name: "Prevotella",              role: "Anaerobic gram-negative rod; enriched in endometriosis-associated dysbiosis; drives peritoneal inflammatory signals", pathway: "Microbiota", cluster: 20 },
+      { name: "Faecalibacterium prausnitzii", role: "Butyrate-producing commensal; depleted in endometriosis; short-chain fatty acid production suppresses inflammation", pathway: "Microbiota", cluster: 20 },
+      { name: "Bifidobacterium",         role: "Short-chain fatty acid producer; depleted in endometriosis; anti-inflammatory effects through butyrate signaling", pathway: "Microbiota", cluster: 20 },
+      { name: "Ruminococcus gnavus",     role: "β-glucuronidase producer; estrobolome dysregulation; deconjugates bound estrogens to perpetuate hyperestrogenism", pathway: "Microbiota", cluster: 20 },
+      { name: "Akkermansia muciniphila", role: "Mucosal barrier-reinforcing organism; paradoxical elevation in chronic endometritis; context-dependent function", pathway: "Microbiota", cluster: 20 },
+    ]
+  },
+];
+
+// ── Render ──────────────────────────────────────────────────────────────────────
+const container = document.getElementById('sections-container');
+let allRows = [];
+
+function clusterUrl(id) {
+  return `./index.html#cluster-${id}`;
+}
+
+function clusterLabel(id) {
+  return CLUSTER_LABELS[id] || `Cluster ${id}`;
+}
+
+function escHtml(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderSections() {
+  let totalGenes = 0;
+  container.innerHTML = SECTIONS.map(sec => {
+    totalGenes += sec.genes.length;
+    const rows = sec.genes.map((g, i) => {
+      const key = `${sec.title}-${i}`;
+      const link = clusterUrl(g.cluster);
+      const label = clusterLabel(g.cluster);
+      const searchable = (g.name + ' ' + g.role + ' ' + g.pathway + ' ' + sec.title).toLowerCase();
+      allRows.push({ key, searchable });
+      return `<tr class="gene-row" data-key="${key}" data-search="${searchable}">
+        <td><span class="gene-name">${escHtml(g.name)}</span></td>
+        <td class="gene-role">${escHtml(g.role)}</td>
+        <td><span class="gene-pathway">${escHtml(g.pathway)}</span></td>
+        <td><a class="gene-link" href="${link}" target="_blank">View Summary ›</a></td>
+      </tr>`;
+    }).join('');
+
+    return `<div class="section" data-title="${sec.title.toLowerCase()}">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="sh-icon">${sec.icon}</span>
+        <span class="sh-title">${sec.title}</span>
+        <span class="sh-meta">${sec.genes.length} gene${sec.genes.length !== 1 ? 's' : ''}</span>
+        <a class="sh-cluster" href="${clusterUrl(sec.primaryCluster)}" target="_blank" onclick="event.stopPropagation()">
+          ${clusterLabel(sec.primaryCluster)}
+        </a>
+        <span class="chev">▼</span>
+      </div>
+      <div class="section-body">
+        <table class="gene-table">
+          <thead>
+            <tr>
+              <th style="width:140px">Gene / Protein</th>
+              <th>Role in Endometriosis</th>
+              <th style="width:180px">Biological Pathway</th>
+              <th style="width:145px">Research Summary</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+
+  const totalCount = SECTIONS.reduce((s, sec) => s + sec.genes.length, 0);
+  document.getElementById('stat-genes').textContent = totalCount;
+  document.getElementById('total-count').textContent = totalCount;
+  document.getElementById('visible-count').textContent = totalCount;
+}
+
+function toggleSection(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+// Open all sections when searching
+function openAllSections() {
+  document.querySelectorAll('.section-header').forEach(h => {
+    h.classList.add('open');
+    h.nextElementSibling.classList.add('open');
+  });
+}
+
+function closeAllSections() {
+  document.querySelectorAll('.section-header').forEach(h => {
+    h.classList.remove('open');
+    h.nextElementSibling.classList.remove('open');
+  });
+}
+
+// ── Search ──────────────────────────────────────────────────────────────────────
+document.getElementById('search-bar').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  const rows = document.querySelectorAll('.gene-row');
+  let visible = 0;
+
+  if (!q) {
+    rows.forEach(r => r.classList.remove('hidden'));
+    closeAllSections();
+    document.getElementById('no-results').style.display = 'none';
+    document.getElementById('visible-count').textContent = allRows.length;
+    return;
+  }
+
+  openAllSections();
+  rows.forEach(r => {
+    const match = r.dataset.search.includes(q);
+    r.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+
+  // Hide sections with no visible rows
+  document.querySelectorAll('.section').forEach(sec => {
+    const anyVisible = [...sec.querySelectorAll('.gene-row')].some(r => !r.classList.contains('hidden'));
+    sec.style.display = anyVisible ? '' : 'none';
+  });
+
+  document.getElementById('visible-count').textContent = visible;
+  document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+});
+
+renderSections();
+</script>
+</body>
+</html>
