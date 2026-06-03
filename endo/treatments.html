@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treatment Reference — Endometriosis Research</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3348;
+    --accent: #7c6af7;
+    --accent2: #a78bfa;
+    --text: #e2e4ef;
+    --muted: #8b90a8;
+    --tag-bg: #1e2240;
+    --tag-text: #a78bfa;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+    --purple: #c084fc;
+    --teal: #2dd4bf;
+    --radius: 10px;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── Top nav ── */
+  #topnav {
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 40;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 54px;
+  }
+  #back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color .15s;
+    flex-shrink: 0;
+  }
+  #back-btn:hover { color: var(--accent2); }
+  #topnav-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent2);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  #topnav-sep { color: var(--border); flex-shrink: 0; }
+
+  #search-bar {
+    flex: 1;
+    max-width: 420px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 13px;
+    padding: 7px 12px;
+    outline: none;
+  }
+  #search-bar:focus { border-color: var(--accent); }
+  #search-bar::placeholder { color: var(--muted); }
+
+  /* ── Filter pills ── */
+  #filter-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 0 4px;
+  }
+  .filter-pill {
+    background: var(--tag-bg);
+    border: 1px solid #312e6e;
+    border-radius: 14px;
+    padding: 3px 11px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .1s, color .1s, border-color .1s;
+    flex-shrink: 0;
+  }
+  .filter-pill:hover { color: var(--text); border-color: var(--accent); }
+  .filter-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  #tx-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  #tx-count span { color: var(--accent2); font-weight: 700; }
+
+  /* ── Main content ── */
+  #main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 28px 60px;
+  }
+
+  /* ── Hero ── */
+  .hero { margin-bottom: 36px; }
+  .hero h1 { font-size: 26px; font-weight: 800; color: var(--accent2); margin-bottom: 8px; }
+  .hero p  { font-size: 14px; color: var(--muted); max-width: 760px; line-height: 1.7; }
+
+  /* ── Stats bar ── */
+  .stats-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .stat-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 18px;
+    min-width: 130px;
+  }
+  .stat-chip .val { font-size: 22px; font-weight: 800; color: var(--accent2); }
+  .stat-chip .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: .05em; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    align-items: center;
+  }
+  .legend-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
+
+  /* ── Section / card ── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .1s;
+    border-bottom: 1px solid transparent;
+  }
+  .section-header:hover { background: var(--surface2); }
+  .section-header.open  { border-bottom-color: var(--border); }
+  .section-header .sh-icon  { font-size: 18px; flex-shrink: 0; }
+  .section-header .sh-title { font-size: 14px; font-weight: 700; color: var(--accent2); flex: 1; }
+  .section-header .sh-meta  { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .section-header .sh-cluster {
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid #312e6e;
+    border-radius: 10px;
+    padding: 2px 9px;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: border-color .12s;
+  }
+  .section-header .sh-cluster:hover { border-color: var(--accent); }
+  .section-header .chev { color: var(--muted); font-size: 12px; transition: transform .2s; flex-shrink: 0; }
+  .section-header.open .chev { transform: rotate(180deg); }
+
+  .section-body { display: none; }
+  .section-body.open { display: block; }
+
+  /* ── Treatment table ── */
+  .tx-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .tx-table thead { background: var(--bg); }
+  .tx-table th {
+    text-align: left;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tx-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .tx-table tr:last-child td { border-bottom: none; }
+  .tx-table tr.tx-row:hover td { background: rgba(124, 106, 247, 0.04); }
+  .tx-table tr.hidden { display: none; }
+
+  .tx-name  {
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    min-width: 160px;
+  }
+  .tx-name .tx-aka {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+  }
+  .tx-effect { color: var(--text); line-height: 1.6; max-width: 500px; font-size: 13px; }
+  .tx-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent);
+    font-size: 12px;
+    text-decoration: none;
+    background: var(--tag-bg);
+    border: 1px solid #312e6e;
+    border-radius: 6px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    transition: border-color .12s, color .12s;
+  }
+  .tx-link:hover { border-color: var(--accent); color: var(--accent2); }
+
+  /* ── Evidence badges ── */
+  .ev-badge {
+    display: inline-block;
+    border-radius: 12px;
+    padding: 2px 9px;
+    font-size: 10.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    letter-spacing: .02em;
+  }
+  .ev-standard  { background: rgba(52,211,153,.15); color: var(--green);  border: 1px solid rgba(52,211,153,.3); }
+  .ev-clinical  { background: rgba(45,212,191,.15); color: var(--teal);   border: 1px solid rgba(45,212,191,.3); }
+  .ev-promising { background: rgba(251,191,36,.15);  color: var(--amber);  border: 1px solid rgba(251,191,36,.3); }
+  .ev-emerging  { background: rgba(96,165,250,.15);  color: var(--blue);   border: 1px solid rgba(96,165,250,.3); }
+  .ev-preclinical { background: rgba(192,132,252,.15); color: var(--purple); border: 1px solid rgba(192,132,252,.3); }
+  .ev-caution   { background: rgba(248,113,113,.15); color: var(--red);    border: 1px solid rgba(248,113,113,.3); }
+
+  /* ── No results ── */
+  #no-results {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 700px) {
+    #topnav { padding: 0 14px; gap: 10px; flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; }
+    #topnav-title { display: none; }
+    #topnav-sep   { display: none; }
+    #filter-row   { display: none; }
+    #main { padding: 20px 14px 48px; }
+    .hero h1 { font-size: 20px; }
+    .tx-table th:nth-child(3),
+    .tx-table td:nth-child(3) { display: none; }
+    .section-header .sh-cluster { display: none; }
+    .legend { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="topnav">
+  <a href="./index.html" id="back-btn"><span>←</span> Research Home</a>
+  <span id="topnav-sep">|</span>
+  <span id="topnav-title">Treatment Reference</span>
+  <input id="search-bar" type="text" placeholder="Search treatments, drugs, mechanisms…" autocomplete="off">
+  <div id="filter-row"></div>
+  <div id="tx-count">Showing <span id="visible-count">—</span> of <span id="total-count">—</span></div>
+</div>
+
+<div id="main">
+  <div class="hero">
+    <h1>Treatment Reference</h1>
+    <p>Every treatment, drug, supplement, surgical procedure, and intervention studied across 10,000+ endometriosis research articles — organized by category, with evidence levels and direct links to the AI-synthesized cluster reviews.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-chip"><div class="val" id="stat-total">—</div><div class="lbl">Treatments &amp; Interventions</div></div>
+    <div class="stat-chip"><div class="val" id="stat-standard">—</div><div class="lbl">Standard of Care</div></div>
+    <div class="stat-chip"><div class="val" id="stat-promising">—</div><div class="lbl">Promising / Emerging</div></div>
+    <div class="stat-chip"><div class="val">19</div><div class="lbl">Categories</div></div>
+  </div>
+
+  <div class="legend">
+    <span class="legend-label">Evidence:</span>
+    <span class="ev-badge ev-standard">Standard of Care</span>
+    <span class="ev-badge ev-clinical">Clinical Evidence</span>
+    <span class="ev-badge ev-promising">Promising</span>
+    <span class="ev-badge ev-emerging">Emerging</span>
+    <span class="ev-badge ev-preclinical">Preclinical</span>
+    <span class="ev-badge ev-caution">Safety Concerns</span>
+  </div>
+
+  <div id="sections-container"></div>
+  <div id="no-results">No treatments match your search.</div>
+</div>
+
+<script>
+const CLUSTER_LABELS = {
+  0:  "Reproductive Outcomes &amp; Endometrial Function",
+  2:  "Autophagy &amp; Metabolic Reprogramming",
+  3:  "Molecular Pathology &amp; Cancer",
+  4:  "Clinical Manifestations &amp; Diagnosis",
+  6:  "Clinical Presentations &amp; Imaging",
+  7:  "Inflammatory Mechanisms &amp; Angiogenesis",
+  8:  "Endometrial Dysfunction",
+  9:  "AI Applications in Diagnosis",
+  10: "Androgens &amp; IVF Outcomes",
+  11: "NLRP3 Inflammasome Signaling",
+  12: "Polyphenols &amp; Natural Compounds",
+  15: "Infertility &amp; Metabolic Dysfunction",
+  16: "Ovarian Cancer Biomarkers",
+  17: "Pharmacological Management",
+  18: "Inflammatory Immune Response",
+  20: "Microbiota &amp; Dysbiosis",
+  21: "Mental Health &amp; Sexual Function",
+  23: "Pain Management &amp; Quality of Life",
+  24: "Ferroptosis &amp; Oxidative Stress",
+  26: "Oxidative Stress &amp; Infertility",
+  27: "PCOS &amp; Insulin Resistance",
+  29: "Uterine Pathology &amp; Reproductive Health",
+  30: "Ectopic Pregnancy Management",
+  34: "Laparoscopic Hysterectomy",
+};
+
+// evidence keys: standard | clinical | promising | emerging | preclinical | caution
+const SECTIONS = [
+  {
+    title: "Progestins & Progesterone Modulators",
+    icon: "💊",
+    primaryCluster: 17,
+    treatments: [
+      {
+        name: "Dienogest",
+        effect: "Multi-mechanistic: suppresses gonadotropin secretion, induces endometrial atrophy, downregulates VEGF-driven angiogenesis, inhibits COX-2 and prostaglandin synthesis. Reduces dysmenorrhea, non-menstrual pain, dyspareunia, and endometrioma volume; normalizes CA-125. Favorable bone mineral density profile vs GnRH agonists.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "Levonorgestrel-releasing IUD",
+        aka: "Mirena",
+        effect: "Local progestogenic action reduces menstrual blood loss up to 86.8%; avoids systemic hypoestrogenism. Particularly advantageous in adenomyosis and endometriosis-associated abnormal uterine bleeding.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "Norethindrone acetate",
+        effect: "Add-back therapy combined with GnRH agonists; mitigates GnRH-induced bone mineral density loss while preserving analgesic efficacy for extended treatment windows.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "Norethisterone",
+        effect: "Add-back therapy combined with GnRH agonists to preserve bone mineral density. Used in conjunction with GnRH agonists to mitigate hypoestrogenism.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "Medroxyprogesterone acetate",
+        aka: "DMPA / Depo-Provera",
+        effect: "Systemic progestin therapy suppressing HPO axis and endometrial growth. Elevated intracranial meningioma risk (pooled OR 2.68), dose- and duration-dependent. Requires risk-benefit discussion.",
+        evidence: "caution", evidenceLabel: "Safety Concerns", cluster: 17
+      },
+      {
+        name: "Cyproterone acetate",
+        effect: "Progestin with anti-androgenic properties. Carries elevated intracranial meningioma risk (pooled OR 12.36), dose- and duration-dependent. Significant safety concerns limit use.",
+        evidence: "caution", evidenceLabel: "Safety Concerns", cluster: 17
+      },
+    ]
+  },
+  {
+    title: "GnRH Agonists & Antagonists",
+    icon: "🔬",
+    primaryCluster: 17,
+    treatments: [
+      {
+        name: "GnRH agonists (class)",
+        aka: "Leuprorelin, triptorelin, goserelin",
+        effect: "Suppress HPO axis; downregulate TGF-β/Smad3 fibrotic signaling; upregulate LIF, HOXA10, MEIS1, integrin αvβ3 improving endometrial receptivity. Improve implantation rates in frozen embryo transfer cycles. Initial estrogen flare limits use in some contexts. Standard 6-month treatment windows; require add-back therapy.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "Leuprorelin",
+        aka: "Lupron",
+        effect: "HPO axis suppression; dysmenorrhea relief with high efficacy. Relugolix showed numerically inferior pain reduction in direct comparison. Ovulation recovery within weeks post-treatment.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "Elagolix",
+        aka: "Orilissa",
+        effect: "Oral GnRH antagonist. Dose-dependent dysmenorrhea response (~78%), >65% opioid reduction, no estrogen flare. Allows extended treatment duration beyond 6-month limit of agonists. Requires add-back therapy (estradiol/norethindrone acetate) to prevent bone loss.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "Relugolix",
+        aka: "Myfembree (with add-back)",
+        effect: "Oral GnRH antagonist. Dose-dependent HPO axis inhibition, no estrogen flare, lower VTE risk vs ethinylestradiol alternatives. 48-month safety data shows mean bone density decrease <2% with add-back therapy. Comparable pain reduction to leuprorelin.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "Linzagolix",
+        aka: "Yselty",
+        effect: "Oral GnRH antagonist. Dose-dependent HPO axis inhibition with direct competitive blockade and no estrogen flare. Used in combination with add-back estradiol/progestin therapy.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 17
+      },
+    ]
+  },
+  {
+    title: "Aromatase Inhibitors & Estrogen Therapy",
+    icon: "⚗️",
+    primaryCluster: 17,
+    treatments: [
+      {
+        name: "Letrozole",
+        effect: "Suppresses local estrogen synthesis via CYP19A1 inhibition in ectopic lesions. Also studied for ectopic pregnancy management (suppresses placental estrogen and VEGF-mediated trophoblast proliferation). Comparable success to methotrexate with superior hepatic/hematological safety profile in some analyses.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 17
+      },
+      {
+        name: "Anastrozole",
+        effect: "Aromatase inhibitor suppressing local estrogen synthesis in ectopic tissue via CYP19A1 blockade; used when progestins/GnRH therapy has failed.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 17
+      },
+      {
+        name: "Transdermal estradiol",
+        effect: "Add-back therapy mitigating GnRH agonist-induced hypoestrogenism and bone loss when combined with progestin. Superior to oral route for ART endometrial preparation via first-pass bioavailability.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 0
+      },
+      {
+        name: "Vaginal estradiol",
+        effect: "Superior uterine first-pass bioavailability vs oral estradiol. Preferred formulation for endometrial preparation in ART frozen embryo transfer cycles in endometriosis patients.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 0
+      },
+    ]
+  },
+  {
+    title: "Androgen Supplementation",
+    icon: "🧪",
+    primaryCluster: 10,
+    treatments: [
+      {
+        name: "Transdermal testosterone",
+        effect: "Pre-IVF treatment for poor ovarian response. Upregulates FSH receptors in granulosa and theca cells, promotes preantral-to-antral follicle transition, amplifies gonadotropin responsiveness. Significantly improves live birth rates (OR 2.53) and clinical pregnancy rates (OR 2.17). Cochrane systematic review support.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 10
+      },
+      {
+        name: "DHEA",
+        aka: "Dehydroepiandrosterone",
+        effect: "Adrenal steroid precursor; improves endometrial thickness and clinical pregnancy rates but does not consistently improve live birth rates. Requires peripheral conversion to testosterone then estradiol. Less efficacious than testosterone per systematic reviews.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 10
+      },
+    ]
+  },
+  {
+    title: "NSAIDs & Pain Analgesics",
+    icon: "🩹",
+    primaryCluster: 23,
+    treatments: [
+      {
+        name: "NSAIDs (class)",
+        aka: "Ibuprofen, naproxen, mefenamic acid",
+        effect: "Inhibit COX-2 and prostaglandin synthesis; reduce PGF2α-mediated uterine ischemia and dysmenorrhea. First-line for pain management. Acupuncture shown more effective than NSAIDs as standalone and in combination.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 23
+      },
+      {
+        name: "Combined oral contraceptive pill",
+        aka: "COCP",
+        effect: "Suppresses ovulation and reduces endometrial proliferation; reduces dysmenorrhea and pelvic pain. First-line hormonal management for mild-moderate disease. Continuous regimens avoid hormonal withdrawal and breakthrough bleeding.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 17
+      },
+      {
+        name: "P2X3 receptor antagonist (filapixant)",
+        effect: "Targets P2X3 receptors activated by extracellular ATP in peripheral nociceptors; addresses nociceptive component distinct from central sensitization. Novel non-hormonal mechanism for pain management.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 17
+      },
+      {
+        name: "CGRP receptor antagonists",
+        effect: "Approved for migraine prophylaxis; rationally supported for endometriosis-associated pain and comorbid migraines via calcitonin gene-related peptide signaling suppression. Addresses female-predominant pain amplification phenotype.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 23
+      },
+    ]
+  },
+  {
+    title: "Targeted Molecular & Immunotherapy",
+    icon: "🎯",
+    primaryCluster: 3,
+    treatments: [
+      {
+        name: "PI3K/AKT/mTOR inhibitors",
+        effect: "Target the central oncogenic axis activated by PTEN loss and PIK3CA mutation in endometriosis-associated cancers. Rapamycin (mTOR inhibitor) upregulates ATG5/BECN1-mediated autophagy and attenuates ectopic lesion development in preclinical models.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 3
+      },
+      {
+        name: "PD-1 / PD-L1 checkpoint inhibitors",
+        effect: "Immune checkpoint blockade proposed for endometriosis-associated ovarian cancer subtypes (especially MMR-deficient and ARID1A-mutant cancers) based on PD-L1 upregulation and CD8+ T cell exhaustion markers. Currently in clinical trials for gynecologic malignancies.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 3
+      },
+      {
+        name: "IL-6 pathway inhibitors",
+        effect: "Targeted suppression of IL-6/STAT3/mTOR axis; suppress pro-inflammatory mediators; rational candidates for lesion suppression and cancer chemoprevention in endometriosis.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 18
+      },
+      {
+        name: "TNF-α pathway inhibitors",
+        effect: "Suppress pro-inflammatory TNF-α signaling. Emerging candidates for lesion suppression supported by elevated peritoneal TNF-α concentrations in endometriosis.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 18
+      },
+      {
+        name: "NLRP3 inflammasome inhibitors",
+        effect: "Target the central inflammasome sensor driving IL-1β/IL-18 release and pyroptotic cell death in endometriosis. Parthenolide and MCC950 demonstrate suppression in preclinical models.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 11
+      },
+      {
+        name: "Ferroptosis inducers",
+        effect: "Target ectopic cells' ferroptosis resistance (via GPX4/SLC7A11 axis); RSL3 and erastin suppress endometriotic cell survival in preclinical models. FZD7-Wnt/β-catenin blockade enhances ferroptosis sensitivity.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 24
+      },
+    ]
+  },
+  {
+    title: "Polyphenols & Flavonoids",
+    icon: "🌿",
+    primaryCluster: 12,
+    treatments: [
+      {
+        name: "Curcumin",
+        aka: "from Curcuma longa (turmeric)",
+        effect: "Suppresses NF-κB activation; reduces TNF-α, IL-1β, IL-6; activates NRF2/HO-1 antioxidant axis; suppresses oxidative stress; reduces ectopic lesion volume in rodent models. Bioavailability is limiting factor — liposomal formulations under study.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Quercetin",
+        effect: "Suppresses NF-κB and PI3K/AKT/mTOR; senolytic activity reduces ectopic lesion volume via AKT/ERK suppression and p53 upregulation; NLRP3 inflammasome suppression. Narrow therapeutic window — high concentrations paradoxically impair granulosa cell function.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Resveratrol",
+        aka: "from grapes, berries",
+        effect: "Suppresses NF-κB and PI3K/AKT/mTOR; preferential estrogen receptor beta agonism opposing ERα-driven proliferation; VEGF suppression; TGF-β/SMAD pathway interference. Clinical efficacy limited despite strong mechanistic rationale.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "EGCG",
+        aka: "Epigallocatechin gallate — from green tea",
+        effect: "Suppresses NF-κB; activates NRF2/HO-1; VEGF suppression; inhibits MMP activity; anti-angiogenic TGF-β/SMAD pathway interference. Pro-EGCG (prodrug variant) demonstrates improved bioavailability.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Luteolin",
+        aka: "from parsley, celery, artichoke",
+        effect: "Suppresses NF-κB activation; reduces TNF-α, IL-1β, IL-6 pro-inflammatory cytokine production in endometriosis models.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Baicalein / Baicalin",
+        aka: "from Scutellaria baicalensis (Chinese skullcap)",
+        effect: "Suppresses NF-κB; modulates PI3K/AKT/mTOR pathway; anti-inflammatory and anti-proliferative effects in ectopic stromal cells.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Kaempferol",
+        aka: "from kale, broccoli, tea",
+        effect: "Preferential estrogen receptor beta agonism opposing ERα-driven proliferative signaling; anti-inflammatory effects in endometriosis.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Parthenolide",
+        aka: "from feverfew",
+        effect: "NLRP3 inflammasome suppression; mechanistically couples inflammasome inhibition to AMPK/ULK1-mediated autophagy activation; addresses two intersecting pathogenic pathways simultaneously.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 11
+      },
+      {
+        name: "Fisetin",
+        aka: "from strawberries, apples, onions",
+        effect: "Activates NRF2/HO-1 antioxidant axis; counteracts elevated reactive oxygen species in endometriosis-associated oxidative damage.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 12
+      },
+      {
+        name: "Naringenin",
+        aka: "from citrus peel",
+        effect: "Modulates PI3K/AKT/mTOR pathway; anti-proliferative effects in ectopic stromal cells.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 12
+      },
+      {
+        name: "Polydatin / α-Cyperone / Astaxanthin",
+        effect: "Activate NRF2/HO-1 antioxidant axis; counteract elevated ROS in endometriosis-associated reproductive damage. Astaxanthin is a xanthophyll carotenoid with potent antioxidant properties.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 12
+      },
+    ]
+  },
+  {
+    title: "Phytoestrogens",
+    icon: "🌸",
+    primaryCluster: 12,
+    treatments: [
+      {
+        name: "Genistein",
+        aka: "from soy",
+        effect: "Preferential estrogen receptor beta agonism opposing ERα-driven endometriosis proliferation. Anti-proliferative and anti-inflammatory in ectopic tissue. Clinical efficacy variable; soy dietary sources provide lower doses than supplements.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Daidzein",
+        aka: "from soy",
+        effect: "Preferential ERβ modulation opposing ERα-driven proliferative signaling central to endometriosis pathogenesis.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Enterolactone",
+        aka: "gut metabolite from flaxseed lignans",
+        effect: "Consistently lower levels found in endometriosis patients. Represents a protective phytoestrogen metabolite with gut microbiome-dependent bioavailability; supports increasing dietary lignan intake.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 20
+      },
+    ]
+  },
+  {
+    title: "Vitamins, Minerals & Antioxidants",
+    icon: "💊",
+    primaryCluster: 12,
+    treatments: [
+      {
+        name: "Vitamin D (cholecalciferol / calcitriol)",
+        effect: "Inhibits NF-κB through VDR-mediated IκBα stabilization; suppresses NLRP3 inflammasome; reduces ectopic lesion volume in rodent models. Deficiency prevalent in endometriosis patients. Consistent mechanistic benefits; clinical evidence variable across populations.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Vitamin C (ascorbic acid)",
+        effect: "Activates NRF2/HO-1 antioxidant axis; attenuates ROS-mediated reproductive damage in preclinical models; replenishes depleted antioxidant capacity seen in endometriosis-associated follicular fluid.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 26
+      },
+      {
+        name: "Vitamin E (tocopherol)",
+        effect: "Activates NRF2/HO-1 antioxidant axis; attenuates ROS-mediated reproductive damage. Paradox: excess supplementation may accelerate tumor growth despite protective effects at adequate intake — dose is critical.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 26
+      },
+      {
+        name: "N-acetylcysteine (NAC)",
+        effect: "Replenishes glutathione stores (depleted in endometriosis); activates NRF2/HO-1 transcriptional axis; attenuates ROS-mediated reproductive damage; preclinical reduction in ectopic lesion volume.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 26
+      },
+      {
+        name: "Melatonin",
+        effect: "Activates NRF2/HO-1 axis; pharmacologically improves ROS mitigation; suppresses HPA axis dysregulation; counteracts elevated ROS; addresses oxidative stress and neuroendocrine dysfunction simultaneously. Reduces lesion burden in animal models.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 26
+      },
+      {
+        name: "Coenzyme Q10 (CoQ10 / Ubiquinone)",
+        effect: "Activates NRF2/HO-1 axis; enhances mitochondrial bioenergetics via electron transport chain participation; activates NAD⁺-sirtuin pathway. Attenuates ROS-mediated reproductive damage; particularly beneficial for mitochondrial dysfunction in ectopic tissue.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 26
+      },
+      {
+        name: "Zinc",
+        effect: "ZIP10-dependent zinc homeostasis governs GLI1 nuclear localization and decidualization. Component of oxidative balance score correlating with reduced infertility odds. Supplementation studies show benefit in restoring compromised antioxidant defense.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 26
+      },
+      {
+        name: "Magnesium",
+        effect: "Component of the dietary oxidative balance score; higher intake correlates with reduced infertility odds. Anti-inflammatory and anti-spasmodic effects may reduce dysmenorrhea.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Carotenoids (β-carotene, lycopene)",
+        effect: "Component of dietary oxidative balance score correlating with reduced infertility odds. Antioxidant properties support NRF2 pathway; dietary sources include tomatoes, carrots, and leafy greens.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+    ]
+  },
+  {
+    title: "Omega-3 Fatty Acids & Lipid Supplements",
+    icon: "🐟",
+    primaryCluster: 12,
+    treatments: [
+      {
+        name: "Omega-3 polyunsaturated fatty acids",
+        aka: "EPA, DHA — from fish oil, flaxseed",
+        effect: "Inhibit NF-κB; reduce TNF-α, IL-6, IL-1β, and C-reactive protein in preclinical models. CLINICAL PARADOX: failed to produce statistically significant pain improvements across multiple RCTs despite clear biochemical efficacy — representing a major translational gap. Some studies report clinically meaningful pain reductions. Anti-inflammatory dietary benefit likely.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+    ]
+  },
+  {
+    title: "Traditional & Herbal Medicine",
+    icon: "🌱",
+    primaryCluster: 12,
+    treatments: [
+      {
+        name: "Myrrh",
+        aka: "Commiphora myrrha resin",
+        effect: "Induces selective apoptosis in endometriotic stromal cells through ER stress (upregulates ATF4/ATF6/DDIT3); exploits endoplasmic reticulum stress pathways. Mechanistic validation emerging but requires cell-type specificity (granulosa cell caution).",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 12
+      },
+      {
+        name: "Astragaloside IV",
+        aka: "from Astragalus membranaceus (Huáng Qí)",
+        effect: "Suppresses NF-κB activation; reduces TNF-α, IL-1β, IL-6 in endometriosis models.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 12
+      },
+      {
+        name: "Traditional Chinese medicine formulations",
+        effect: "Multi-herb combinations with network pharmacological mechanisms including PI3K-Akt, cAMP, and AGE-RAGE cascades. Network pharmacology characterization emerging but prospective clinical trial data limited. Historically used for dysmenorrhea.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 12
+      },
+      {
+        name: "Cannabidiol (CBD)",
+        effect: "Anti-inflammatory activity through NF-κB and NRF2 modulation at therapeutic concentrations. Hepatotoxicity dose-dependently. Complete absence of RCTs in endometriosis precludes definitive conclusions.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 12
+      },
+      {
+        name: "Endocannabinoid system modulators (CB1/CB2 ligands)",
+        effect: "Aberrant CB1/CB2 receptor expression in ectopic endometrial tissue. Anti-inflammatory, antiproliferative, and analgesic properties in preclinical models. No clinical trials conducted yet in endometriosis.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 23
+      },
+    ]
+  },
+  {
+    title: "Microbiome Therapies",
+    icon: "🦠",
+    primaryCluster: 20,
+    treatments: [
+      {
+        name: "Therapeutic synbiotic (multi-strain + inulin)",
+        aka: "Bifidobacterium longum + L. acidophilus + L. rhamnosus + inulin",
+        effect: "Demonstrated reductions in serum IL-6, TNF-α, LPS, and estradiol in controlled endometriosis clinical trials. Supports tight junction integrity, reduces intestinal permeability, and suppresses estrobolome-driven hyperestrogenism.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 20
+      },
+      {
+        name: "Lactobacillus acidophilus",
+        effect: "Lactic acid production maintains epithelial barrier integrity through tight junction reinforcement (claudin-1, ZO-1, occludin). Component of synbiotic formulations demonstrating cytokine and estradiol reductions.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 20
+      },
+      {
+        name: "Lactobacillus rhamnosus",
+        effect: "Epithelial barrier maintenance and tight junction support. Component of synbiotic formulations demonstrating reductions in IL-6, TNF-α, LPS, and estradiol in endometriosis patients.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 20
+      },
+      {
+        name: "Clostridium butyricum",
+        effect: "Butyrate-producing probiotic with multi-target effects: histone deacetylase inhibition, regulatory T cell induction, tight junction reinforcement, NF-κB-driven IL-6/TNF-α/PGE2 suppression.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 20
+      },
+      {
+        name: "Fecal microbiota transplantation (FMT)",
+        effect: "Direct transfer of diverse microbiota from healthy donors mitigates ectopic lesion development. Causal evidence in mouse models (endometriosis patient donor FMT induces larger lesions in recipients). Human trials very limited.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 20
+      },
+      {
+        name: "Inulin (prebiotic fiber)",
+        effect: "Fermentable prebiotic supporting SCFA-producing bacteria growth; component of synbiotic formulations demonstrating inflammatory marker and estradiol reductions in endometriosis patients.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 20
+      },
+      {
+        name: "4-Hydroxyindole (tryptophan metabolite)",
+        effect: "Gut microbiome-derived metabolite; markedly reduced in endometriosis patients. Suppresses macrophage infiltration, NF-κB activation, and expression of IGF-1, TGF-β1, GATA3 in experimental models. May be restorable by diet and probiotic intervention.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 20
+      },
+    ]
+  },
+  {
+    title: "Dietary Interventions",
+    icon: "🥗",
+    primaryCluster: 23,
+    treatments: [
+      {
+        name: "Mediterranean diet",
+        effect: "Modulates circulating estrogen and systemic inflammation. Demonstrates consistent symptomatic benefit for endometriosis pain management across observational and interventional studies.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 23
+      },
+      {
+        name: "MIND diet",
+        aka: "Mediterranean-DASH Intervention for Neurodegenerative Delay",
+        effect: "Modulates circulating estrogen and systemic inflammation; demonstrates symptomatic benefit; particularly beneficial for cognitive function and neuroprotective effects in endometriosis-associated mental health comorbidities.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 23
+      },
+      {
+        name: "Low-FODMAP diet",
+        effect: "Improves visceral hypersensitivity via gut-brain axis modulation. Consistent symptomatic benefit, particularly helpful for comorbid IBS (present in ~20-25% of endometriosis patients).",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 23
+      },
+      {
+        name: "Anti-inflammatory diet (general pattern)",
+        effect: "Reduces circulating IL-6, TNF-α, and CRP. Up to 70% reduction in infertility odds with adherence. Benefits partially mediated through BMI and serum uric acid reductions. Emphasizes low glycemic load, polyphenol-rich foods, minimal processed foods.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 15
+      },
+    ]
+  },
+  {
+    title: "Surgical Procedures",
+    icon: "🔪",
+    primaryCluster: 34,
+    treatments: [
+      {
+        name: "Laparoscopic excision of deep infiltrating endometriosis",
+        aka: "DIE excision",
+        effect: "Excision with clear margins; gold standard for deep infiltrating, bowel, and extrapelvic disease. Improves pain outcomes. Paradoxically reduces AMH and antral follicle counts. Combined postoperative hormonal suppression (GnRH agonists → dienogest) reduces recurrence.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 6
+      },
+      {
+        name: "Laparoscopic ovarian cystectomy",
+        aka: "endometrioma excision",
+        effect: "Reduces recurrence and improves spontaneous pregnancy rates. Paradoxically reduces AMH and antral follicle counts by up to 62.2% in some series. Pre-treatment cystectomy does not improve live birth rates in IVF/ICSI cycles — central clinical paradox of endometriosis surgery.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 4
+      },
+      {
+        name: "Segmental rectal resection",
+        effect: "For bowel endometriosis with full-thickness infiltration. Associated with lower pregnancy rates and higher complication rates in some series vs shaving. No consensus on optimal surgical strategy.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 6
+      },
+      {
+        name: "Rectosigmoid shaving",
+        effect: "For bowel endometriosis; reduced morbidity vs segmental resection. May be technically limited by lesion size. Increasingly preferred in appropriately selected patients.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 6
+      },
+      {
+        name: "Total laparoscopic hysterectomy (TLH)",
+        effect: "Reference standard for minimally invasive hysterectomy in endometriosis. Reduces estimated blood loss, postoperative pain, hospitalization vs open approaches. Early uterine artery ligation and retroperitoneal space development reduce operative time and ureteral injury.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 34
+      },
+      {
+        name: "Laparoscopic supracervical hysterectomy (LSCH)",
+        effect: "Lower major complication rate vs TLH (1.5% vs 3.7%) by reducing dissection near ureter/bladder. Carries 5–10% rate of persistent cyclic spotting from retained cervical endometrial tissue.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 34
+      },
+      {
+        name: "Robotic-assisted hysterectomy",
+        aka: "da Vinci, Hugo RAS, Versius, DEXTER",
+        effect: "3D visualization, wristed instrumentation, tremor filtration facilitate dissection in anatomically distorted fields. Minimal blood loss and low conversion rates in experienced hands. Longer operative times vs conventional laparoscopy. ENDORAS trial ongoing for DIE comparison.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 34
+      },
+      {
+        name: "vNOTES hysterectomy",
+        aka: "vaginal natural orifice transluminal endoscopic surgery",
+        effect: "Demonstrates advantages in operative time, hemoperitoneum drainage, and postoperative pain vs conventional approaches in select patients. Emerging alternative for minimally invasive hysterectomy.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 34
+      },
+      {
+        name: "Opportunistic bilateral salpingectomy",
+        effect: "Performed concurrently with hysterectomy. Reduces high-grade serous ovarian carcinoma risk by approximately 80%. Widely endorsed as cancer-prevention adjunct in endometriosis surgery.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 34
+      },
+    ]
+  },
+  {
+    title: "Intraoperative Technologies",
+    icon: "🔦",
+    primaryCluster: 34,
+    treatments: [
+      {
+        name: "ICG near-infrared fluorescence imaging",
+        aka: "Indocyanine green ureteral visualization",
+        effect: "Retrograde ureteral injection enables real-time fluorescent visualization during endometriosis hysterectomy. Reduces iatrogenic ureteral injury to below 1% when systematically implemented. Benefits observed across all surgeon experience levels.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 34
+      },
+      {
+        name: "Harmonic scalpel (ultrasonic energy device)",
+        effect: "Significantly less collateral thermal damage vs monopolar hook electrocautery. Preferred for endometriosis surgery where inflammatory fibrosis compromises tissue planes and proximity to ureter/bowel increases burn risk.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 34
+      },
+      {
+        name: "Ultrasound-guided cryoablation",
+        aka: "for abdominal wall endometriosis",
+        effect: "Outcomes comparable to formal surgical excision for abdominal wall endometriosis. Minimally invasive alternative avoiding open surgery; prospective long-term data absent.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 6
+      },
+      {
+        name: "Ultrasound-guided microwave ablation",
+        aka: "for abdominal wall endometriosis",
+        effect: "Outcomes comparable to formal surgical excision for abdominal wall endometriosis. Minimally invasive ablative alternative; prospective long-term validation absent.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 6
+      },
+    ]
+  },
+  {
+    title: "ART & Fertility Procedures",
+    icon: "🌱",
+    primaryCluster: 0,
+    treatments: [
+      {
+        name: "Natural cycle frozen embryo transfer (NC-FET)",
+        effect: "Preserves physiological corpus luteum function. Consistently outperforms artificial/programmed FET by ~13 percentage points in live birth rates. Provides superior angiogenic support (relaxin, pregnancy-associated plasma protein-A) and reduces threatened abortion and recurrent pregnancy loss in endometriosis.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 0
+      },
+      {
+        name: "Blastocyst-stage embryo transfer (Day 5)",
+        effect: "Uniformly outperforms cleavage-stage and day 6 transfer across multiple cohorts. Late-hatching blastocysts carry additional prognostic disadvantage. Dominant determinant of implantation success approaching 95% under optimized conditions.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 0
+      },
+      {
+        name: "PGT-A (preimplantation genetic testing for aneuploidy)",
+        effect: "Embryo euploidy status is the dominant determinant of implantation success (~95% implantation for euploid embryos). Addresses aneuploidy contribution to recurrent implantation failure in endometriosis. Widely adopted in IVF cycles.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 0
+      },
+      {
+        name: "ERA-guided personalized embryo transfer",
+        aka: "Endometrial Receptivity Analysis",
+        effect: "Corrects displaced implantation window in ~51% of recurrent implantation failure cases. Personalizes day of embryo transfer based on endometrial transcriptomic profile.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 0
+      },
+      {
+        name: "Transdermal testosterone pre-treatment (IVF)",
+        effect: "Pre-IVF androgen priming for poor ovarian response. Upregulates FSH receptors, promotes follicle development, and amplifies gonadotropin responsiveness. Cochrane-supported improvement in live birth rates (OR 2.53).",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 10
+      },
+      {
+        name: "Personalized immune profiling + targeted immunomodulation",
+        effect: "Targets aberrant IL-18/TWEAK and IL-15/Fn-14 ratios with subsequent individualized immunomodulation. Improved live birth rates from ~30% to 41% in proof-of-concept study for immunological recurrent implantation failure.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 0
+      },
+    ]
+  },
+  {
+    title: "Antibiotics for Chronic Endometritis",
+    icon: "🧫",
+    primaryCluster: 8,
+    treatments: [
+      {
+        name: "Azithromycin",
+        effect: "Eradicates CD138-positive plasma cell infiltration (diagnostic marker of chronic endometritis). Reproducibly improves conception rates from ~20–44% to 53–85% in treated populations. Replicated across multiple independent cohorts.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 8
+      },
+      {
+        name: "Doxycycline",
+        effect: "Eradicates bacterial pathogens causing chronic endometritis (E. coli, Streptococcus, Enterococcus faecalis, Mycoplasma, Ureaplasma). Combined doxycycline + probiotic therapy achieved clinical pregnancy in 88.9% in one cohort. Some contradictory evidence on conventional antibiotic efficacy alone.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 8
+      },
+    ]
+  },
+  {
+    title: "Intrauterine & Biologic Therapies",
+    icon: "💉",
+    primaryCluster: 0,
+    treatments: [
+      {
+        name: "Intrauterine platelet-rich plasma (PRP)",
+        effect: "Highest-ranked intrauterine therapy in network meta-analyses for recurrent implantation failure. Contains growth factors (VEGF, TGF-β, PDGF, EGF) supporting endometrial regeneration and angiogenesis.",
+        evidence: "promising", evidenceLabel: "Promising", cluster: 0
+      },
+      {
+        name: "G-CSF intrauterine infusion",
+        aka: "Granulocyte colony-stimulating factor",
+        effect: "Immunomodulatory cytokine infusion proposed for recurrent implantation failure; stimulates endometrial proliferation and NK cell regulation. Mechanistically plausible with emerging clinical data.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 0
+      },
+      {
+        name: "Methotrexate (ectopic pregnancy)",
+        effect: "First-line medical management for unruptured ectopic pregnancy. Inhibits rapidly dividing trophoblastic cells. Hepatotoxicity and hematological toxicity limit use in patients with pre-existing conditions. Letrozole comparable in some studies with superior safety profile.",
+        evidence: "standard", evidenceLabel: "Standard of Care", cluster: 30
+      },
+      {
+        name: "Glutathione-responsive polymersome-encapsulated methotrexate",
+        effect: "Nanomedicine platform allowing 6-fold dose reduction with preserved trophoblastic efficacy and absent hepatic/renal toxicity in murine models. Compelling strategy for expanding methotrexate therapeutic window in ectopic pregnancy.",
+        evidence: "preclinical", evidenceLabel: "Preclinical", cluster: 30
+      },
+    ]
+  },
+  {
+    title: "Neuromodulation & Pain Procedures",
+    icon: "⚡",
+    primaryCluster: 23,
+    treatments: [
+      {
+        name: "Sacral neuromodulation",
+        effect: "Reduces median pain scores from 7.4 to 2.3; 88% achieve sustained relief. Particularly beneficial for comorbid bladder pain and visceral pain phenotypes. Durable results at 12-month follow-up.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 23
+      },
+      {
+        name: "Dorsal root ganglion (DRG) stimulation",
+        effect: "Produces 80–100% pain reductions in relevant visceral pain conditions. Targets pain signaling at the ganglion level, closer to the source than spinal cord stimulation. Strong mechanistic and clinical data for central sensitization.",
+        evidence: "emerging", evidenceLabel: "Emerging", cluster: 23
+      },
+      {
+        name: "Superior hypogastric plexus block",
+        effect: "Interrupts sympathetic nociceptive transmission at L5-S1 nerve roots; achieves approximately 70% visceral pelvic pain reduction. Particularly beneficial for refractory endometriosis-associated pelvic pain.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 23
+      },
+      {
+        name: "Acupuncture / Electroacupuncture",
+        effect: "SUCRA 83.0% in network meta-analyses for endometriosis pain. Mechanisms: β-endorphin release, prostaglandin suppression, enhanced pelvic perfusion, normalization of insular and anterior cingulate cortex pain-processing. Additively reduces CA-125 when combined with GnRH agonists. Paradox: fails to beat sham acupuncture at 3-month follow-up despite short-term superiority.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 23
+      },
+    ]
+  },
+  {
+    title: "Physical Therapies & Lifestyle",
+    icon: "🏃",
+    primaryCluster: 23,
+    treatments: [
+      {
+        name: "Strength training / aerobic exercise",
+        effect: "≥8 weeks at >3 sessions/week. Reduces PGF2α, suppresses pro-inflammatory cytokines, stimulates endogenous opioid release, activates descending spinal inhibitory pathways. SUCRA 71.0% for pain in network meta-analyses. Improves pain intensity, depression, anxiety, fatigue. Most consistently efficacious single intervention.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 23
+      },
+      {
+        name: "Yoga",
+        effect: "Consistent benefits for pain reduction, pelvic floor muscle function, and psychological outcomes. Mechanisms: anti-inflammatory effects, estradiol reduction, improved genital blood flow, neuromuscular normalization.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 21
+      },
+      {
+        name: "Pilates",
+        effect: "Consistent benefits for pain reduction, pelvic floor muscle function, and psychological outcomes. Beneficial for core strength and pelvic floor rehabilitation in endometriosis.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 21
+      },
+      {
+        name: "Cognitive-behavioral therapy (CBT)",
+        effect: "Targets catastrophizing, fear-avoidance, and kinesiophobia. Consistently reduces pain, depression, and cortisol levels across digital, VR, and in-person interdisciplinary delivery formats.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 21
+      },
+      {
+        name: "Mindfulness-based interventions",
+        effect: "Self-compassion and mindfulness independently protect against inflammatory stress responses. Neurobiological validation emerging; reduces HPA-axis hyperactivation associated with chronic pain in endometriosis.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 21
+      },
+      {
+        name: "Multidisciplinary pain programs",
+        effect: "Outperform single-discipline care for pain intensity and sexual function. Integrate physical therapy, psychology, and medical management. May not show statistically significant QoL improvements in all meta-analyses.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 23
+      },
+      {
+        name: "Pelvic floor physical therapy",
+        effect: "Addresses pelvic floor muscle hypertonicity common in endometriosis-associated dyspareunia. Internal and external manual techniques combined with neuromuscular re-education.",
+        evidence: "clinical", evidenceLabel: "Clinical Evidence", cluster: 23
+      },
+    ]
+  },
+];
+
+// ── Render ──────────────────────────────────────────────────────────────────────
+const container = document.getElementById('sections-container');
+let allRows = [];
+let activePill = 'all';
+
+const EVIDENCE_CONFIG = {
+  standard:   { label: 'Standard of Care', cls: 'ev-standard' },
+  clinical:   { label: 'Clinical Evidence', cls: 'ev-clinical' },
+  promising:  { label: 'Promising',         cls: 'ev-promising' },
+  emerging:   { label: 'Emerging',          cls: 'ev-emerging' },
+  preclinical:{ label: 'Preclinical',       cls: 'ev-preclinical' },
+  caution:    { label: 'Safety Concerns',   cls: 'ev-caution' },
+};
+
+function clusterUrl(id) { return `./index.html#cluster-${id}`; }
+function clusterLabel(id) { return CLUSTER_LABELS[id] || `Cluster ${id}`; }
+function escHtml(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderSections() {
+  let totalTx = 0;
+  container.innerHTML = SECTIONS.map(sec => {
+    totalTx += sec.treatments.length;
+    const rows = sec.treatments.map((t, i) => {
+      const ev = EVIDENCE_CONFIG[t.evidence] || EVIDENCE_CONFIG.promising;
+      const searchable = (t.name + ' ' + (t.aka || '') + ' ' + t.effect + ' ' + sec.title + ' ' + t.evidence).toLowerCase();
+      allRows.push({ searchable, evidence: t.evidence });
+      const akaHtml = t.aka ? `<span class="tx-aka">${escHtml(t.aka)}</span>` : '';
+      return `<tr class="tx-row" data-evidence="${t.evidence}" data-search="${searchable}">
+        <td class="tx-name">${escHtml(t.name)}${akaHtml}</td>
+        <td class="tx-effect">${escHtml(t.effect)}</td>
+        <td><span class="ev-badge ${ev.cls}">${ev.label}</span></td>
+        <td><a class="tx-link" href="${clusterUrl(t.cluster)}" target="_blank">View Summary ›</a></td>
+      </tr>`;
+    }).join('');
+
+    return `<div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <span class="sh-icon">${sec.icon}</span>
+        <span class="sh-title">${escHtml(sec.title)}</span>
+        <span class="sh-meta">${sec.treatments.length} treatment${sec.treatments.length !== 1 ? 's' : ''}</span>
+        <a class="sh-cluster" href="${clusterUrl(sec.primaryCluster)}" target="_blank" onclick="event.stopPropagation()">
+          ${clusterLabel(sec.primaryCluster)}
+        </a>
+        <span class="chev">▼</span>
+      </div>
+      <div class="section-body">
+        <table class="tx-table">
+          <thead>
+            <tr>
+              <th style="width:190px">Treatment</th>
+              <th>Effect / Mechanism</th>
+              <th style="width:155px">Evidence Level</th>
+              <th style="width:145px">Research Summary</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('stat-total').textContent = totalTx;
+  document.getElementById('total-count').textContent = totalTx;
+  document.getElementById('visible-count').textContent = totalTx;
+
+  const standardCount = allRows.filter(r => r.evidence === 'standard').length;
+  const promisingCount = allRows.filter(r => ['promising','emerging','preclinical'].includes(r.evidence)).length;
+  document.getElementById('stat-standard').textContent = standardCount;
+  document.getElementById('stat-promising').textContent = promisingCount;
+
+  renderFilterPills();
+}
+
+function toggleSection(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+function openAllSections() {
+  document.querySelectorAll('.section-header').forEach(h => {
+    h.classList.add('open');
+    h.nextElementSibling.classList.add('open');
+  });
+}
+function closeAllSections() {
+  document.querySelectorAll('.section-header').forEach(h => {
+    h.classList.remove('open');
+    h.nextElementSibling.classList.remove('open');
+  });
+}
+
+// ── Filter pills ─────────────────────────────────────────────────────────────
+const PILLS = [
+  { key: 'all',        label: 'All' },
+  { key: 'standard',  label: 'Standard of Care' },
+  { key: 'clinical',  label: 'Clinical Evidence' },
+  { key: 'promising', label: 'Promising' },
+  { key: 'emerging',  label: 'Emerging' },
+  { key: 'preclinical',label: 'Preclinical' },
+  { key: 'caution',   label: 'Safety Concerns' },
+];
+
+function renderFilterPills() {
+  const row = document.getElementById('filter-row');
+  row.innerHTML = PILLS.map(p =>
+    `<span class="filter-pill ${p.key === activePill ? 'active' : ''}" onclick="setFilter('${p.key}')">${p.label}</span>`
+  ).join('');
+}
+
+function setFilter(key) {
+  activePill = key;
+  document.querySelectorAll('.filter-pill').forEach(p => {
+    p.classList.toggle('active', p.textContent.trim() === PILLS.find(x => x.key === key)?.label);
+  });
+  applyFilters();
+}
+
+// ── Search + filter ──────────────────────────────────────────────────────────
+const searchBar = document.getElementById('search-bar');
+searchBar.addEventListener('input', applyFilters);
+
+function applyFilters() {
+  const q = searchBar.value.trim().toLowerCase();
+  const rows = document.querySelectorAll('.tx-row');
+  let visible = 0;
+
+  if (q || activePill !== 'all') openAllSections();
+  else closeAllSections();
+
+  rows.forEach(r => {
+    const matchSearch = !q || r.dataset.search.includes(q);
+    const matchPill   = activePill === 'all' || r.dataset.evidence === activePill;
+    const show = matchSearch && matchPill;
+    r.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  document.querySelectorAll('.section').forEach(sec => {
+    const anyVisible = [...sec.querySelectorAll('.tx-row')].some(r => !r.classList.contains('hidden'));
+    sec.style.display = anyVisible ? '' : 'none';
+  });
+
+  document.getElementById('visible-count').textContent = visible;
+  document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+}
+
+renderSections();
+</script>
+</body>
+</html>

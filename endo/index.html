@@ -537,6 +537,20 @@
   }
   #sidebar-genes-btn:hover { background: var(--surface2); color: var(--text); }
 
+  #sidebar-treatments-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: background .12s, color .12s;
+  }
+  #sidebar-treatments-btn:hover { background: var(--surface2); color: var(--text); }
+
   @media (max-width: 640px) {
     .vertical-grid { grid-template-columns: 1fr; }
     .about-author { flex-direction: column; gap: 16px; padding: 18px; }
@@ -563,6 +577,9 @@
     </div>
     <a id="sidebar-genes-btn" href="./genes.html">
       <span>🧬</span> Gene Reference
+    </a>
+    <a id="sidebar-treatments-btn" href="./treatments.html">
+      <span>💊</span> Treatment Reference
     </a>
     <div id="search-wrap">
       <input id="search" type="text" placeholder="Search clusters…" autocomplete="off">
@@ -609,6 +626,11 @@
             <div class="pn-icon" style="font-size:20px;margin-bottom:6px">🧬</div>
             <h4>Gene Reference</h4>
             <p>Browse every gene studied in endometriosis research, organized by biological pathway, with roles and direct links to the cluster review where it's discussed. <a href="./genes.html" style="color:var(--accent2)">Open Gene Reference →</a></p>
+          </div>
+          <div class="explainer-card">
+            <div class="pn-icon" style="font-size:20px;margin-bottom:6px">💊</div>
+            <h4>Treatment Reference</h4>
+            <p>Every treatment, drug, supplement, and procedure studied across 10,000+ articles — with evidence levels, mechanisms, and links to the relevant cluster review. <a href="./treatments.html" style="color:var(--accent2)">Open Treatment Reference →</a></p>
           </div>
           <div class="explainer-card">
             <div class="pn-icon" style="font-size:20px;margin-bottom:6px">ℹ</div>
