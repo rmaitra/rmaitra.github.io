@@ -568,6 +568,221 @@
             transition: color 0.15s, background 0.15s;
             }
             .topbar:hover { color: var(--accent2); background: var(--card); }
+            /* MODE TOGGLE */
+            .mode-toggle {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 0.4rem 0.7rem;
+            cursor: pointer;
+            transition: color 0.15s, border-color 0.15s, background 0.15s;
+            margin-left: 1rem;
+            }
+            .mode-toggle:hover { color: var(--accent2); border-color: var(--accent2); }
+            .header-right-wrap {
+            display: flex;
+            align-items: center;
+            }
+
+            /* ─── NEWSPAPER MODE ─────────────────────────────────────────── */
+            body.newspaper {
+            --bg: #ffffff;
+            --surface: #ffffff;
+            --card: #ffffff;
+            --accent: #a30000;
+            --accent2: #4a4a4a;
+            --text: #121212;
+            --muted: #595959;
+            --border: #121212;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            }
+            /* original chrome is replaced by the masthead below */
+            body.newspaper header,
+            body.newspaper .hero-bar { display: none; }
+            body.newspaper main,
+            body.newspaper .nyt-masthead > * {
+            max-width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+            }
+            .nyt-masthead { display: none; }
+            body.newspaper .nyt-masthead { display: block; background: #fff; }
+            .nyt-utility-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.55rem 1.5rem;
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.3px;
+            color: #333;
+            border-bottom: 1px solid #e2e2e2;
+            }
+            .nyt-utility-row .mode-toggle { margin-left: 0; border-color: #ccc; color: #333; }
+            .nyt-utility-row .mode-toggle:hover { border-color: #121212; color: #121212; }
+            .nyt-logo-row {
+            text-align: center;
+            padding: 0.9rem 1rem 0.7rem;
+            }
+            .nyt-wordmark {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 900;
+            font-size: clamp(1.8rem, 4.2vw, 2.9rem);
+            letter-spacing: -0.5px;
+            color: #121212;
+            }
+            .nyt-dateline {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 0.78rem;
+            color: #595959;
+            margin-top: 0.3rem;
+            }
+            .nyt-section-nav {
+            display: flex;
+            gap: 1.4rem;
+            overflow-x: auto;
+            padding: 0.65rem 1.5rem;
+            border-top: 1px solid #121212;
+            border-bottom: 3px double #121212;
+            scrollbar-width: thin;
+            }
+            .nyt-section-nav a {
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            color: #121212;
+            text-decoration: none;
+            white-space: nowrap;
+            }
+            .nyt-section-nav a:hover { text-decoration: underline; }
+
+            body.newspaper main { padding-top: 0; }
+            body.newspaper .channel-section { padding: 1.6rem 0 0.25rem; }
+            body.newspaper .channel-header {
+            border-bottom: 1px solid var(--border);
+            padding: 0 0 0.4rem;
+            margin-bottom: 1rem;
+            }
+            body.newspaper .channel-bar { display: none; }
+            body.newspaper .channel-name {
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent);
+            }
+            body.newspaper .channel-link {
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            font-style: normal;
+            font-size: 0.65rem;
+            text-transform: none;
+            letter-spacing: 0;
+            color: var(--muted);
+            }
+
+            /* swap the horizontal carousel for a wrapping front-page grid */
+            body.newspaper .scroll-row,
+            body.newspaper .skeleton-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.75rem 1.6rem;
+            overflow-x: visible;
+            padding: 0 0 1.75rem;
+            }
+            body.newspaper .video-card,
+            body.newspaper .article-card,
+            body.newspaper .podcast-card,
+            body.newspaper .skeleton-card {
+            flex: initial;
+            width: 100%;
+            }
+            body.newspaper .thumb-wrap,
+            body.newspaper .podcast-card-art,
+            body.newspaper .article-card,
+            body.newspaper .podcast-card {
+            border-radius: 0;
+            }
+            body.newspaper .video-card:hover,
+            body.newspaper .article-card:hover,
+            body.newspaper .podcast-card:hover {
+            transform: none;
+            }
+            body.newspaper .video-title,
+            body.newspaper .article-title,
+            body.newspaper .podcast-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.3;
+            }
+            body.newspaper .video-date,
+            body.newspaper .article-date,
+            body.newspaper .podcast-date {
+            font-family: Georgia, serif;
+            font-style: italic;
+            }
+            body.newspaper .article-card,
+            body.newspaper .podcast-card {
+            background: transparent;
+            border: none;
+            border-top: 1px solid #e2e2e2;
+            border-left: none;
+            padding: 1rem 0 0;
+            }
+            body.newspaper .article-card:hover,
+            body.newspaper .podcast-card:hover { border-left: none; }
+            body.newspaper .article-label,
+            body.newspaper .podcast-label,
+            body.newspaper .podcast-modal-label {
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            color: var(--accent) !important;
+            }
+            body.newspaper .podcast-art-placeholder,
+            body.newspaper .podcast-modal-art-placeholder {
+            background: #e6e6e6;
+            color: var(--border);
+            }
+            body.newspaper .new-badge {
+            border-radius: 0;
+            background: var(--accent);
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+            }
+            body.newspaper .play-btn,
+            body.newspaper .podcast-play-icon::after {
+            background: var(--accent) !important;
+            border-radius: 0;
+            }
+            body.newspaper .section-divider { background: #e2e2e2; margin-left: 0; margin-right: 0; }
+            body.newspaper .error-msg { padding-left: 0; padding-right: 0; }
+            body.newspaper .modal-box {
+            background: #fff;
+            border-radius: 0;
+            border-color: var(--border);
+            }
+            body.newspaper .modal-title,
+            body.newspaper .podcast-modal-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            }
+            body.newspaper .modal-close {
+            background: rgba(255,255,255,0.85);
+            color: var(--text);
+            border-radius: 0;
+            }
+            body.newspaper .modal-close:hover { background: rgba(0,0,0,0.08); }
+            body.newspaper footer {
+            font-family: Georgia, serif;
+            font-style: italic;
+            border-top-color: #e2e2e2;
+            }
         </style>
     </head>
     <body>
@@ -576,12 +791,28 @@
             <div class="logo">
                 <span class="logo-word">Libre<span class="logo-accent"><em>Broadcast</em></span></span>
             </div>
-            <div class="header-right">Public · Independent · Documentary</div>
+            <div class="header-right-wrap">
+                <div class="header-right">Public · Independent · Documentary</div>
+                <button class="mode-toggle" data-mode-toggle aria-pressed="false">🗞 Newspaper Mode</button>
+            </div>
         </header>
         <div class="hero-bar">
             <h4>No <em style="color:var(--accent)">doom scrolling</em>. Just the latest from progressive sources in science, public media, independent news and documentarians.</h4>
             <div class="hero-sub">Latest content from RSS feeds</div>
         </div>
+
+        <div class="nyt-masthead">
+            <div class="nyt-utility-row">
+                <span id="nytDate"></span>
+                <button class="mode-toggle" data-mode-toggle aria-pressed="false">📺 Broadcast Mode</button>
+            </div>
+            <div class="nyt-logo-row">
+                <div class="nyt-wordmark">The Libre Times</div>
+                <div class="nyt-dateline">No doom scrolling — progressive science, public media &amp; independent news</div>
+            </div>
+            <nav class="nyt-section-nav" id="nytSectionNav"></nav>
+        </div>
+
         <main id="main"></main>
 
         <!-- VIDEO MODAL -->
@@ -900,9 +1131,10 @@ function makePodcastCard(episode) {
     return a;
 }
 
-async function loadChannel(ch) {
+async function loadChannel(ch, i) {
     const section = document.createElement('div');
     section.className = 'channel-section';
+    section.id = `ch-${i}`;
 
     const siteHref  = ch.siteUrl || (ch.id ? `https://www.youtube.com/channel/${ch.id}` : '#');
     const siteLabel = ch.type === 'science' ? `${ch.name.toLowerCase()}.org ↗`
@@ -981,8 +1213,40 @@ async function loadChannel(ch) {
 
 // Stagger all channel loads — Science is first in the array so it appears at top
 CHANNELS.forEach((ch, i) => {
-    setTimeout(() => loadChannel(ch), i * 120);
+    setTimeout(() => loadChannel(ch, i), i * 120);
 });
+
+// ─── NYT-STYLE MASTHEAD (newspaper mode only) ───────────────────────────────
+document.getElementById('nytDate').textContent = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+});
+
+const nytNav = document.getElementById('nytSectionNav');
+CHANNELS.forEach((ch, i) => {
+    const a = document.createElement('a');
+    a.href = `#ch-${i}`;
+    a.textContent = ch.name;
+    nytNav.appendChild(a);
+});
+
+// ─── NEWSPAPER MODE TOGGLE ───────────────────────────────────────────────────
+const modeToggles = document.querySelectorAll('[data-mode-toggle]');
+
+function applyMode(isNewspaper) {
+    document.body.classList.toggle('newspaper', isNewspaper);
+    modeToggles.forEach(btn => {
+        btn.setAttribute('aria-pressed', String(isNewspaper));
+        btn.textContent = isNewspaper ? '📺 Broadcast Mode' : '🗞 Newspaper Mode';
+    });
+}
+
+applyMode(localStorage.getItem('newsMode') === 'newspaper');
+
+modeToggles.forEach(btn => btn.addEventListener('click', () => {
+    const isNewspaper = !document.body.classList.contains('newspaper');
+    applyMode(isNewspaper);
+    localStorage.setItem('newsMode', isNewspaper ? 'newspaper' : 'broadcast');
+}));
         </script>
     </body>
 </html>
