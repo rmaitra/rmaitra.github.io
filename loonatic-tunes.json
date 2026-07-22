@@ -1,7 +1,8 @@
 [
     {
         "name": "Msichana’s Dance with the Gods",
-        "image": "https://www.dropbox.com/scl/fi/example/album-two-cover.jpg?rlkey=example&raw=1",
+        "artist": "Raj Maitra",
+        "image": "",
         "songs": [
             {
                 "name": "Msichana’s Dance with the Gods",
@@ -35,7 +36,8 @@
     },
     {
         "name": "Reimagination",
-        "image": "https://www.dropbox.com/scl/fi/example/album-two-cover.jpg?rlkey=example&raw=1",
+        "artist": "Raj Maitra",
+        "image": "",
         "songs": [
             {
                 "name": "Reimagination",
@@ -55,7 +57,8 @@
     },
     {
         "name": "Era of Women",
-        "image": "https://www.dropbox.com/scl/fi/example/album-two-cover.jpg?rlkey=example&raw=1",
+        "artist": "Raj Maitra",
+        "image": "",
         "songs": [
             {
                 "name": "Era of Women",
@@ -74,8 +77,26 @@
         ]
     },
     {
+        "name": "Exploration",
+        "artist": "Raj Maitra",
+        "image": "",
+        "songs": [
+            {
+                "name": "Beauty When I Beast",
+                "link": "https://www.dropbox.com/scl/fi/5ukiir1rzskgcn2vmuwer/Beauty-When-I-Beast-Rough.wav?rlkey=r8ac0g0cbdfjnvw3hsqjmb5ss&st=bw7p54c0&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name":"Giants",
+                "link":"https://www.dropbox.com/scl/fi/zzsijyztbxp99vzahni2x/Giants-Mixed-V2-_1.wav?rlkey=1w1y1g27y5mymlnbqfxodra61&st=2mvicsk0&dl=0",
+                "image":""
+            }
+        ]
+    },
+    {
         "name": "Caleb and Kelsey Sessions",
-        "image": "https://www.dropbox.com/scl/fi/example/album-one-cover.jpg?rlkey=example&raw=1",
+        "artist": "Caleb and Kelsey",
+        "image": "",
         "songs": [
             {
                 "name": "Eve",
@@ -101,7 +122,8 @@
     },
     {
         "name": "Emil Sessions",
-        "image": "https://www.dropbox.com/scl/fi/example/album-two-cover.jpg?rlkey=example&raw=1",
+        "artist": "Emil",
+        "image": "",
         "songs": [
             {
                 "name": "Bath House Blues",
@@ -114,6 +136,95 @@
             },{
                 "name": "Covid Zombies",
                 "link": "https://www.dropbox.com/scl/fi/vf04fzwr06dnwabi1kwii/CoVid-Zombies-V2.wav?rlkey=fok7709uosa0q3062xa7i0mb1&st=zsetngh5&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    },
+    {
+        "name": "Kelsey and Kaia Sessions",
+        "artist": "Porter Sisters",
+        "image": "",
+        "songs": [
+            {
+                "name": "Afterglow",
+                "link": "https://www.dropbox.com/scl/fi/77ycmwm57hpsqgn43q9e2/Afterglow-Master-v2.wav?rlkey=wfqpnhuicoke7f4t7d4giegvt&st=lhac0xor&dl=0&raw=1",
+                "image": ""
+            },{
+                "name": "Let the Mystery Be",
+                "link": "https://www.dropbox.com/scl/fi/jyheaf4kf7zhyjwwrqpqb/Let-the-Mystery-Be-Master-v2.wav?rlkey=p342nfdin4e28gql0fe3hjzog&st=skgc02pr&dl=0&raw=1",
+                "image": ""
+            },{
+                "name": "Winter Song",
+                "link": "https://www.dropbox.com/scl/fi/6090xebdn1s9xx0gkpzku/Winter-Song-Master-v1-Post-Edits.wav?rlkey=otgb6s0gyd0a0y7dt7ynk0ukj&st=g405zgjh&dl=0&raw=1",
+                "image": ""
+            },{
+                "name": "Never Til Now",
+                "link": "https://www.dropbox.com/scl/fi/kfk29gkswae5dqj96ho57/Never-Til-Now-Master-v3-w-Cello-Only.wav?rlkey=eathv89tt4hlu0lpvsl7sk7zy&st=ojm7wq6l&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    },
+    {
+        "name": "Hannah Bartell Sessions",
+        "artist": "Hannah Bartell",
+        "image": "",
+        "songs": [
+            {
+                "name": "Huey",
+                "link": "https://www.dropbox.com/scl/fi/kf5aqlpe9kczb4y089ac2/TBHuey-UnMixed.wav?rlkey=wvz1ishpeapgaeqhmxdbku81v&st=0764fdh7&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    },
+    {
+        "name": "A Coaches Coach - w/ Sabrina and Raj",
+        "artist": "Sabrina Patlan and Raj Maitra",
+        "image": "",
+        "songs": [
+            {
+                "name": "Episode 1",
+                "link": "https://www.dropbox.com/scl/fi/938kqrb2hcamerw5dtaqp/A-Coaches-Coach-Ep-1.wav?rlkey=efukc8ept5y2475wliutejpu4&st=862qbq5c&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    },
+    {
+        "name": "Megan Jones Sessions",
+        "artist": "Megan Jones",
+        "image": "",
+        "songs": [
+            {
+                "name": "Get You",
+                "link": "https://www.dropbox.com/scl/fi/54lfgwvnj1fubb4if93r9/Get-You-Rough-Comp-v1.wav?rlkey=4zq96pffmw0at0uh2hzkc79z6&st=dbqppuh5&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    },
+    {
+        "name": "Michael Hannah Sessions",
+        "artist": "Michael Hannah",
+        "image": "",
+        "songs": [
+            {
+                "name": "Anymore",
+                "link": "https://www.dropbox.com/scl/fi/ej9du6rhpoc0sczciy1ku/Anymore-MV2.wav?rlkey=t9ych5dbgr9zfz0r19yvwyyo7&st=z55gvqc5&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name":"Sway",
+                "link":"https://www.dropbox.com/scl/fi/wkgk2u3mxin1o9h7xjwhd/Junior-s-Version-Comp-v1.mp3?rlkey=75uy8ej9odqpvte2h4a97ko83&st=5qedp4pl&dl=0&raw=1",
+                "image":""
+            }
+        ]
+    },
+    {
+        "name": "Landon Sessions",
+        "artist": "Landon",
+        "image": "",
+        "songs": [
+            {
+                "name": "Insanity",
+                "link": "https://www.dropbox.com/scl/fi/y4u4exvtflx06pnvux7fv/Insanity-Master-v1.wav?rlkey=zsacg6s5odz8ves2g8sfu2x2c&st=27um4o9x&dl=0&raw=1",
                 "image": ""
             }
         ]

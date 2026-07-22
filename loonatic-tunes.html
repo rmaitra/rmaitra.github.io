@@ -44,6 +44,7 @@
     }
 
     .navbar-back {
+        margin-left: auto;
         font-size: 0.85em;
         color: var(--text-tertiary);
         transition: color 0.2s;
@@ -59,6 +60,54 @@
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
+    }
+
+    /* Radio bar */
+    .radio-bar {
+        background: var(--bg-elevated);
+        border-bottom: 1px solid var(--border-primary);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0 1.25rem;
+        height: 40px;
+    }
+    .radio-toggle {
+        flex-shrink: 0;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #fff;
+        background: var(--accent-dim);
+        border: none;
+        border-radius: 20px;
+        padding: 0.35rem 0.9rem;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.2s;
+    }
+    .radio-toggle:hover { background: var(--accent-primary); }
+    .radio-toggle.on { background: var(--accent-primary); }
+    .radio-ticker-wrap {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+    .radio-ticker {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        transform: translateY(-50%);
+        white-space: nowrap;
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        animation: radio-scroll 22s linear infinite;
+    }
+    @keyframes radio-scroll {
+        from { left: 100%; }
+        to   { left: -160%; }
     }
 
     .container {
@@ -79,7 +128,7 @@
 
     .albums-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        grid-template-columns: repeat(auto-fill, 190px);
         gap: 1.5rem;
     }
 
@@ -113,12 +162,28 @@
         opacity: 0.5;
     }
 
+    /* generated pixel-art fallback: scale the tiny canvas up crisply, no blur */
+    .generated-art {
+        background: none;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+    }
+
     .album-card-body { padding: 0.9rem 1rem 1.1rem; }
     .album-card-title {
         font-weight: 600;
         font-size: 0.92rem;
         margin: 0 0 0.25rem 0;
         color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .album-card-artist {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin: 0 0 0.2rem 0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -157,8 +222,13 @@
     .album-header-title {
         font-size: 2em;
         font-weight: 800;
-        margin: 0 0 0.6rem 0;
+        margin: 0 0 0.3rem 0;
         color: #fff;
+    }
+    .album-header-artist {
+        font-size: 1.05rem;
+        color: var(--text-secondary);
+        margin: 0 0 0.6rem 0;
     }
     .album-header-meta {
         font-size: 0.85rem;
@@ -455,13 +525,25 @@
     #volumeBar { width: 80px; }
 
     @media (max-width: 768px) {
+        :root { --player-height: 116px; }
         .navbar { padding: 15px 20px; }
+        .radio-bar { padding: 0 0.85rem; gap: 0.6rem; }
+        .radio-toggle { font-size: 0.68rem; padding: 0.3rem 0.7rem; }
         .container { padding: 1.5rem 1rem; }
         .player-meta { width: 100px; }
         .player-volume { display: none; }
-        .player-bar { gap: 0.6rem; padding: 0 1rem; }
+        .player-bar {
+            height: auto;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            row-gap: 0.5rem;
+            padding: 0.6rem 1rem 0.7rem;
+        }
+        .player-progress { order: -1; flex: 1 1 100%; width: 100%; }
+        .player-controls { margin-left: auto; }
         .album-header { gap: 1.2rem; }
         .album-header-art { width: 130px; height: 130px; }
+        .albums-grid { grid-template-columns: repeat(auto-fill, 130px); }
         .album-header-title { font-size: 1.4em; }
     }
 </style>
@@ -469,9 +551,18 @@
 <body>
 
 <nav class="navbar">
-    <a href="/index.html" class="navbar-back">&larr; rmaitra.github.io</a>
     <h1 class="navbar-title">Loonatic Tunes</h1>
+    <a href="/index.html" class="navbar-back">&larr; rmaitra.github.io</a>
 </nav>
+
+<div class="radio-bar" id="radioBar">
+    <button class="radio-toggle" id="radioToggleBtn">📻 Tune In</button>
+    <div class="radio-ticker-wrap">
+        <div class="radio-ticker" id="radioTicker">
+            <span id="radioTickerText">Tap &ldquo;Tune In&rdquo; to start Loonatic Radio&mdash;a random shuffle of every track in the library.</span>
+        </div>
+    </div>
+</div>
 
 <div class="container">
 
@@ -496,6 +587,7 @@
             <div class="album-header-info">
                 <p class="album-header-label">Album</p>
                 <h2 class="album-header-title" id="albumHeaderTitle"></h2>
+                <p class="album-header-artist" id="albumHeaderArtist"></p>
                 <p class="album-header-meta" id="albumHeaderMeta"></p>
                 <button class="btn" id="playAlbumBtn">Play Album</button>
             </div>
@@ -543,6 +635,10 @@
     let currentAlbumIndex = -1;
     let currentSongIndex = -1;
 
+    let radioMode = false;
+    let radioQueue = [];
+    let radioQueuePos = -1;
+
     const audioEl = document.getElementById('audioEl');
     const playerBar = document.getElementById('playerBar');
     const browseView = document.getElementById('browseView');
@@ -561,6 +657,71 @@
             }
         }
         return url;
+    }
+
+    // ─── Generated pixel art (fallback album art) ───────────────────────────────
+    // Deterministic per title: same title always produces the same art.
+
+    function hashString(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i);
+            hash |= 0;
+        }
+        return hash;
+    }
+
+    function mulberry32(seed) {
+        return function () {
+            seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+    }
+
+    function generatePixelArt(seedText, gridSize = 30) {
+        const rand = mulberry32(hashString(seedText || 'Untitled Album'));
+
+        const hue = Math.floor(rand() * 360);
+        const fg = `hsl(${hue}, 30%, 38%)`;
+        const bg = `hsl(${(hue + 40) % 360}, 25%, 11%)`;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = gridSize;
+        canvas.height = gridSize;
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, gridSize, gridSize);
+
+        ctx.fillStyle = fg;
+        const half = Math.ceil(gridSize / 2);
+        for (let y = 0; y < gridSize; y++) {
+            for (let x = 0; x < half; x++) {
+                if (rand() > 0.55) {
+                    ctx.fillRect(x, y, 1, 1);
+                    ctx.fillRect(gridSize - 1 - x, y, 1, 1);
+                }
+            }
+        }
+
+        return canvas.toDataURL('image/png');
+    }
+
+    // cache generated art per-album object so it's computed once
+    function getAlbumArt(album) {
+        if (album.image) return normalizeMediaUrl(album.image);
+        if (!album._generatedArt) {
+            album._generatedArt = generatePixelArt(album.name);
+        }
+        return album._generatedArt;
+    }
+
+    // single source of truth so the album-card art and the albumHeaderArt always match
+    function applyAlbumArt(el, album) {
+        el.classList.toggle('generated-art', !album.image);
+        el.style.backgroundImage = `url("${getAlbumArt(album)}")`;
     }
 
     async function loadAlbums() {
@@ -596,12 +757,13 @@
 
             const art = document.createElement('div');
             art.className = 'album-art';
-            if (album.image) art.style.backgroundImage = `url("${normalizeMediaUrl(album.image)}")`;
+            applyAlbumArt(art, album);
 
             const body = document.createElement('div');
             body.className = 'album-card-body';
             body.innerHTML = `
                 <p class="album-card-title">${escapeHtml(album.name || 'Untitled Album')}</p>
+                ${album.artist ? `<p class="album-card-artist">${escapeHtml(album.artist)}</p>` : ''}
                 <p class="album-card-count">${(album.songs || []).length} track${(album.songs || []).length === 1 ? '' : 's'}</p>
             `;
 
@@ -616,9 +778,10 @@
         const album = albums[albumIndex];
 
         document.getElementById('albumHeaderTitle').textContent = album.name || 'Untitled Album';
+        document.getElementById('albumHeaderArtist').textContent = album.artist || '';
         document.getElementById('albumHeaderMeta').textContent = `${(album.songs || []).length} track${(album.songs || []).length === 1 ? '' : 's'}`;
         const headerArt = document.getElementById('albumHeaderArt');
-        headerArt.style.backgroundImage = album.image ? `url("${normalizeMediaUrl(album.image)}")` : '';
+        applyAlbumArt(headerArt, album);
 
         document.getElementById('playAlbumBtn').onclick = () => playSong(albumIndex, 0);
 
@@ -644,10 +807,11 @@
             }
             row.onclick = () => playSong(albumIndex, sIdx);
 
-            const thumbUrl = normalizeMediaUrl(song.image || album.image);
+            const thumbUrl = song.image ? normalizeMediaUrl(song.image) : getAlbumArt(album);
+            const thumbGenerated = !song.image && !album.image;
             row.innerHTML = `
                 <span class="track-index">${sIdx + 1}</span>
-                <div class="track-thumb" style="${thumbUrl ? `background-image:url('${thumbUrl}')` : ''}"></div>
+                <div class="track-thumb${thumbGenerated ? ' generated-art' : ''}" style="background-image:url('${thumbUrl}')"></div>
                 <span class="track-name">${escapeHtml(song.name || 'Untitled Track')}</span>
                 ${hasDetails ? `<button class="track-expand" title="Show details"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></button>` : ''}
             `;
@@ -731,10 +895,16 @@
         }
     }
 
-    function playSong(albumIndex, songIndex) {
+    function playSong(albumIndex, songIndex, opts = {}) {
         const album = albums[albumIndex];
         const song = (album.songs || [])[songIndex];
         if (!song) return;
+
+        if (!opts.radio && radioMode) {
+            radioMode = false;
+            updateRadioUI();
+            resetTickerIdle();
+        }
 
         currentAlbumIndex = albumIndex;
         currentSongIndex = songIndex;
@@ -744,8 +914,10 @@
 
         document.getElementById('playerSongName').textContent = song.name || 'Untitled Track';
         document.getElementById('playerAlbumName').textContent = album.name || '';
-        const thumbUrl = normalizeMediaUrl(song.image || album.image);
-        document.getElementById('playerThumb').style.backgroundImage = thumbUrl ? `url("${thumbUrl}")` : '';
+        const thumbUrl = song.image ? normalizeMediaUrl(song.image) : getAlbumArt(album);
+        const playerThumb = document.getElementById('playerThumb');
+        playerThumb.classList.toggle('generated-art', !song.image && !album.image);
+        playerThumb.style.backgroundImage = `url("${thumbUrl}")`;
 
         playerBar.classList.add('visible');
 
@@ -755,6 +927,7 @@
     }
 
     function playNext() {
+        if (radioMode) { playRadioAt(radioQueuePos + 1); return; }
         if (currentAlbumIndex === -1) return;
         const album = albums[currentAlbumIndex];
         const songs = album.songs || [];
@@ -764,6 +937,7 @@
     }
 
     function playPrev() {
+        if (radioMode) { playRadioAt(Math.max(0, radioQueuePos - 1)); return; }
         if (currentAlbumIndex === -1) return;
         if (currentSongIndex > 0) {
             playSong(currentAlbumIndex, currentSongIndex - 1);
@@ -771,6 +945,98 @@
             audioEl.currentTime = 0;
         }
     }
+
+    // ─── Loonatic Radio ──────────────────────────────────────────────────────
+
+    function getAllSongRefs() {
+        const refs = [];
+        albums.forEach((album, ai) => {
+            (album.songs || []).forEach((song, si) => {
+                if (song.link) refs.push({ albumIndex: ai, songIndex: si });
+            });
+        });
+        return refs;
+    }
+
+    function shuffleArray(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function startRadio() {
+        const refs = getAllSongRefs();
+        if (!refs.length) return;
+        radioMode = true;
+        radioQueue = shuffleArray(refs);
+        radioQueuePos = 0;
+        updateRadioUI();
+        playRadioAt(0);
+    }
+
+    function stopRadio() {
+        radioMode = false;
+        updateRadioUI();
+        resetTickerIdle();
+    }
+
+    function playRadioAt(pos) {
+        if (pos < 0) pos = 0;
+        if (pos >= radioQueue.length) {
+            radioQueue = shuffleArray(getAllSongRefs());
+            pos = 0;
+        }
+        const ref = radioQueue[pos];
+        if (!ref) return;
+        radioQueuePos = pos;
+        playSong(ref.albumIndex, ref.songIndex, { radio: true });
+        updateNowPlayingTicker();
+    }
+
+    function songLabel(ref) {
+        const album = albums[ref.albumIndex];
+        const song = (album.songs || [])[ref.songIndex];
+        return song ? (song.name || 'Untitled Track') : '';
+    }
+
+    function setTickerText(text) {
+        document.getElementById('radioTickerText').textContent = text;
+        const ticker = document.getElementById('radioTicker');
+        ticker.style.animation = 'none';
+        void ticker.offsetWidth;
+        ticker.style.animation = '';
+    }
+
+    function resetTickerIdle() {
+        setTickerText('Tap “Tune In” to start Loonatic Radio—a random shuffle of every track in the library.');
+    }
+
+    function updateNowPlayingTicker() {
+        const current = radioQueue[radioQueuePos];
+        if (!current) return;
+        const album = albums[current.albumIndex];
+        const upcoming = [];
+        for (let i = 1; i <= 5; i++) {
+            const ref = radioQueue[radioQueuePos + i];
+            if (ref) upcoming.push(songLabel(ref));
+        }
+        let text = `📻 NOW PLAYING: ${songLabel(current)} — ${album.name || 'Untitled Album'}`;
+        if (upcoming.length) text += `     •     UP NEXT: ${upcoming.join('   ·   ')}`;
+        setTickerText(text);
+    }
+
+    function updateRadioUI() {
+        const btn = document.getElementById('radioToggleBtn');
+        btn.textContent = radioMode ? '⏸ Stop Radio' : '📻 Tune In';
+        btn.classList.toggle('on', radioMode);
+    }
+
+    document.getElementById('radioToggleBtn').onclick = () => {
+        if (radioMode) stopRadio(); else startRadio();
+    };
 
     function escapeHtml(str) {
         const div = document.createElement('div');
