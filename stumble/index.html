@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stumble — rmaitra.github.io</title>
+<link href="https://fonts.googleapis.com/css2?&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg-primary: #000000;
+        --bg-secondary: #0d0d0d;
+        --bg-tertiary: #151515;
+        --text-primary: #e0e0e0;
+        --text-secondary: #aaaaaa;
+        --text-tertiary: #888888;
+        --border-primary: #1e1e1e;
+        --accent-primary: #4a9eff;
+        --accent-dim: #1e3a5c;
+        --danger: #ff5a5a;
+        --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
+        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.7);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: 'Space Grotesk', sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        background: #000;
+        padding: 22px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-primary);
+    }
+
+    .navbar-left {
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+    }
+
+    .navbar-title {
+        font-size: 1.6em;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -0.5px;
+        color: var(--text-primary);
+    }
+
+    .navbar a.home-link {
+        color: var(--text-tertiary);
+        text-decoration: none;
+        font-size: 0.85em;
+        border: 1px solid var(--border-primary);
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: color 0.15s, border-color 0.15s;
+    }
+    .navbar a.home-link:hover { color: var(--text-primary); border-color: var(--text-tertiary); }
+
+    .stats {
+        color: var(--text-tertiary);
+        font-size: 0.85em;
+    }
+    .stats strong { color: var(--text-secondary); }
+
+    main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem 2rem 4rem;
+    }
+
+    .controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 500;
+        font-size: 0.95em;
+        border-radius: 8px;
+        border: 1px solid var(--border-primary);
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: 12px 22px;
+        cursor: pointer;
+        transition: transform 0.1s, border-color 0.15s, background 0.15s;
+    }
+    .btn:hover:not(:disabled) { border-color: var(--accent-primary); }
+    .btn:active:not(:disabled) { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-primary {
+        background: var(--accent-primary);
+        border-color: var(--accent-primary);
+        color: #04101f;
+        font-weight: 600;
+        padding: 12px 26px;
+    }
+    .btn-primary:hover:not(:disabled) { background: #6cb0ff; }
+
+    .btn-bookmark.saved {
+        background: var(--accent-dim);
+        border-color: var(--accent-primary);
+        color: var(--accent-primary);
+    }
+
+    .btn-danger { color: var(--danger); }
+    .btn-danger:hover { border-color: var(--danger); }
+
+    .source-toggle {
+        display: inline-flex;
+        border: 1px solid var(--border-primary);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .btn-source {
+        border: none;
+        border-radius: 0;
+        background: var(--bg-secondary);
+        padding: 11px 18px;
+    }
+    .btn-source + .btn-source { border-left: 1px solid var(--border-primary); }
+    .btn-source.active {
+        background: var(--accent-dim);
+        color: var(--accent-primary);
+    }
+
+    .icon-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9em;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .icon-link:hover { color: var(--accent-primary); }
+
+    .site-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-primary);
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin-bottom: 1rem;
+        box-shadow: var(--shadow-md);
+    }
+
+    .site-card h2 {
+        margin: 0 0 4px;
+        font-size: 1.3em;
+    }
+    .site-card .url {
+        color: var(--accent-primary);
+        text-decoration: none;
+        font-size: 0.9em;
+        word-break: break-all;
+    }
+    .site-card .url:hover { text-decoration: underline; }
+    .site-card .note {
+        color: var(--text-secondary);
+        font-size: 0.92em;
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+    .site-card .empty-state {
+        color: var(--text-tertiary);
+        font-size: 0.95em;
+    }
+
+    .frame-wrap {
+        position: relative;
+        border: 1px solid var(--border-primary);
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--bg-secondary);
+        box-shadow: var(--shadow-lg);
+        height: 65vh;
+        min-height: 380px;
+    }
+    .frame-wrap iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+        background: #fff;
+    }
+    .frame-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: var(--text-tertiary);
+        font-size: 0.95em;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .frame-fallback {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: rgba(13, 13, 13, 0.92);
+        border: 1px solid var(--border-primary);
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 0.82em;
+        color: var(--text-secondary);
+        backdrop-filter: blur(4px);
+    }
+    .frame-fallback a { color: var(--accent-primary); text-decoration: none; font-weight: 500; }
+    .frame-fallback a:hover { text-decoration: underline; }
+
+    .bookmarks-section {
+        margin-top: 3rem;
+    }
+    .bookmarks-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .bookmarks-header h3 {
+        font-size: 1.1em;
+        margin: 0;
+        color: var(--text-secondary);
+    }
+
+    .bookmarks-list {
+        display: grid;
+        gap: 10px;
+    }
+    .bookmark-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-primary);
+        border-radius: 8px;
+        padding: 12px 16px;
+    }
+    .bookmark-item .info { min-width: 0; }
+    .bookmark-item .info a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95em;
+    }
+    .bookmark-item .info a:hover { color: var(--accent-primary); }
+    .bookmark-item .info .b-url {
+        display: block;
+        color: var(--text-tertiary);
+        font-size: 0.8em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .bookmark-item .remove-btn {
+        background: none;
+        border: none;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        font-size: 1.1em;
+        flex-shrink: 0;
+        padding: 4px 8px;
+    }
+    .bookmark-item .remove-btn:hover { color: var(--danger); }
+
+    .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-primary);
+        color: var(--text-primary);
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 0.9em;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s, transform 0.2s;
+        box-shadow: var(--shadow-lg);
+        z-index: 100;
+    }
+    .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    footer.credit {
+        margin-top: 3rem;
+        color: var(--text-tertiary);
+        font-size: 0.78em;
+        text-align: center;
+    }
+    footer.credit a { color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="navbar-left">
+        <h1 class="navbar-title">🎲 Stumble</h1>
+    </div>
+    <a class="home-link" href="/">← Home</a>
+</div>
+
+<main>
+    <div class="controls">
+        <button id="stumbleBtn" class="btn btn-primary">🎲 Stumble</button>
+        <div class="source-toggle" role="group" aria-label="Stumble source">
+            <button id="sourceWebringBtn" class="btn btn-source" data-source="webring">🕸️ Webring</button>
+            <button id="sourceWikipediaBtn" class="btn btn-source" data-source="wikipedia">📖 Wikipedia</button>
+            <button id="sourceGeekringBtn" class="btn btn-source" data-source="geekring">🌐 Geekring</button>
+        </div>
+        <button id="bookmarkBtn" class="btn btn-bookmark" disabled>☆ Bookmark</button>
+        <span id="stats" class="stats"></span>
+    </div>
+
+    <div id="siteCard" class="site-card">
+        <div class="empty-state">Hit "Stumble" to land on a random IndieWeb site.</div>
+    </div>
+
+    <div class="frame-wrap">
+        <div id="frameArea" class="frame-placeholder">Nothing loaded yet.</div>
+    </div>
+
+    <div class="bookmarks-section">
+        <div class="bookmarks-header">
+            <h3>Bookmarked sites</h3>
+            <span id="bookmarkCount" class="stats"></span>
+        </div>
+        <div id="bookmarksList" class="bookmarks-list">
+            <div class="empty-state">No bookmarks yet — stumble around and save the ones you like.</div>
+        </div>
+    </div>
+
+    <footer class="credit">
+        Webring mode uses the <a href="https://xn--sr8hvo.ws/" target="_blank" rel="noopener">IndieWeb Webring</a> directory.
+        Wikipedia mode picks a <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank" rel="noopener">random article</a> and follows one of its external links.
+        Geekring mode follows the <a href="https://geekring.net/" target="_blank" rel="noopener">geekring.net</a> random redirect directly (no lookup API, so bookmarking isn't available for it).
+        Some sites block embedding (X-Frame-Options) — use "Open directly" when the frame stays blank.
+    </footer>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(function () {
+    const DIRECTORY_URL = 'https://xn--sr8hvo.ws/directory';
+    const RANDOM_FALLBACK_URL = 'https://xn--sr8hvo.ws/random';
+    const CACHE_KEY = 'stumble.directoryCache.v1';
+    const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 1 day
+    const BOOKMARKS_KEY = 'stumble.bookmarks.v1';
+    const VISITED_KEY = 'stumble.visited.v1';
+    const SOURCE_KEY = 'stumble.source.v1';
+    const WIKI_API = 'https://en.wikipedia.org/w/api.php';
+    const WIKI_MAX_ATTEMPTS = 6;
+    const GEEKRING_RANDOM_URL = 'https://geekring.net/site/6/random';
+
+    const stumbleBtn = document.getElementById('stumbleBtn');
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    const sourceWebringBtn = document.getElementById('sourceWebringBtn');
+    const sourceWikipediaBtn = document.getElementById('sourceWikipediaBtn');
+    const sourceGeekringBtn = document.getElementById('sourceGeekringBtn');
+    const statsEl = document.getElementById('stats');
+    const siteCard = document.getElementById('siteCard');
+    const frameArea = document.getElementById('frameArea');
+    const bookmarksList = document.getElementById('bookmarksList');
+    const bookmarkCount = document.getElementById('bookmarkCount');
+    const toast = document.getElementById('toast');
+
+    let directory = [];
+    let current = null; // { url, name, note }
+    let visited = new Set(JSON.parse(sessionStorage.getItem(VISITED_KEY) || '[]'));
+    const VALID_SOURCES = ['webring', 'wikipedia', 'geekring'];
+    let source = VALID_SOURCES.includes(localStorage.getItem(SOURCE_KEY)) ? localStorage.getItem(SOURCE_KEY) : 'webring';
+
+    function setSource(next) {
+        source = next;
+        localStorage.setItem(SOURCE_KEY, source);
+        sourceWebringBtn.classList.toggle('active', source === 'webring');
+        sourceWikipediaBtn.classList.toggle('active', source === 'wikipedia');
+        sourceGeekringBtn.classList.toggle('active', source === 'geekring');
+    }
+
+    function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function getBookmarks() {
+        try { return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]'); }
+        catch (e) { return []; }
+    }
+
+    function saveBookmarks(list) {
+        localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(list));
+    }
+
+    function isBookmarked(url) {
+        return getBookmarks().some(b => b.url === url);
+    }
+
+    function renderBookmarks() {
+        const list = getBookmarks();
+        bookmarkCount.textContent = list.length ? `${list.length} saved` : '';
+        if (!list.length) {
+            bookmarksList.innerHTML = '<div class="empty-state">No bookmarks yet — stumble around and save the ones you like.</div>';
+            return;
+        }
+        bookmarksList.innerHTML = '';
+        list.slice().reverse().forEach(b => {
+            const row = document.createElement('div');
+            row.className = 'bookmark-item';
+            const info = document.createElement('div');
+            info.className = 'info';
+            const a = document.createElement('a');
+            a.href = b.url;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = b.name || b.url;
+            const urlSpan = document.createElement('span');
+            urlSpan.className = 'b-url';
+            urlSpan.textContent = b.url;
+            info.appendChild(a);
+            info.appendChild(urlSpan);
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.title = 'Remove bookmark';
+            removeBtn.textContent = '✕';
+            removeBtn.onclick = () => {
+                saveBookmarks(getBookmarks().filter(x => x.url !== b.url));
+                renderBookmarks();
+                if (current && current.url === b.url) updateBookmarkBtn();
+            };
+            row.appendChild(info);
+            row.appendChild(removeBtn);
+            bookmarksList.appendChild(row);
+        });
+    }
+
+    function updateBookmarkBtn() {
+        if (!current || current.unresolvable) {
+            bookmarkBtn.disabled = true;
+            bookmarkBtn.classList.remove('saved');
+            bookmarkBtn.title = current && current.unresolvable
+                ? "Can't bookmark — the destination URL isn't visible to this app for this source"
+                : '';
+            bookmarkBtn.textContent = '☆ Bookmark';
+            return;
+        }
+        bookmarkBtn.disabled = false;
+        bookmarkBtn.title = '';
+        const saved = isBookmarked(current.url);
+        bookmarkBtn.classList.toggle('saved', saved);
+        bookmarkBtn.textContent = saved ? '★ Bookmarked' : '☆ Bookmark';
+    }
+
+    function toggleBookmark() {
+        if (!current) return;
+        const list = getBookmarks();
+        const idx = list.findIndex(b => b.url === current.url);
+        if (idx >= 0) {
+            list.splice(idx, 1);
+            showToast('Removed bookmark');
+        } else {
+            list.push({ url: current.url, name: current.name, note: current.note, savedAt: Date.now() });
+            showToast('Bookmarked!');
+        }
+        saveBookmarks(list);
+        renderBookmarks();
+        updateBookmarkBtn();
+    }
+
+    function parseDirectory(html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const sections = doc.querySelectorAll('.directory .profile');
+        const entries = [];
+        sections.forEach(sec => {
+            const link = sec.querySelector('a.u-url');
+            if (!link || !link.href) return;
+            const name = sec.querySelector('.p-name');
+            const note = sec.querySelector('.p-note');
+            entries.push({
+                url: link.href,
+                name: name ? name.textContent.trim() : link.textContent.trim(),
+                note: note ? note.textContent.trim() : ''
+            });
+        });
+        return entries;
+    }
+
+    async function loadDirectory() {
+        try {
+            const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+            if (cached && (Date.now() - cached.at) < CACHE_TTL_MS && Array.isArray(cached.entries) && cached.entries.length) {
+                directory = cached.entries;
+                return;
+            }
+        } catch (e) { /* ignore bad cache */ }
+
+        const res = await fetch(DIRECTORY_URL);
+        if (!res.ok) throw new Error('Directory fetch failed: ' + res.status);
+        const html = await res.text();
+        const entries = parseDirectory(html);
+        if (!entries.length) throw new Error('No entries parsed from directory');
+        directory = entries;
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), entries }));
+    }
+
+    function pickRandom() {
+        if (!directory.length) return null;
+        let pool = directory.filter(e => !visited.has(e.url));
+        if (!pool.length) {
+            visited.clear();
+            pool = directory;
+        }
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        markVisited(pick.url);
+        return pick;
+    }
+
+    function markVisited(url) {
+        visited.add(url);
+        sessionStorage.setItem(VISITED_KEY, JSON.stringify(Array.from(visited)));
+    }
+
+    async function fetchRandomWikipediaTitle() {
+        const url = `${WIKI_API}?action=query&list=random&rnnamespace=0&rnlimit=1&format=json&formatversion=2&origin=*`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Wikipedia random fetch failed: ' + res.status);
+        const data = await res.json();
+        const page = data.query && data.query.random && data.query.random[0];
+        if (!page) throw new Error('No random Wikipedia page returned');
+        return page.title;
+    }
+
+    async function fetchExternalLinks(title) {
+        const url = `${WIKI_API}?action=query&titles=${encodeURIComponent(title)}&prop=extlinks&ellimit=max&format=json&formatversion=2&origin=*`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Wikipedia extlinks fetch failed: ' + res.status);
+        const data = await res.json();
+        const page = data.query && data.query.pages && data.query.pages[0];
+        if (!page || !page.extlinks) return [];
+        return page.extlinks
+            .map(e => e.url)
+            .filter(u => /^https?:\/\//i.test(u));
+    }
+
+    async function pickRandomWikipediaLink() {
+        for (let attempt = 0; attempt < WIKI_MAX_ATTEMPTS; attempt++) {
+            const title = await fetchRandomWikipediaTitle();
+            const links = await fetchExternalLinks(title);
+            const pool = links.filter(u => !visited.has(u));
+            if (!pool.length) continue;
+            const pick = pool[Math.floor(Math.random() * pool.length)];
+            markVisited(pick);
+            const articleUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`;
+            return {
+                url: pick,
+                name: pick.replace(/^https?:\/\//i, '').split('/')[0],
+                note: `External link found on Wikipedia's "${title}" article.`,
+                sourceUrl: articleUrl,
+                sourceLabel: title
+            };
+        }
+        throw new Error('Could not find an unvisited external link after ' + WIKI_MAX_ATTEMPTS + ' tries');
+    }
+
+    function pickRandomGeekring() {
+        // geekring.net has no CORS-enabled directory or API, so scripts can't resolve
+        // where the redirect lands — only the browser's own navigation can follow it.
+        return {
+            url: GEEKRING_RANDOM_URL + '?t=' + Date.now(),
+            name: 'Random geekring site',
+            note: 'geekring.net doesn’t expose a CORS API, so this app can’t see where the redirect actually lands or save a precise bookmark for it. Right-click the frame below → "Open Frame in New Tab" (or use "Open directly") to see the real address in your browser bar.',
+            unresolvable: true
+        };
+    }
+
+    function renderSiteCard(site) {
+        siteCard.innerHTML = '';
+        const h2 = document.createElement('h2');
+        h2.textContent = site.name || site.url;
+        siteCard.appendChild(h2);
+        if (!site.unresolvable) {
+            const a = document.createElement('a');
+            a.className = 'url';
+            a.href = site.url;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = site.url;
+            siteCard.appendChild(a);
+        }
+        if (site.note) {
+            const note = document.createElement('div');
+            note.className = 'note';
+            note.textContent = site.note;
+            if (site.sourceUrl) {
+                note.appendChild(document.createTextNode(' '));
+                const srcLink = document.createElement('a');
+                srcLink.className = 'url';
+                srcLink.href = site.sourceUrl;
+                srcLink.target = '_blank';
+                srcLink.rel = 'noopener';
+                srcLink.textContent = 'View article ↗';
+                note.appendChild(srcLink);
+            }
+            siteCard.appendChild(note);
+        }
+    }
+
+    function renderFrame(site) {
+        frameArea.innerHTML = '';
+        const iframe = document.createElement('iframe');
+        iframe.src = site.url;
+        iframe.referrerPolicy = 'no-referrer';
+        iframe.sandbox = 'allow-scripts allow-same-origin allow-popups allow-forms';
+        frameArea.appendChild(iframe);
+
+        const fallback = document.createElement('div');
+        fallback.className = 'frame-fallback';
+        fallback.innerHTML = site.unresolvable
+            ? `Blank frame? <a href="${site.url}" target="_blank" rel="noopener">Reroll in new tab ↗</a>`
+            : `Blank frame? <a href="${site.url}" target="_blank" rel="noopener">Open directly ↗</a>`;
+        frameArea.parentElement.appendChild(fallback);
+    }
+
+    async function stumbleWebring() {
+        if (!directory.length) await loadDirectory();
+        const site = pickRandom();
+        if (!site) throw new Error('empty directory');
+        return site;
+    }
+
+    async function stumble() {
+        stumbleBtn.disabled = true;
+        stumbleBtn.textContent = 'Rolling…';
+        try {
+            let site;
+            if (source === 'wikipedia') site = await pickRandomWikipediaLink();
+            else if (source === 'geekring') site = pickRandomGeekring();
+            else site = await stumbleWebring();
+            current = site;
+            renderSiteCard(site);
+            renderFrame(site);
+            updateBookmarkBtn();
+            if (source === 'wikipedia') {
+                statsEl.innerHTML = `<strong>${visited.size}</strong> links visited this session`;
+            } else if (source === 'geekring') {
+                statsEl.innerHTML = `unresolvable client-side`;
+            } else {
+                statsEl.innerHTML = `<strong>${directory.length}</strong> sites in the ring · <strong>${visited.size}</strong> visited this session`;
+            }
+        } catch (err) {
+            console.error(err);
+            if (source === 'wikipedia') {
+                siteCard.innerHTML = `<div class="empty-state">Couldn't fetch a Wikipedia external link — try again, or try the <a class="url" href="https://en.wikipedia.org/wiki/Special:Random" target="_blank" rel="noopener">random article</a> directly.</div>`;
+            } else if (source === 'geekring') {
+                siteCard.innerHTML = `<div class="empty-state">Couldn't load geekring — try the <a class="url" href="${GEEKRING_RANDOM_URL}" target="_blank" rel="noopener">random redirect</a> directly instead.</div>`;
+            } else {
+                siteCard.innerHTML = `<div class="empty-state">Couldn't load the directory — try the <a class="url" href="${RANDOM_FALLBACK_URL}" target="_blank" rel="noopener">random redirect</a> directly instead.</div>`;
+            }
+            frameArea.parentElement.querySelectorAll('.frame-fallback').forEach(n => n.remove());
+            frameArea.innerHTML = '<div class="frame-placeholder">Nothing to show.</div>';
+            current = null;
+            updateBookmarkBtn();
+        } finally {
+            stumbleBtn.disabled = false;
+            stumbleBtn.textContent = '🎲 Stumble';
+        }
+    }
+
+    stumbleBtn.addEventListener('click', stumble);
+    bookmarkBtn.addEventListener('click', toggleBookmark);
+    sourceWebringBtn.addEventListener('click', () => setSource('webring'));
+    sourceWikipediaBtn.addEventListener('click', () => setSource('wikipedia'));
+    sourceGeekringBtn.addEventListener('click', () => setSource('geekring'));
+
+    setSource(source);
+    renderBookmarks();
+    loadDirectory().then(() => {
+        if (source === 'webring') statsEl.innerHTML = `<strong>${directory.length}</strong> sites in the ring`;
+    }).catch(() => {});
+})();
+</script>
+
+</body>
+</html>

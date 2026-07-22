@@ -88,6 +88,17 @@
         "link":"/2026-resilience-report.html"
     },
     {
+        "title":"Stumble",
+        "description":"Randomly stumble around the IndieWeb and bookmark what you find.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "gradient":"linear-gradient(135deg, #001a2e 0%, #003a63 100%)",
+        "link":"/stumble/"
+    },
+    {
         "title":"Grandpa Devine",
         "description":"Life Events.",
         "subtitle":"",
