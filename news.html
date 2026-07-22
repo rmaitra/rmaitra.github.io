@@ -145,6 +145,9 @@
             background: var(--border);
             border-radius: 2px;
             }
+            /* wrapper slots are transparent to flex layout in broadcast mode;
+               newspaper mode turns them into a lead-card + list grid (below) */
+            .lead-slot, .rest-slot { display: contents; }
             /* VIDEO CARD */
             .video-card {
             flex: 0 0 260px;
@@ -688,8 +691,7 @@
             color: var(--muted);
             }
 
-            /* swap the horizontal carousel for a wrapping front-page grid */
-            body.newspaper .scroll-row,
+            /* loading placeholders keep a simple wrapping grid */
             body.newspaper .skeleton-row {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -697,12 +699,88 @@
             overflow-x: visible;
             padding: 0 0 1.75rem;
             }
+            body.newspaper .skeleton-card { flex: initial; width: 100%; }
+
+            /* front page: latest story as a big lead card, the rest as a list beside it */
+            body.newspaper .scroll-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+            align-items: start;
+            gap: 0 2.4rem;
+            overflow-x: visible;
+            padding: 0 0 1.75rem;
+            }
+            body.newspaper .scroll-row:has(.rest-slot:empty) {
+            grid-template-columns: 1fr;
+            }
+            body.newspaper .lead-slot { display: block; min-width: 0; }
+            body.newspaper .rest-slot {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            min-width: 0;
+            }
             body.newspaper .video-card,
             body.newspaper .article-card,
-            body.newspaper .podcast-card,
-            body.newspaper .skeleton-card {
+            body.newspaper .podcast-card {
             flex: initial;
             width: 100%;
+            }
+
+            /* lead card: bigger image + headline */
+            body.newspaper .lead-slot .video-title,
+            body.newspaper .lead-slot .article-title,
+            body.newspaper .lead-slot .podcast-title {
+            font-size: 1.55rem;
+            line-height: 1.28;
+            -webkit-line-clamp: 3;
+            }
+            body.newspaper .lead-slot .thumb-wrap,
+            body.newspaper .lead-slot .podcast-card-art {
+            margin-bottom: 0.9rem;
+            }
+            body.newspaper .lead-slot .podcast-card-art { height: 260px; }
+            body.newspaper .lead-slot .article-card,
+            body.newspaper .lead-slot .podcast-card {
+            border-top: none;
+            padding-top: 0;
+            }
+
+            /* rest-of-list: compact horizontal rows */
+            body.newspaper .rest-slot .video-card,
+            body.newspaper .rest-slot .article-card,
+            body.newspaper .rest-slot .podcast-card {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 0.85rem;
+            border-top: 1px solid #e2e2e2;
+            padding-top: 0.85rem;
+            }
+            body.newspaper .rest-slot .video-card:first-child,
+            body.newspaper .rest-slot .article-card:first-child,
+            body.newspaper .rest-slot .podcast-card:first-child {
+            border-top: none;
+            padding-top: 0;
+            }
+            body.newspaper .rest-slot .thumb-wrap,
+            body.newspaper .rest-slot .podcast-card-art {
+            width: 108px;
+            flex-shrink: 0;
+            margin-bottom: 0;
+            }
+            body.newspaper .rest-slot .podcast-card-art { height: 72px; }
+            body.newspaper .rest-slot .video-title,
+            body.newspaper .rest-slot .article-title,
+            body.newspaper .rest-slot .podcast-title {
+            font-size: 0.86rem;
+            -webkit-line-clamp: 3;
+            }
+            body.newspaper .rest-slot .article-card,
+            body.newspaper .rest-slot .podcast-card {
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 0;
             }
             body.newspaper .thumb-wrap,
             body.newspaper .podcast-card-art,
@@ -1183,15 +1261,24 @@ async function loadChannel(ch, i) {
             return;
         }
 
+        const makeFn = ch.type === 'science' ? makeArticleCard
+                     : ch.type === 'podcast' ? makePodcastCard
+                     : makeCard;
+        const cards = items.map(makeFn);
+
         const row = document.createElement('div');
         row.className = 'scroll-row';
-        if (ch.type === 'science') {
-            items.forEach(a => row.appendChild(makeArticleCard(a)));
-        } else if (ch.type === 'podcast') {
-            items.forEach(ep => row.appendChild(makePodcastCard(ep)));
-        } else {
-            items.forEach(v => row.appendChild(makeCard(v)));
-        }
+
+        const lead = document.createElement('div');
+        lead.className = 'lead-slot';
+        lead.appendChild(cards[0]);
+        row.appendChild(lead);
+
+        const rest = document.createElement('div');
+        rest.className = 'rest-slot';
+        cards.slice(1).forEach(c => rest.appendChild(c));
+        row.appendChild(rest);
+
         section.appendChild(row);
 
     } catch (e) {
