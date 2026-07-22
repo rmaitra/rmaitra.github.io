@@ -33,6 +33,17 @@
         "link":"https://www.loonaticproductions.com"
     },
     {
+        "title":"Loonatic Tunes",
+        "description":"Browse albums and stream tracks straight from Dropbox.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "gradient":"linear-gradient(135deg, #200030 0%, #5c1280 100%)",
+        "link":"/loonatic-tunes.html"
+    },
+    {
         "title":"Endometriosis Library",
         "description":"Review latest research on Endometriosis.",
         "subtitle":"",

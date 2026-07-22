@@ -1,0 +1,121 @@
+[
+    {
+        "name": "Msichana’s Dance with the Gods",
+        "image": "https://www.dropbox.com/scl/fi/example/album-two-cover.jpg?rlkey=example&raw=1",
+        "songs": [
+            {
+                "name": "Msichana’s Dance with the Gods",
+                "link": "https://www.dropbox.com/scl/fi/0ua6uj8jmz7ugh25lwikb/Layers-of-Joy-Master-v5.wav?rlkey=iv87nmw3fr6xmzwicu8x4ti08&st=ru001i33&dl=0&raw=1",
+                "image": "",
+                "credits": {
+                    "music_by": "Raj Maitra",
+                    "featuring": [
+                        { "name": "Jessica Franklin", "role": "Vocals" },
+                        { "name": "Joe Moran", "role": "Guitar" }
+                    ]
+                },
+                "timestamps": [
+                    { "time": 0, "movement": "1. Earth", "label": "", "text": "Earth bubbles and cracks with lava and lightning. An earth left behind by the gods." },
+                    { "time": 308, "movement": "2. Tangulizi", "label": "Part 1, Life in Chains", "text": "Msichana walks through her town. A town surrounded by rock walls, dust and chains." },
+                    { "time": 461, "movement": "2. Tangulizi", "label": "Part 2, Joy Inside Walls", "text": "She finds her family and the town rejoices together as night falls." },
+                    { "time": 579, "movement": "3. Imani", "label": "Escape over the Wall and Into The Dark", "text": "Into the night, Msichana thinks of the world beyond their walls. She believes there is more than dust and chains. Driven by faith of something more, Msichana climbs over the wall and into a new world." },
+                    { "time": 852, "movement": "4. Blossom", "label": "Part 1, Through Dark", "text": "Msichana wanders aimlessly through the wild." },
+                    { "time": 1166, "movement": "4. Blossom", "label": "Part 2, Light off the Mountain", "text": "As dawn arrives, she sees an omen: light atop a mountain that reaches through the clouds." },
+                    { "time": 1402, "movement": "5. Ubuntu", "label": "Up the Mountain", "text": "Msichana zigs and zags through rocks and brush. She scales ledges of stone and dust." },
+                    { "time": 1656, "movement": "6. Uhuru", "label": "Part 1, Climbing to the Summit", "text": "Msichana summits the mountain of gods and watches them dance." },
+                    { "time": 1915, "movement": "6. Uhuru", "label": "Part 2, Dance of Stars", "text": "Gods revel in excess." },
+                    { "time": 2024, "movement": "6. Uhuru", "label": "Part 3, Msichana Dances with Gods", "text": "Msichana, in excitement, disguises herself and dances with the Gods." },
+                    { "time": 2140, "movement": "6. Uhuru", "label": "Part 4, Judgement", "text": "As she dances, the Gods look upon her in awe of her dance. Enviously, a god pulls the disguise from Msichana. The Gods grimace in disgust of Msichana." },
+                    { "time": 2266, "movement": "6. Uhuru", "label": "Part 5, Falling from Paradise", "text": "The Gods throw Msichana from paradise." },
+                    { "time": 2401, "movement": "7. Respite", "label": "Spirits Call", "text": "Msichana awakes on the soil beside ice and water. She hears the calls of her people across the landscape and her spirit awakens." },
+                    { "time": 2690, "movement": "8. Peace and Earth", "label": "", "text": "Msichana’s spirit fades." }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Reimagination",
+        "image": "https://www.dropbox.com/scl/fi/example/album-two-cover.jpg?rlkey=example&raw=1",
+        "songs": [
+            {
+                "name": "Reimagination",
+                "link": "https://www.dropbox.com/scl/fi/lr3qs7gn5qaana8ukzg0x/Reimagination-Master-v1.wav?rlkey=357w2ajm2vsp5u5leg1f1ilfc&st=sskrla3h&dl=0&raw=1",
+                "image": "",
+                "credits": {
+                    "music_by": "Raj Maitra",
+                    "featuring": [
+                        { "name": "Jessica Franklin", "role": "Vocals" },
+                        { "name": "Joe Moran", "role": "Guitar" }
+                    ]
+                },
+                "timestamps": [
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Era of Women",
+        "image": "https://www.dropbox.com/scl/fi/example/album-two-cover.jpg?rlkey=example&raw=1",
+        "songs": [
+            {
+                "name": "Era of Women",
+                "link": "https://www.dropbox.com/scl/fi/0g8v3cuinsoquk8ltez53/Era-of-Women-Master-Master-V1-Full-Album.wav?rlkey=baeywqv5z125omrj41e2e1klo&st=9onl5ysu&dl=0&raw=1",
+                "image": "",
+                "credits": {
+                    "music_by": "Raj Maitra",
+                    "featuring": [
+                        { "name": "Jessica Franklin", "role": "Vocals" },
+                        { "name": "Joe Moran", "role": "Guitar" }
+                    ]
+                },
+                "timestamps": [
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Caleb and Kelsey Sessions",
+        "image": "https://www.dropbox.com/scl/fi/example/album-one-cover.jpg?rlkey=example&raw=1",
+        "songs": [
+            {
+                "name": "Eve",
+                "link": "https://www.dropbox.com/scl/fi/9wragfu98xz8u0om6gew4/Eve-Rough-Comp-v1.wav?rlkey=464hns168mjcae9oq3ki5ay5s&st=jn27loq3&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Get Behind the World",
+                "link": "https://www.dropbox.com/scl/fi/zhj6rj8mgvowzsdq3308m/Get-Behind-World-Rough-Comp-v1.wav?rlkey=yr381x571dkh81lor20p56ce8&st=59e1ehas&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Jericho",
+                "link": "https://www.dropbox.com/scl/fi/750ll3j55vlht45pmak6k/Jericho-Rough-Comp-v1.wav?rlkey=wvb0x0lpt7qzdz7awqcjgrwng&st=j6an7xuf&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Loves No Rest",
+                "link": "https://www.dropbox.com/scl/fi/j7t2lxypbholgfb48iqhk/Loves-No-Rest-Rough-Comp-V1.wav?rlkey=ntq1h3y761zymzi02jrkgijcr&st=108cphks&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    },
+    {
+        "name": "Emil Sessions",
+        "image": "https://www.dropbox.com/scl/fi/example/album-two-cover.jpg?rlkey=example&raw=1",
+        "songs": [
+            {
+                "name": "Bath House Blues",
+                "link": "https://www.dropbox.com/scl/fi/67wctslzrzjxe39xv7q8k/Bath-House-Blues.wav?rlkey=ptznt9nr949smkz3iizzpt8z9&st=lsz8f7cd&dl=0&raw=1",
+                "image": ""
+            },{
+                "name": "Bro Code",
+                "link": "https://www.dropbox.com/scl/fi/xg3se4xqlbnvgvv5lt1n6/Bro-Code-Comp-v1.wav?rlkey=ztxtnpkh5qxyfex2gdxd9xlw1&st=8k5l54kl&dl=0&raw=1",
+                "image": ""
+            },{
+                "name": "Covid Zombies",
+                "link": "https://www.dropbox.com/scl/fi/vf04fzwr06dnwabi1kwii/CoVid-Zombies-V2.wav?rlkey=fok7709uosa0q3062xa7i0mb1&st=zsetngh5&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    }
+]
