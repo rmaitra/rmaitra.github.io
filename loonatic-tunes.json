@@ -228,5 +228,46 @@
                 "image": ""
             }
         ]
+    },
+    {
+        "name": "Caylen Larson Sessions",
+        "artist": "Calyen Larson",
+        "image": "",
+        "songs": [
+            {
+                "name": "Confirmation",
+                "link": "https://www.dropbox.com/scl/fi/xx4dtwvwqmdta6qv8x7la/Confirmation.wav?rlkey=y4l4if2lnno02xi451k89s6qg&st=cpjta9s1&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    },
+    {
+        "name": "Unfinished Works",
+        "artist": "The Raj!",
+        "image": "",
+        "songs": [
+            {
+                "name": "Arrived",
+                "link": "https://www.dropbox.com/scl/fi/fchb6r2bowgrshzj06wdr/Arrived.wav?rlkey=9kxzrrwon2rjn589aplqwibcu&st=vp7hebox&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "I'ma Do Me (Revamp)",
+                "link": "https://www.dropbox.com/scl/fi/9tkgikv09b6ylmu85av6w/I-ma-Do-Me-Revamp-Comp-1.wav?rlkey=3dtztoqyb9rdscmku53x75w9s&st=2f5dmefd&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "You and I",
+                "link": "https://www.dropbox.com/scl/fi/j0da4yehon4kl6kytwgd8/You-and-I-Master-V2.wav?rlkey=cfaj777skqwxc2iabcrcx6th4&st=gtodjdpo&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Mortal Coil",
+                "link": "https://www.dropbox.com/scl/fi/xj5qtyo3q7rpzi9fdxmgu/Mortal-Coil.wav?rlkey=kezznyfg40qf91kw9cf4g3pa9&st=acze0v2v&dl=0&raw=1",
+                "image": ""
+            }    
+        ]
     }
 ]
+
+
