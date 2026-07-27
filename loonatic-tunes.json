@@ -336,6 +336,43 @@
                 "image": ""
             }       
         ]
+    },
+    {
+        "name": "Rough Covers and Whiskey with Rudy",
+        "artist": "Rudy Nelson",
+        "image": "",
+        "songs": [
+            {
+                "name": "Case of You",
+                "link": "https://www.dropbox.com/scl/fi/ymo4oors2i7tjo6i89uw7/Case-of-You-rough-Comp-1.wav?rlkey=l2cn19ljk5mdzglwa89ch81z2&st=u4h3sayn&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Christmas Time is Here",
+                "link": "https://www.dropbox.com/scl/fi/nf90i75uphqoav978i328/Christmas-Time-Is-Here-rough-Take.wav?rlkey=4irr1jho0efg9fi8mb2b9regt&st=2calg1yy&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Come Fly Away",
+                "link": "https://www.dropbox.com/scl/fi/4r7im5wnfbuh5t7n7aizh/Come-Fly-Away-rough.wav?rlkey=ugbn3lm8ni9tf69d22dxlc03m&st=epy1da51&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Curse of the Blackened Eye",
+                "link": "https://www.dropbox.com/scl/fi/lmhvq4jdffpbmjw2lq0dd/Curse-of-the-Blackened-Eye-Rough.wav?rlkey=y3ejgy4pghlssa06pjzcezg7x&st=j4z1mqrn&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Sway",
+                "link": "https://www.dropbox.com/scl/fi/1j6qylfib9ls5n81oucol/Sway-Buble-rough.wav?rlkey=lqcui2avm77c5cywl026lp7bj&st=53r9qspr&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Western Skyline",
+                "link": "https://www.dropbox.com/scl/fi/8xfyur8swsjwagpfh3t5a/That-Western-Skyline-master-v2.wav?rlkey=2iqksqgtk1zjd844wnwqtoca7&st=871j7wub&dl=0&raw=1",
+                "image": ""
+            }     
+        ]
     }
 ]
 
