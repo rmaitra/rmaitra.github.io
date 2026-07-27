@@ -267,6 +267,75 @@
                 "image": ""
             }    
         ]
+    },
+    {
+        "name": "The Sting of the Nettle",
+        "artist": "The Stinging Nettles",
+        "image": "",
+        "songs": [
+            {
+                "name": "Alien",
+                "link": "https://www.dropbox.com/scl/fi/xuzjbyglyybrpaho4dz3r/Alien-Master-V2.wav?rlkey=sk8xcb0ovnwmed8lq3nzs2oud&st=80akef0q&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Die Everyday",
+                "link": "https://www.dropbox.com/scl/fi/7k1dlwk1gtozu35d2w3xj/Die-Every-Day-Master-V2.wav?rlkey=bim7l6c7dcxujn5zlpolrrws7&st=0jr2qx4i&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "I Like Thinking",
+                "link": "https://www.dropbox.com/scl/fi/bfcwlh234lsdo4xnavs5i/I-Like-Thinking-Master-V2.wav?rlkey=i5iy0cgxeelo7vnjggickv2gt&st=h32z0xv1&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Manchild",
+                "link": "https://www.dropbox.com/scl/fi/1crgd0s1kou978vp8ky9a/Manchild-Master-V2.wav?rlkey=d604z7k93oql9ro5l8qksgh95&st=obxdxdto&dl=0&raw=1",
+                "image": ""
+            }    
+        ]
+    },
+    {
+        "name": "Love with Your Phone",
+        "artist": "Jono and the Raj!",
+        "image": "",
+        "songs": [
+            {
+                "name": "It's Like We're Together",
+                "link": "https://www.dropbox.com/scl/fi/1chfhpfk78vh7p6y53wat/It-s-Like-We-re-Together-mix-v1.wav?rlkey=4rakvvlbgwjgye9n8cw26qa6e&st=rt62w6ru&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Cream Puffs",
+                "link": "https://www.dropbox.com/scl/fi/0tm12cdyl38fmb1sty6pt/Cream-Puffs-mix-v1.wav?rlkey=16de6hdjx4aicnxvw7dnrydh4&st=priyt4qs&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Love with Your Phone",
+                "link": "https://www.dropbox.com/scl/fi/nd9y5v8nj44mgnd5eungq/Love-with-Your-Phone-Pre-Master-V1.wav?rlkey=7bm8zsouarzr950cuu1ym8ruq&st=w7gjkn8k&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Just the Two of Us",
+                "link": "https://www.dropbox.com/scl/fi/cebv2samo60tbtzlqy04x/Just-The-Two-of-Us-mix-v1.wav?rlkey=bam4riu2ktmdwsha7vsrf5fev&st=0sthgtqc&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Other Man",
+                "link": "https://www.dropbox.com/scl/fi/wfqgi1pnin0nyyf5yl8af/Other-Man-mix-v1.wav?rlkey=bcbwczer5e5nljysmxsrdqg6t&st=adpl90f3&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Ovals",
+                "link": "https://www.dropbox.com/scl/fi/0mhm8h46i09b614u155lj/Ovals-mix-v1.wav?rlkey=axwze319yxc41xsb4id5i5gn9&st=2okbrt0q&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Politics",
+                "link": "https://www.dropbox.com/scl/fi/rkaeagkvpcuylaxx7onlh/Politics-mix-v1.wav?rlkey=8k17mzwevicv52jabgt5we4rt&st=sfzh6u6f&dl=0&raw=1",
+                "image": ""
+            }       
+        ]
     }
 ]
 
