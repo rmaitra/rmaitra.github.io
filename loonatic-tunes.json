@@ -121,13 +121,21 @@
         ]
     },
     {
-        "name": "Emil Sessions",
+        "name": "Life of the Party",
         "artist": "Emil",
         "image": "",
         "songs": [
             {
+                "name":"Spring Break",
+                "link":"https://www.dropbox.com/scl/fi/0eh3guhwxv67yjvjkmwwd/MPLS-Humboldt-Spring.wav?rlkey=sl7n3rpylc7xf9d106cu8z5y8&st=axwa6g5a&dl=0&raw=1",
+                "image":""
+            },{
                 "name": "Bath House Blues",
                 "link": "https://www.dropbox.com/scl/fi/67wctslzrzjxe39xv7q8k/Bath-House-Blues.wav?rlkey=ptznt9nr949smkz3iizzpt8z9&st=lsz8f7cd&dl=0&raw=1",
+                "image": ""
+            },{
+                "name": "Groupon",
+                "link": "https://www.dropbox.com/scl/fi/uc7voikgwfe9njdqd9ojc/Groupon-Mix-V2.wav?rlkey=zhmsstl9kn8y3hyp808cbtdh4&st=dud8jmed&dl=0&raw=1",
                 "image": ""
             },{
                 "name": "Bro Code",
@@ -137,8 +145,34 @@
                 "name": "Covid Zombies",
                 "link": "https://www.dropbox.com/scl/fi/vf04fzwr06dnwabi1kwii/CoVid-Zombies-V2.wav?rlkey=fok7709uosa0q3062xa7i0mb1&st=zsetngh5&dl=0&raw=1",
                 "image": ""
+            },{
+                "name": "I'm So Sexy",
+                "link": "https://www.dropbox.com/scl/fi/031u38ve1kididamu6c2t/I-m-So-Sexy-Compostion-V1.wav?rlkey=3ap9o7u15xg11zt0ska4qh8x8&st=uzxh9zhc&dl=0&raw=1",
+                "image": ""
+            },{
+                "name": "Rubik's Cube",
+                "link": "https://www.dropbox.com/scl/fi/uhbdjzdkuipa3fzc30lbg/Rubiks-Cube-Mix-v2.wav?rlkey=fdfozcpj1qcddnervwb4h9dfp&st=qh7fwkd9&dl=0&raw=1",
+                "image": ""
+            },{
+                "name":"Flip'n That Shit",
+                "link":"https://www.dropbox.com/scl/fi/996j29pencho2c49v86kr/Flip-n-That-Mix-v2-Verse-Correction.wav?rlkey=kfff9v8ip57la7qfa4zggiqr5&st=sqhlt87m&dl=0&raw=1",
+                "image":""
+            },{
+                "name":"Coffe Break",
+                "link":"https://www.dropbox.com/scl/fi/dg1ijyh2mf1vzme9s511s/Coffee-Break-Master.wav?rlkey=ts9tie2l3ih0e0g25lkccs2p8&st=3gn4kkxe&dl=0&raw=1",
+                "image":""
+            },{
+                "name":"What Makes You Masculine?",
+                "link":"https://www.dropbox.com/scl/fi/yjuq72cuxkhu82unp34k7/What-Makes-You-Masculine-V3-Mix.wav?rlkey=mjvy8lsw0c5cayl6sj6op9fz4&st=unz7plo9&dl=0&raw=1",
+                "image":""
+            },{
+                "name":"Woke Up and Started Dreamin'",
+                "link":"https://www.dropbox.com/scl/fi/g0oz4nbdluj8klowwg8xx/Woke-Up-and-Started-Dreamin-V2.wav?rlkey=swsxtlui6rlkizeml35x5pzma&st=81cz1txd&dl=0&raw=1",
+                "image":""
             }
         ]
+
+        
     },
     {
         "name": "Kelsey and Kaia Sessions",
