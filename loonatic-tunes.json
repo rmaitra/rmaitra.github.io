@@ -372,6 +372,43 @@
         ]
     },
     {
+        "name": "Jono Sessions",
+        "artist": "Jono Cowgill",
+        "image": "",
+        "songs": [
+            {
+                "name": "Katie Jones Folk!",
+                "link": "https://www.dropbox.com/scl/fi/1r9bf5f25zh9qbqnigffe/Katie-Jones-Folk-Master-v1.wav?rlkey=u9x01bs3kedoe8eg7fmk9y5jq&st=d0akonmo&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Vote Katie!",
+                "link": "https://www.dropbox.com/scl/fi/x2535lc9kopn68arjy85a/Katie-Jones-Master-v1.wav?rlkey=inlezhn79t4irpymeqyjon4m3&st=yz6ba6bs&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Big Jones and the Magician",
+                "link": "https://www.dropbox.com/scl/fi/ri6wymaowcixsdojnn6us/Big-Jones-and-the-Magician-Demo-v1.wav?rlkey=xloto7jj9zczgqk0eaa088152&st=ke06rckv&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Dandelion Wine",
+                "link": "https://www.dropbox.com/scl/fi/0v18p164bkrfy66b90fil/Dandelion-Wine-Comp-v1.wav?rlkey=2mvbinqp7vwpds7e0vfgwnkq9&st=at54rqfn&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Southside Lover",
+                "link": "https://www.dropbox.com/scl/fi/ljrozgvt7mtyvwzzl7v1x/Southside-Lover-V1-Composition.wav?rlkey=w8xgh74zgb5zntrnsl33lhii3&st=6yc59ldv&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Wayside",
+                "link": "https://www.dropbox.com/scl/fi/lhmfj2ud00kmsl2b87prc/Wayside-Composition-V1.wav?rlkey=7wu1c5ph448yhpdx2zpk9pabv&st=at2t5gfd&dl=0&raw=1",
+                "image": ""
+            }
+        ]
+    },
+    {
         "name": "Rough Covers and Whiskey with Rudy",
         "artist": "Rudy Nelson",
         "image": "",
