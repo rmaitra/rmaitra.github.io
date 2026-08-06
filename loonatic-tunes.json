@@ -37,7 +37,7 @@
     {
         "name": "Reimagination",
         "artist": "Raj Maitra",
-        "image": "",
+        "image": "https://www.loonaticproductions.com/img/reimagination.webp",
         "songs": [
             {
                 "name": "Reimagination",
@@ -58,7 +58,7 @@
     {
         "name": "Era of Women",
         "artist": "Raj Maitra",
-        "image": "",
+        "image": "https://www.loonaticproductions.com/img/era_of_women.webp",
         "songs": [
             {
                 "name": "Era of Women",
@@ -73,6 +73,113 @@
                 },
                 "timestamps": [
                 ]
+            }
+        ]
+    },
+    {
+        "name": "I'ma Do Me",
+        "artist": "Raj Maitra",
+        "image": "https://www.loonaticproductions.com/img/portfolio/ima-do-me.png",
+        "songs": [
+            {
+                "name": "Abide With Me",
+                "link": "https://www.dropbox.com/scl/fi/mkcphm42vdzejfggwayov/Loonatic-Sound-I-ma-Do-Me-01-Abide-with-Me-Homie.wav?rlkey=8f4g8313t8mh2g6i6c6dqxpo8&st=t9j4i0xr&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Interlude (MN)",
+                "link": "https://www.dropbox.com/scl/fi/d1kngtfp3gv7l74in7q6y/Loonatic-Sound-I-ma-Do-Me-02-Interlude-MN.wav?rlkey=k91gwrmcwg1tq56jwd2lbxl8l&st=5yqy55vr&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Minnesota Made",
+                "link": "https://www.dropbox.com/scl/fi/4ex66erh9z6lwejgs7cjo/Loonatic-Sound-I-ma-Do-Me-03-Minnesota-Made.wav?rlkey=b9nmxu7c3diez4oa1ikm0v80r&st=z8tkueln&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Odd Acts of Raj",
+                "link": "https://www.dropbox.com/scl/fi/w0321w9h51cueifn22ulg/Loonatic-Sound-I-ma-Do-Me-04-Odd-Acts-of-Raj.wav?rlkey=npspc0iz6smn5ht2yaci57zqf&st=4xyp8jem&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Interlude (California)",
+                "link": "https://www.dropbox.com/scl/fi/j5g6k16egbi90fv897ttt/Loonatic-Sound-I-ma-Do-Me-05-Interlude-California.wav?rlkey=j0anjperajmfkfj2a2ea2h4hf&st=a12863e4&dl=0",
+                "image": ""
+            },
+            {
+                "name": "It's Gonna Be One Of Those Days",
+                "link": "https://www.dropbox.com/scl/fi/2wwbm715zxw5y4yf06zfs/Loonatic-Sound-I-ma-Do-Me-06-It-s-Gonna-Be-One-of-Those-Days.wav?rlkey=5zxudczpwild8g9aq7h0ncntb&st=lkvp1p1i&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Interlude (Process)",
+                "link": "https://www.dropbox.com/scl/fi/q11r5w6reuhqulnpqkbp8/Loonatic-Sound-I-ma-Do-Me-07-Interlude-Process.wav?rlkey=h7jydiipn3zz2lj3bdgvl6uvi&st=jmq1nqir&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Word Vomit",
+                "link": "https://www.dropbox.com/scl/fi/4tkj76p2myk3xrtrj6ls4/Loonatic-Sound-I-ma-Do-Me-08-Word-Vomit.wav?rlkey=z6852wgmxr2uj9hfiaybxzs2c&st=jnk4527u&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Intermission (Feat. The Earleys)",
+                "link": "https://www.dropbox.com/scl/fi/7y0uttnuiynjikhxdnzys/Loonatic-Sound-I-ma-Do-Me-09-Intermission-Feat.-The-Earleys.wav?rlkey=fe8i4ouba87qdaxlbu13ucwkt&st=708ka1bw&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Like In Tekken",
+                "link": "https://www.dropbox.com/scl/fi/2xbaxh59qww17dz8gwgjk/Loonatic-Sound-I-ma-Do-Me-10-Like-in-Tekken.wav?rlkey=f6a43625netav5hxhg241d0hm&st=7nyqskk9&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Interlude (Outing In The City)",
+                "link": "https://www.dropbox.com/scl/fi/5ds4jtd0dknrnmhw8wht2/Loonatic-Sound-I-ma-Do-Me-11-Interlude-Outing-in-the-City.wav?rlkey=wjrgk5vnhi32gd6thafmpxxs3&st=k8hfycmp&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Stop Sweating My Grind (Feat. Emil Carson)",
+                "link": "https://www.dropbox.com/scl/fi/3xjmkk3197qjk4loqbalm/Loonatic-Sound-I-ma-Do-Me-12-Stop-Sweating-My-Grind-Feat.-Emil-Carson.wav?rlkey=4vqybfahuijp3ztukljw5yvn9&st=nl3ol4pa&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Interlude (Girl On Phone)",
+                "link": "https://www.dropbox.com/scl/fi/xf1lsx09lwqwcrsfr7nas/Loonatic-Sound-I-ma-Do-Me-13-Interlude-Girl-on-Phone.wav?rlkey=d4tj5yvednnk0wu0xjobzhfhi&st=oslwyibo&dl=0",
+                "image": ""
+            },
+            {
+                "name": "You Can Call Me Bae",
+                "link": "https://www.dropbox.com/scl/fi/afjumfu8f4bxslul92iat/Loonatic-Sound-I-ma-Do-Me-14-You-Can-Call-Me-Bae.wav?rlkey=jdhgsoeoaitdenw4j8h4wds61&st=osplw8ph&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Interlude (Bonnie)",
+                "link": "https://www.dropbox.com/scl/fi/j4b404cb1tscqbfuz3c7v/Loonatic-Sound-I-ma-Do-Me-15-Interlude-Bonnie.wav?rlkey=22ixec5evv056ik82a2n4zcwu&st=elic0ig8&dl=0",
+                "image": ""
+            },
+            {
+                "name": "So Far Away",
+                "link": "https://www.dropbox.com/scl/fi/ry0jvhuu779ca1dxdhd7c/Loonatic-Sound-I-ma-Do-Me-16-So-Far-Away.wav?rlkey=1tmghnmw42p8qya4qj55qdl7c&st=qjtrcp1p&dl=0",
+                "image": ""
+            },
+            {
+                "name": "I Dreamt A Dream",
+                "link": "https://www.dropbox.com/scl/fi/5vka45k32qxm7m4kdj5d1/Loonatic-Sound-I-ma-Do-Me-17-I-Dreamt-a-Dream.wav?rlkey=2ie21kkbkuee4w7taicc9fspb&st=igiym9og&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Look At Us Now",
+                "link": "https://www.dropbox.com/scl/fi/0vzyfdczl3xghtu8lrrrj/Loonatic-Sound-I-ma-Do-Me-18-Look-at-Us-Now.wav?rlkey=5lhsdbt3ie8np0723b68oj7kf&st=9k95ul5z&dl=0",
+                "image": ""
+            },
+            {
+                "name": "I'ma Do Me",
+                "link": "https://www.dropbox.com/scl/fi/qpbyvkj31p86drm3cft7h/Loonatic-Sound-I-ma-Do-Me-19-I-ma-Do-Me.wav?rlkey=trsjiwr1q1aadsx788jf3lrqv&st=f3ul3fh5&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Outro",
+                "link": "https://www.dropbox.com/scl/fi/0aq9l5i3ejk97lruhz43v/Loonatic-Sound-I-ma-Do-Me-20-Outro.wav?rlkey=8c0p9jes7wprm2c9zvpqwx1td&st=odduhroo&dl=0",
+                "image": ""
             }
         ]
     },
@@ -208,11 +315,11 @@
                 "link": "https://www.dropbox.com/scl/fi/kf5aqlpe9kczb4y089ac2/TBHuey-UnMixed.wav?rlkey=wvz1ishpeapgaeqhmxdbku81v&st=0764fdh7&dl=0&raw=1",
                 "image": ""
             },
-	    {
-		"name":"The Best Part",
-		"link":"https://www.dropbox.com/scl/fi/dg6axp5kt31t9c7eli0fq/The-Best-Part-Comp-v1.wav?rlkey=nh1uuh4q9vx3hik8y110z4j57&st=pkvth561&dl=0&raw=1",
-		"image":""
-	    }
+    	    {
+        		"name":"The Best Part",
+        		"link":"https://www.dropbox.com/scl/fi/dg6axp5kt31t9c7eli0fq/The-Best-Part-Comp-v1.wav?rlkey=nh1uuh4q9vx3hik8y110z4j57&st=pkvth561&dl=0&raw=1",
+        		"image":""
+    	    }
         ]
     },
     {
@@ -337,7 +444,7 @@
     {
         "name": "Love with Your Phone",
         "artist": "Jono and the Raj!",
-        "image": "",
+        "image": "https://www.loonaticproductions.com/img/love-with-your-phone.webp",
         "songs": [
             {
                 "name": "It's Like We're Together",
