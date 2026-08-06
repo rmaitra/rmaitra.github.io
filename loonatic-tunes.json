@@ -183,7 +183,6 @@
             }
         ]
     },
-
     {
         "name": "Purple Tears",
         "artist": "Raj Maitra",
@@ -240,6 +239,83 @@
                 "name":"Giants",
                 "link":"https://www.dropbox.com/scl/fi/zzsijyztbxp99vzahni2x/Giants-Mixed-V2-_1.wav?rlkey=1w1y1g27y5mymlnbqfxodra61&st=2mvicsk0&dl=0",
                 "image":""
+            }
+        ]
+    },
+    {
+        "name": "Yellow Son",
+        "artist": "Joe Moran",
+        "image": "https://www.dropbox.com/scl/fi/z2h6w1lv58rpj21qsbv06/yello-son.jpg?rlkey=ynnckrn1koo19lkurrmjrbbin&st=myr27nk9&dl=0",
+        "songs": [
+            {
+                "name": "Introduction",
+                "link": "https://www.dropbox.com/scl/fi/bptk4q1tfzr86rqs13wr2/1.-Introduction.wav?rlkey=8yncxpwul3mzrr0on07usuf39&st=i9irrrgq&dl=0",
+                "image": ""
+            },
+            {
+                "name": "The Circus (feat. Eamonn McLain)",
+                "link": "https://www.dropbox.com/scl/fi/ccng2m6sc0e387juwm0qn/2.-The-Circus.wav?rlkey=nno02ofo7o3l2ecen707u424e&st=z4v0ie9g&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Bored of Everything",
+                "link": "https://www.dropbox.com/scl/fi/gbt3vq148d0fhn1beofek/3.-Bored-of-Everything.wav?rlkey=deayyswq749pef04nf2b4j2el&st=hqr8pgsm&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Yellow Sun",
+                "link": "https://www.dropbox.com/scl/fi/asmaqurdt2o7ydzavsszc/4.-Yellow-Sun.wav?rlkey=xr9q4qtu0frkhzj8new7z9y2a&st=7c0v62ye&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Leaving Home",
+                "link": "https://www.dropbox.com/scl/fi/16thlcgsb1zkm4c0qmjia/5.-Leaving-Home.wav?rlkey=kgtp012r7do9qu3ud9exyg9vo&st=2tw1twtf&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Life of a Pirate (feat. Eamonn McLain)",
+                "link": "https://www.dropbox.com/scl/fi/nkkrwzdhow3bo5zbmgvkv/6.-Life-of-a-Pirate.wav?rlkey=th1nte21eqjfwq0rkuz4s5d9h&st=fv4oqrax&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Overboard",
+                "link": "https://www.dropbox.com/scl/fi/my25qrfb9snizkn2r5tuk/7.-Overboard.wav?rlkey=15z1bbpfeu51n5ds1qlalgnab&st=apm5fx3t&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Bottom of the Ocean (feat. Eamonn McLain)",
+                "link": "https://www.dropbox.com/scl/fi/6gt7zw5rfz4wemv2j4ti4/8.-Bottom-of-the-Ocean.wav?rlkey=rih9o0xgkvk4jcr2syhzqrvfw&st=y2g9aiwd&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Anywhere You Go",
+                "link": "https://www.dropbox.com/scl/fi/182eaok1169k4f8q0jjtp/9.-Anywhere-You-Go.wav?rlkey=am1ei3m12c8i1wvvr2b0ojpq1&st=ovkfi4y3&dl=0",
+                "image": ""
+            },
+            {
+                "name": "I Told You",
+                "link": "https://www.dropbox.com/scl/fi/aq4wf6k8aoju554sb4z9i/10.-I-Told-You.wav?rlkey=kfjjsnwdweopj2ba968w3r42i&st=n4lb45y4&dl=0",
+                "image": ""
+            },
+            {
+                "name": "No One Will Cry",
+                "link": "https://www.dropbox.com/scl/fi/yrqgyvupxpq0p2moldh8t/11.-No-One-Will-Cry.wav?rlkey=ufreon9ouolafm61svrb8orvw&st=k2unuynv&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Death in the Desert",
+                "link": "https://www.dropbox.com/scl/fi/5ipvsu7ef61kgyyctqjr6/12.-Death-in-the-Desert.wav?rlkey=fgvodyk0gnddv1hmyuc6xcaz9&st=ee1hlu6z&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Recognize Me",
+                "link": "https://www.dropbox.com/scl/fi/wkvmgqf38h47w6hyv958q/13.-Recognize-Me.wav?rlkey=07r3swua1kdncudb3xmksw4zp&st=4f8cdgyo&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Let Me Down Easy (feat. Eamonn McLain)",
+                "link": "https://www.dropbox.com/scl/fi/kx4nkevmyxwu56plz8urd/14.-Let-Me-Down-Easy.wav?rlkey=zqpvioo0j2b46bcne8whsnrei&st=y8mect07&dl=0",
+                "image": ""
             }
         ]
     },
