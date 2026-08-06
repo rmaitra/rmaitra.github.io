@@ -183,6 +183,49 @@
             }
         ]
     },
+
+    {
+        "name": "Purple Tears",
+        "artist": "Raj Maitra",
+        "image": "https://www.loonaticproductions.com/img/portfolio/purple-tears.png",
+        "songs": [
+            {
+                "name": "This Ain't Easy (Feat. Emil Carson)",
+                "link": "https://www.dropbox.com/scl/fi/jml263t1hooikr3uohjdf/This-Ain-t-Easy-Amplified-6.wav?rlkey=99e24dp9nalnw4g58bbwnfagu&st=gltoa78b&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Mezclado Funk",
+                "link": "https://www.dropbox.com/scl/fi/fc6xr9wl4povdnaivfu59/Mezclado-Funk-Amp-5.wav?rlkey=a26clopgpif3siqi8qqhyid1n&st=47xlb11r&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Purple Tears",
+                "link": "https://www.dropbox.com/scl/fi/igbph50caetcge18i95wj/Purple-Tears-Amp-5.wav?rlkey=r1yj8i3boeeupxo9kiw4wvgip&st=c3mz6a2m&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Rivers Around the World",
+                "link": "https://www.dropbox.com/scl/fi/m92aaitfusz1sra5yk0ue/Rivers-Around-the-World-Amp-5.wav?rlkey=dhtkd0hw0cjnyyz5qesvpbyj7&st=9qdv6aft&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Two Fishes",
+                "link": "https://www.dropbox.com/scl/fi/konl4r85mxy9lx4wgvd71/Two-Fishes-Amp-5.wav?rlkey=je2na3x8xlcobx1a7b86x13a6&st=ecli7der&dl=0",
+                "image": ""
+            },
+            {
+                "name": "Why Do We Fall Batman?",
+                "link": "https://www.dropbox.com/scl/fi/ps16uhq8uxj63hz4zm44b/Why-Do-We-Fall-Batman-Amp-5.wav?rlkey=5donmnq1ynicp7ft90mooq3r1&st=x7lrjfoq&dl=0",
+                "image": ""
+            },
+            {
+                "name": "You Can Call Me Raj",
+                "link": "https://www.dropbox.com/scl/fi/zhlwqlzyu4nud6rb4p9k4/You-Can-Call-Me-Raj-Amp-5.wav?rlkey=8asz4njs9ycti8brg0mffyiv4&st=o3p3d761&dl=0",
+                "image": ""
+            }
+        ]
+    },
     {
         "name": "Exploration",
         "artist": "Raj Maitra",
