@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellstone Sign</title>
+  
+  <!-- Importing Clearface-style serif and standard sans-serif fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cooper+Lite&family=Inter:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset and Center Container */
+    * {
+      box-sizing: border-border;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Lawn Sign Dimensions & Styling */
+    .sign-container {
+      background-color: #ffffff;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      max-width: 900px;
+      width: 90%;
+    }
+
+    .sign-inner {
+      background-color: #006a38; /* Signature Wellstone Green */
+      color: #ffffff;
+      padding: 60px 40px 40px;
+      text-align: center;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Main "Wellstone!" Typography */
+    .headline {
+      /* Uses ITC Clearface stack with Cooper/Georgia fallbacks */
+      font-family: "ITC Clearface", "Clearface", "Cooper Lite", Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(3.5rem, 12vw, 8.5rem);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 20px;
+      white-space: nowrap;
+    }
+
+    /* Subtitle URL Typography */
+    .subtext {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 3.2vw, 2.2rem);
+      letter-spacing: 0.01em;
+      margin-top: 10px;
+    }
+
+    /* Disclaimer Text (Optional, matches original sign border) */
+    .disclaimer {
+      margin-top: 12px;
+      font-size: 0.65rem;
+      color: #333333;
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sign-container">
+    <div class="sign-inner">
+      <h1 class="headline">Wellstone!</h1>
+      <p class="subtext">www.wellstone.org</p>
+    </div>
+    
+    <div class="disclaimer">
+      <span>Tony Doom Supply Co.</span>
+      <span>Pd for by the MN DFL Party</span>
+    </div>
+  </div>
+
+</body>
+</html>
