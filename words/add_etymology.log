@@ -1,0 +1,6 @@
+[16:50:44] Loaded 5343 target words (5343 unique lowercase). Starting stream from https://kaikki.org/dictionary/English/words/kaikki.org-dictionary-English-words.jsonl
+[16:57:02] processed 500000 lines, matched words so far: 5036
+[16:59:01] processed 1000000 lines, matched words so far: 5061
+[17:00:46] DONE. total lines processed: 1492836, matching-word lines with etymology: 9294, unique words with etymology: 5064 / 5343
+[17:00:46] wrote /home/rajmaitra/Projects/rmaitra.github.io/words/etymology_map.json
+[17:00:46] Next: run `python3 merge_etymology.py` to fold this into words.json

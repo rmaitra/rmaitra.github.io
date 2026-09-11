@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRE Words</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #0d0d0d;
+    --bg-card: #111213;
+    --text-primary: #e0e0e0;
+    --text-secondary: #aaaaaa;
+    --text-tertiary: #888888;
+    --border-primary: #1e1e1e;
+    --accent: #4a9eff;
+    --accent-dim: #1f3a5c;
+    --good: #35c97f;
+    --good-bg: #10281c;
+    --bad: #ff6b6b;
+    --bad-bg: #2c1414;
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    margin: 0;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border-primary);
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    flex: 0 0 auto;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .topbar h1 { font-size: 1.25rem; margin: 0; letter-spacing: -0.3px; font-weight: 700; }
+  .home-link { color: var(--text-tertiary); text-decoration: none; font-size: 0.85rem; }
+  .home-link:hover { color: var(--accent); }
+
+  .tab-nav {
+    display: flex;
+    gap: 8px;
+  }
+  .tab-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+  .tab-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--text-primary); }
+
+  main {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 24px;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .pane { display: none; flex: 1; min-height: 0; }
+  .pane.active { display: flex; flex-direction: column; }
+
+  /* Browse */
+  .search-row { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; flex: 0 0 auto; }
+  .table-wrap { flex: 1 1 auto; min-height: 0; overflow-y: auto; border: 1px solid var(--border-primary); border-radius: 8px; }
+  .search-input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+  .search-input:focus { outline: none; border-color: var(--accent); }
+  .result-count { color: var(--text-tertiary); font-size: 0.8rem; white-space: nowrap; }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-primary);
+    position: sticky;
+    top: 0;
+    background: var(--bg-primary);
+  }
+  tbody td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--border-primary);
+    font-size: 0.88rem;
+    vertical-align: top;
+  }
+  tbody td.word-cell { font-weight: 600; color: #fff; white-space: nowrap; }
+  tbody td.meaning-cell { color: var(--text-secondary); line-height: 1.4; }
+  tbody tr:hover td { background: var(--bg-secondary); }
+
+  .pager { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 14px 0 4px; flex: 0 0 auto; }
+  .pager button {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+  }
+  .pager button:disabled { opacity: 0.35; cursor: default; }
+  .pager button:not(:disabled):hover { border-color: var(--accent); }
+  .pager span { color: var(--text-tertiary); font-size: 0.85rem; }
+
+  /* Quiz */
+  #quizPane { align-items: stretch; }
+  .quiz-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow-md);
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .quiz-setup label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .option-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .option-chip {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+  }
+  .option-chip.active { background: var(--accent-dim); border-color: var(--accent); color: #fff; }
+  .start-btn, .primary-btn {
+    background: var(--accent);
+    border: none;
+    color: #04101f;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+  .start-btn:hover, .primary-btn:hover { filter: brightness(1.1); }
+
+  .quiz-progress { color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 10px; }
+  .quiz-score { color: var(--accent); font-weight: 600; }
+  .quiz-prompt-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary); margin-bottom: 6px; }
+  .quiz-prompt { font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 18px; word-break: break-word; }
+  .quiz-prompt.small { font-size: 1.1rem; font-weight: 500; color: var(--text-primary); line-height: 1.5; }
+  .choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+  .choice-btn {
+    text-align: left;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    padding: 14px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); }
+  .choice-btn:disabled { cursor: default; }
+  .choice-btn.correct { background: var(--good-bg); border-color: var(--good); color: #cdf7e0; }
+  .choice-btn.incorrect { background: var(--bad-bg); border-color: var(--bad); color: #ffd6d6; }
+
+  .quiz-footer { display: flex; justify-content: space-between; align-items: center; }
+  .quiz-quit { color: var(--text-tertiary); text-decoration: underline; cursor: pointer; font-size: 0.8rem; background: none; border: none; font-family: inherit; }
+
+  .results-list { max-height: 260px; overflow-y: auto; margin: 18px 0; border-top: 1px solid var(--border-primary); }
+  .results-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-primary); font-size: 0.85rem; }
+  .results-row .rw { font-weight: 600; color: #fff; white-space: nowrap; }
+  .results-row .rm { color: var(--text-secondary); text-align: right; }
+  .results-row.wrong .rw { color: var(--bad); }
+
+  @media (max-width: 640px) {
+    main { padding: 16px; }
+    .quiz-prompt { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <h1>GRE Words</h1>
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="browse">Browse</button>
+      <button class="tab-btn" data-tab="quiz">Quiz</button>
+    </div>
+  </div>
+  <a class="home-link" href="/">&larr; back home</a>
+</div>
+
+<main>
+  <div id="loading" style="color: var(--text-tertiary); padding: 40px 0; text-align: center;">Loading word list&hellip;</div>
+
+  <section id="browsePane" class="pane">
+    <div class="search-row">
+      <input id="searchInput" class="search-input" type="text" placeholder="Search word or definition&hellip;" />
+      <span id="resultCount" class="result-count"></span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width: 160px;">Word</th><th>Meaning</th></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <button id="prevPage">&larr; Prev</button>
+      <span id="pageLabel"></span>
+      <button id="nextPage">Next &rarr;</button>
+    </div>
+  </section>
+
+  <section id="quizPane" class="pane">
+    <div class="quiz-card">
+
+      <div id="quizSetup" class="quiz-setup">
+        <label>Number of questions</label>
+        <div class="option-group" id="lengthOptions">
+          <button class="option-chip" data-len="10">10</button>
+          <button class="option-chip active" data-len="20">20</button>
+          <button class="option-chip" data-len="50">50</button>
+          <button class="option-chip" data-len="100">100</button>
+        </div>
+        <label>Question direction</label>
+        <div class="option-group" id="directionOptions">
+          <button class="option-chip active" data-dir="wordToMeaning">Word &rarr; pick meaning</button>
+          <button class="option-chip" data-dir="meaningToWord">Meaning &rarr; pick word</button>
+        </div>
+        <button class="start-btn" id="startQuizBtn">Start Quiz</button>
+      </div>
+
+      <div id="quizRun" style="display:none;">
+        <div class="quiz-progress">
+          Question <span id="qIndex"></span> / <span id="qTotal"></span>
+          &nbsp;&middot;&nbsp; Score: <span class="quiz-score"><span id="qScore">0</span></span>
+        </div>
+        <div class="quiz-prompt-label" id="promptLabel"></div>
+        <div id="quizPrompt" class="quiz-prompt"></div>
+        <div id="quizChoices" class="choices"></div>
+        <div class="quiz-footer">
+          <button class="quiz-quit" id="quitQuizBtn">Quit quiz</button>
+          <button class="primary-btn" id="nextQuestionBtn" style="display:none;">Next &rarr;</button>
+        </div>
+      </div>
+
+      <div id="quizResults" style="display:none;">
+        <div class="quiz-prompt">Score: <span id="finalScore"></span> / <span id="finalTotal"></span></div>
+        <div id="missedList"></div>
+        <button class="start-btn" id="restartQuizBtn">New Quiz</button>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script>
+let WORDS = [];
+const PAGE_SIZE = 100;
+let currentPage = 0;
+let filtered = [];
+
+async function loadWords() {
+  const res = await fetch('./words.json');
+  WORDS = await res.json();
+  document.getElementById('loading').style.display = 'none';
+  filtered = WORDS;
+  renderTable();
+}
+
+// ---------- Browse ----------
+function renderTable() {
+  const body = document.getElementById('tableBody');
+  const start = currentPage * PAGE_SIZE;
+  const pageItems = filtered.slice(start, start + PAGE_SIZE);
+  body.innerHTML = pageItems.map(w =>
+    `<tr><td class="word-cell">${escapeHtml(w.word)}</td><td class="meaning-cell">${escapeHtml(w.meaning)}</td></tr>`
+  ).join('');
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  document.getElementById('pageLabel').textContent = `Page ${currentPage + 1} of ${totalPages}`;
+  document.getElementById('resultCount').textContent = `${filtered.length.toLocaleString()} words`;
+  document.getElementById('prevPage').disabled = currentPage === 0;
+  document.getElementById('nextPage').disabled = currentPage >= totalPages - 1;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  filtered = !q ? WORDS : WORDS.filter(w => w.word.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q));
+  currentPage = 0;
+  renderTable();
+});
+document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 0) { currentPage--; renderTable(); } });
+document.getElementById('nextPage').addEventListener('click', () => {
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  if (currentPage < totalPages - 1) { currentPage++; renderTable(); }
+});
+
+// ---------- Tabs ----------
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    document.getElementById('browsePane').classList.toggle('active', tab === 'browse');
+    document.getElementById('quizPane').classList.toggle('active', tab === 'quiz');
+  });
+});
+document.getElementById('browsePane').classList.add('active');
+
+// ---------- Quiz ----------
+let quizLength = 20;
+let quizDirection = 'wordToMeaning';
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizMissed = [];
+
+document.getElementById('lengthOptions').addEventListener('click', (e) => {
+  if (!e.target.dataset.len) return;
+  document.querySelectorAll('#lengthOptions .option-chip').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  quizLength = parseInt(e.target.dataset.len, 10);
+});
+document.getElementById('directionOptions').addEventListener('click', (e) => {
+  if (!e.target.dataset.dir) return;
+  document.querySelectorAll('#directionOptions .option-chip').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  quizDirection = e.target.dataset.dir;
+});
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+document.getElementById('startQuizBtn').addEventListener('click', () => {
+  const pool = shuffle(WORDS).slice(0, quizLength);
+  quizQuestions = pool.map(item => {
+    const wrongPool = shuffle(WORDS.filter(w => w.word !== item.word)).slice(0, 3);
+    const options = shuffle([item, ...wrongPool]);
+    return { item, options };
+  });
+  quizIndex = 0;
+  quizScore = 0;
+  quizMissed = [];
+  document.getElementById('quizSetup').style.display = 'none';
+  document.getElementById('quizResults').style.display = 'none';
+  document.getElementById('quizRun').style.display = 'block';
+  document.getElementById('qTotal').textContent = quizQuestions.length;
+  renderQuestion();
+});
+
+function renderQuestion() {
+  const q = quizQuestions[quizIndex];
+  document.getElementById('qIndex').textContent = quizIndex + 1;
+  document.getElementById('qScore').textContent = quizScore;
+  document.getElementById('nextQuestionBtn').style.display = 'none';
+
+  const promptEl = document.getElementById('quizPrompt');
+  const labelEl = document.getElementById('promptLabel');
+  promptEl.classList.remove('small');
+  if (quizDirection === 'wordToMeaning') {
+    labelEl.textContent = 'What does this word mean?';
+    promptEl.textContent = q.item.word;
+  } else {
+    labelEl.textContent = 'Which word matches this meaning?';
+    promptEl.textContent = q.item.meaning;
+    promptEl.classList.add('small');
+  }
+
+  const choicesEl = document.getElementById('quizChoices');
+  choicesEl.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = quizDirection === 'wordToMeaning' ? opt.meaning : opt.word;
+    btn.addEventListener('click', () => selectAnswer(opt, btn));
+    choicesEl.appendChild(btn);
+  });
+}
+
+function selectAnswer(opt, btnEl) {
+  const q = quizQuestions[quizIndex];
+  const correct = opt.word === q.item.word;
+  const buttons = document.querySelectorAll('#quizChoices .choice-btn');
+  buttons.forEach(b => { b.disabled = true; });
+  if (correct) {
+    quizScore++;
+    btnEl.classList.add('correct');
+  } else {
+    btnEl.classList.add('incorrect');
+    buttons.forEach(b => {
+      const isCorrectBtn = (quizDirection === 'wordToMeaning' ? b.textContent === q.item.meaning : b.textContent === q.item.word);
+      if (isCorrectBtn) b.classList.add('correct');
+    });
+    quizMissed.push(q.item);
+  }
+  document.getElementById('qScore').textContent = quizScore;
+  document.getElementById('nextQuestionBtn').style.display = 'inline-block';
+}
+
+document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+  quizIndex++;
+  if (quizIndex >= quizQuestions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+});
+
+document.getElementById('quitQuizBtn').addEventListener('click', showResults);
+
+function showResults() {
+  document.getElementById('quizRun').style.display = 'none';
+  document.getElementById('quizResults').style.display = 'block';
+  const answered = quizScore + quizMissed.length;
+  document.getElementById('finalScore').textContent = quizScore;
+  document.getElementById('finalTotal').textContent = answered;
+
+  const missedEl = document.getElementById('missedList');
+  if (quizMissed.length === 0) {
+    missedEl.innerHTML = '<p style="color: var(--good); margin-top: 14px;">Perfect score, nice work.</p>';
+  } else {
+    missedEl.innerHTML = '<div class="results-list">' + quizMissed.map(w =>
+      `<div class="results-row wrong"><span class="rw">${escapeHtml(w.word)}</span><span class="rm">${escapeHtml(w.meaning)}</span></div>`
+    ).join('') + '</div>';
+  }
+}
+
+document.getElementById('restartQuizBtn').addEventListener('click', () => {
+  document.getElementById('quizResults').style.display = 'none';
+  document.getElementById('quizSetup').style.display = 'block';
+});
+
+loadWords();
+</script>
+</body>
+</html>

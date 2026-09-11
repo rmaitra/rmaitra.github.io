@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Algebra Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.18.6/katex.min.css">
+<style>
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0d0d0d;
+      --bg-card: #111213;
+      --text-primary: #e0e0e0;
+      --text-secondary: #aaaaaa;
+      --text-tertiary: #888888;
+      --border-primary: #1e1e1e;
+      --accent: #4a9eff;
+      --accent-dim: #1f3a5c;
+      --good: #35c97f;
+      --good-bg: #10281c;
+      --bad: #ff6b6b;
+      --bad-bg: #2c1414;
+      --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      margin: 0;
+      min-height: 100vh;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-primary);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .topbar h1 {
+      font-size: 1.25rem;
+      margin: 0;
+      letter-spacing: -0.3px;
+      font-weight: 700;
+    }
+    .home-link {
+      color: var(--text-tertiary);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    .home-link:hover { color: var(--accent); }
+    .scoreboard {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #scoreText { color: var(--accent); font-weight: 600; }
+    .reset-link {
+      color: var(--text-tertiary);
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .topic-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-primary);
+    }
+    .topic-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .topic-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+    .topic-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--text-primary); }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    #topicHeader h2 { margin: 0 0 6px 0; font-size: 1.4rem; }
+    .topic-desc { color: var(--text-secondary); margin: 0 0 20px 0; font-size: 0.95rem; }
+    .mode-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-primary);
+    }
+    .mode-btn {
+      background: none;
+      border: none;
+      color: var(--text-tertiary);
+      padding: 10px 18px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .mode-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .concept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+    .concept-card h3 { margin: 0 0 8px 0; font-size: 1.1rem; color: var(--accent); }
+    .concept-explanation { color: var(--text-secondary); margin: 0 0 14px 0; line-height: 1.5; }
+    .example {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .example-problem, .example-solution { margin: 6px 0; line-height: 1.5; }
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      border: 1px solid var(--accent-dim);
+      border-radius: 4px;
+      padding: 1px 6px;
+      margin-right: 6px;
+    }
+    .tag-solution { color: var(--good); border-color: var(--good); }
+    details { margin: 8px 0; }
+    summary { cursor: pointer; color: var(--text-tertiary); font-size: 0.85rem; }
+    summary:hover { color: var(--accent); }
+    details ol { margin: 8px 0 0 0; padding-left: 20px; color: var(--text-secondary); line-height: 1.6; }
+    .type-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .type-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      color: var(--text-secondary);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .type-btn:hover { border-color: var(--accent); }
+    .type-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--text-primary); }
+    .problem-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .problem-type-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+    .problem-prompt {
+      font-size: 1.15rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .chart-container {
+      margin: 4px 0 18px 0;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .chart-container[data-square="true"] {
+      display: flex;
+      justify-content: center;
+    }
+    .scratch-label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }
+    .scratch-label span { color: var(--text-tertiary); font-size: 0.8rem; }
+    #scratchpad {
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 10px;
+      resize: vertical;
+      margin-bottom: 16px;
+    }
+    #scratchpad:focus { outline: none; border-color: var(--accent-dim); }
+    .answer-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .field-row { display: flex; flex-direction: column; gap: 4px; min-width: 160px; flex: 1; }
+    .field-row label { font-size: 0.8rem; color: var(--text-secondary); }
+    .field-row input {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 8px 10px;
+    }
+    .field-row input:focus { outline: none; border-color: var(--accent); }
+    .action-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+    button.primary, button.secondary {
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 9px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid var(--border-primary);
+    }
+    button.primary { background: var(--accent); color: #04101f; border-color: var(--accent); font-weight: 600; }
+    button.primary:hover { filter: brightness(1.1); }
+    button.secondary { background: var(--bg-secondary); color: var(--text-secondary); }
+    button.secondary:hover { border-color: var(--accent); color: var(--text-primary); }
+    .feedback { margin-top: 4px; padding: 10px 14px; border-radius: 6px; font-size: 0.9rem; }
+    .feedback.ok { background: var(--good-bg); color: var(--good); border: 1px solid var(--good); }
+    .feedback.bad { background: var(--bad-bg); color: var(--bad); border: 1px solid var(--bad); }
+    .solution-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 8px;
+    }
+    .solution-box h4 { margin: 0 0 8px 0; font-size: 0.95rem; color: var(--accent); }
+    .solution-box ol { margin: 0 0 10px 0; padding-left: 20px; color: var(--text-secondary); line-height: 1.6; }
+    .final-answer { margin: 0; color: var(--text-primary); }
+    .final-answer strong { color: var(--good); }
+    @media (max-width: 600px) {
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .field-row { min-width: 100%; }
+    }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <a class="home-link" href="/">&larr; rmaitra.github.io</a>
+      <h1>Advanced Algebra Studio</h1>
+    </div>
+    <div class="scoreboard">
+      <span id="scoreText">0/0 correct</span>
+      <a href="#" class="reset-link" id="resetScoreLink">reset</a>
+    </div>
+  </header>
+
+  <nav class="topic-nav" id="topicNav"></nav>
+
+  <main>
+    <div id="topicHeader"></div>
+    <div class="mode-tabs" id="modeTabs">
+      <button class="mode-btn active" data-mode="learn">Learn</button>
+      <button class="mode-btn" data-mode="practice">Practice</button>
+    </div>
+    <section id="learnPane"></section>
+    <section id="practicePane" hidden></section>
+  </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.18.6/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.18.6/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highcharts@12.4.0/highcharts.js"></script>
+<script src="core.js"></script>
+<script src="generators.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -110,6 +110,28 @@
         "link":"/stumble/"
     },
     {
+        "title":"Advanced Algebra Studio",
+        "description":"Generate practice problems, check your work, and learn advanced algebra topics.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "gradient":"linear-gradient(135deg, #0a1a2e 0%, #123a63 100%)",
+        "link":"/math/"
+    },
+    {
+        "title":"GRE Words",
+        "description":"Browse the GRE master wordlist and quiz yourself on definitions.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "gradient":"linear-gradient(135deg, #1a0a2e 0%, #3a1263 100%)",
+        "link":"/words/"
+    },
+    {
         "title":"Grandpa Devine",
         "description":"Life Events.",
         "subtitle":"",

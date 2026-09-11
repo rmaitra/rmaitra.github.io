@@ -1,0 +1,558 @@
+{
+  "advancedAlgebra": {
+    "complexNumbers": {
+      "title": "Complex Numbers",
+      "description": "Numbers of the form \\(a + bi\\) where \\(i\\) is the imaginary unit (\\(i^2 = -1\\))",
+      "concepts": [
+        {
+          "name": "Basic Operations",
+          "explanation": "Complex numbers can be added, subtracted, multiplied, and divided like algebraic expressions.",
+          "examples": [
+            {
+              "problem": "Add \\((3 + 2i) + (1 + 4i)\\)",
+              "solution": "\\((3 + 1) + (2i + 4i) = 4 + 6i\\)",
+              "steps": [
+                "Add real parts: \\(3 + 1 = 4\\)",
+                "Add imaginary parts: \\(2i + 4i = 6i\\)",
+                "Result: \\(4 + 6i\\)"
+              ]
+            },
+            {
+              "problem": "Multiply \\((2 + 3i)(1 + 2i)\\)",
+              "solution": "\\(2(1) + 2(2i) + 3i(1) + 3i(2i) = 2 + 4i + 3i + 6i^2 = 2 + 7i - 6 = -4 + 7i\\)",
+              "steps": [
+                "Use FOIL: First, Outer, Inner, Last",
+                "\\(2 \\cdot 1 = 2\\)",
+                "\\(2 \\cdot 2i = 4i\\)",
+                "\\(3i \\cdot 1 = 3i\\)",
+                "\\(3i \\cdot 2i = 6i^2 = -6\\) (since \\(i^2 = -1\\))",
+                "Combine: \\(2 - 6 + 4i + 3i = -4 + 7i\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Complex Conjugates",
+          "explanation": "The conjugate of \\(a + bi\\) is \\(a - bi\\). Used to simplify division of complex numbers.",
+          "examples": [
+            {
+              "problem": "Divide \\((3 + 2i) \\div (1 + i)\\)",
+              "solution": "\\(\\dfrac{3 + 2i}{1 + i} \\times \\dfrac{1 - i}{1 - i} = \\dfrac{3 - 3i + 2i - 2i^2}{1 - i^2} = \\dfrac{5 - i}{2} = 2.5 - 0.5i\\)",
+              "steps": [
+                "Multiply numerator and denominator by the conjugate of the denominator",
+                "Numerator: \\((3 + 2i)(1 - i) = 3 - 3i + 2i - 2i^2 = 3 - i + 2 = 5 - i\\)",
+                "Denominator: \\((1 + i)(1 - i) = 1 - i^2 = 1 + 1 = 2\\)",
+                "Result: \\(\\dfrac{5 - i}{2} = 2.5 - 0.5i\\)"
+              ]
+            }
+          ]
+        }
+      ],
+      "problemGenerator": {
+        "types": [
+          {
+            "name": "add_complex",
+            "description": "Add two complex numbers",
+            "template": "Add ({a} + {b}i) + ({c} + {d}i)",
+            "solution": "({a}+{c}) + ({b}+{d})i"
+          },
+          {
+            "name": "multiply_complex",
+            "description": "Multiply two complex numbers",
+            "template": "Multiply ({a} + {b}i)({c} + {d}i)",
+            "solution": "({a*c}-{b*d}) + ({a*d}+{b*c})i"
+          },
+          {
+            "name": "conjugate_divide",
+            "description": "Divide complex numbers using conjugates",
+            "template": "Divide ({a} + {b}i) ÷ ({c} + {d}i)",
+            "note": "Multiply by conjugate of denominator"
+          }
+        ]
+      }
+    },
+    "polynomialOperations": {
+      "title": "Polynomial Operations & Factoring",
+      "description": "Operations involving polynomials of degree 2 or higher, and advanced factoring techniques",
+      "concepts": [
+        {
+          "name": "Polynomial Division",
+          "explanation": "Dividing polynomials using long division or synthetic division",
+          "examples": [
+            {
+              "problem": "Divide \\((x^2 + 5x + 6) \\div (x + 2)\\)",
+              "solution": "\\(x + 3\\)",
+              "steps": [
+                "Set up long division",
+                "\\(x^2 \\div x = x\\). Multiply: \\(x(x + 2) = x^2 + 2x\\)",
+                "Subtract: \\((x^2 + 5x + 6) - (x^2 + 2x) = 3x + 6\\)",
+                "\\(3x \\div x = 3\\). Multiply: \\(3(x + 2) = 3x + 6\\)",
+                "Subtract: \\((3x + 6) - (3x + 6) = 0\\)",
+                "Quotient: \\(x + 3\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Advanced Factoring",
+          "explanation": "Factoring techniques including grouping, sum/difference of cubes, and trinomial factoring",
+          "examples": [
+            {
+              "problem": "Factor \\(x^3 + 8\\)",
+              "solution": "\\((x + 2)(x^2 - 2x + 4)\\)",
+              "steps": [
+                "Recognize as sum of cubes: \\(a^3 + b^3 = (a + b)(a^2 - ab + b^2)\\)",
+                "\\(x^3 + 8 = x^3 + 2^3\\)",
+                "\\(a = x, b = 2\\)",
+                "\\((x + 2)(x^2 - 2x + 4)\\)"
+              ]
+            },
+            {
+              "problem": "Factor \\(x^3 - 27\\)",
+              "solution": "\\((x - 3)(x^2 + 3x + 9)\\)",
+              "steps": [
+                "Recognize as difference of cubes: \\(a^3 - b^3 = (a - b)(a^2 + ab + b^2)\\)",
+                "\\(x^3 - 27 = x^3 - 3^3\\)",
+                "\\(a = x, b = 3\\)",
+                "\\((x - 3)(x^2 + 3x + 9)\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Remainder & Factor Theorems",
+          "explanation": "When \\(p(x)\\) is divided by \\((x - a)\\), the remainder equals \\(p(a)\\). If the remainder is 0, then \\((x - a)\\) is a factor.",
+          "examples": [
+            {
+              "problem": "Use the Remainder Theorem to find the remainder when \\(p(x) = x^3 - 2x^2 + x - 5\\) is divided by \\((x - 2)\\)",
+              "solution": "Remainder = 1",
+              "steps": [
+                "By the Remainder Theorem, the remainder equals \\(p(2)\\)",
+                "\\(p(2) = (2)^3 - 2(2)^2 + 2 - 5\\)",
+                "\\(p(2) = 8 - 8 + 2 - 5 = -3\\)",
+                "Remainder = -3"
+              ]
+            }
+          ]
+        }
+      ],
+      "problemGenerator": {
+        "types": [
+          {
+            "name": "sum_of_cubes",
+            "description": "Factor sum of cubes",
+            "template": "Factor x³ + {n}",
+            "note": "Use formula a³ + b³ = (a + b)(a² - ab + b²)"
+          },
+          {
+            "name": "diff_of_cubes",
+            "description": "Factor difference of cubes",
+            "template": "Factor x³ - {n}",
+            "note": "Use formula a³ - b³ = (a - b)(a² + ab + b²)"
+          },
+          {
+            "name": "trinomial_factor",
+            "description": "Factor trinomials",
+            "template": "Factor x² + {b}x + {c}",
+            "note": "Find two numbers that multiply to c and add to b"
+          }
+        ]
+      }
+    },
+    "rationalExpressions": {
+      "title": "Rational Expressions & Equations",
+      "description": "Fractions with polynomials in numerator and denominator",
+      "concepts": [
+        {
+          "name": "Simplifying Rational Expressions",
+          "explanation": "Factor and cancel common factors from numerator and denominator",
+          "examples": [
+            {
+              "problem": "Simplify \\(\\dfrac{x^2 - 4}{x^2 - 2x}\\)",
+              "solution": "\\(\\dfrac{x + 2}{x}\\)",
+              "steps": [
+                "Factor numerator: \\(x^2 - 4 = (x + 2)(x - 2)\\)",
+                "Factor denominator: \\(x^2 - 2x = x(x - 2)\\)",
+                "Cancel the common factor \\((x - 2)\\): \\(\\dfrac{(x + 2)(x - 2)}{x(x - 2)} = \\dfrac{x + 2}{x}\\)",
+                "Note: \\(x \\neq 0\\) and \\(x \\neq 2\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Operations with Rational Expressions",
+          "explanation": "Add, subtract, multiply, and divide rational expressions",
+          "examples": [
+            {
+              "problem": "Add \\(\\dfrac{1}{x + 1} + \\dfrac{2}{x}\\)",
+              "solution": "\\(\\dfrac{3x + 2}{x(x + 1)}\\)",
+              "steps": [
+                "Find the common denominator: \\(x(x + 1)\\)",
+                "\\(\\dfrac{1}{x + 1} = \\dfrac{x}{x(x + 1)}\\)",
+                "\\(\\dfrac{2}{x} = \\dfrac{2(x + 1)}{x(x + 1)}\\)",
+                "Add: \\(\\dfrac{x}{x(x + 1)} + \\dfrac{2(x + 1)}{x(x + 1)} = \\dfrac{x + 2x + 2}{x(x + 1)} = \\dfrac{3x + 2}{x(x + 1)}\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Solving Rational Equations",
+          "explanation": "Equations containing rational expressions. Multiply by the LCD to clear denominators.",
+          "examples": [
+            {
+              "problem": "Solve \\(\\dfrac{1}{x} + \\dfrac{1}{x + 1} = \\dfrac{1}{2}\\)",
+              "solution": "x = -2 or x = 1",
+              "steps": [
+                "LCD \\(= 2x(x + 1)\\)",
+                "Multiply all terms by \\(2x(x + 1)\\): \\(2(x + 1) + 2x = x(x + 1)\\)",
+                "Expand: \\(2x + 2 + 2x = x^2 + x\\)",
+                "Simplify: \\(4x + 2 = x^2 + x\\)",
+                "Rearrange: \\(x^2 - 3x - 2 = 0\\)",
+                "Use the quadratic formula: \\(x = \\dfrac{3 \\pm \\sqrt{9 + 8}}{2} = \\dfrac{3 \\pm \\sqrt{17}}{2}\\)"
+              ]
+            }
+          ]
+        }
+      ],
+      "problemGenerator": {
+        "types": [
+          {
+            "name": "simplify_rational",
+            "description": "Simplify rational expressions",
+            "template": "Simplify ({n1}x² + {n2}x + {n3})/({d1}x² + {d2}x + {d3})",
+            "note": "Factor numerator and denominator, then cancel"
+          },
+          {
+            "name": "add_rational",
+            "description": "Add rational expressions",
+            "template": "Add {a1}/{a2} + {b1}/{b2}",
+            "note": "Find LCD and combine"
+          }
+        ]
+      }
+    },
+    "exponentialLogarithmic": {
+      "title": "Exponential & Logarithmic Functions",
+      "description": "Properties and solving equations involving exponentials and logarithms",
+      "concepts": [
+        {
+          "name": "Exponential Functions",
+          "explanation": "Functions of the form \\(f(x) = a \\cdot b^{cx+d}\\). Used for modeling growth and decay.",
+          "examples": [
+            {
+              "problem": "Solve \\(2^x = 16\\)",
+              "solution": "x = 4",
+              "steps": [
+                "Recognize \\(16 = 2^4\\)",
+                "\\(2^x = 2^4\\)",
+                "\\(x = 4\\)"
+              ]
+            },
+            {
+              "problem": "Solve \\(5^{2x} = 125\\)",
+              "solution": "x = 1.5",
+              "steps": [
+                "Recognize \\(125 = 5^3\\)",
+                "\\(5^{2x} = 5^3\\)",
+                "\\(2x = 3\\)",
+                "\\(x = 1.5\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Logarithmic Functions",
+          "explanation": "The inverse of exponential functions. \\(\\log_b(x) = y\\) means \\(b^y = x\\)",
+          "examples": [
+            {
+              "problem": "Solve \\(\\log_2(x) = 5\\)",
+              "solution": "x = 32",
+              "steps": [
+                "Convert to exponential form: \\(2^5 = x\\)",
+                "\\(x = 32\\)"
+              ]
+            },
+            {
+              "problem": "Solve \\(\\log_3(x - 1) = 2\\)",
+              "solution": "x = 10",
+              "steps": [
+                "Convert to exponential form: \\(3^2 = x - 1\\)",
+                "\\(9 = x - 1\\)",
+                "\\(x = 10\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Logarithm Properties",
+          "explanation": "Properties: \\(\\log(ab) = \\log(a) + \\log(b)\\), \\(\\log(a/b) = \\log(a) - \\log(b)\\), \\(\\log(a^n) = n \\cdot \\log(a)\\)",
+          "examples": [
+            {
+              "problem": "Solve \\(\\log(x) + \\log(x - 3) = 1\\)",
+              "solution": "x = 5",
+              "steps": [
+                "Use the property \\(\\log(a) + \\log(b) = \\log(ab)\\): \\(\\log(x(x-3)) = 1\\)",
+                "Convert to exponential form: \\(10^1 = x(x - 3)\\)",
+                "\\(10 = x^2 - 3x\\)",
+                "\\(x^2 - 3x - 10 = 0\\)",
+                "Factor: \\((x - 5)(x + 2) = 0\\)",
+                "\\(x = 5\\) (\\(x = -2\\) is invalid since log requires a positive argument)"
+              ]
+            }
+          ]
+        }
+      ],
+      "problemGenerator": {
+        "types": [
+          {
+            "name": "solve_exponential",
+            "description": "Solve exponential equations",
+            "template": "{base}^x = {answer}",
+            "note": "Rewrite base or use logarithms"
+          },
+          {
+            "name": "solve_logarithm",
+            "description": "Solve logarithmic equations",
+            "template": "log_{base}(x) = {answer}",
+            "note": "Convert to exponential form"
+          },
+          {
+            "name": "log_properties",
+            "description": "Apply logarithm properties",
+            "template": "Simplify log({a}) + log({b}) - log({c})",
+            "note": "Use combination of product, quotient, and power rules"
+          }
+        ]
+      }
+    },
+    "conicSections": {
+      "title": "Conic Sections",
+      "description": "Curves formed by intersecting a plane with a cone: circles, ellipses, parabolas, and hyperbolas",
+      "concepts": [
+        {
+          "name": "Circle",
+          "explanation": "Set of points equidistant from a center. Standard form: \\((x - h)^2 + (y - k)^2 = r^2\\)",
+          "examples": [
+            {
+              "problem": "Find the center and radius of \\(x^2 + y^2 - 4x + 6y - 12 = 0\\)",
+              "solution": "Center: \\((2, -3)\\), Radius: 5",
+              "steps": [
+                "Group x and y terms: \\((x^2 - 4x) + (y^2 + 6y) = 12\\)",
+                "Complete the square for x: \\(x^2 - 4x + 4 = (x - 2)^2\\)",
+                "Complete the square for y: \\(y^2 + 6y + 9 = (y + 3)^2\\)",
+                "Add to both sides: \\((x - 2)^2 + (y + 3)^2 = 12 + 4 + 9 = 25\\)",
+                "Center: \\((2, -3)\\), Radius: \\(\\sqrt{25} = 5\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Ellipse",
+          "explanation": "Set of points where the sum of distances to two foci is constant. Standard form: \\(\\dfrac{(x - h)^2}{a^2} + \\dfrac{(y - k)^2}{b^2} = 1\\)",
+          "examples": [
+            {
+              "problem": "Find the vertices and foci of \\(\\dfrac{x^2}{25} + \\dfrac{y^2}{9} = 1\\)",
+              "solution": "Vertices: \\((\\pm 5, 0)\\), Foci: \\((\\pm 4, 0)\\)",
+              "steps": [
+                "\\(a^2 = 25\\), so \\(a = 5\\) (major axis along x)",
+                "\\(b^2 = 9\\), so \\(b = 3\\) (minor axis along y)",
+                "Vertices on the major axis: \\((\\pm 5, 0)\\)",
+                "\\(c^2 = a^2 - b^2 = 25 - 9 = 16\\), so \\(c = 4\\)",
+                "Foci: \\((\\pm 4, 0)\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Parabola",
+          "explanation": "Set of points equidistant from a focus and directrix. Standard form: \\((x - h)^2 = 4p(y - k)\\)",
+          "examples": [
+            {
+              "problem": "Find the vertex, focus, and directrix of \\(y^2 = 8x\\)",
+              "solution": "Vertex: \\((0, 0)\\), Focus: \\((2, 0)\\), Directrix: \\(x = -2\\)",
+              "steps": [
+                "Standard form: \\(y^2 = 4px\\) with \\(4p = 8\\), so \\(p = 2\\)",
+                "Vertex: \\((0, 0)\\)",
+                "Focus: \\((p, 0) = (2, 0)\\)",
+                "Directrix: \\(x = -p = -2\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Hyperbola",
+          "explanation": "Set of points where the absolute difference of distances to two foci is constant. Standard form: \\(\\dfrac{(x - h)^2}{a^2} - \\dfrac{(y - k)^2}{b^2} = 1\\)",
+          "examples": [
+            {
+              "problem": "Find the vertices and asymptotes of \\(\\dfrac{x^2}{16} - \\dfrac{y^2}{9} = 1\\)",
+              "solution": "Vertices: \\((\\pm 4, 0)\\), Asymptotes: \\(y = \\pm\\dfrac{3}{4}x\\)",
+              "steps": [
+                "\\(a^2 = 16\\), so \\(a = 4\\)",
+                "\\(b^2 = 9\\), so \\(b = 3\\)",
+                "Vertices: \\((\\pm 4, 0)\\)",
+                "Asymptotes: \\(y = \\pm\\dfrac{b}{a}x = \\pm\\dfrac{3}{4}x\\)"
+              ]
+            }
+          ]
+        }
+      ],
+      "problemGenerator": {
+        "types": [
+          {
+            "name": "circle_standard",
+            "description": "Convert circle to standard form",
+            "template": "x² + y² + {d}x + {e}y + {f} = 0",
+            "note": "Complete the square"
+          },
+          {
+            "name": "ellipse_properties",
+            "description": "Find ellipse properties",
+            "template": "(x² / {a}) + (y² / {b}) = 1",
+            "note": "Find vertices and foci"
+          },
+          {
+            "name": "parabola_standard",
+            "description": "Identify parabola properties",
+            "template": "{vertex_form}",
+            "note": "Find vertex, focus, directrix"
+          }
+        ]
+      }
+    },
+    "matrixAlgebra": {
+      "title": "Matrix Algebra",
+      "description": "Operations with matrices and solving systems using matrices",
+      "concepts": [
+        {
+          "name": "Matrix Operations",
+          "explanation": "Addition, subtraction, scalar multiplication, and matrix multiplication",
+          "examples": [
+            {
+              "problem": "Find \\(AB\\) where \\(A = \\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix}\\) and \\(B = \\begin{bmatrix} 5 & 6 \\\\ 7 & 8 \\end{bmatrix}\\)",
+              "solution": "\\(\\begin{bmatrix} 19 & 22 \\\\ 43 & 50 \\end{bmatrix}\\)",
+              "steps": [
+                "Multiply rows of A by columns of B",
+                "Entry (1,1): \\((1 \\times 5) + (2 \\times 7) = 5 + 14 = 19\\)",
+                "Entry (1,2): \\((1 \\times 6) + (2 \\times 8) = 6 + 16 = 22\\)",
+                "Entry (2,1): \\((3 \\times 5) + (4 \\times 7) = 15 + 28 = 43\\)",
+                "Entry (2,2): \\((3 \\times 6) + (4 \\times 8) = 18 + 32 = 50\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Determinants",
+          "explanation": "A scalar value associated with a square matrix. For a 2×2 matrix: \\(\\det(A) = ad - bc\\)",
+          "examples": [
+            {
+              "problem": "Find the determinant of \\(\\begin{bmatrix} 3 & 2 \\\\ 1 & 4 \\end{bmatrix}\\)",
+              "solution": "10",
+              "steps": [
+                "For a 2×2 matrix \\(\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}\\), \\(\\det = ad - bc\\)",
+                "\\(\\det = (3 \\times 4) - (2 \\times 1) = 12 - 2 = 10\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Matrix Inverse",
+          "explanation": "For a 2×2 matrix, the inverse is \\(A^{-1} = \\dfrac{1}{\\det} \\begin{bmatrix} d & -b \\\\ -c & a \\end{bmatrix}\\)",
+          "examples": [
+            {
+              "problem": "Find the inverse of \\(\\begin{bmatrix} 2 & 1 \\\\ 5 & 3 \\end{bmatrix}\\)",
+              "solution": "\\(\\begin{bmatrix} 3 & -1 \\\\ -5 & 2 \\end{bmatrix}\\)",
+              "steps": [
+                "\\(\\det = (2 \\times 3) - (1 \\times 5) = 6 - 5 = 1\\)",
+                "\\(A^{-1} = \\dfrac{1}{1}\\begin{bmatrix} 3 & -1 \\\\ -5 & 2 \\end{bmatrix} = \\begin{bmatrix} 3 & -1 \\\\ -5 & 2 \\end{bmatrix}\\)"
+              ]
+            }
+          ]
+        }
+      ],
+      "problemGenerator": {
+        "types": [
+          {
+            "name": "matrix_multiply",
+            "description": "Multiply two matrices",
+            "template": "Multiply matrices A and B",
+            "note": "Row of A · Column of B for each entry"
+          },
+          {
+            "name": "determinant",
+            "description": "Calculate determinant",
+            "template": "Find determinant of [[{a}, {b}], [{c}, {d}]]",
+            "note": "For 2×2: ad - bc"
+          },
+          {
+            "name": "matrix_inverse",
+            "description": "Find matrix inverse",
+            "template": "Find inverse of [[{a}, {b}], [{c}, {d}]]",
+            "note": "If det ≠ 0, use A⁻¹ = (1/det)·adj(A)"
+          }
+        ]
+      }
+    },
+    "systemsOfEquations": {
+      "title": "Systems of Equations (Advanced)",
+      "description": "Solving systems with 3+ variables or nonlinear systems",
+      "concepts": [
+        {
+          "name": "3×3 Linear Systems",
+          "explanation": "Solving systems of three linear equations with three unknowns using elimination or Gaussian elimination",
+          "examples": [
+            {
+              "problem": "Solve: \\(x + y + z = 6\\), \\(2x - y + z = 3\\), \\(x + y - z = 0\\)",
+              "solution": "\\(x = 1, y = 2, z = 3\\)",
+              "steps": [
+                "Label the equations: (1) \\(x + y + z = 6\\), (2) \\(2x - y + z = 3\\), (3) \\(x + y - z = 0\\)",
+                "Add (1) + (3): \\(2x + 2y = 6 \\Rightarrow x + y = 3\\) ... (4)",
+                "Subtract (2) - (3): \\(x - 2z = 3\\) ... (5)",
+                "From (4): \\(y = 3 - x\\)",
+                "Add (1) + (2): \\(3x + 2z = 9\\) ... (6)",
+                "From (5) and (6): solve for x and z",
+                "\\(x = 1, z = 3\\), then \\(y = 2\\)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Nonlinear Systems",
+          "explanation": "Systems containing quadratic or higher-degree equations",
+          "examples": [
+            {
+              "problem": "Solve: \\(x^2 + y^2 = 25\\), \\(x + y = 7\\)",
+              "solution": "\\((3, 4)\\) and \\((4, 3)\\)",
+              "steps": [
+                "From the linear equation: \\(y = 7 - x\\)",
+                "Substitute into the circle equation: \\(x^2 + (7 - x)^2 = 25\\)",
+                "\\(x^2 + 49 - 14x + x^2 = 25\\)",
+                "\\(2x^2 - 14x + 24 = 0\\)",
+                "\\(x^2 - 7x + 12 = 0\\)",
+                "Factor: \\((x - 3)(x - 4) = 0\\)",
+                "\\(x = 3\\) or \\(x = 4\\)",
+                "If \\(x = 3\\): \\(y = 4\\); if \\(x = 4\\): \\(y = 3\\)",
+                "Solutions: \\((3, 4)\\) and \\((4, 3)\\)"
+              ]
+            }
+          ]
+        }
+      ],
+      "problemGenerator": {
+        "types": [
+          {
+            "name": "linear_3x3",
+            "description": "Solve 3×3 linear system",
+            "template": "Solve the system: {eq1}, {eq2}, {eq3}",
+            "note": "Use elimination or Gaussian elimination"
+          },
+          {
+            "name": "nonlinear_system",
+            "description": "Solve nonlinear system",
+            "template": "Solve: {linear_eq} and {nonlinear_eq}",
+            "note": "Substitute or use elimination method"
+          }
+        ]
+      }
+    }
+  }
+}
