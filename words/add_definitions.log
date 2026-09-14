@@ -1,6 +1,6 @@
-[13:42:36] Loaded 5343 target words (5343 unique lowercase). Starting stream from https://kaikki.org/dictionary/English/words/kaikki.org-dictionary-English-words.jsonl
-[13:46:59] processed 500000 lines, matched words so far: 5200
-[13:48:11] processed 1000000 lines, matched words so far: 5241
-[13:49:23] DONE. total lines processed: 1492836, words matched: 5245 / 5343, words with definitions: 5138, words with examples: 4741, words with ipa: 4875, words with syllables: 0, words with synonyms: 2975, words with antonyms: 659
-[13:49:23] wrote /home/rajmaitra/Projects/rmaitra.github.io/words/definitions_map.json
-[13:49:23] Next: run `python3 merge_definitions.py` to fold this into words.json
+[13:56:03] Loaded 5342 target words (5342 unique lowercase). Reading local dump kaikki-dictionary-English-words.jsonl (3.24 GB)
+[13:56:19] processed 500000 lines, matched words so far: 5268
+[13:56:24] processed 1000000 lines, matched words so far: 5310
+[13:56:28] DONE. total lines processed: 1492836, words matched: 5315 / 5342, words with definitions: 5200, words with examples: 4791, words with ipa: 4922, words with syllables: 0, words with synonyms: 3002, words with antonyms: 661
+[13:56:28] wrote /home/rajmaitra/Projects/rmaitra.github.io/words/definitions_map.json
+[13:56:28] Next: run `python3 merge_definitions.py` to fold this into words.json

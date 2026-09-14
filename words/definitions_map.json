@@ -3435,6 +3435,40 @@
     ],
     "antonyms": []
   },
+  "minuscule": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A lowercase letter."
+      },
+      {
+        "pos": "noun",
+        "gloss": "Either of the two medieval handwriting styles minuscule cursive and Caroline minuscule."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A letter in these styles."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Written in minuscules, lowercase."
+      }
+    ],
+    "examples": [
+      "By the eighth century, Irish scribes had refined everyday cursive writing in minuscule to allow its use for the production of quality vellum books.",
+      "a minuscule dot"
+    ],
+    "ipa": "/ˈmɪnəˌskjul/",
+    "syllables": "",
+    "synonyms": [
+      "small",
+      "minuscular",
+      "microscopic",
+      "minute",
+      "tiny"
+    ],
+    "antonyms": []
+  },
   "supersede": {
     "definitions": [
       {
@@ -6997,6 +7031,43 @@
     ],
     "antonyms": []
   },
+  "icon": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "An image, symbol, picture, portrait, or other representation, usually as an object of religious devotion."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A type of religious painting portraying a saint or scene from Scripture, often done on wooden panels."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A person or thing that is the best example of a certain profession or some doing."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A small picture that represents something."
+      }
+    ],
+    "examples": [
+      "Last week the Archdiocese sent emmissaries to investigate the icon and decided that the tears were not a hoax, Father Koufos said.",
+      "That man is an icon in the business; he personifies loyalty and good business sense.",
+      "Barbie is viewed as an icon of American culture in her new biography, Barbie: Her Life and Times (Crown, $25), written by Billy Boy, a clothing and jewelry designer in Paris.",
+      "Click the loudspeaker icon to configure audio settings."
+    ],
+    "ipa": "/ˈaɪ.kɑn/",
+    "syllables": "",
+    "synonyms": [
+      "idol",
+      "archetype",
+      "case",
+      "embodiment",
+      "epitome",
+      "exemplar"
+    ],
+    "antonyms": []
+  },
   "creep": {
     "definitions": [
       {
@@ -7106,6 +7177,27 @@
       "flurry",
       "frenzy"
     ],
+    "antonyms": []
+  },
+  "forgo": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To do without (something enjoyable); to relinquish."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To refrain from, to abstain from."
+      }
+    ],
+    "examples": [
+      "I've had to forgo my student discount in exchange for taking the job.",
+      "But, what afflicts my peace with keenest ruth, / Is, that I have my inner self abused, / Forgone the home delight of constant truth, / And clear and open soul, so prized in fearless youth.",
+      "I shall forgo actually stepping inside, thank you."
+    ],
+    "ipa": "/fɔɹˈɡoʊ/",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "enterprise": {
@@ -14406,6 +14498,43 @@
       "mild",
       "balmy",
       "uninterested"
+    ],
+    "antonyms": []
+  },
+  "expose": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To reveal; to uncover; to make visible; to bring to light."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To subject photographic film to light, thereby recording an image."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To submit to an active (mostly dangerous) substance, such as radiation, a chemical, or any other stress."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To make available to other parts of a program, or to other programs."
+      }
+    ],
+    "examples": [
+      "The dispatches revealed details of corruption and kleptocracy that many Tunisians suspected, […]. They also exposed the blatant discrepancy between the west's professed values and actual foreign policies.",
+      "Residents were exposed to dangerous levels of radiation.",
+      "to expose an API",
+      "In the OO world, the word is to hide the structure of the data, and expose only functionality. OO designers expose an object to the world in terms of the services it provides."
+    ],
+    "ipa": "/ɪkˈspoʊz/",
+    "syllables": "",
+    "synonyms": [
+      "bare",
+      "bewray",
+      "betray",
+      "display",
+      "nake",
+      "reveal"
     ],
     "antonyms": []
   },
@@ -22619,6 +22748,23 @@
     ],
     "antonyms": []
   },
+  "aerie": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "US standard spelling of eyrie."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A local chapter of the Fraternal Order of Eagles."
+      }
+    ],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "ethnic": {
     "definitions": [
       {
@@ -23165,6 +23311,39 @@
     "antonyms": [
       "dexter"
     ]
+  },
+  "fetish": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "Something which is believed to possess, contain, or cause spiritual or magical powers; an amulet or a talisman."
+      },
+      {
+        "pos": "noun",
+        "gloss": "Sexual fixation to or arousal at something abnormally sexual or non-sexual, such as an object or a non-sexual part of the body."
+      },
+      {
+        "pos": "noun",
+        "gloss": "An irrational or abnormal preoccupation or fixation on some object or activity; an obsession."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A recurrent theme of a specific thing."
+      }
+    ],
+    "examples": [
+      "The idols and fetishes were being dressed up and whitewashed, receiving sacrifices.",
+      "I know a guy who has a foot fetish.",
+      "a fetish for leather",
+      "The first time, I was confused. His needs were obscure to me, and what I could perceive of them seemed to me ridiculous, laughable, like a fetish for lace-up shoes."
+    ],
+    "ipa": "/ˈfɛt.ɪʃ/",
+    "syllables": "",
+    "synonyms": [
+      "kink",
+      "objectophilia"
+    ],
+    "antonyms": []
   },
   "qualify": {
     "definitions": [
@@ -24773,6 +24952,43 @@
       "canonical"
     ]
   },
+  "fuss": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "Excessive activity, worry, bother, or talk about something."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A complaint or noise; a scene."
+      },
+      {
+        "pos": "noun",
+        "gloss": "An exhibition of affection or admiration."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To be very worried or excited about something, often too much."
+      }
+    ],
+    "examples": [
+      "They made a big fuss about the wedding plans.",
+      "What's all the fuss about?",
+      "Sickness did not last above a ten days; my poor wife zealously assiduous, and with a minimum of fuss or noise.",
+      "“Anthea hasn't a notion in her head but to vamp a lot of silly mugwumps. She's set her heart on that tennis bloke[…]whom the papers are making such a fuss about.”"
+    ],
+    "ipa": "/fʌs/",
+    "syllables": "",
+    "synonyms": [
+      "hubbub",
+      "ado",
+      "bangarang",
+      "brouhaha",
+      "bunfight",
+      "bustle"
+    ],
+    "antonyms": []
+  },
   "groom": {
     "definitions": [
       {
@@ -24808,6 +25024,26 @@
       "sais",
       "mafoo"
     ],
+    "antonyms": []
+  },
+  "matinee": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A showing of a movie, sporting event, or theatrical performance in the morning or afternoon."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To put on a matinee performance (of)."
+      }
+    ],
+    "examples": [
+      "59 sneak in some red Smuggle a bottle of wine, two glasses, and a corkscrew into a long matinee. Red wine is rich in life-extending antioxidants, and the caper will add zest even to a bad movie.",
+      "Empire matinees in lingerie stuffs with trimmings of lace and embroidery are shown in great variety."
+    ],
+    "ipa": "/ˈmætɪˌneɪ/",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "grunt": {
@@ -28138,6 +28374,35 @@
     ],
     "antonyms": []
   },
+  "pendant": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A supporting post attached to the main rafter."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A piece of jewellery which hangs down as an ornament, especially worn on a chain around the neck."
+      },
+      {
+        "pos": "noun",
+        "gloss": "The dangling part of an earring."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A short rope hanging down, used to attach hooks for tackles; a pennant."
+      }
+    ],
+    "examples": [
+      "One vase is the pendant to the other vase.",
+      "Many […] have been pleased with this work and its pendant, the Tales and Popular Fictions.",
+      "a pendant being brought up to any height by the force of a former motion downwards"
+    ],
+    "ipa": "/ˈpɛnd(ə)nt/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "executioner": {
     "definitions": [
       {
@@ -29163,6 +29428,24 @@
     "ipa": "/ˌzɛn.əˈfəʊ.bɪ.ə/",
     "syllables": "",
     "synonyms": [],
+    "antonyms": []
+  },
+  "xanthippe": {
+    "definitions": [],
+    "examples": [
+      "What have we seen in our own personal walks through life to make us believe that women are devils? There may possibly have been a Xantippe here and there, but Imogenes are to be found under every bush.",
+      "The use he [Socrates] made of his domestic trial may be profitably remembered by any that have a Xanthippe to deal with."
+    ],
+    "ipa": "/zænˈθɪpi/",
+    "syllables": "",
+    "synonyms": [
+      "bitch",
+      "brim",
+      "brimstone",
+      "cat",
+      "crow",
+      "dragon"
+    ],
     "antonyms": []
   },
   "prop": {
@@ -42046,6 +42329,27 @@
     "synonyms": [],
     "antonyms": []
   },
+  "banderole": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A little banner, flag, or streamer."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A flat band with an inscription, common in Renaissance buildings."
+      }
+    ],
+    "examples": [
+      "Lances were ornamented with a banderole near the point, which gave them a handsome appearance, these were also called pencells.",
+      "A second squire held aloft his master's lance, from the extremity of which fluttered a small banderole, or streamer, bearing a cross of the same form with that embroidered upon his cloak.",
+      "No plume or nobloy fluttered from his plain tilting salade, and even his lance was devoid of the customary banderole."
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "lush": {
     "definitions": [
       {
@@ -42886,6 +43190,23 @@
       "meretricious",
       "pretextual"
     ],
+    "antonyms": []
+  },
+  "fetid": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Foul-smelling, stinking."
+      }
+    ],
+    "examples": [
+      "I caught the fetid odor of dirty socks.",
+      "[…] this room, where misfortune seems to ooze, where speculation lurks in corners, and of which Madame Vauquer inhales the warm, fetid air without being nauseated.",
+      "\"I'm not going to promise anything after the perfectly fetid way you're running off,\" she retorted."
+    ],
+    "ipa": "/ˈfɛtɪd/",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "yen": {
@@ -47914,6 +48235,29 @@
     ],
     "antonyms": []
   },
+  "idyll": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "Any poem or short written piece composed in the style of Theocritus's short pastoral poems, the Idylls."
+      },
+      {
+        "pos": "noun",
+        "gloss": "An episode or series of events or circumstances of pastoral or rural simplicity, fit for an idyll; a carefree or lighthearted experience."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A composition, usually instrumental, of a pastoral or sentimental character, e.g. Siegfried Idyll by Richard Wagner."
+      }
+    ],
+    "examples": [
+      "Its pages contain not just recipes but an idyll of prelapsarian plenty, passed down the generations by those who still connect with pagan forces: Saturnus and his groaning table, a Saturnalia from the Golden Age."
+    ],
+    "ipa": "/ˈɪd.ɪl/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "impale": {
     "definitions": [
       {
@@ -48682,6 +49026,14 @@
       "perpendicular",
       "plumber"
     ],
+    "antonyms": []
+  },
+  "precis": {
+    "definitions": [],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "preen": {
@@ -50716,6 +51068,32 @@
       "blake",
       "blanched"
     ],
+    "antonyms": []
+  },
+  "blithe": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Casually careless or indifferent; showing a lack of concern; nonchalant."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Cheerful, happy."
+      },
+      {
+        "pos": "name",
+        "gloss": "A river in Staffordshire, England, which joins the River Trent."
+      }
+    ],
+    "examples": [
+      "She had a blithe disregard of cultures outside the United States.",
+      "From mother and nurse it was a guerilla^([sic]) gunfire of commands, and blithe, quicksilver disobedience from the three blonde, never-still little girls.",
+      "But not more blythe than sylvan court, Than we have been at humbler sport; Though small our pomp, and mean our game, Our mirth, dear Marriot, was the same.",
+      "Tarry, tarry, ye wha were aye sae blythe to be at the meetings of the saints, and wad ride every muir in Scotland to find a conventicle."
+    ],
+    "ipa": "/blaɪð/",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "bluff": {
@@ -61363,6 +61741,28 @@
     "synonyms": [],
     "antonyms": []
   },
+  "behoove": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To befit, be appropriate or necessary to somebody. Alternative form of behove."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To be fitting."
+      }
+    ],
+    "examples": [
+      "It ill behooves my mother to complain.",
+      "Straighter he stood, and had achieved some praise / In other exercise, much more behooving / A soldier's taste than merely dirt removing.",
+      "I think it ill behooves the Government of Canada, let alone all the people like us in Canada, to pretend that there are not these distinctions in how each of us approaches questions of security.",
+      "“Behooves”? said Danny. / “Becomes necessary, Mr. Hupfer,” said Mrs. Baker, “as in ‘It behooves us to raise our hands before we ask a question’. Now, can anyone tell me what the adjectival form would be?”"
+    ],
+    "ipa": "/bɪˈhuːv/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "baroque": {
     "definitions": [
       {
@@ -62002,6 +62402,34 @@
       "pontoon",
       "limber"
     ],
+    "antonyms": []
+  },
+  "eon": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "Eternity, the duration of the universe."
+      },
+      {
+        "pos": "noun",
+        "gloss": "An immeasurably or indefinitely long period of time."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A long period of time."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A period of one billion (short scale, i.e. 1,000,000,000) years; a gigayear."
+      }
+    ],
+    "examples": [
+      "It’s been eons since we last saw each other.",
+      "Traditionally, a luncheon is a lunch that takes an eon."
+    ],
+    "ipa": "/ˈi.ɑn/",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "mandate": {
@@ -64182,6 +64610,38 @@
       "spiritual",
       "ethereal"
     ]
+  },
+  "fledgling": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Untried or inexperienced."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Emergent or rising."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A young bird which has just developed its flight feathers (notably wings)."
+      },
+      {
+        "pos": "noun",
+        "gloss": "An insect that has just fledged, i.e. undergone its final moult to become an adult or imago."
+      }
+    ],
+    "examples": [
+      "His trenchant criticisms of the Church's repression […] include a discussion of the considerable 1938 success of the fledgling NODL in getting magazines removed from various points of sale."
+    ],
+    "ipa": "/ˈflɛd͡ʒ.lɪŋ/",
+    "syllables": "",
+    "synonyms": [
+      "unfledged",
+      "virginal",
+      "nascent",
+      "emerging"
+    ],
+    "antonyms": []
   },
   "harry": {
     "definitions": [
@@ -67390,6 +67850,26 @@
     ],
     "antonyms": []
   },
+  "consanguineous": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Related by birth; descended from the same parent or ancestor."
+      }
+    ],
+    "examples": [
+      "Am not I consanguineous? am I not of her blood?"
+    ],
+    "ipa": "/kɑnsæŋˈɡwɪni.əs/",
+    "syllables": "",
+    "synonyms": [
+      "consanguine",
+      "consanguineal"
+    ],
+    "antonyms": [
+      "affinal"
+    ]
+  },
   "bemoan": {
     "definitions": [
       {
@@ -67570,6 +68050,27 @@
     "synonyms": [
       "appease",
       "slake"
+    ],
+    "antonyms": []
+  },
+  "sine qua non": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "An essential or indispensable element, condition, or ingredient."
+      }
+    ],
+    "examples": [
+      "Near-synonyms: dealbreaker, necessary condition",
+      "Literature, instead of being an accessory, is the fundamental sine qua non of complete living.",
+      "[…] whereas some degree of political freedom is a sine qua non condition for contestation, democracy cannot be sufficiently defined in terms of “liberties”[…]"
+    ],
+    "ipa": "/ˌsaɪnɪ kweɪ ˈnɒn/",
+    "syllables": "",
+    "synonyms": [
+      "nonnegotiable",
+      "prerequisite",
+      "dealbreaker"
     ],
     "antonyms": []
   },
@@ -68939,6 +69440,19 @@
     ],
     "antonyms": []
   },
+  "zampone": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "In Italian cookery, stuffed pig's trotter with spicy ground pork, usually dried and cured, often served with lentils."
+      }
+    ],
+    "examples": [],
+    "ipa": "/zæmˈpoʊni/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "gush": {
     "definitions": [
       {
@@ -69707,6 +70221,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "skulduggery": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A devious device or trick."
+      },
+      {
+        "pos": "noun",
+        "gloss": "Dishonest, underhanded, or unscrupulous activities or behaviour."
+      }
+    ],
+    "examples": [
+      "A private company cannot get away with a skulduggery of that sort. Once it has paid out its money for taxes, it cannot reach into the public treasury and get it back and apply it on its amortization account.",
+      "And you, O student, might do worse than to investigate the assorted sculduggeries of this obscure trio: […]",
+      "The reports in his briefase had no bearing on war, peace, the dope traffic, the hydrogen bomb, or any of the other international skulduggeries that he associated with pursuers, men in trench coats, and wet sidewalks.",
+      "What exhibition of rapaciousness, race prejudice and political spoliation could be cheaper, commoner, or meaner? These are the little tyrannies and petty skullduggeries that make bitter the relations between the races."
+    ],
+    "ipa": "/ˌskʌlˈdʌɡəɹi/",
+    "syllables": "",
+    "synonyms": [
+      "ruse",
+      "stratagem",
+      "subterfuge",
+      "dishonesty",
+      "thugduggery",
+      "trickery"
+    ],
+    "antonyms": [
+      "honesty",
+      "probity"
+    ]
+  },
   "opprobrium": {
     "definitions": [
       {
@@ -69868,6 +70414,21 @@
       "uniform",
       "unmixed"
     ]
+  },
+  "blase": {
+    "definitions": [
+      {
+        "pos": "name",
+        "gloss": "A male given name from Latin."
+      }
+    ],
+    "examples": [
+      "In mid-February a colleague mentioned that for the first time in his life he was more concerned than his mother, who had been relatively blase about the risks of Covid-19."
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
   },
   "reparation": {
     "definitions": [
@@ -76598,6 +77159,36 @@
     "synonyms": [],
     "antonyms": []
   },
+  "amok": {
+    "definitions": [
+      {
+        "pos": "adv",
+        "gloss": "Out of control, especially when armed and dangerous."
+      },
+      {
+        "pos": "adv",
+        "gloss": "In a frenzy of violence, or on a killing spree; berserk."
+      },
+      {
+        "pos": "noun",
+        "gloss": "One who runs amok; in Malay and Moro/Philippine culture, one who attempts to kill many others, especially expecting that they will be killed themselves."
+      },
+      {
+        "pos": "noun",
+        "gloss": "The act of running amok."
+      }
+    ],
+    "examples": [
+      "It is true, I […] might have run “amok” against society; but I preferred that society should run “amok” against me, it being the desperate party.",
+      "One morning, as we were sitting at breakfast, Mr. Carter's servant informed us that there was an \"Amok\" in the village--in other words, that a man was \"running a muck.\"",
+      "Among the ancients these would have been looked upon as heroes or demigods who sacrificed themselves for their country. Here it is simply said--they made \"amok.\"",
+      "All the people proclaimed that he must be killed at once as they were afraid of his amuking amongst the people."
+    ],
+    "ipa": "/əˈmɒk/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "sentinel": {
     "definitions": [
       {
@@ -77889,6 +78480,43 @@
       "joyful",
       "jubilant",
       "overjoyed"
+    ],
+    "antonyms": []
+  },
+  "vex": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To annoy, irritate."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To cause (mental) suffering to; to distress."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To toss back and forth; to agitate; to disquiet."
+      },
+      {
+        "pos": "name",
+        "gloss": "Initialism of Venus Express."
+      }
+    ],
+    "examples": [
+      "Billy's professor was vexed by his continued failure to improve his grades.",
+      "The first thing that greets you on entering the church is a notice asking you not to vex the goat, since it renders valuable service in keeping the churchyard tidy.",
+      "I will not again vex her ear with words of love, however true, however deep: ours is an evil destiny, and we may not control it!",
+      "I vex my heart with fancies dim: ⁠He still outstript me in the race; ⁠It was but unity of place That made me dream I rank’d with him."
+    ],
+    "ipa": "/vɛks/",
+    "syllables": "",
+    "synonyms": [
+      "agitate",
+      "irk",
+      "irritate",
+      "aggravate",
+      "annoy",
+      "nettle"
     ],
     "antonyms": []
   },
@@ -79783,6 +80411,43 @@
       "inobtrusive",
       "obscure"
     ]
+  },
+  "facade": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "The face of a building, especially the front view or elevation."
+      },
+      {
+        "pos": "noun",
+        "gloss": "The face or front (most visible side) of any other thing, such as the prospect of an organ."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A deceptive or insincere outward appearance."
+      },
+      {
+        "pos": "noun",
+        "gloss": "An object serving as a simplified interface to a larger body of code, as in the facade pattern."
+      }
+    ],
+    "examples": [
+      "In Egypt the façades of their rock-cut tombs were[…]ornamented so simply and unobtrusively as rather to belie than to announce their internal magnificence.",
+      "Like so many of the finest churches, [the cathedral of Siena] was furnished with a plain substantial front wall, intended to serve as the backing and support of an ornamental façade.",
+      "Eight or so gunmen stood shoulder to shoulder in the gray-white trail before the barn, firing into the saloon's burning, bullet-pocked facade.",
+      "Facades are widely used for tasks like simplifying complex APIs."
+    ],
+    "ipa": "/fəˈsɑ(ː)d/",
+    "syllables": "",
+    "synonyms": [
+      "face",
+      "front",
+      "frontage",
+      "appearance",
+      "cover",
+      "guise"
+    ],
+    "antonyms": []
   },
   "gross": {
     "definitions": [
@@ -83362,6 +84027,29 @@
       "Only once the drawing is done will the letterer caption it."
     ],
     "ipa": "/ˈkæp.ʃən/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "carat": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A metric unit of mass equal to exactly 200 mg, chiefly used for measuring precious stones and pearls."
+      },
+      {
+        "pos": "noun",
+        "gloss": "Any of several small units of mass used for measuring precious stones and pearls, equivalent to 189–212 mg."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A 24-point scale used to measure the purity of gold."
+      }
+    ],
+    "examples": [
+      "18-carat gold is 75% gold by mass. 24-carat gold is pure."
+    ],
+    "ipa": "/ˈkæ.ɹət/",
     "syllables": "",
     "synonyms": [],
     "antonyms": []
@@ -88996,6 +89684,31 @@
     "synonyms": [],
     "antonyms": []
   },
+  "apothegm": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A short, witty, instructive saying; an aphorism or maxim."
+      }
+    ],
+    "examples": [
+      "\"You are too wonderful!\" he would say. \"How do you find time for everything?\" She rejoined with the apophthegm that made the rounds of Riseholme next day. \"My dear, it is just busy people that have time for everything.\"",
+      "For the gods have withheld from the barbarians the light of discretion, as that their poetry is not, like ours, full of choice apophthegms and useful maxims, but is all of love and war.",
+      "The gnomic belief that the world is conditioned by love is no idle apothegm.",
+      "Which means roughly that business keeps one safe from love—ominous talk when one’s lover is a courtesan. I hoped that it was just another literary conceit I ought to know. (It is, I later learned, an apothegm by Ovid.)"
+    ],
+    "ipa": "/ˈæ.pə.θɛm/",
+    "syllables": "",
+    "synonyms": [
+      "byword",
+      "saying",
+      "adage",
+      "proverb",
+      "maxim",
+      "apophthegm"
+    ],
+    "antonyms": []
+  },
   "febrile": {
     "definitions": [
       {
@@ -89700,6 +90413,33 @@
       "confabulate",
       "conversate"
     ],
+    "antonyms": []
+  },
+  "granulate": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To segment into tiny grains or particles."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To collect or be formed into grains."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Consisting of, or resembling, grains; crystallized in grains; granular."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Having numerous small elevations, like shagreen."
+      }
+    ],
+    "examples": [
+      "Cane juice granulates into sugar."
+    ],
+    "ipa": "/ˈɡɹæn.juːl.eɪt/",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "demagogue": {
@@ -90455,6 +91195,39 @@
     "ipa": "/ˈjuʒəɹi/",
     "syllables": "",
     "synonyms": [],
+    "antonyms": []
+  },
+  "cauldron": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A large bowl-shaped pot used for boiling over an open flame."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A type of encirclement."
+      },
+      {
+        "pos": "noun",
+        "gloss": "An unsettled or difficult situation or place."
+      }
+    ],
+    "examples": [
+      "Double, double, toile and trouble; / Fire burne, and Cauldron bubble.",
+      "Large cauldrons are a little tricky to locate, but are well worth the search if you have a place to safely store and use one.",
+      "Near-synonym: kettle",
+      "After having defended the constantly shrinking perimeter of their position for over two weeks, the encircled German units in the Cherkassy “cauldron” were ordered to break out."
+    ],
+    "ipa": "/ˈkɔːl.dɹən/",
+    "syllables": "",
+    "synonyms": [
+      "kettle",
+      "pickle",
+      "bind",
+      "calvary",
+      "cross",
+      "difficulty"
+    ],
     "antonyms": []
   },
   "wunderkind": {
@@ -93542,6 +94315,19 @@
     "synonyms": [],
     "antonyms": []
   },
+  "polylemma": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A circumstance in which a choice must be made between multiple options that seem equally undesirable"
+      }
+    ],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "whittle": {
     "definitions": [
       {
@@ -94721,6 +95507,39 @@
       "grisescent",
       "whitish",
       "grizzled"
+    ],
+    "antonyms": []
+  },
+  "underhand": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Secret; clandestine."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Dishonest and sneaky; done in a secret or sly manner."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Thrown (etc.) with the hand brought forward and up from below."
+      },
+      {
+        "pos": "adv",
+        "gloss": "With an underhand movement."
+      }
+    ],
+    "examples": [
+      "Couture made straight for the refrigerator and returned with cold beer, underhanding them in turn to each of the team members, Sergeant Thi included.",
+      "Michael underhanded his half-dozen sticks into the audience as the stage lights went dark and house lights came up at the rear of the auditorium.",
+      "In that era, a pitcher's job was to initiate play by underhanding the ball to the batter in a way that would prevent hard hits but not necessarily in hopes of a strikeout.",
+      "The time has arrived when monkeying with the public must cease, when lying and underhanding your competitor in the baking business must be banished from the plan of business development."
+    ],
+    "ipa": "/ˈʌn.də(ɹ)ˌ(h)ænd/",
+    "syllables": "",
+    "synonyms": [
+      "sneaky",
+      "underhandedly"
     ],
     "antonyms": []
   },
@@ -97492,6 +98311,25 @@
     "synonyms": [],
     "antonyms": []
   },
+  "frenetic": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Frenzied and frantic, harried; having extreme enthusiasm or energy."
+      },
+      {
+        "pos": "noun",
+        "gloss": "One who is frenetic."
+      }
+    ],
+    "examples": [
+      "After a week of working at a frenetic pace, she was ready for Saturday."
+    ],
+    "ipa": "/fɹəˈnɛt.ɪk/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "frantic": {
     "definitions": [
       {
@@ -98272,6 +99110,33 @@
     "synonyms": [],
     "antonyms": []
   },
+  "inasmuch as": {
+    "definitions": [
+      {
+        "pos": "conj",
+        "gloss": "Because of the fact that; since."
+      },
+      {
+        "pos": "conj",
+        "gloss": "To the extent that; insofar as."
+      }
+    ],
+    "examples": [
+      "This employee was engaged to direct asphalt plants and inasmuch as the work for which he had been employed was completed, he was surplused and his return travel was approved […]",
+      "You will improve, but only inasmuch as you practise."
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [
+      "as",
+      "for",
+      "because",
+      "forthy",
+      "since",
+      "when"
+    ],
+    "antonyms": []
+  },
   "dilapidated": {
     "definitions": [
       {
@@ -98797,6 +99662,32 @@
       "paradigm",
       "model"
     ],
+    "antonyms": []
+  },
+  "perquisite": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "Any monetary or other incidental benefit beyond salary."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A gratuity."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A privilege or possession held or claimed exclusively by a certain person, group or class."
+      }
+    ],
+    "examples": [
+      "The perquisites of this job include health insurance and a performance bonus.",
+      "The tithe properly belongs to the Lord who, in turn, assigns it to the Levites as payments for their sanctuary labors. Thus levitical and priestly perquisites are gifts from God.",
+      "After the wonderful service that evening he didn’t hesitate in laying a substantial perquisite on the table.",
+      "Private jets and motor yachts are perquisites of the rich."
+    ],
+    "ipa": "/ˈpɜɹkwəzɪt/",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "transitory": {
@@ -104376,6 +105267,14 @@
     "synonyms": [],
     "antonyms": []
   },
+  "protege": {
+    "definitions": [],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "austere": {
     "definitions": [
       {
@@ -104765,6 +105664,19 @@
       "It’s surprisingly hard to track down plain old strawberry ice-cream these days – it seems to have been usurped by more modish combinations […]"
     ],
     "ipa": "/ˈməʊdɪʃ/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "molt": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "US standard spelling of moult."
+      }
+    ],
+    "examples": [],
+    "ipa": "",
     "syllables": "",
     "synonyms": [],
     "antonyms": []
@@ -106477,6 +107389,25 @@
     ],
     "antonyms": []
   },
+  "hue and cry": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "The public pursuit of a criminal, accompanied by shouts to warn others to give chase."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A loud and persistent public clamour, especially one associated with protest or the making of some demand."
+      }
+    ],
+    "examples": [
+      "And because I haven't written off easily, a great hue and cry has gone up that there is something wrong with our whole system of administering justice."
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "meatus": {
     "definitions": [
       {
@@ -107359,6 +108290,31 @@
     "synonyms": [],
     "antonyms": []
   },
+  "provender": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To feed."
+      }
+    ],
+    "examples": [
+      "...and in a few moments would have had their hands on one hundred and eighty thousand dollars of gold, when from some cause unknown, they decamped leaving all their tools behind, together with provender for the seige.",
+      "The farm which supplied to him ungrudging provender had all his vast capacity for work in willing exercise …",
+      "He ripp'd the womb up of his mother, / Dame Tellus, 'cause he wanted fother, / And provender, wherewith to feed / Himself and his less cruel steed.",
+      "Irregular, sporadic feeding and strange provender were beginning to take their toll, and I felt queasy at the thought of 'various curries' the Amat's clerk had promised for the first meal of the day."
+    ],
+    "ipa": "/ˈpɹɑvəndɚ/",
+    "syllables": "",
+    "synonyms": [
+      "fodder",
+      "aliment",
+      "bait",
+      "chow",
+      "comestibles",
+      "cuisine"
+    ],
+    "antonyms": []
+  },
   "attrition": {
     "definitions": [
       {
@@ -107895,6 +108851,34 @@
       "vivify",
       "liven"
     ],
+    "antonyms": []
+  },
+  "pro forma": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Occurring, undertaken, or performed as a perfunctory matter, in the interest of form, or for the sake of formality."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Of or relating to a document of form, especially an invoice sent in advance."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Showing projected costs, liabilities, etc., especially as a result of an expected action or situation. (of a financial document)"
+      },
+      {
+        "pos": "adv",
+        "gloss": "Undertaken or performed as a perfunctory matter, in the interest of form, or for the sake of politeness."
+      }
+    ],
+    "examples": [
+      "For quotations using this term, see Citations:pro forma.",
+      "He greeted her pro forma."
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "parry": {
@@ -110259,6 +111243,31 @@
     ],
     "antonyms": []
   },
+  "propellant": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "fuel, oxidizer, reaction mass or mixture for one or more engines (especially internal combustion engines or jet engines) that is carried within a vehicle prior to use"
+      },
+      {
+        "pos": "noun",
+        "gloss": "the compressed gas in a pressurised container (especially an aerosol can) that is used to expel its content"
+      },
+      {
+        "pos": "noun",
+        "gloss": "the explosive (cordite, gunpowder, etc) found in ammunition cartridges"
+      }
+    ],
+    "examples": [
+      "Then they backed the membrane with a gel matrix containing a perfluorocarbon (PFC) propellant and fluorescent \"nanobullets\" about a micron wide, and hit it with ultrasound."
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [
+      "prop"
+    ],
+    "antonyms": []
+  },
   "graphomania": {
     "definitions": [
       {
@@ -110553,6 +111562,19 @@
     "antonyms": [
       "untouchy"
     ]
+  },
+  "per curiam": {
+    "definitions": [
+      {
+        "pos": "phrase",
+        "gloss": "An opinion delivered by an entire court rather than a single judge."
+      }
+    ],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
   },
   "mens rea": {
     "definitions": [
@@ -113361,6 +114383,24 @@
     "synonyms": [],
     "antonyms": []
   },
+  "confidant": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A person in whom one can confide or share one's secrets: a friend."
+      }
+    ],
+    "examples": [
+      "Heaven made you love me for no other end, / But to become my confidant and friend: / As such, I keep no secret from your sight, […]",
+      "One in thought and purpose, linked by the necessity of combating one hostile fate, a power antagonistic ever, — a power we lived to evade, — we had no confidants save ourselves.",
+      "'Of course'—implied the loyal manager, and 'Oh, of course; not a word,' assented his confidant.",
+      "Bankman-Fried’s confidants were along for the ride. At his side was Caroline Ellison, Alameda’s CEO and his on-again, off-again lover."
+    ],
+    "ipa": "/ˈkɑn.fɪ.dɑnt/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "grandiose": {
     "definitions": [
       {
@@ -115409,6 +116449,14 @@
     ],
     "antonyms": []
   },
+  "passe": {
+    "definitions": [],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "preclude": {
     "definitions": [
       {
@@ -116339,6 +117387,22 @@
     "ipa": "/ˈmæn.təl/",
     "syllables": "",
     "synonyms": [],
+    "antonyms": []
+  },
+  "peristalsis": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "The coordinated, rhythmic, wavelike contraction and relaxation of smooth muscle that propels contents through a hollow organ, particularly food through the gastrointestinal tract."
+      }
+    ],
+    "examples": [],
+    "ipa": "/ˌpɛɹɪˈstalsɪs/",
+    "syllables": "",
+    "synonyms": [
+      "enterocinesia",
+      "vermiculation"
+    ],
     "antonyms": []
   },
   "gild": {
@@ -118430,6 +119494,23 @@
       "hedonophobe"
     ]
   },
+  "hypnagogic": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "That induces sleep; soporific, somniferous."
+      },
+      {
+        "pos": "adj",
+        "gloss": "That accompanies falling asleep; especially, pertaining to the semi-conscious period immediately preceding sleep."
+      }
+    ],
+    "examples": [],
+    "ipa": "/ˌhɪpnəˈɡɑd͡ʒɪk/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "artless": {
     "definitions": [
       {
@@ -118609,6 +119690,29 @@
       "This communication is to develop this thought process as pertains to the position of the parturient woman during her delivery."
     ],
     "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "glutinous": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Glue-like, sticky, viscid."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Of the nature of gluten."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Containing gluten."
+      }
+    ],
+    "examples": [
+      "Then comes the dinner, a glutinous spread that seems simultaneously generous and disgusting, but no one ever touches the food"
+    ],
+    "ipa": "/ˈɡluːtɪnəs/",
     "syllables": "",
     "synonyms": [],
     "antonyms": []
@@ -119288,6 +120392,28 @@
     ],
     "antonyms": []
   },
+  "gloss over": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To cover up a mistake or a crime; to hush up or whitewash."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To treat something with less care than it in some ways deserves; to ignore, or at least to discount or dismiss for the current purposes."
+      }
+    ],
+    "examples": [
+      "They glossed over the problem, hoping that the customers wouldn't notice.",
+      "Plausibility, I know, can only be unmasked by shewing the absurdities it glosses over, and the simple truths it involves with specious errors.",
+      "This book only glosses over quantum mechanics; it doesn't go into detail.",
+      "\"I am afraid that we are trespassing,\" said the doctor, awkward between his promise to the girl and the necessity of glossing over the situation. \"My friend is interested in antiquities—\""
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "gruesome": {
     "definitions": [
       {
@@ -119497,6 +120623,21 @@
     "ipa": "/ˌdɑk.tɹɪˈnɛɹ/",
     "syllables": "",
     "synonyms": [],
+    "antonyms": []
+  },
+  "dumbfound": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To confuse and bewilder; to leave speechless."
+      }
+    ],
+    "examples": [],
+    "ipa": "/ˌdʌmˈfaʊnd/",
+    "syllables": "",
+    "synonyms": [
+      "flabbergast"
+    ],
     "antonyms": []
   },
   "mannerism": {
@@ -121933,6 +123074,35 @@
     "synonyms": [],
     "antonyms": []
   },
+  "calends": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "Often with initial capital: the first day of a month."
+      },
+      {
+        "pos": "noun",
+        "gloss": "The first day of a month of the Roman calendar."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A day for settling debts and other accounts."
+      }
+    ],
+    "examples": [
+      "The third day before the calends of February is 30 January, the third calends of March is 27 or 28 February, and the third of the calends of May is 29 April.",
+      "Let it not be lawful to use wicked observations of the calends, and to keep the gentiles' holy-days, nor to deck houses with bays or green boughs; for all this is an heathenish observation.",
+      "If January calends be summerly gay, / 'Twill be winterly weather till the calend of May.",
+      "Blockheads, friends of my heart and liver, cousins of my tripe, are you ignorant that this symposium is as authentic as any of those tales of the Greek Calends, which you swallow and digest so easily,[…]?"
+    ],
+    "ipa": "/ˈkælɪndz/",
+    "syllables": "",
+    "synonyms": [
+      "Kal.",
+      "calendar"
+    ],
+    "antonyms": []
+  },
   "sanctuary": {
     "definitions": [
       {
@@ -123385,6 +124555,30 @@
     "synonyms": [],
     "antonyms": []
   },
+  "checkered": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Divided into a grid of squares of alternating colours or shades, or into light and dark patches."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Changeable; inconsistent; having variations or uncertainty; marked by many problems or failures."
+      },
+      {
+        "pos": "verb",
+        "gloss": "simple past and past participle of checker"
+      }
+    ],
+    "examples": [
+      "That is a checkered tablecloth.",
+      "“What a checkered career!” said Newman."
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "rescind": {
     "definitions": [
       {
@@ -123953,6 +125147,41 @@
     "ipa": "/ˈlɑːn.sɪt/",
     "syllables": "",
     "synonyms": [],
+    "antonyms": []
+  },
+  "conservatory": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Having the quality of preserving from loss, decay, or injury."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A school or clinic for orphans."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A music school."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A greenhouse, a glass-walled building for cultivating delicate plants."
+      }
+    ],
+    "examples": [
+      "The auncient Catholyke fathers... were not afrayde to call this Supper... the foode of immortalitie... and the conseruatory to euerlastyng lyfe.",
+      "...a tree appointed to be the cure of diseases and a conservatory of life..."
+    ],
+    "ipa": "/kənˈsɝ.vəˌt(ɔ.)ɹi/",
+    "syllables": "",
+    "synonyms": [
+      "greenhouse",
+      "hothouse",
+      "orangery",
+      "planthouse",
+      "sunroom",
+      "solarium"
+    ],
     "antonyms": []
   },
   "pococurante": {
@@ -124935,6 +126164,26 @@
       "Gwynn and Richard were at the Westway Health and Fitness Centre, surrounded by thirty or forty etiolated drunks: playing snooker."
     ],
     "ipa": "/ˈiːti.əleɪt/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "exordium": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A beginning."
+      },
+      {
+        "pos": "noun",
+        "gloss": "The introduction to an essay or discourse."
+      }
+    ],
+    "examples": [
+      "Cicero thinks, in discourses of philosophy, the exordium to be the hardest part: if it be so, I wisely lay hold on the conclusion.",
+      "This is a feeble article of faith to begin with, but it helps to push my pen through this exordium and what now follows."
+    ],
+    "ipa": "/ɛɡˈzɔɹdɪəm/",
     "syllables": "",
     "synonyms": [],
     "antonyms": []
@@ -128519,6 +129768,31 @@
     "synonyms": [],
     "antonyms": []
   },
+  "polemical": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Being an attempt to evaluate the arguments comprehensively."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Prone to causing disputes; inclined to causing the expression of opposing opinions, disputatious, contentious, edgy."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A diatribe or polemic."
+      }
+    ],
+    "examples": [
+      "[…] in order to give a comprehensive critical and polemical analysis of the Dictionary in question, a whole book would be needed.",
+      "Not only are all these allegations worded in an unnecessarily polemical style, they are also simply false",
+      "Remarkable here is the rather polemical choice of words […]"
+    ],
+    "ipa": "/pəˈlɛmɪkəl/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "flagrant": {
     "definitions": [
       {
@@ -129956,6 +131230,14 @@
     "synonyms": [
       "twitterpated"
     ],
+    "antonyms": []
+  },
+  "roue": {
+    "definitions": [],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "incinerate": {
@@ -131523,6 +132805,14 @@
       "A powerful visitors’ bureau has pushed the South Carolina city to the top of “best” lists by selling gentility. Critics say that has come at the expense of history and the city’s Black population."
     ],
     "ipa": "/ˌd͡ʒɛnˈtɪl.ə.ti/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "naivete": {
+    "definitions": [],
+    "examples": [],
+    "ipa": "",
     "syllables": "",
     "synonyms": [],
     "antonyms": []
@@ -135153,6 +136443,26 @@
       "expressive"
     ]
   },
+  "dutiful": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Accepting of one's legal or moral obligations and willing to do them well, and without complaint."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Pertaining to one's duty; demonstrative of one's sense of duty."
+      }
+    ],
+    "examples": [
+      "Ralph was a dutiful child, and took the trash out without being told.",
+      "And when blondes and beautiful are multiple / They become so dull and dutiful"
+    ],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "metagenesis": {
     "definitions": [
       {
@@ -135651,6 +136961,34 @@
       "revert",
       "fix"
     ],
+    "antonyms": []
+  },
+  "caulk": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "Caulking."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A composition of vehicle and pigment used at ambient temperatures for filling/sealing joints or junctures, that remains elastic for an extended period of time after application."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A short sleep; a nap."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To drive oakum into the seams of a ship's wooden deck or hull to make it watertight."
+      }
+    ],
+    "examples": [
+      "[…] & we went for a long walk & fatigued ourselves so that I, for one, took a caulk in the afternoon.",
+      "There was the goggle-eyed daughter a blowing the Grampus [throwing a bucket of water upon a person] with the platter-faced planter, whenever he caulked upon deck; […]"
+    ],
+    "ipa": "/kɔk/",
+    "syllables": "",
+    "synonyms": [],
     "antonyms": []
   },
   "seamy": {
@@ -137187,6 +138525,19 @@
     ],
     "antonyms": []
   },
+  "armscye": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "An opening in a garment for the attachment of a sleeve; an armhole."
+      }
+    ],
+    "examples": [],
+    "ipa": "/ˈɑːmˌsaɪ/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "neddy": {
     "definitions": [
       {
@@ -137847,6 +139198,33 @@
     "ipa": "/vɛˈd͡ʒit/",
     "syllables": "",
     "synonyms": [],
+    "antonyms": []
+  },
+  "epaulette": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "An ornamentation, worn on the shoulders of a military uniform, as a sign of rank."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A similar piece of trimming on a lady’s dress."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A plate on the anterior wings of some insects."
+      },
+      {
+        "pos": "noun",
+        "gloss": "The red patch on the shoulders of a red-winged blackbird."
+      }
+    ],
+    "examples": [],
+    "ipa": "/ˈɛpəlɛt/",
+    "syllables": "",
+    "synonyms": [
+      "tegula"
+    ],
     "antonyms": []
   },
   "eulogistic": {
@@ -138710,6 +140088,25 @@
     "synonyms": [],
     "antonyms": []
   },
+  "habituate": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To make accustomed; to accustom; to familiarize."
+      }
+    ],
+    "examples": [
+      "My first quarter at Lowood seemed an age; and not the golden age either; it comprised an irksome struggle with difficulties in habituating myself to new rules and unwonted tasks.",
+      "[…] quarrels in discotheques were settled by the final curse-word of guns. State violence under the old, past regime had habituated its victims to it. People had forgotten there was any other way."
+    ],
+    "ipa": "/həˈbɪtju.eɪt/",
+    "syllables": "",
+    "synonyms": [
+      "accustom",
+      "inure"
+    ],
+    "antonyms": []
+  },
   "perfidious": {
     "definitions": [
       {
@@ -139190,6 +140587,19 @@
     "synonyms": [],
     "antonyms": []
   },
+  "concinnity": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "The harmonious reinforcement of the various parts of a work of art."
+      }
+    ],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "mutinous": {
     "definitions": [
       {
@@ -139564,6 +140974,43 @@
       "categoric",
       "unconditional",
       "categorial"
+    ],
+    "antonyms": []
+  },
+  "pestilential": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Producing, spreading, promoting or infected with pestilence; causing infection. (of people, animals, places or substances)"
+      },
+      {
+        "pos": "adj",
+        "gloss": "Spreading in the manner of pestilence. (of illnesses)"
+      },
+      {
+        "pos": "adj",
+        "gloss": "Caused by pestilence. (of symptoms)"
+      },
+      {
+        "pos": "adj",
+        "gloss": "During which pestilence spreads. (of a period of time)"
+      }
+    ],
+    "examples": [
+      "1675, John Dryden, The Mistaken Husband, London: J. Magnes and R. Bentley, Act V, p. 63, What do you fear? Why do you shun me thus. […] I am not Pestilential, nor Leaprous.",
+      "[…] the Winter keen Pour’d out his Waste of Snows, and Summer shot His pestilential Heats:",
+      "A long sicknesse will weary friends at last; but a pestilentiall sicknes auerts them from the beginning.",
+      "[…] the miseries of famine were succeeded and aggravated by the contagion of a pestilential disease."
+    ],
+    "ipa": "/ˌpɛstɪˈlɛnʃi.əl/",
+    "syllables": "",
+    "synonyms": [
+      "pestiferous",
+      "pernicious",
+      "annoying",
+      "irritating",
+      "pestilent",
+      "troublesome"
     ],
     "antonyms": []
   },
@@ -140145,6 +141592,16 @@
       "If Britain goes down the plug hole, we can't blame three \"loadsamoney\" bankers, but did they need to be quite so gung-ho about it, and so mealymouthed with their apologies."
     ],
     "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "cliche": {
+    "definitions": [],
+    "examples": [
+      "The snowcloneification was surely not far behind, since so many people would already have been familiar enough with this cliche of philosophy."
+    ],
+    "ipa": "/kliˈʃeɪ/",
     "syllables": "",
     "synonyms": [],
     "antonyms": []
@@ -140848,6 +142305,39 @@
     "synonyms": [],
     "antonyms": []
   },
+  "demoniac": {
+    "definitions": [
+      {
+        "pos": "adj",
+        "gloss": "Possessed or controlled by a demon."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Of or pertaining to demons; demonic."
+      },
+      {
+        "pos": "noun",
+        "gloss": "Someone who is possessed by a demon."
+      }
+    ],
+    "examples": [
+      "How dark may be the hiding of God's face, Or what demoniac forms may seize the helm Of reason...",
+      "Animal fury and orgiastic licence here whipped themselves to demoniac heights by howls and squawking ecstasies that tore and reverberated through those nighted woods like pestilential tempests from the gulfs of hell.",
+      "There was movement everywhere, screaming, demoniac activity; the old man was coming across the tumbling logs.",
+      "The exorcism was dropped from the second Edwardian Prayer Book, because of its implication that unbaptised infants were demoniacs […]."
+    ],
+    "ipa": "/dɪˈməʊnɪak/",
+    "syllables": "",
+    "synonyms": [
+      "demoniacal",
+      "devilish",
+      "diabolic",
+      "cacodaemoniacal",
+      "daemonical",
+      "demonic"
+    ],
+    "antonyms": []
+  },
   "disquietude": {
     "definitions": [
       {
@@ -140866,6 +142356,32 @@
       "The cares and disquietudes of the marriage-state, quoth Mrs. Wadman, are very great."
     ],
     "ipa": "/dɪˈskwaɪə.tjuːd/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "pass off": {
+    "definitions": [
+      {
+        "pos": "verb",
+        "gloss": "To happen."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To give something (to someone)."
+      },
+      {
+        "pos": "verb",
+        "gloss": "To abate, to cease gradually."
+      }
+    ],
+    "examples": [
+      "The millennium passed off without any disasters.",
+      "2015. Off the Rim. Sonya Spreen Bates. He turned and passed it off to number 23, who dribbled a couple of times and passed it to number 61.",
+      "I have had a few aches and pains lately and a little fever, but that's nothing; it will pass off.",
+      "I know, too, that ever since he lost his leg last voyage by that accursed whale, he’s been a kind of moody—desperate moody, and savage sometimes; but that will all pass off."
+    ],
+    "ipa": "",
     "syllables": "",
     "synonyms": [],
     "antonyms": []
@@ -141892,6 +143408,31 @@
     "synonyms": [],
     "antonyms": []
   },
+  "nonesuch": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A person or thing with no equal."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A caryophyllaceous plant, Silene chalcedonica (syn. Lychnis chalcedonica), with bright red flowers, native to Eurasia."
+      },
+      {
+        "pos": "adj",
+        "gloss": "Having no equal."
+      }
+    ],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [
+      "ideal",
+      "paragon",
+      "nonpareil"
+    ],
+    "antonyms": []
+  },
   "contortions": {
     "definitions": [],
     "examples": [],
@@ -142735,6 +144276,27 @@
       "On one side of the radial edge, the conchoidal fractures form right angles, that is, form a perpendicular with the edge."
     ],
     "ipa": "/kɒŋˈkɔɪ.dəl/",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "contredanse": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "A folk dance in which two lines of couples face each other."
+      },
+      {
+        "pos": "noun",
+        "gloss": "The quadrille."
+      },
+      {
+        "pos": "noun",
+        "gloss": "A piece of music in the rhythm of such a dance."
+      }
+    ],
+    "examples": [],
+    "ipa": "",
     "syllables": "",
     "synonyms": [],
     "antonyms": []
@@ -144437,6 +145999,14 @@
     "synonyms": [],
     "antonyms": []
   },
+  "archine": {
+    "definitions": [],
+    "examples": [],
+    "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
   "virilism": {
     "definitions": [
       {
@@ -144766,6 +146336,19 @@
     ],
     "examples": [],
     "ipa": "",
+    "syllables": "",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "occlupanid": {
+    "definitions": [
+      {
+        "pos": "noun",
+        "gloss": "Synonym of bread clip."
+      }
+    ],
+    "examples": [],
+    "ipa": "/ˌɑkluˈpænɪd/",
     "syllables": "",
     "synonyms": [],
     "antonyms": []

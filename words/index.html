@@ -99,6 +99,23 @@
   .search-input:focus { outline: none; border-color: var(--accent); }
   .result-count { color: var(--text-tertiary); font-size: 0.8rem; white-space: nowrap; }
 
+  .letter-filter { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; flex: 0 0 auto; }
+  .letter-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: 3px 7px;
+    min-width: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+  .letter-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
+  .letter-btn.active { background: var(--accent-dim); border-color: var(--accent); color: #fff; }
+  .letter-btn:disabled { opacity: 0.3; cursor: default; }
+
   table { width: 100%; border-collapse: collapse; }
   thead th {
     text-align: left;
@@ -270,6 +287,49 @@
   .results-row .rm { color: var(--text-secondary); text-align: right; }
   .results-row.wrong .rw { color: var(--bad); }
 
+  /* Typed-answer modes (typed recall, cloze) */
+  .text-answer-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .text-input {
+    flex: 1;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+  }
+  .text-input:focus { outline: none; border-color: var(--accent); }
+  .text-input.correct { border-color: var(--good); background: var(--good-bg); color: #cdf7e0; }
+  .text-input.incorrect { border-color: var(--bad); background: var(--bad-bg); color: #ffd6d6; }
+  .answer-feedback { font-size: 0.85rem; margin-bottom: 14px; min-height: 1.2em; }
+  .answer-feedback.correct { color: var(--good); }
+  .answer-feedback.incorrect { color: var(--bad); }
+
+  .cloze-context { color: var(--text-tertiary); font-size: 0.85rem; line-height: 1.5; margin-bottom: 10px; font-weight: 400; }
+  .cloze-sentence { color: var(--text-primary); font-size: 1.15rem; font-weight: 600; line-height: 1.5; }
+
+  /* Hangman */
+  .hangman-meaning { color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px; }
+  .hangman-word { font-size: 1.7rem; letter-spacing: 5px; font-weight: 700; color: #fff; margin-bottom: 14px; font-family: 'Space Grotesk', monospace; word-break: break-word; }
+  .hangman-misses { color: var(--text-tertiary); font-size: 0.85rem; margin-bottom: 16px; }
+  .keyboard { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .key-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+  }
+  .key-btn:hover:not(:disabled) { border-color: var(--accent); }
+  .key-btn:disabled { cursor: default; opacity: 0.4; }
+  .key-btn.correct-key { background: var(--good-bg); border-color: var(--good); color: #cdf7e0; opacity: 1; }
+  .key-btn.wrong-key { background: var(--bad-bg); border-color: var(--bad); color: #ffd6d6; opacity: 1; }
+
   @media (max-width: 640px) {
     main { padding: 16px; }
     .quiz-prompt { font-size: 1.3rem; }
@@ -297,6 +357,7 @@
       <input id="searchInput" class="search-input" type="text" placeholder="Search word or definition&hellip;" />
       <span id="resultCount" class="result-count"></span>
     </div>
+    <div id="letterFilter" class="letter-filter"></div>
     <div class="table-wrap">
       <table>
         <thead><tr><th style="width: 140px;">Word</th><th>Meaning</th><th>Example</th></tr></thead>
@@ -314,6 +375,14 @@
     <div class="quiz-card">
 
       <div id="quizSetup" class="quiz-setup">
+        <label>Quiz type</label>
+        <div class="option-group" id="modeOptions">
+          <button class="option-chip active" data-mode="multipleChoice">Multiple choice</button>
+          <button class="option-chip" data-mode="typedRecall">Typed recall</button>
+          <button class="option-chip" data-mode="cloze">Fill in the blank</button>
+          <button class="option-chip" data-mode="synonymAntonym">Synonym / Antonym</button>
+          <button class="option-chip" data-mode="hangman">Hangman</button>
+        </div>
         <label>Number of questions</label>
         <div class="option-group" id="lengthOptions">
           <button class="option-chip" data-len="10">10</button>
@@ -321,10 +390,12 @@
           <button class="option-chip" data-len="50">50</button>
           <button class="option-chip" data-len="100">100</button>
         </div>
-        <label>Question direction</label>
-        <div class="option-group" id="directionOptions">
-          <button class="option-chip active" data-dir="wordToMeaning">Word &rarr; pick meaning</button>
-          <button class="option-chip" data-dir="meaningToWord">Meaning &rarr; pick word</button>
+        <div id="directionSection">
+          <label>Question direction</label>
+          <div class="option-group" id="directionOptions">
+            <button class="option-chip active" data-dir="wordToMeaning">Word &rarr; pick meaning</button>
+            <button class="option-chip" data-dir="meaningToWord">Meaning &rarr; pick word</button>
+          </div>
         </div>
         <button class="start-btn" id="startQuizBtn">Start Quiz</button>
       </div>
@@ -368,16 +439,51 @@ let WORDS = [];
 const PAGE_SIZE = 100;
 let currentPage = 0;
 let filtered = [];
+let searchQuery = '';
+let currentLetter = '';
 
 async function loadWords() {
   const res = await fetch('./words.json');
   WORDS = await res.json();
+  WORDS.sort((a, b) => a.word.toLowerCase().localeCompare(b.word.toLowerCase()));
   document.getElementById('loading').style.display = 'none';
+  buildLetterFilter();
   filtered = WORDS;
   renderTable();
 }
 
 // ---------- Browse ----------
+const ALPHABET_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+function buildLetterFilter() {
+  const present = new Set(WORDS.map(w => w.word[0].toUpperCase()).filter(c => /[A-Z]/.test(c)));
+  const el = document.getElementById('letterFilter');
+  const allBtn = `<button class="letter-btn active" data-letter="">All</button>`;
+  const letterBtns = ALPHABET_LETTERS.map(letter => {
+    const has = present.has(letter);
+    return `<button class="letter-btn" data-letter="${letter}" ${has ? '' : 'disabled'}>${letter}</button>`;
+  }).join('');
+  el.innerHTML = allBtn + letterBtns;
+  el.addEventListener('click', (e) => {
+    const btn = e.target.closest('.letter-btn');
+    if (!btn || btn.disabled) return;
+    document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLetter = btn.dataset.letter;
+    applyFilters();
+  });
+}
+
+function applyFilters() {
+  filtered = WORDS.filter(w => {
+    const matchesSearch = !searchQuery || w.word.toLowerCase().includes(searchQuery) || w.meaning.toLowerCase().includes(searchQuery);
+    const matchesLetter = !currentLetter || w.word[0].toUpperCase() === currentLetter;
+    return matchesSearch && matchesLetter;
+  });
+  currentPage = 0;
+  renderTable();
+}
+
 function renderTable() {
   const body = document.getElementById('tableBody');
   const start = currentPage * PAGE_SIZE;
@@ -400,10 +506,8 @@ function escapeHtml(str) {
 }
 
 document.getElementById('searchInput').addEventListener('input', (e) => {
-  const q = e.target.value.trim().toLowerCase();
-  filtered = !q ? WORDS : WORDS.filter(w => w.word.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q));
-  currentPage = 0;
-  renderTable();
+  searchQuery = e.target.value.trim().toLowerCase();
+  applyFilters();
 });
 document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 0) { currentPage--; renderTable(); } });
 document.getElementById('nextPage').addEventListener('click', () => {
@@ -515,11 +619,20 @@ document.getElementById('browsePane').classList.add('active');
 // ---------- Quiz ----------
 let quizLength = 20;
 let quizDirection = 'wordToMeaning';
+let quizMode = 'multipleChoice';
 let quizQuestions = [];
 let quizIndex = 0;
 let quizScore = 0;
 let quizMissed = [];
+let hangmanState = null;
 
+document.getElementById('modeOptions').addEventListener('click', (e) => {
+  if (!e.target.dataset.mode) return;
+  document.querySelectorAll('#modeOptions .option-chip').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  quizMode = e.target.dataset.mode;
+  document.getElementById('directionSection').style.display = quizMode === 'multipleChoice' ? '' : 'none';
+});
 document.getElementById('lengthOptions').addEventListener('click', (e) => {
   if (!e.target.dataset.len) return;
   document.querySelectorAll('#lengthOptions .option-chip').forEach(b => b.classList.remove('active'));
@@ -542,13 +655,79 @@ function shuffle(arr) {
   return a;
 }
 
+// Mirrors the inflection set generate_cloze.py considers when it blanks a word
+// out of an example sentence, since the exact inflected form that got blanked
+// isn't stored — only the resulting sentence.
+function inflections(word) {
+  const w = word.toLowerCase();
+  const forms = new Set([w]);
+  if (w.endsWith('e') && w.length > 2) {
+    const st = w.slice(0, -1);
+    forms.add(st + 'ed'); forms.add(st + 'ing'); forms.add(w + 's');
+  } else if (w.length > 1 && w.endsWith('y') && !'aeiou'.includes(w[w.length - 2])) {
+    const st = w.slice(0, -1);
+    forms.add(st + 'ies'); forms.add(w + 'ing'); forms.add(w + 'ed');
+  } else if (/(s|x|z|ch|sh)$/.test(w)) {
+    forms.add(w + 'es'); forms.add(w + 'ed'); forms.add(w + 'ing');
+  } else {
+    forms.add(w + 's'); forms.add(w + 'ed'); forms.add(w + 'ing');
+  }
+  return forms;
+}
+function normalizeAnswer(s) {
+  return (s || '').toLowerCase().trim().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ');
+}
+
+// Blanks out occurrences of `word` (and its simple inflections) inside `text`,
+// so a quiz clue never leaks the answer it's testing. Only used for active,
+// unanswered quiz prompts/clues - Browse, the word modal, and the post-quiz
+// results review always show the real, unmasked meaning.
+function maskAnswerInText(text, word) {
+  if (!text) return text;
+  const forms = Array.from(inflections(word)).sort((a, b) => b.length - a.length);
+  const escaped = forms.map(f => f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const pattern = new RegExp('\\b(' + escaped.join('|') + ')\\b', 'gi');
+  return text.replace(pattern, '___');
+}
+function maskedMeaning(item) {
+  return maskAnswerInText(item.meaning, item.word);
+}
+
 document.getElementById('startQuizBtn').addEventListener('click', () => {
-  const pool = shuffle(WORDS).slice(0, quizLength);
-  quizQuestions = pool.map(item => {
-    const wrongPool = shuffle(WORDS.filter(w => w.word !== item.word)).slice(0, 3);
-    const options = shuffle([item, ...wrongPool]);
-    return { item, options };
-  });
+  let pool;
+  if (quizMode === 'cloze') {
+    pool = WORDS.filter(w => w.cloze);
+  } else if (quizMode === 'synonymAntonym') {
+    pool = WORDS.filter(w => (w.synonyms && w.synonyms.length) || (w.antonyms && w.antonyms.length));
+  } else {
+    pool = WORDS;
+  }
+  const chosen = shuffle(pool).slice(0, Math.min(quizLength, pool.length));
+
+  if (quizMode === 'multipleChoice') {
+    quizQuestions = chosen.map(item => {
+      const wrongPool = shuffle(WORDS.filter(w => w.word !== item.word)).slice(0, 3);
+      const options = shuffle([item, ...wrongPool]);
+      return { item, options };
+    });
+  } else if (quizMode === 'synonymAntonym') {
+    quizQuestions = chosen.map(item => {
+      const hasSyn = item.synonyms && item.synonyms.length;
+      const hasAnt = item.antonyms && item.antonyms.length;
+      const relation = (hasSyn && hasAnt) ? (Math.random() < 0.5 ? 'synonym' : 'antonym') : (hasSyn ? 'synonym' : 'antonym');
+      const pickFrom = relation === 'synonym' ? item.synonyms : item.antonyms;
+      const correct = pickFrom[Math.floor(Math.random() * pickFrom.length)];
+      const distractorPool = shuffle(WORDS.filter(w => w.word !== item.word))
+        .map(w => w.word)
+        .filter(w => w.toLowerCase() !== correct.toLowerCase());
+      const options = shuffle([correct, ...distractorPool.slice(0, 3)]);
+      return { item, relation, correct, options };
+    });
+  } else {
+    // typedRecall, cloze, hangman all just need the target item
+    quizQuestions = chosen.map(item => ({ item }));
+  }
+
   quizIndex = 0;
   quizScore = 0;
   quizMissed = [];
@@ -567,30 +746,63 @@ function renderQuestion() {
 
   const promptEl = document.getElementById('quizPrompt');
   const labelEl = document.getElementById('promptLabel');
+  const choicesEl = document.getElementById('quizChoices');
   promptEl.classList.remove('small');
+  choicesEl.innerHTML = '';
+
+  if (quizMode === 'multipleChoice') renderMultipleChoice(q, promptEl, labelEl, choicesEl);
+  else if (quizMode === 'typedRecall') renderTypedRecall(q, promptEl, labelEl, choicesEl);
+  else if (quizMode === 'cloze') renderCloze(q, promptEl, labelEl, choicesEl);
+  else if (quizMode === 'synonymAntonym') renderSynonymAntonym(q, promptEl, labelEl, choicesEl);
+  else if (quizMode === 'hangman') renderHangman(q, promptEl, labelEl, choicesEl);
+}
+
+// ---- Multiple choice (word <-> meaning) ----
+function renderMultipleChoice(q, promptEl, labelEl, choicesEl) {
   if (quizDirection === 'wordToMeaning') {
     labelEl.textContent = 'What does this word mean?';
     promptEl.textContent = q.item.word;
   } else {
     labelEl.textContent = 'Which word matches this meaning?';
-    promptEl.textContent = q.item.meaning;
+    promptEl.textContent = maskedMeaning(q.item);
     promptEl.classList.add('small');
   }
-
-  const choicesEl = document.getElementById('quizChoices');
-  choicesEl.innerHTML = '';
   q.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.textContent = quizDirection === 'wordToMeaning' ? opt.meaning : opt.word;
+    btn.textContent = quizDirection === 'wordToMeaning' ? maskedMeaning(opt) : opt.word;
     btn.addEventListener('click', () => selectAnswer(opt, btn));
     choicesEl.appendChild(btn);
   });
 }
-
 function selectAnswer(opt, btnEl) {
   const q = quizQuestions[quizIndex];
   const correct = opt.word === q.item.word;
+  finishChoiceQuestion(correct, btnEl, b =>
+    quizDirection === 'wordToMeaning' ? b.textContent === maskedMeaning(q.item) : b.textContent === q.item.word
+  );
+}
+
+// ---- Synonym / Antonym ----
+function renderSynonymAntonym(q, promptEl, labelEl, choicesEl) {
+  labelEl.textContent = `Which word is a${q.relation === 'antonym' ? 'n' : ''} ${q.relation.toUpperCase()} of this word?`;
+  promptEl.textContent = q.item.word;
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => selectRelationAnswer(opt, btn));
+    choicesEl.appendChild(btn);
+  });
+}
+function selectRelationAnswer(opt, btnEl) {
+  const q = quizQuestions[quizIndex];
+  const correct = opt.toLowerCase() === q.correct.toLowerCase();
+  finishChoiceQuestion(correct, btnEl, b => b.textContent.toLowerCase() === q.correct.toLowerCase());
+}
+
+function finishChoiceQuestion(correct, btnEl, isCorrectPredicate) {
+  const q = quizQuestions[quizIndex];
   const buttons = document.querySelectorAll('#quizChoices .choice-btn');
   buttons.forEach(b => { b.disabled = true; });
   if (correct) {
@@ -598,15 +810,168 @@ function selectAnswer(opt, btnEl) {
     btnEl.classList.add('correct');
   } else {
     btnEl.classList.add('incorrect');
-    buttons.forEach(b => {
-      const isCorrectBtn = (quizDirection === 'wordToMeaning' ? b.textContent === q.item.meaning : b.textContent === q.item.word);
-      if (isCorrectBtn) b.classList.add('correct');
-    });
+    buttons.forEach(b => { if (isCorrectPredicate(b)) b.classList.add('correct'); });
     quizMissed.push(q.item);
   }
   document.getElementById('qScore').textContent = quizScore;
   document.getElementById('nextQuestionBtn').style.display = 'inline-block';
 }
+
+// ---- Typed recall & cloze typing (writing modes) ----
+function renderTypedRecall(q, promptEl, labelEl, choicesEl) {
+  labelEl.textContent = 'Type the word for this meaning:';
+  promptEl.textContent = maskedMeaning(q.item);
+  promptEl.classList.add('small');
+  buildTextAnswerUI(choicesEl, (typed) => normalizeAnswer(typed) === normalizeAnswer(q.item.word), q.item.word);
+}
+function renderCloze(q, promptEl, labelEl, choicesEl) {
+  labelEl.textContent = 'Type the missing word:';
+  promptEl.textContent = '';
+  promptEl.classList.add('small');
+  const contextEl = document.createElement('div');
+  contextEl.className = 'cloze-context';
+  contextEl.textContent = maskedMeaning(q.item);
+  promptEl.appendChild(contextEl);
+  const sentenceEl = document.createElement('div');
+  sentenceEl.className = 'cloze-sentence';
+  sentenceEl.textContent = q.item.cloze;
+  promptEl.appendChild(sentenceEl);
+  const forms = inflections(q.item.word);
+  buildTextAnswerUI(choicesEl, (typed) => forms.has(normalizeAnswer(typed)), q.item.word);
+}
+function buildTextAnswerUI(container, isCorrectFn, correctAnswerDisplay) {
+  const row = document.createElement('div');
+  row.className = 'text-answer-row';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'text-input';
+  input.autocomplete = 'off';
+  input.spellcheck = false;
+  input.placeholder = 'Type your answer…';
+  const submitBtn = document.createElement('button');
+  submitBtn.className = 'primary-btn';
+  submitBtn.textContent = 'Submit';
+  row.appendChild(input);
+  row.appendChild(submitBtn);
+  container.appendChild(row);
+  const feedback = document.createElement('div');
+  feedback.className = 'answer-feedback';
+  container.appendChild(feedback);
+
+  function submit() {
+    if (input.disabled) return;
+    const typed = input.value;
+    const correct = typed.trim() !== '' && isCorrectFn(typed);
+    input.disabled = true;
+    submitBtn.disabled = true;
+    input.classList.add(correct ? 'correct' : 'incorrect');
+    const q = quizQuestions[quizIndex];
+    if (correct) {
+      quizScore++;
+      feedback.textContent = 'Correct!';
+      feedback.className = 'answer-feedback correct';
+    } else {
+      quizMissed.push(q.item);
+      feedback.textContent = `Correct answer: ${correctAnswerDisplay}`;
+      feedback.className = 'answer-feedback incorrect';
+    }
+    document.getElementById('qScore').textContent = quizScore;
+    document.getElementById('nextQuestionBtn').style.display = 'inline-block';
+  }
+  submitBtn.addEventListener('click', submit);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+  setTimeout(() => input.focus(), 0);
+}
+
+// ---- Hangman ----
+const ALPHABET = 'abcdefghijklmnopqrstuvwxyz'.split('');
+function renderHangman(q, promptEl, labelEl, choicesEl) {
+  const word = q.item.word.toLowerCase();
+  hangmanState = { guessed: new Set(), wrong: 0, maxWrong: 6, done: false };
+  labelEl.textContent = 'Guess the word from its meaning:';
+  promptEl.textContent = '';
+
+  const meaningEl = document.createElement('div');
+  meaningEl.className = 'hangman-meaning';
+  meaningEl.textContent = maskedMeaning(q.item);
+  choicesEl.appendChild(meaningEl);
+
+  const blanksEl = document.createElement('div');
+  blanksEl.className = 'hangman-word';
+  choicesEl.appendChild(blanksEl);
+
+  const missesEl = document.createElement('div');
+  missesEl.className = 'hangman-misses';
+  choicesEl.appendChild(missesEl);
+
+  const keyboardEl = document.createElement('div');
+  keyboardEl.className = 'keyboard';
+  choicesEl.appendChild(keyboardEl);
+
+  function renderBlanks() {
+    blanksEl.textContent = word.split('').map(ch => {
+      if (!/[a-z]/.test(ch)) return ch;
+      return hangmanState.guessed.has(ch) ? ch.toUpperCase() : '_';
+    }).join(' ');
+  }
+  function renderMisses() {
+    missesEl.textContent = `Misses: ${hangmanState.wrong} / ${hangmanState.maxWrong}`;
+  }
+  function finish(won) {
+    hangmanState.done = true;
+    blanksEl.textContent = word.toUpperCase();
+    keyboardEl.querySelectorAll('.key-btn').forEach(b => { b.disabled = true; });
+    const qNow = quizQuestions[quizIndex];
+    if (won) {
+      quizScore++;
+      missesEl.textContent = 'Solved it!';
+      missesEl.style.color = 'var(--good)';
+    } else {
+      quizMissed.push(qNow.item);
+      missesEl.textContent = `Out of guesses. The word was "${qNow.item.word}".`;
+      missesEl.style.color = 'var(--bad)';
+    }
+    document.getElementById('qScore').textContent = quizScore;
+    document.getElementById('nextQuestionBtn').style.display = 'inline-block';
+  }
+  function guess(letter, btn) {
+    if (hangmanState.done || hangmanState.guessed.has(letter)) return;
+    hangmanState.guessed.add(letter);
+    if (word.includes(letter)) {
+      btn.classList.add('correct-key');
+      btn.disabled = true;
+      renderBlanks();
+      const solved = word.split('').every(ch => !/[a-z]/.test(ch) || hangmanState.guessed.has(ch));
+      if (solved) finish(true);
+    } else {
+      btn.classList.add('wrong-key');
+      btn.disabled = true;
+      hangmanState.wrong++;
+      renderMisses();
+      if (hangmanState.wrong >= hangmanState.maxWrong) finish(false);
+    }
+  }
+
+  ALPHABET.forEach(letter => {
+    const btn = document.createElement('button');
+    btn.className = 'key-btn';
+    btn.textContent = letter.toUpperCase();
+    btn.addEventListener('click', () => guess(letter, btn));
+    keyboardEl.appendChild(btn);
+  });
+
+  renderBlanks();
+  renderMisses();
+}
+document.addEventListener('keydown', (e) => {
+  if (quizMode !== 'hangman' || !hangmanState || hangmanState.done) return;
+  if (document.getElementById('quizRun').style.display === 'none') return;
+  const letter = e.key.toLowerCase();
+  if (letter.length === 1 && ALPHABET.includes(letter)) {
+    const btn = Array.from(document.querySelectorAll('#quizChoices .key-btn')).find(b => b.textContent.toLowerCase() === letter);
+    if (btn && !btn.disabled) btn.click();
+  }
+});
 
 document.getElementById('nextQuestionBtn').addEventListener('click', () => {
   quizIndex++;

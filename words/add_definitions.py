@@ -4,6 +4,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_WORDS = SCRIPT_DIR / "words.json"
 URL = "https://kaikki.org/dictionary/English/words/kaikki.org-dictionary-English-words.jsonl"
+LOCAL_DUMP = SCRIPT_DIR / "kaikki-dictionary-English-words.jsonl"
 OUT_PATH = SCRIPT_DIR / "definitions_map.json"
 LOG_PATH = SCRIPT_DIR / "add_definitions.log"
 
@@ -141,20 +142,29 @@ def main():
     wanted = {w["word"].lower() for w in words}
     found = {}
 
-    log(f"Loaded {len(words)} target words ({len(wanted)} unique lowercase). Starting stream from {URL}")
-
-    proc = subprocess.Popen(
-        ["curl", "-sS", "-f", "--retry", "3", URL],
-        stdout=subprocess.PIPE,
-        text=True,
-        encoding="utf-8",
-        errors="ignore",
-        bufsize=1,
-    )
+    use_local = LOCAL_DUMP.exists()
+    if use_local:
+        size_gb = LOCAL_DUMP.stat().st_size / 1e9
+        log(f"Loaded {len(words)} target words ({len(wanted)} unique lowercase). "
+            f"Reading local dump {LOCAL_DUMP.name} ({size_gb:.2f} GB)")
+        proc = None
+        source = open(LOCAL_DUMP, encoding="utf-8", errors="ignore")
+    else:
+        log(f"Loaded {len(words)} target words ({len(wanted)} unique lowercase). "
+            f"No local dump found, starting stream from {URL}")
+        proc = subprocess.Popen(
+            ["curl", "-sS", "-f", "--retry", "3", URL],
+            stdout=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="ignore",
+            bufsize=1,
+        )
+        source = proc.stdout
 
     count = 0
     try:
-        for line in proc.stdout:
+        for line in source:
             count += 1
             if count % 500000 == 0:
                 log(f"processed {count} lines, matched words so far: {len(found)}")
@@ -217,13 +227,14 @@ def main():
                 entry["antonyms"].append(s)
                 seen_ant.add(s.lower())
     finally:
-        proc.stdout.close()
-        proc.wait()
+        source.close()
+        if proc is not None:
+            proc.wait()
 
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(found, f, ensure_ascii=False, indent=2)
 
-    if proc.returncode != 0:
+    if proc is not None and proc.returncode != 0:
         log(f"WARNING: curl exited with code {proc.returncode} (interrupted or network error) after only "
             f"{count} lines — the download did NOT finish. {OUT_PATH.name} only reflects a partial, "
             f"non-representative slice of the file. Re-run this script uninterrupted, with a stable "

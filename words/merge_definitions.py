@@ -22,20 +22,28 @@ def main():
     missing = []
     for entry in words:
         data = definitions_map.get(entry["word"].lower(), {})
-        definitions = data.get("definitions", [])
-        examples = data.get("examples", [])
-        if definitions:
+        # only overwrite a field when kaikki actually found something for it;
+        # otherwise keep whatever was already there (e.g. Wiktionary-sourced
+        # definitions for words kaikki doesn't match under this exact spelling)
+        if data.get("definitions"):
+            entry["definitions"] = data["definitions"]
+        if data.get("examples"):
+            entry["examples"] = data["examples"]
+        if data.get("ipa"):
+            entry["ipa"] = data["ipa"]
+        if data.get("syllables"):
+            entry["syllables"] = data["syllables"]
+        if data.get("synonyms"):
+            entry["synonyms"] = data["synonyms"]
+        if data.get("antonyms"):
+            entry["antonyms"] = data["antonyms"]
+
+        if entry.get("definitions"):
             matched_defs += 1
-        if examples:
+        if entry.get("examples"):
             matched_examples += 1
-        if not definitions or not examples:
+        if not entry.get("definitions") or not entry.get("examples"):
             missing.append(entry["word"])
-        entry["definitions"] = definitions
-        entry["examples"] = examples
-        entry["ipa"] = data.get("ipa", "")
-        entry["syllables"] = data.get("syllables", "")
-        entry["synonyms"] = data.get("synonyms", [])
-        entry["antonyms"] = data.get("antonyms", [])
 
     with open(WORDS_PATH, "w", encoding="utf-8") as f:
         json.dump(words, f, ensure_ascii=False, indent=2)
