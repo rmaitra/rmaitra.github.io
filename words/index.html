@@ -120,7 +120,62 @@
   }
   tbody td.word-cell { font-weight: 600; color: #fff; white-space: nowrap; }
   tbody td.meaning-cell { color: var(--text-secondary); line-height: 1.4; }
+  tbody td.example-cell { color: var(--text-tertiary); line-height: 1.4; font-style: italic; }
+  tbody td.example-cell .no-example { opacity: 0.5; font-style: normal; }
+  tbody tr { cursor: pointer; }
   tbody tr:hover td { background: var(--bg-secondary); }
+
+  /* Word modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    max-width: 560px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 24px;
+  }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .modal-word { font-size: 1.5rem; font-weight: 700; color: #fff; }
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .modal-close:hover { color: var(--text-primary); }
+  .modal-section { margin-bottom: 16px; }
+  .modal-section:last-child { margin-bottom: 0; }
+  .modal-section-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+  .modal-meaning { color: var(--text-primary); font-size: 1rem; line-height: 1.5; }
+  .modal-def-item { color: var(--text-secondary); line-height: 1.5; margin-bottom: 6px; }
+  .modal-def-item .pos { color: var(--accent); font-style: italic; margin-right: 6px; }
+  .modal-example-item { color: var(--text-secondary); line-height: 1.5; font-style: italic; margin-bottom: 6px; }
+  .modal-example-item::before { content: "\201C"; }
+  .modal-example-item::after { content: "\201D"; }
+  .modal-etymology { color: var(--text-secondary); line-height: 1.5; }
 
   .pager { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 14px 0 4px; flex: 0 0 auto; }
   .pager button {
@@ -244,7 +299,7 @@
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th style="width: 160px;">Word</th><th>Meaning</th></tr></thead>
+        <thead><tr><th style="width: 140px;">Word</th><th>Meaning</th><th>Example</th></tr></thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
@@ -298,6 +353,16 @@
   </section>
 </main>
 
+<div id="wordModalOverlay" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-word" id="modalWord"></div>
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
 <script>
 let WORDS = [];
 const PAGE_SIZE = 100;
@@ -317,9 +382,10 @@ function renderTable() {
   const body = document.getElementById('tableBody');
   const start = currentPage * PAGE_SIZE;
   const pageItems = filtered.slice(start, start + PAGE_SIZE);
-  body.innerHTML = pageItems.map(w =>
-    `<tr><td class="word-cell">${escapeHtml(w.word)}</td><td class="meaning-cell">${escapeHtml(w.meaning)}</td></tr>`
-  ).join('');
+  body.innerHTML = pageItems.map(w => {
+    const example = w.examples && w.examples.length ? escapeHtml(w.examples[0]) : '<span class="no-example">&mdash;</span>';
+    return `<tr data-word="${escapeHtml(w.word)}"><td class="word-cell">${escapeHtml(w.word)}</td><td class="meaning-cell">${escapeHtml(w.meaning)}</td><td class="example-cell">${example}</td></tr>`;
+  }).join('');
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   document.getElementById('pageLabel').textContent = `Page ${currentPage + 1} of ${totalPages}`;
   document.getElementById('resultCount').textContent = `${filtered.length.toLocaleString()} words`;
@@ -343,6 +409,95 @@ document.getElementById('prevPage').addEventListener('click', () => { if (curren
 document.getElementById('nextPage').addEventListener('click', () => {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   if (currentPage < totalPages - 1) { currentPage++; renderTable(); }
+});
+
+// ---------- Word modal ----------
+const KNOWN_FIELD_LABELS = {
+  word: null,
+  meaning: 'Meaning',
+  definitions: 'Definitions',
+  examples: 'Examples',
+  etymology: 'Etymology',
+  ipa: null,
+  syllables: null,
+  synonyms: 'Synonyms',
+  antonyms: 'Antonyms',
+  cloze: 'Fill in the blank',
+};
+
+document.getElementById('tableBody').addEventListener('click', (e) => {
+  const row = e.target.closest('tr[data-word]');
+  if (!row) return;
+  const item = WORDS.find(w => w.word === row.dataset.word);
+  if (item) openWordModal(item);
+});
+
+function openWordModal(item) {
+  document.getElementById('modalWord').textContent = item.word;
+  const bodyEl = document.getElementById('modalBody');
+  let html = '';
+
+  if (item.ipa || item.syllables) {
+    const parts = [item.ipa, item.syllables].filter(Boolean).map(escapeHtml);
+    html += `<div class="modal-section"><div class="modal-section-label">Pronunciation</div><div class="modal-meaning">${parts.join(' &middot; ')}</div></div>`;
+  }
+  if (item.meaning) {
+    html += `<div class="modal-section"><div class="modal-section-label">Meaning</div><div class="modal-meaning">${escapeHtml(item.meaning)}</div></div>`;
+  }
+  if (item.definitions && item.definitions.length) {
+    html += `<div class="modal-section"><div class="modal-section-label">Definitions</div>` +
+      item.definitions.map(d =>
+        `<div class="modal-def-item">${d.pos ? `<span class="pos">${escapeHtml(d.pos)}</span>` : ''}${escapeHtml(d.gloss || d)}</div>`
+      ).join('') + `</div>`;
+  }
+  if (item.examples && item.examples.length) {
+    html += `<div class="modal-section"><div class="modal-section-label">Examples</div>` +
+      item.examples.map(ex => `<div class="modal-example-item">${escapeHtml(ex)}</div>`).join('') + `</div>`;
+  }
+  if (item.synonyms && item.synonyms.length) {
+    html += `<div class="modal-section"><div class="modal-section-label">Synonyms</div><div class="modal-meaning">${item.synonyms.map(escapeHtml).join(', ')}</div></div>`;
+  }
+  if (item.antonyms && item.antonyms.length) {
+    html += `<div class="modal-section"><div class="modal-section-label">Antonyms</div><div class="modal-meaning">${item.antonyms.map(escapeHtml).join(', ')}</div></div>`;
+  }
+  if (item.cloze) {
+    html += `<div class="modal-section"><div class="modal-section-label">Fill in the blank</div><div class="modal-meaning">${escapeHtml(item.cloze)}</div></div>`;
+  }
+  if (item.etymology) {
+    html += `<div class="modal-section"><div class="modal-section-label">Etymology</div><div class="modal-etymology">${escapeHtml(item.etymology)}</div></div>`;
+  }
+
+  // Any other fields not explicitly handled above, shown generically for forward-compatibility.
+  Object.keys(item).forEach(key => {
+    if (key in KNOWN_FIELD_LABELS) return;
+    const value = item[key];
+    if (value == null || (Array.isArray(value) && value.length === 0) || value === '') return;
+    const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+    let text;
+    if (typeof value === 'string') {
+      text = value;
+    } else if (Array.isArray(value) && value.every(v => typeof v === 'string')) {
+      text = value.join(', ');
+    } else {
+      text = JSON.stringify(value);
+    }
+    html += `<div class="modal-section"><div class="modal-section-label">${escapeHtml(label)}</div><div class="modal-etymology">${escapeHtml(text)}</div></div>`;
+  });
+
+  bodyEl.innerHTML = html;
+  document.getElementById('wordModalOverlay').classList.add('open');
+}
+
+function closeWordModal() {
+  document.getElementById('wordModalOverlay').classList.remove('open');
+}
+
+document.getElementById('modalClose').addEventListener('click', closeWordModal);
+document.getElementById('wordModalOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'wordModalOverlay') closeWordModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeWordModal();
 });
 
 // ---------- Tabs ----------
