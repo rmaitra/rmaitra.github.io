@@ -801,7 +801,8 @@ function genMatrixMultiply() {
           { name: 'Unit square', type: 'line', data: unit, color: '#888888', dashStyle: 'Dash', marker: { enabled: false } }
         ],
         revealSeries: [
-          { name: 'Square transformed by AB', type: 'line', data: img, color: '#ff6b6b' }
+          { name: 'Square transformed by AB', type: 'line', data: img, color: '#ff6b6b' },
+          ...basisVectorSeries(C[0][0], C[0][1], C[1][0], C[1][1], { name1: 'AB · î (col 1)', name2: 'AB · ĵ (col 2)' })
         ]
       };
     })()
@@ -837,7 +838,8 @@ function genDeterminant() {
           { name: 'Unit square', type: 'line', data: unit, color: '#888888', dashStyle: 'Dash', marker: { enabled: false } }
         ],
         revealSeries: [
-          { name: 'Transformed square (area = |det|)', type: 'line', data: img, color: '#ff6b6b' }
+          { name: 'Transformed square (area = |det|)', type: 'line', data: img, color: '#ff6b6b' },
+          ...basisVectorSeries(a, b, c, d, { name1: 'î → (a, c)', name2: 'ĵ → (b, d)' })
         ]
       };
     })()
@@ -886,10 +888,12 @@ function genMatrixInverse() {
         ...squareRangeFromPoints([unit, imgA, imgInv], 1),
         series: [
           { name: 'Unit square', type: 'line', data: unit, color: '#888888', dashStyle: 'Dash', marker: { enabled: false } },
-          { name: 'Square transformed by A', type: 'line', data: imgA, color: '#4a9eff' }
+          { name: 'Square transformed by A', type: 'line', data: imgA, color: '#4a9eff' },
+          ...basisVectorSeries(a, b, c, d, { name1: 'A · î (col 1)', name2: 'A · ĵ (col 2)', color1: '#35c97f', color2: '#ffb84a' })
         ],
         revealSeries: [
-          { name: 'Square transformed by A⁻¹', type: 'line', data: imgInv, color: '#ff6b6b' }
+          { name: 'Square transformed by A⁻¹', type: 'line', data: imgInv, color: '#ff6b6b' },
+          ...basisVectorSeries(inv[0][0], inv[0][1], inv[1][0], inv[1][1], { name1: 'A⁻¹ · î (col 1)', name2: 'A⁻¹ · ĵ (col 2)', color1: '#c792ea', color2: '#4adede' })
         ]
       };
     })()

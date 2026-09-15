@@ -1,0 +1,270 @@
+{
+  "arithmetic": {
+    "orderOfOperations": {
+      "title": "Order of Operations",
+      "description": "Evaluate multi-step numeric expressions using the standard order: Parentheses, Exponents, Multiplication/Division (left to right), Addition/Subtraction (left to right).",
+      "concepts": [
+        {
+          "name": "PEMDAS Basics",
+          "explanation": "Work parentheses first, then exponents, then multiplication and division from left to right, then addition and subtraction from left to right.",
+          "examples": [
+            {
+              "problem": "Evaluate \\(3 + 4 \\times 2\\)",
+              "solution": "\\(3 + 8 = 11\\)",
+              "steps": ["Multiply first: \\(4 \\times 2 = 8\\)", "Add: \\(3 + 8 = 11\\)"]
+            },
+            {
+              "problem": "Evaluate \\((5 + 3) \\times 2 - 4\\)",
+              "solution": "\\(8 \\times 2 - 4 = 16 - 4 = 12\\)",
+              "steps": ["Parentheses first: \\(5 + 3 = 8\\)", "Multiply: \\(8 \\times 2 = 16\\)", "Subtract: \\(16 - 4 = 12\\)"]
+            }
+          ]
+        },
+        {
+          "name": "Nested Operations & Exponents",
+          "explanation": "Exponents are evaluated before multiplication and division. When parentheses are nested, work from the innermost pair outward.",
+          "examples": [
+            {
+              "problem": "Evaluate \\(2 + 3^2 \\times 2\\)",
+              "solution": "\\(2 + 9 \\times 2 = 2 + 18 = 20\\)",
+              "steps": ["Exponent first: \\(3^2 = 9\\)", "Multiply: \\(9 \\times 2 = 18\\)", "Add: \\(2 + 18 = 20\\)"]
+            },
+            {
+              "problem": "Evaluate \\((2 + (6 - 2))^2 \\div 4\\)",
+              "solution": "\\((2+4)^2 \\div 4 = 36 \\div 4 = 9\\)",
+              "steps": ["Innermost parentheses: \\(6 - 2 = 4\\)", "Outer parentheses: \\(2 + 4 = 6\\)", "Exponent: \\(6^2 = 36\\)", "Divide: \\(36 \\div 4 = 9\\)"]
+            }
+          ]
+        }
+      ]
+    },
+    "fractions": {
+      "title": "Fractions",
+      "description": "Add, subtract, multiply, and divide fractions, and express answers in lowest terms.",
+      "concepts": [
+        {
+          "name": "Adding & Subtracting Fractions",
+          "explanation": "Fractions need a common denominator before you can add or subtract the numerators. Reduce the result to lowest terms.",
+          "examples": [
+            {
+              "problem": "Add \\(\\dfrac{1}{4} + \\dfrac{1}{6}\\)",
+              "solution": "\\(\\dfrac{3}{12} + \\dfrac{2}{12} = \\dfrac{5}{12}\\)",
+              "steps": ["Common denominator of 4 and 6 is 12", "\\(\\dfrac{1}{4} = \\dfrac{3}{12}\\), \\(\\dfrac{1}{6} = \\dfrac{2}{12}\\)", "Add numerators: \\(3 + 2 = 5\\)", "Result: \\(\\dfrac{5}{12}\\)"]
+            },
+            {
+              "problem": "Subtract \\(\\dfrac{5}{6} - \\dfrac{1}{3}\\)",
+              "solution": "\\(\\dfrac{5}{6} - \\dfrac{2}{6} = \\dfrac{3}{6} = \\dfrac{1}{2}\\)",
+              "steps": ["Common denominator of 6 and 3 is 6", "\\(\\dfrac{1}{3} = \\dfrac{2}{6}\\)", "Subtract: \\(5 - 2 = 3\\), giving \\(\\dfrac{3}{6}\\)", "Reduce: \\(\\dfrac{3}{6} = \\dfrac{1}{2}\\)"]
+            }
+          ]
+        },
+        {
+          "name": "Multiplying & Dividing Fractions",
+          "explanation": "Multiply fractions straight across (numerator times numerator, denominator times denominator). To divide, multiply by the reciprocal of the second fraction.",
+          "examples": [
+            {
+              "problem": "Multiply \\(\\dfrac{2}{3} \\times \\dfrac{3}{5}\\)",
+              "solution": "\\(\\dfrac{6}{15} = \\dfrac{2}{5}\\)",
+              "steps": ["Multiply numerators: \\(2 \\times 3 = 6\\)", "Multiply denominators: \\(3 \\times 5 = 15\\)", "Reduce: \\(\\dfrac{6}{15} = \\dfrac{2}{5}\\)"]
+            },
+            {
+              "problem": "Divide \\(\\dfrac{3}{4} \\div \\dfrac{2}{5}\\)",
+              "solution": "\\(\\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}\\)",
+              "steps": ["Flip the second fraction: \\(\\dfrac{2}{5} \\to \\dfrac{5}{2}\\)", "Multiply: \\(\\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}\\)", "\\(\\dfrac{15}{8}\\) is already in lowest terms"]
+            }
+          ]
+        }
+      ]
+    },
+    "decimals": {
+      "title": "Decimals",
+      "description": "Add, subtract, multiply, and divide decimal numbers.",
+      "concepts": [
+        {
+          "name": "Adding & Subtracting Decimals",
+          "explanation": "Line up the decimal points, then add or subtract as with whole numbers.",
+          "examples": [
+            {
+              "problem": "Add \\(3.25 + 1.6\\)",
+              "solution": "\\(4.85\\)",
+              "steps": ["Line up decimal points: 3.25 and 1.60", "Add: \\(3.25 + 1.60 = 4.85\\)"]
+            },
+            {
+              "problem": "Subtract \\(5.4 - 2.75\\)",
+              "solution": "\\(2.65\\)",
+              "steps": ["Line up decimal points: 5.40 and 2.75", "Subtract: \\(5.40 - 2.75 = 2.65\\)"]
+            }
+          ]
+        },
+        {
+          "name": "Multiplying & Dividing Decimals",
+          "explanation": "Multiply as whole numbers, then place the decimal point so the result has as many decimal places as both factors combined. For division, shift decimal points to make the divisor a whole number.",
+          "examples": [
+            {
+              "problem": "Multiply \\(1.5 \\times 0.4\\)",
+              "solution": "\\(0.6\\)",
+              "steps": ["Multiply ignoring decimals: \\(15 \\times 4 = 60\\)", "Total decimal places in the factors: \\(1 + 1 = 2\\)", "Place the decimal point: \\(0.60 = 0.6\\)"]
+            },
+            {
+              "problem": "Divide \\(6.4 \\div 0.2\\)",
+              "solution": "\\(32\\)",
+              "steps": ["Shift the decimal point in both numbers by one place: \\(64 \\div 2\\)", "Divide: \\(64 \\div 2 = 32\\)"]
+            }
+          ]
+        }
+      ]
+    },
+    "percentages": {
+      "title": "Percentages",
+      "description": "Find a percent of a number and compute percent change.",
+      "concepts": [
+        {
+          "name": "Percent of a Number",
+          "explanation": "To find P% of a number N, convert the percent to a decimal (divide by 100) and multiply by N.",
+          "examples": [
+            {
+              "problem": "What is 25% of 80?",
+              "solution": "\\(0.25 \\times 80 = 20\\)",
+              "steps": ["Convert 25% to a decimal: 0.25", "Multiply: \\(0.25 \\times 80 = 20\\)"]
+            },
+            {
+              "problem": "What is 15% of 60?",
+              "solution": "\\(0.15 \\times 60 = 9\\)",
+              "steps": ["Convert 15% to a decimal: 0.15", "Multiply: \\(0.15 \\times 60 = 9\\)"]
+            }
+          ]
+        },
+        {
+          "name": "Percent Change",
+          "explanation": "Percent change equals (new minus old) divided by old, times 100. A positive result is an increase; a negative result is a decrease.",
+          "examples": [
+            {
+              "problem": "A price rises from $40 to $50. Find the percent change.",
+              "solution": "\\((50 - 40)/40 \\times 100 = 25\\%\\)",
+              "steps": ["Find the difference: \\(50 - 40 = 10\\)", "Divide by the original: \\(10 / 40 = 0.25\\)", "Convert to a percent: 25% increase"]
+            },
+            {
+              "problem": "A price drops from $80 to $60. Find the percent change.",
+              "solution": "\\((60 - 80)/80 \\times 100 = -25\\%\\)",
+              "steps": ["Find the difference: \\(60 - 80 = -20\\)", "Divide by the original: \\(-20 / 80 = -0.25\\)", "Convert to a percent: 25% decrease"]
+            }
+          ]
+        }
+      ]
+    },
+    "ratiosProportions": {
+      "title": "Ratios & Proportions",
+      "description": "Simplify ratios and solve proportions where two ratios are set equal.",
+      "concepts": [
+        {
+          "name": "Simplifying Ratios",
+          "explanation": "A ratio a:b is simplified by dividing both terms by their greatest common divisor, just like a fraction.",
+          "examples": [
+            {
+              "problem": "Simplify the ratio 12:18",
+              "solution": "2:3",
+              "steps": ["Find the GCD of 12 and 18: 6", "Divide both terms by 6: \\(12/6 = 2\\), \\(18/6 = 3\\)", "Simplified ratio: 2:3"]
+            },
+            {
+              "problem": "Simplify the ratio 20:8",
+              "solution": "5:2",
+              "steps": ["Find the GCD of 20 and 8: 4", "Divide both terms by 4: \\(20/4 = 5\\), \\(8/4 = 2\\)", "Simplified ratio: 5:2"]
+            }
+          ]
+        },
+        {
+          "name": "Solving Proportions",
+          "explanation": "In a proportion a/b = c/d, cross-multiply (a times d equals b times c) and solve for the missing value.",
+          "examples": [
+            {
+              "problem": "Solve for x: \\(\\dfrac{3}{4} = \\dfrac{x}{12}\\)",
+              "solution": "\\(x = 9\\)",
+              "steps": ["Cross-multiply: \\(3 \\times 12 = 4 \\times x\\)", "\\(36 = 4x\\)", "Divide: \\(x = 9\\)"]
+            },
+            {
+              "problem": "Solve for x: \\(\\dfrac{x}{5} = \\dfrac{6}{10}\\)",
+              "solution": "\\(x = 3\\)",
+              "steps": ["Cross-multiply: \\(10x = 5 \\times 6\\)", "\\(10x = 30\\)", "Divide: \\(x = 3\\)"]
+            }
+          ]
+        }
+      ]
+    },
+    "integers": {
+      "title": "Integers",
+      "description": "Add, subtract, multiply, and divide positive and negative whole numbers.",
+      "concepts": [
+        {
+          "name": "Adding & Subtracting Integers",
+          "explanation": "Adding a negative number is the same as subtracting its positive value; subtracting a negative is the same as adding its positive value.",
+          "examples": [
+            {
+              "problem": "Evaluate \\(-5 + 8\\)",
+              "solution": "\\(3\\)",
+              "steps": ["Think of it as \\(8 - 5\\)", "\\(8 - 5 = 3\\)"]
+            },
+            {
+              "problem": "Evaluate \\(4 - (-7)\\)",
+              "solution": "\\(11\\)",
+              "steps": ["Subtracting a negative is the same as adding: \\(4 - (-7) = 4 + 7\\)", "\\(4 + 7 = 11\\)"]
+            }
+          ]
+        },
+        {
+          "name": "Multiplying & Dividing Integers",
+          "explanation": "The product or quotient of two numbers with the same sign is positive; with different signs, it's negative.",
+          "examples": [
+            {
+              "problem": "Evaluate \\((-6) \\times (-3)\\)",
+              "solution": "\\(18\\)",
+              "steps": ["Same signs (both negative) means a positive result", "\\(6 \\times 3 = 18\\)"]
+            },
+            {
+              "problem": "Evaluate \\((-24) \\div 4\\)",
+              "solution": "\\(-6\\)",
+              "steps": ["Different signs (negative divided by positive) means a negative result", "\\(24 \\div 4 = 6\\), so the answer is \\(-6\\)"]
+            }
+          ]
+        }
+      ]
+    },
+    "exponentsRoots": {
+      "title": "Exponents & Roots",
+      "description": "Evaluate powers of integers and find square and cube roots.",
+      "concepts": [
+        {
+          "name": "Evaluating Powers",
+          "explanation": "An exponent tells you how many times to multiply the base by itself. A negative base raised to an even power is positive; raised to an odd power, it stays negative.",
+          "examples": [
+            {
+              "problem": "Evaluate \\(3^4\\)",
+              "solution": "\\(81\\)",
+              "steps": ["\\(3^4 = 3 \\times 3 \\times 3 \\times 3\\)", "\\(3 \\times 3 = 9\\), \\(9 \\times 3 = 27\\), \\(27 \\times 3 = 81\\)"]
+            },
+            {
+              "problem": "Evaluate \\((-2)^3\\)",
+              "solution": "\\(-8\\)",
+              "steps": ["\\((-2)^3 = (-2) \\times (-2) \\times (-2)\\)", "\\((-2) \\times (-2) = 4\\)", "\\(4 \\times (-2) = -8\\)"]
+            }
+          ]
+        },
+        {
+          "name": "Square & Cube Roots",
+          "explanation": "The square root of n is the number that multiplies by itself to give n. The cube root of n is the number that, cubed, gives n (and can be negative).",
+          "examples": [
+            {
+              "problem": "Find \\(\\sqrt{49}\\)",
+              "solution": "\\(7\\)",
+              "steps": ["Find a number that squares to 49", "\\(7 \\times 7 = 49\\), so \\(\\sqrt{49} = 7\\)"]
+            },
+            {
+              "problem": "Find the cube root of -27",
+              "solution": "\\(-3\\)",
+              "steps": ["Find a number that cubes to -27", "\\((-3)^3 = -27\\), so the cube root of -27 is -3"]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

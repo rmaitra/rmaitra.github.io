@@ -121,6 +121,24 @@ function parseDirectrix(str) {
 
 function near(a, b, tol = 0.01) { return Math.abs(a - b) < tol; }
 
+// reduce num/den to lowest terms, denominator normalized positive
+function reduceFraction(num, den) {
+  if (den < 0) { num = -num; den = -den; }
+  const g = gcd(num, den);
+  return { num: num / g, den: den / g };
+}
+
+// verify a user-entered num/den fraction equals correctNum/correctDen and is fully reduced
+function checkReducedFraction(userNumStr, userDenStr, correctNum, correctDen) {
+  const un = parseFloat(userNumStr), ud = parseFloat(userDenStr);
+  if (isNaN(un) || isNaN(ud) || ud === 0 || !Number.isInteger(un) || !Number.isInteger(ud)) {
+    return { ok: false, reason: 'invalid' };
+  }
+  if (un * correctDen !== correctNum * ud) return { ok: false, reason: 'wrong' };
+  if (gcd(un, ud) !== 1) return { ok: false, reason: 'unreduced' };
+  return { ok: true, reason: 'match' };
+}
+
 // generic polynomial formatter (raw LaTeX, unwrapped). terms: [{coef, pow}], pow 0 = constant
 function fmtPoly(terms) {
   let s = '';
@@ -252,6 +270,17 @@ function hyperbolaPoints(a, b, xMajor, n) {
 function transformSquare(a, b, c, d) {
   const corners = [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]];
   return corners.map(([x, y]) => ({ x: round2(a * x + b * y), y: round2(c * x + d * y) }));
+}
+
+// origin-anchored arrows showing where the standard basis vectors i=(1,0), j=(0,1) land
+// under [[a,b],[c,d]] — i.e. the two columns of the matrix. This is the direct visual
+// link between "matrix entries" and "matrix as transformation".
+function basisVectorSeries(a, b, c, d, opts) {
+  opts = opts || {};
+  return [
+    { name: opts.name1 || 'î → col 1', type: 'line', data: [{ x: 0, y: 0 }, { x: a, y: c }], color: opts.color1 || '#c792ea', marker: { enabled: true, radius: 5 }, lineWidth: 2 },
+    { name: opts.name2 || 'ĵ → col 2', type: 'line', data: [{ x: 0, y: 0 }, { x: b, y: d }], color: opts.color2 || '#ffb84a', marker: { enabled: true, radius: 5 }, lineWidth: 2 }
+  ];
 }
 
 // square (equal-aspect) [xRange, yRange] bounding box covering all given point arrays, with margin

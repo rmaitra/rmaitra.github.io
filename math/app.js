@@ -1,38 +1,83 @@
 // ============ Data (fetched at startup) ============
 var DATA = null;
 
-// ============ Static metadata (mirrors ids/labels inside TOPIC_GENERATORS) ============
-var TOPIC_ORDER = ['complexNumbers', 'polynomialOperations', 'rationalExpressions', 'exponentialLogarithmic', 'conicSections', 'matrixAlgebra', 'systemsOfEquations'];
-
-var TYPE_META = {
-  complexNumbers: [
-    { label: 'Add Complex Numbers' }, { label: 'Multiply Complex Numbers' }, { label: 'Divide Complex Numbers' }
-  ],
-  polynomialOperations: [
-    { label: 'Polynomial Long Division' }, { label: 'Factor Sum/Difference of Cubes' },
-    { label: 'Factor Trinomials' }, { label: 'Remainder & Factor Theorems' }
-  ],
-  rationalExpressions: [
-    { label: 'Simplify Rational Expressions' }, { label: 'Add Rational Expressions' }, { label: 'Solve Rational Equations' }
-  ],
-  exponentialLogarithmic: [
-    { label: 'Solve Exponential Equations' }, { label: 'Solve Logarithmic Equations' },
-    { label: 'Logarithm Properties' }, { label: 'Logarithmic Equations' }
-  ],
-  conicSections: [
-    { label: 'Circle: Standard Form' }, { label: 'Ellipse Properties' }, { label: 'Parabola Properties' }, { label: 'Hyperbola Properties' }
-  ],
-  matrixAlgebra: [
-    { label: 'Matrix Multiplication' }, { label: 'Determinants' }, { label: 'Matrix Inverse' }
-  ],
-  systemsOfEquations: [
-    { label: '3×3 Linear Systems' }, { label: 'Nonlinear Systems' }
-  ]
+// ============ Subjects (each with its own topics, generators, and JSON data file) ============
+var SUBJECTS = {
+  algebra: {
+    label: 'Algebra',
+    title: 'Advanced Algebra Studio',
+    dataKey: 'advancedAlgebra',
+    dataFile: 'advanced_algebra.json',
+    topicOrder: ['complexNumbers', 'polynomialOperations', 'rationalExpressions', 'exponentialLogarithmic', 'conicSections', 'matrixAlgebra', 'systemsOfEquations'],
+    typeMeta: {
+      complexNumbers: [
+        { label: 'Add Complex Numbers' }, { label: 'Multiply Complex Numbers' }, { label: 'Divide Complex Numbers' }
+      ],
+      polynomialOperations: [
+        { label: 'Polynomial Long Division' }, { label: 'Factor Sum/Difference of Cubes' },
+        { label: 'Factor Trinomials' }, { label: 'Remainder & Factor Theorems' }
+      ],
+      rationalExpressions: [
+        { label: 'Simplify Rational Expressions' }, { label: 'Add Rational Expressions' }, { label: 'Solve Rational Equations' }
+      ],
+      exponentialLogarithmic: [
+        { label: 'Solve Exponential Equations' }, { label: 'Solve Logarithmic Equations' },
+        { label: 'Logarithm Properties' }, { label: 'Logarithmic Equations' }
+      ],
+      conicSections: [
+        { label: 'Circle: Standard Form' }, { label: 'Ellipse Properties' }, { label: 'Parabola Properties' }, { label: 'Hyperbola Properties' }
+      ],
+      matrixAlgebra: [
+        { label: 'Matrix Multiplication' }, { label: 'Determinants' }, { label: 'Matrix Inverse' }
+      ],
+      systemsOfEquations: [
+        { label: '3×3 Linear Systems' }, { label: 'Nonlinear Systems' }
+      ]
+    },
+    generators: TOPIC_GENERATORS
+  },
+  arithmetic: {
+    label: 'Arithmetic',
+    title: 'Arithmetic Studio',
+    dataKey: 'arithmetic',
+    dataFile: 'arithmetic.json',
+    topicOrder: ['orderOfOperations', 'fractions', 'decimals', 'percentages', 'ratiosProportions', 'integers', 'exponentsRoots'],
+    typeMeta: {
+      orderOfOperations: [
+        { label: 'Evaluate an Expression' }, { label: 'Evaluate with Exponents' }
+      ],
+      fractions: [
+        { label: 'Add or Subtract Fractions' }, { label: 'Multiply or Divide Fractions' }
+      ],
+      decimals: [
+        { label: 'Add or Subtract Decimals' }, { label: 'Multiply or Divide Decimals' }
+      ],
+      percentages: [
+        { label: 'Percent of a Number' }, { label: 'Percent Change' }
+      ],
+      ratiosProportions: [
+        { label: 'Simplify a Ratio' }, { label: 'Solve a Proportion' }
+      ],
+      integers: [
+        { label: 'Add or Subtract Integers' }, { label: 'Multiply or Divide Integers' }
+      ],
+      exponentsRoots: [
+        { label: 'Evaluate a Power' }, { label: 'Square or Cube Root' }
+      ]
+    },
+    generators: ARITHMETIC_GENERATORS
+  }
 };
+var SUBJECT_ORDER = ['algebra', 'arithmetic'];
+
+// ============ Scratchpad quick-insert toolbar ============
+var SCRATCH_VARS = ['x', 'y', 'z', 'i'];
+var SCRATCH_SYMBOLS = ['+', '−', '×', '÷', '(', ')', '^', '√', 'π', '²', '³', '='];
 
 // ============ State ============
 var state = {
-  topic: TOPIC_ORDER[0],
+  subject: SUBJECT_ORDER[0],
+  topic: SUBJECTS[SUBJECT_ORDER[0]].topicOrder[0],
   mode: 'learn',
   typeIndex: 0,
   problem: null,
@@ -138,13 +183,40 @@ function revealChartAnswer(p) {
   state.chartInstance.redraw();
 }
 
+function renderSubjectTabs() {
+  const nav = document.getElementById('subjectTabs');
+  nav.innerHTML = '';
+  SUBJECT_ORDER.forEach(key => {
+    const btn = document.createElement('button');
+    btn.className = 'subject-btn' + (key === state.subject ? ' active' : '');
+    btn.textContent = SUBJECTS[key].label;
+    btn.onclick = () => selectSubject(key);
+    nav.appendChild(btn);
+  });
+  const title = SUBJECTS[state.subject].title;
+  document.getElementById('subjectTitle').textContent = title;
+  document.title = title;
+}
+
+function selectSubject(key) {
+  if (key === state.subject) return;
+  state.subject = key;
+  state.topic = SUBJECTS[key].topicOrder[0];
+  state.typeIndex = 0;
+  renderSubjectTabs();
+  renderTopicNav();
+  renderTopicHeader();
+  renderLearn();
+  renderPracticeShell();
+}
+
 function renderTopicNav() {
   const nav = document.getElementById('topicNav');
   nav.innerHTML = '';
-  TOPIC_ORDER.forEach(key => {
+  SUBJECTS[state.subject].topicOrder.forEach(key => {
     const btn = document.createElement('button');
     btn.className = 'topic-btn' + (key === state.topic ? ' active' : '');
-    btn.textContent = DATA.advancedAlgebra[key].title;
+    btn.textContent = DATA[state.subject][key].title;
     btn.onclick = () => selectTopic(key);
     nav.appendChild(btn);
   });
@@ -160,7 +232,7 @@ function selectTopic(key) {
 }
 
 function renderTopicHeader() {
-  const topic = DATA.advancedAlgebra[state.topic];
+  const topic = DATA[state.subject][state.topic];
   document.getElementById('topicHeader').innerHTML = `
     <h2>${escapeHtml(topic.title)}</h2>
     <p class="topic-desc">${escapeHtml(topic.description)}</p>
@@ -175,7 +247,7 @@ function setMode(mode) {
 }
 
 function renderLearn() {
-  const topic = DATA.advancedAlgebra[state.topic];
+  const topic = DATA[state.subject][state.topic];
   const pane = document.getElementById('learnPane');
   let html = '';
   topic.concepts.forEach(concept => {
@@ -200,7 +272,7 @@ function renderLearn() {
 
 function renderPracticeShell() {
   const pane = document.getElementById('practicePane');
-  const types = TYPE_META[state.topic];
+  const types = SUBJECTS[state.subject].typeMeta[state.topic];
   let typeBtns = types.map((t, i) =>
     `<button class="type-btn${i === state.typeIndex ? ' active' : ''}" data-idx="${i}">${escapeHtml(t.label)}</button>`
   ).join('');
@@ -220,7 +292,7 @@ function renderPracticeShell() {
 }
 
 function loadProblem() {
-  const gen = TOPIC_GENERATORS[state.topic][state.typeIndex];
+  const gen = SUBJECTS[state.subject].generators[state.topic][state.typeIndex];
   state.problem = gen();
   state.scored = false;
   renderProblem();
@@ -238,10 +310,14 @@ function renderProblem() {
 
   area.innerHTML = `
     <div class="problem-card">
-      <div class="problem-type-label">${escapeHtml(TYPE_META[state.topic][state.typeIndex].label)}</div>
+      <div class="problem-type-label">${escapeHtml(SUBJECTS[state.subject].typeMeta[state.topic][state.typeIndex].label)}</div>
       <div class="problem-prompt">${escapeHtml(p.prompt)}</div>
       ${p.chart ? `<div id="chartContainer" class="chart-container"${p.chart.aspectSquare ? ' data-square="true"' : ''}></div>` : ''}
       <label class="scratch-label">Your work <span>(scratchpad — not graded, just for you)</span></label>
+      <div class="scratch-toolbar" id="scratchToolbar">
+        ${SCRATCH_VARS.map(v => `<button type="button" class="symbol-btn var-btn" data-insert="${v}">${v}</button>`).join('')}
+        ${SCRATCH_SYMBOLS.map(s => `<button type="button" class="symbol-btn" data-insert="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}
+      </div>
       <textarea id="scratchpad" rows="4" placeholder="Write out your steps here..."></textarea>
       <div class="answer-fields">${fieldsHtml}</div>
       <div class="action-row">
@@ -264,8 +340,20 @@ function renderProblem() {
   area.querySelectorAll('.answer-fields input').forEach(inp => {
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') checkAnswer(); });
   });
+  area.querySelectorAll('.symbol-btn').forEach(btn => {
+    btn.addEventListener('click', () => insertAtCursor(document.getElementById('scratchpad'), btn.dataset.insert));
+  });
   renderMath(document.querySelector('.problem-prompt'));
   renderProblemChart(p);
+}
+
+function insertAtCursor(textarea, text) {
+  const start = textarea.selectionStart ?? textarea.value.length;
+  const end = textarea.selectionEnd ?? textarea.value.length;
+  textarea.value = textarea.value.slice(0, start) + text + textarea.value.slice(end);
+  const newPos = start + text.length;
+  textarea.focus();
+  textarea.setSelectionRange(newPos, newPos);
 }
 
 function collectValues() {
@@ -316,16 +404,22 @@ async function init() {
       tooltip: { backgroundColor: '#16181a', style: { color: '#e0e0e0' }, borderColor: '#1e1e1e' }
     });
   }
+  DATA = {};
   try {
-    const res = await fetch('advanced_algebra.json');
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    DATA = await res.json();
+    for (const key of SUBJECT_ORDER) {
+      const s = SUBJECTS[key];
+      const res = await fetch(s.dataFile);
+      if (!res.ok) throw new Error('HTTP ' + res.status + ' loading ' + s.dataFile);
+      const json = await res.json();
+      DATA[key] = json[s.dataKey];
+    }
   } catch (e) {
     document.querySelector('main').innerHTML =
-      '<p style="color:#ff6b6b;padding:2rem 0;">Couldn\'t load advanced_algebra.json (' + escapeHtml(e.message) + '). ' +
+      '<p style="color:#ff6b6b;padding:2rem 0;">Couldn\'t load practice data (' + escapeHtml(e.message) + '). ' +
       'This page needs to be served over http(s) — try running a local server instead of opening the file directly.</p>';
     return;
   }
+  renderSubjectTabs();
   renderTopicNav();
   renderTopicHeader();
   renderLearn();
