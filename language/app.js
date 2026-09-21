@@ -7,7 +7,6 @@
   const MASTERED_BOX = 3;
   const RECENT_WINDOW = 3; // don't repeat an item within this many questions
   const PERSON_LABEL = { io: 'io', tu: 'tu', lui: 'lui / lei', noi: 'noi', voi: 'voi', loro: 'loro' };
-  const TENSE_LABEL = { present: 'Present (presente)' };
   const ACCENTS = ['à', 'è', 'é', 'ì', 'ò', 'ù'];
 
   const pane = document.getElementById('pane');
@@ -45,7 +44,7 @@
 
   // ---------- persistence ----------
   function defaults() {
-    return { srs: {}, correct: 0, total: 0, streak: 0, mode: 'verbs', table: 'verbs', filters: {}, autoplay: false };
+    return { srs: {}, correct: 0, total: 0, streak: 0, mode: 'verbs', table: 'verbs', tableTense: 'present', filters: {}, settings: {}, autoplay: false };
   }
   function load() {
     try {
@@ -79,10 +78,20 @@
   }
 
   // ---------- topic / type filters ----------
-  const FILTER_KEYS = { nouns: ['topic'], sentences: ['topic', 'type'] };
-  const FILTER_LABEL = { topic: 'Topic', type: 'Type' };
+  const FILTER_KEYS = { verbs: ['tense', 'person'], nouns: ['topic'], sentences: ['topic', 'type'] };
+  const FILTER_LABEL = { tense: 'Tense', person: 'Person', topic: 'Topic', type: 'Type' };
+  const DEFAULT_FILTERS = { verbs: { tense: 'present' } };
+  const filterList = (key) => ({ topic: data.topics, type: data.sentenceTypes, tense: data.tenseOptions, person: data.personOptions })[key];
+  // Non-filtering options shown as extra pill rows (persisted in state.settings)
+  const SETTINGS = {
+    verbs: [{
+      key: 'format', label: 'Format', fallback: 'mixed',
+      options: [{ id: 'mixed', label: 'Mixed' }, { id: 'choose', label: 'Choose' }, { id: 'type', label: 'Type' }],
+    }],
+  };
+  const getSetting = (mode, key) => ((state.settings && state.settings[mode]) || {})[key] || SETTINGS[mode].find((x) => x.key === key).fallback;
   const labelOf = (list, id) => (list.find((x) => x.id === id) || {}).label || id;
-  const activeFilters = (mode) => (state.filters && state.filters[mode]) || {};
+  const activeFilters = (mode) => (state.filters && state.filters[mode]) || DEFAULT_FILTERS[mode] || {};
   const matchesFilters = (item, mode, filters, skipKey) => (FILTER_KEYS[mode] || []).every((k) =>
     k === skipKey || !filters[k] || filters[k] === 'all' || item[k] === filters[k]);
   const poolFor = (mode) => getItems(mode).filter((i) => matchesFilters(i, mode, activeFilters(mode)));
@@ -123,7 +132,7 @@
   const MODES = {
     verbs: {
       label: 'Verbs',
-      desc: 'Conjugate the most common verbs. Verbs are introduced in frequency order, all six persons at a time.',
+      desc: 'Conjugate the most common verbs. Pick a tense and person, and choose whether to select or type the answer. Verbs are introduced in frequency order.',
       build: () => data.verbs.flatMap((verb) =>
         Object.keys(verb.tenses).flatMap((tense) =>
           data.persons.map((person) => ({
@@ -186,57 +195,110 @@
   }
 
   // ---------- 1. verb conjugation ----------
+  // Accepted spellings of a form; "andato/a" also accepts "andato" and "andata"
+  const verbAnswers = (form) => {
+    const m = form.match(/^(.*)(.)\/(.)$/);
+    return m ? [form, m[1] + m[2], m[1] + m[3]] : [form];
+  };
+  const spokenForm = (form) => form.replace(/\/\w$/, '');
+  const spokenPerson = (p) => PERSON_LABEL[p].split(' ')[0];
+  const personEn = (p) => (data.personOptions.find((o) => o.id === p) || {}).en || '';
+
   function checkVerb(guess, item) {
-    const target = norm(item.form);
+    const targets = verbAnswers(item.form).map(norm);
     const g = norm(guess).replace(/^(io|tu|lui|lei|noi|voi|loro)\s+/, '');
-    if (g === target) return { ok: true };
-    if (stripAccents(g) === stripAccents(target)) return { ok: true, accentNote: true };
+    if (targets.includes(g)) return { ok: true };
+    if (targets.map(stripAccents).includes(stripAccents(g))) return { ok: true, accentNote: true };
     return { ok: false };
+  }
+
+  // Three wrong options: the same verb and tense in other persons, topped up from other tenses
+  function verbChoices(item) {
+    const { verb, tense, person, form } = item;
+    const banned = new Set(verbAnswers(form).map(norm));
+    const pool = [];
+    const add = (f) => { if (!banned.has(norm(f)) && !pool.includes(f)) pool.push(f); };
+    shuffle(data.persons.filter((p) => p !== person)).forEach((p) => add(verb.tenses[tense][p]));
+    if (pool.length < 3) shuffle(Object.keys(verb.tenses).filter((t) => t !== tense)).forEach((t) => add(verb.tenses[t][person]));
+    return shuffle([form, ...pool.slice(0, 3)]);
   }
 
   function renderVerb(item, ctx) {
     const { verb, tense, person, form } = item;
+    const format = getSetting('verbs', 'format');
+    const choosing = format === 'choose' || (format === 'mixed' && Math.random() < 0.5);
+    const tenseInfo = data.tenseOptions.find((t) => t.id === tense) || {};
     let answered = false;
-    const input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Conjugated form' });
     const feedback = h('div');
-    const actions = h('div', { class: 'actions' },
-      h('button', { class: 'btn', onclick: check }, 'Check'),
-      h('button', { class: 'btn secondary', onclick: () => finish('', true) }, "I don't know"));
-    const accents = h('div', { class: 'accents' }, ACCENTS.map((ch) =>
-      h('button', {
-        class: 'accent-btn', type: 'button', tabindex: '-1',
-        onclick: () => { input.setRangeText(ch, input.selectionStart, input.selectionEnd, 'end'); input.focus(); },
-      }, ch)));
+    const actions = h('div', { class: 'actions' });
+    const prompt = h('div', { class: 'prompt-row' }, h('div', { class: 'pronoun-block' },
+      h('div', { class: 'pronoun' }, PERSON_LABEL[person]), h('div', { class: 'pronoun-en' }, personEn(person))));
+    let input = null;
+    let accents = null;
+    let options = [];
+    let buttons = [];
+    const body = [prompt];
+
+    if (choosing) {
+      options = verbChoices(item);
+      buttons = options.map((opt, i) =>
+        h('button', { class: 'option', onclick: () => finish(opt, false) }, opt, h('span', { class: 'key' }, String(i + 1))));
+      body.push(h('div', { class: 'options two' }, buttons));
+      keyHandler = (e) => { const n = Number(e.key); if (n >= 1 && n <= options.length) finish(options[n - 1], false); };
+    } else {
+      input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Conjugated form' });
+      prompt.append(input);
+      accents = h('div', { class: 'accents' }, ACCENTS.map((ch) =>
+        h('button', {
+          class: 'accent-btn', type: 'button', tabindex: '-1',
+          onclick: () => { input.setRangeText(ch, input.selectionStart, input.selectionEnd, 'end'); input.focus(); },
+        }, ch)));
+      actions.append(
+        h('button', { class: 'btn', onclick: check }, 'Check'),
+        h('button', { class: 'btn secondary', onclick: () => finish('', true) }, "I don't know"));
+      body.push(accents);
+      keyHandler = (e) => { if (e.key === 'Enter') check(); };
+    }
 
     pane.append(h('div', { class: 'card' },
-      h('div', { class: 'eyebrow' }, 'Conjugate · ' + (TENSE_LABEL[tense] || tense)),
+      h('div', { class: 'eyebrow' }, 'Conjugate · ' + (tenseInfo.title || tense) + (choosing ? ' · choose' : ' · type')),
       h('div', { class: 'big' }, verb.id),
       h('div', { class: 'gloss' }, verb.en + (verb.irregular ? ' · irregular' : '')),
-      h('div', { class: 'prompt-row' }, h('div', { class: 'pronoun' }, PERSON_LABEL[person]), input),
-      accents, actions, feedback));
-    input.focus();
-    keyHandler = (e) => { if (e.key === 'Enter') check(); };
+      ...body, actions, feedback));
+    if (input) input.focus();
 
     function check() {
       if (!answered && input.value.trim()) finish(input.value, false);
     }
     function finish(guess, gaveUp) {
+      if (answered) return;
       answered = true;
-      input.disabled = true;
-      accents.remove();
-      const res = gaveUp ? { ok: false } : checkVerb(guess, item);
+      let res;
+      if (choosing) {
+        res = { ok: !gaveUp && guess === form };
+        buttons.forEach((b, i) => {
+          b.disabled = true;
+          if (options[i] === form) b.classList.add('correct');
+          else if (options[i] === guess) b.classList.add('wrong');
+        });
+      } else {
+        input.disabled = true;
+        accents.remove();
+        res = gaveUp ? { ok: false } : checkVerb(guess, item);
+      }
       ctx.grade(res.ok);
 
       const table = verb.tenses[tense];
       const example = verb.examples.find((x) => x.tense === tense);
       feedback.replaceChildren(feedbackBox(res.ok, res.ok ? 'Correct!' : 'Not quite',
-        h('div', { class: 'answer' }, PERSON_LABEL[person].split(' ')[0] + ' ' + form),
+        h('div', { class: 'answer' }, spokenPerson(person) + ' ' + form),
         res.accentNote ? h('div', { class: 'note' }, 'Mind the accent: ' + form) : null,
+        tenseInfo.description ? h('div', { class: 'note' }, tenseInfo.description) : null,
         h('table', { class: 'conj' }, data.persons.map((p) =>
           h('tr', { class: p === person ? 'asked' : '' }, h('td', {}, PERSON_LABEL[p]), h('td', {}, table[p])))),
         example ? h('div', { class: 'example' }, speakBtn(example.it),
           h('span', {}, h('span', { class: 'it' }, example.it), ' — ' + example.en)) : null));
-      autoSpeak(PERSON_LABEL[person].split(' ')[0] + ' ' + form);
+      autoSpeak(spokenPerson(person) + ' ' + spokenForm(form));
       afterAnswer(ctx, actions, nextButton(ctx));
     }
   }
@@ -443,21 +505,26 @@
   const statusCell = (id) => { const st = statusOf(id); return { node: h('span', { class: 'pill ' + st.toLowerCase() }, st) }; };
   const it = (t, speakText) => ({ t, cls: 'it', speak: speakText === undefined ? t : speakText });
 
+  const tableTense = () => (data.tenseOptions.some((t) => t.id === state.tableTense) ? state.tableTense : 'present');
+
   const TABLES = {
     verbs: {
       label: 'Verbs',
-      note: 'Present tense. Irregular verbs are highlighted in blue.',
+      note: 'Pick a tense. Irregular verbs are highlighted in blue.',
       head: ['#', 'Infinitive', 'English', 'io', 'tu', 'lui / lei', 'noi', 'voi', 'loro', 'Aux.', 'Participle', 'Mastered'],
-      rows: () => data.verbs.map((v, i) => {
-        const ids = Object.keys(v.tenses).flatMap((t) => data.persons.map((p) => `v:${v.id}:${t}:${p}`));
-        const mastered = ids.filter((id) => statusOf(id) === 'Mastered').length;
-        const forms = v.tenses.present;
-        return {
-          search: [v.id, v.en, ...Object.values(forms)].join(' '),
-          cells: [i + 1, { t: v.id, cls: v.irregular ? 'it irr' : 'it', speak: v.id }, v.en,
-            ...data.persons.map((p) => it(forms[p], null)), v.auxiliary, v.participle, `${mastered}/${ids.length}`],
-        };
-      }),
+      rows: () => {
+        const tense = tableTense();
+        return data.verbs.map((v, i) => {
+          const ids = data.persons.map((p) => `v:${v.id}:${tense}:${p}`);
+          const mastered = ids.filter((id) => statusOf(id) === 'Mastered').length;
+          const forms = v.tenses[tense];
+          return {
+            search: [v.id, v.en, ...Object.values(forms)].join(' '),
+            cells: [i + 1, { t: v.id, cls: v.irregular ? 'it irr' : 'it', speak: v.id }, v.en,
+              ...data.persons.map((p) => it(forms[p], null)), v.auxiliary, v.participle, `${mastered}/${ids.length}`],
+          };
+        });
+      },
     },
     nouns: {
       label: 'Nouns',
@@ -527,13 +594,16 @@
     }
     search.addEventListener('input', fill);
 
-    pane.append(
+    pane.append(...[
       h('div', { class: 'table-tabs' }, Object.entries(TABLES).map(([k, t]) =>
         h('button', { class: 'pill-btn' + (k === key ? ' active' : ''), onclick: () => { state.table = k; save(); show(); } }, t.label))),
+      key === 'verbs' ? h('div', { class: 'table-tabs' }, data.tenseOptions.map((t) =>
+        h('button', { class: 'pill-btn' + (t.id === tableTense() ? ' active' : ''), onclick: () => { state.tableTense = t.id; save(); show(); } }, t.label))) : null,
       h('p', { class: 'mode-desc' }, spec.note),
       h('div', { class: 'table-tools' }, search, count),
       h('div', { class: 'table-wrap' }, h('table', { class: 'words' },
-        h('thead', {}, h('tr', {}, spec.head.map((x) => h('th', {}, x)))), tbody)));
+        h('thead', {}, h('tr', {}, spec.head.map((x) => h('th', {}, x)))), tbody)),
+    ].filter(Boolean));
     fill();
   }
 
@@ -570,24 +640,34 @@
   function renderFilters() {
     const el = document.getElementById('filters');
     const mode = state.mode;
-    const keys = FILTER_KEYS[mode];
-    if (!keys) { el.replaceChildren(); return; }
+    const keys = FILTER_KEYS[mode] || [];
+    const settings = SETTINGS[mode] || [];
+    if (!keys.length && !settings.length) { el.replaceChildren(); return; }
     const items = getItems(mode);
     const cur = activeFilters(mode);
-    el.replaceChildren(...keys.map((key) => {
-      const list = key === 'topic' ? data.topics : data.sentenceTypes;
+    const filterRows = keys.map((key) => {
       const present = new Set(items.map((i) => i[key]));
-      const options = [{ id: 'all', label: 'All' }, ...list.filter((o) => present.has(o.id))];
+      const options = [{ id: 'all', label: 'All' }, ...filterList(key).filter((o) => present.has(o.id))];
       return h('div', { class: 'filter-row' }, h('span', { class: 'filter-label' }, FILTER_LABEL[key]),
         options.map((o) => {
           const active = (cur[key] || 'all') === o.id;
           const n = items.filter((i) => matchesFilters(i, mode, cur, key) && (o.id === 'all' || i[key] === o.id)).length;
           return h('button', {
             class: 'pill-btn' + (active ? ' active' : ''), disabled: n === 0 && !active,
-            onclick: () => { state.filters[mode] = { ...cur, [key]: o.id }; save(); renderFilters(); ask(); },
+            onclick: () => { state.filters = { ...state.filters, [mode]: { ...cur, [key]: o.id } }; recent[mode] = []; save(); renderFilters(); ask(); },
           }, o.label, h('span', { class: 'n' }, String(n)));
         }));
-    }));
+    });
+    const settingRows = settings.map((set) => h('div', { class: 'filter-row' }, h('span', { class: 'filter-label' }, set.label),
+      set.options.map((o) => h('button', {
+        class: 'pill-btn' + (getSetting(mode, set.key) === o.id ? ' active' : ''),
+        onclick: () => {
+          state.settings = { ...state.settings, [mode]: { ...(state.settings || {})[mode], [set.key]: o.id } };
+          recent[mode] = [];
+          save(); renderFilters(); ask();
+        },
+      }, o.label))));
+    el.replaceChildren(...filterRows, ...settingRows);
   }
 
   function show() {
@@ -639,7 +719,7 @@
     }
     document.getElementById('resetLink').addEventListener('click', () => {
       if (!confirm('Reset all progress and scores?')) return;
-      state = { ...defaults(), mode: state.mode, table: state.table, filters: state.filters, autoplay: state.autoplay };
+      state = { ...defaults(), mode: state.mode, table: state.table, tableTense: state.tableTense, filters: state.filters, settings: state.settings, autoplay: state.autoplay };
       save();
       renderScore();
       show();

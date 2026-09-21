@@ -2,6 +2,21 @@
   "language": "it",
   "name": "Italian",
   "persons": ["io", "tu", "lui", "noi", "voi", "loro"],
+  "personOptions": [
+    { "id": "io", "label": "I (io)", "en": "I" },
+    { "id": "tu", "label": "you (tu)", "en": "you" },
+    { "id": "lui", "label": "he / she (lui / lei)", "en": "he / she" },
+    { "id": "noi", "label": "we (noi)", "en": "we" },
+    { "id": "voi", "label": "you all (voi)", "en": "you all" },
+    { "id": "loro", "label": "they (loro)", "en": "they" }
+  ],
+  "tenseOptions": [
+    { "id": "present", "label": "Present", "title": "Present (presente)", "description": "Current or habitual actions: parlo = I speak / I am speaking." },
+    { "id": "passato_prossimo", "label": "Passato prossimo", "title": "Passato prossimo (present perfect)", "description": "Completed actions: avere or essere + past participle. With essere the participle agrees with the subject (andato / andata)." },
+    { "id": "imperfetto", "label": "Imperfect", "title": "Imperfetto (imperfect)", "description": "Ongoing or habitual past actions: parlavo = I was speaking / I used to speak." },
+    { "id": "futuro", "label": "Future", "title": "Futuro semplice (future)", "description": "Future actions: parlerò = I will speak." },
+    { "id": "condizionale", "label": "Conditional", "title": "Condizionale presente (conditional)", "description": "Polite requests and hypotheticals: vorrei = I would like." }
+  ],
   "topics": [
     { "id": "everyday", "label": "Everyday" },
     { "id": "food", "label": "Ordering food" },
@@ -23,7 +38,11 @@
       "participle": "stato",
       "irregular": true,
       "tenses": {
-        "present": { "io": "sono", "tu": "sei", "lui": "è", "noi": "siamo", "voi": "siete", "loro": "sono" }
+        "present": { "io": "sono", "tu": "sei", "lui": "è", "noi": "siamo", "voi": "siete", "loro": "sono" },
+        "passato_prossimo": { "io": "sono stato/a", "tu": "sei stato/a", "lui": "è stato/a", "noi": "siamo stati/e", "voi": "siete stati/e", "loro": "sono stati/e" },
+        "imperfetto": { "io": "ero", "tu": "eri", "lui": "era", "noi": "eravamo", "voi": "eravate", "loro": "erano" },
+        "futuro": { "io": "sarò", "tu": "sarai", "lui": "sarà", "noi": "saremo", "voi": "sarete", "loro": "saranno" },
+        "condizionale": { "io": "sarei", "tu": "saresti", "lui": "sarebbe", "noi": "saremmo", "voi": "sareste", "loro": "sarebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Noi siamo a casa.", "en": "We are at home." }
@@ -37,7 +56,11 @@
       "participle": "avuto",
       "irregular": true,
       "tenses": {
-        "present": { "io": "ho", "tu": "hai", "lui": "ha", "noi": "abbiamo", "voi": "avete", "loro": "hanno" }
+        "present": { "io": "ho", "tu": "hai", "lui": "ha", "noi": "abbiamo", "voi": "avete", "loro": "hanno" },
+        "passato_prossimo": { "io": "ho avuto", "tu": "hai avuto", "lui": "ha avuto", "noi": "abbiamo avuto", "voi": "avete avuto", "loro": "hanno avuto" },
+        "imperfetto": { "io": "avevo", "tu": "avevi", "lui": "aveva", "noi": "avevamo", "voi": "avevate", "loro": "avevano" },
+        "futuro": { "io": "avrò", "tu": "avrai", "lui": "avrà", "noi": "avremo", "voi": "avrete", "loro": "avranno" },
+        "condizionale": { "io": "avrei", "tu": "avresti", "lui": "avrebbe", "noi": "avremmo", "voi": "avreste", "loro": "avrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Ho due fratelli.", "en": "I have two brothers." }
@@ -51,7 +74,11 @@
       "participle": "fatto",
       "irregular": true,
       "tenses": {
-        "present": { "io": "faccio", "tu": "fai", "lui": "fa", "noi": "facciamo", "voi": "fate", "loro": "fanno" }
+        "present": { "io": "faccio", "tu": "fai", "lui": "fa", "noi": "facciamo", "voi": "fate", "loro": "fanno" },
+        "passato_prossimo": { "io": "ho fatto", "tu": "hai fatto", "lui": "ha fatto", "noi": "abbiamo fatto", "voi": "avete fatto", "loro": "hanno fatto" },
+        "imperfetto": { "io": "facevo", "tu": "facevi", "lui": "faceva", "noi": "facevamo", "voi": "facevate", "loro": "facevano" },
+        "futuro": { "io": "farò", "tu": "farai", "lui": "farà", "noi": "faremo", "voi": "farete", "loro": "faranno" },
+        "condizionale": { "io": "farei", "tu": "faresti", "lui": "farebbe", "noi": "faremmo", "voi": "fareste", "loro": "farebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Che cosa fai oggi?", "en": "What are you doing today?" }
@@ -65,7 +92,11 @@
       "participle": "detto",
       "irregular": true,
       "tenses": {
-        "present": { "io": "dico", "tu": "dici", "lui": "dice", "noi": "diciamo", "voi": "dite", "loro": "dicono" }
+        "present": { "io": "dico", "tu": "dici", "lui": "dice", "noi": "diciamo", "voi": "dite", "loro": "dicono" },
+        "passato_prossimo": { "io": "ho detto", "tu": "hai detto", "lui": "ha detto", "noi": "abbiamo detto", "voi": "avete detto", "loro": "hanno detto" },
+        "imperfetto": { "io": "dicevo", "tu": "dicevi", "lui": "diceva", "noi": "dicevamo", "voi": "dicevate", "loro": "dicevano" },
+        "futuro": { "io": "dirò", "tu": "dirai", "lui": "dirà", "noi": "diremo", "voi": "direte", "loro": "diranno" },
+        "condizionale": { "io": "direi", "tu": "diresti", "lui": "direbbe", "noi": "diremmo", "voi": "direste", "loro": "direbbero" }
       },
       "examples": [
         { "tense": "present", "it": "Lei dice la verità.", "en": "She tells the truth." }
@@ -79,7 +110,11 @@
       "participle": "andato",
       "irregular": true,
       "tenses": {
-        "present": { "io": "vado", "tu": "vai", "lui": "va", "noi": "andiamo", "voi": "andate", "loro": "vanno" }
+        "present": { "io": "vado", "tu": "vai", "lui": "va", "noi": "andiamo", "voi": "andate", "loro": "vanno" },
+        "passato_prossimo": { "io": "sono andato/a", "tu": "sei andato/a", "lui": "è andato/a", "noi": "siamo andati/e", "voi": "siete andati/e", "loro": "sono andati/e" },
+        "imperfetto": { "io": "andavo", "tu": "andavi", "lui": "andava", "noi": "andavamo", "voi": "andavate", "loro": "andavano" },
+        "futuro": { "io": "andrò", "tu": "andrai", "lui": "andrà", "noi": "andremo", "voi": "andrete", "loro": "andranno" },
+        "condizionale": { "io": "andrei", "tu": "andresti", "lui": "andrebbe", "noi": "andremmo", "voi": "andreste", "loro": "andrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Vado a scuola in treno.", "en": "I go to school by train." }
@@ -93,7 +128,11 @@
       "participle": "potuto",
       "irregular": true,
       "tenses": {
-        "present": { "io": "posso", "tu": "puoi", "lui": "può", "noi": "possiamo", "voi": "potete", "loro": "possono" }
+        "present": { "io": "posso", "tu": "puoi", "lui": "può", "noi": "possiamo", "voi": "potete", "loro": "possono" },
+        "passato_prossimo": { "io": "ho potuto", "tu": "hai potuto", "lui": "ha potuto", "noi": "abbiamo potuto", "voi": "avete potuto", "loro": "hanno potuto" },
+        "imperfetto": { "io": "potevo", "tu": "potevi", "lui": "poteva", "noi": "potevamo", "voi": "potevate", "loro": "potevano" },
+        "futuro": { "io": "potrò", "tu": "potrai", "lui": "potrà", "noi": "potremo", "voi": "potrete", "loro": "potranno" },
+        "condizionale": { "io": "potrei", "tu": "potresti", "lui": "potrebbe", "noi": "potremmo", "voi": "potreste", "loro": "potrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Puoi aiutarmi?", "en": "Can you help me?" }
@@ -107,7 +146,11 @@
       "participle": "voluto",
       "irregular": true,
       "tenses": {
-        "present": { "io": "voglio", "tu": "vuoi", "lui": "vuole", "noi": "vogliamo", "voi": "volete", "loro": "vogliono" }
+        "present": { "io": "voglio", "tu": "vuoi", "lui": "vuole", "noi": "vogliamo", "voi": "volete", "loro": "vogliono" },
+        "passato_prossimo": { "io": "ho voluto", "tu": "hai voluto", "lui": "ha voluto", "noi": "abbiamo voluto", "voi": "avete voluto", "loro": "hanno voluto" },
+        "imperfetto": { "io": "volevo", "tu": "volevi", "lui": "voleva", "noi": "volevamo", "voi": "volevate", "loro": "volevano" },
+        "futuro": { "io": "vorrò", "tu": "vorrai", "lui": "vorrà", "noi": "vorremo", "voi": "vorrete", "loro": "vorranno" },
+        "condizionale": { "io": "vorrei", "tu": "vorresti", "lui": "vorrebbe", "noi": "vorremmo", "voi": "vorreste", "loro": "vorrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Voglio un caffè.", "en": "I want a coffee." }
@@ -121,7 +164,11 @@
       "participle": "visto",
       "irregular": false,
       "tenses": {
-        "present": { "io": "vedo", "tu": "vedi", "lui": "vede", "noi": "vediamo", "voi": "vedete", "loro": "vedono" }
+        "present": { "io": "vedo", "tu": "vedi", "lui": "vede", "noi": "vediamo", "voi": "vedete", "loro": "vedono" },
+        "passato_prossimo": { "io": "ho visto", "tu": "hai visto", "lui": "ha visto", "noi": "abbiamo visto", "voi": "avete visto", "loro": "hanno visto" },
+        "imperfetto": { "io": "vedevo", "tu": "vedevi", "lui": "vedeva", "noi": "vedevamo", "voi": "vedevate", "loro": "vedevano" },
+        "futuro": { "io": "vedrò", "tu": "vedrai", "lui": "vedrà", "noi": "vedremo", "voi": "vedrete", "loro": "vedranno" },
+        "condizionale": { "io": "vedrei", "tu": "vedresti", "lui": "vedrebbe", "noi": "vedremmo", "voi": "vedreste", "loro": "vedrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Vedo un gatto nel giardino.", "en": "I see a cat in the garden." }
@@ -135,7 +182,11 @@
       "participle": "saputo",
       "irregular": true,
       "tenses": {
-        "present": { "io": "so", "tu": "sai", "lui": "sa", "noi": "sappiamo", "voi": "sapete", "loro": "sanno" }
+        "present": { "io": "so", "tu": "sai", "lui": "sa", "noi": "sappiamo", "voi": "sapete", "loro": "sanno" },
+        "passato_prossimo": { "io": "ho saputo", "tu": "hai saputo", "lui": "ha saputo", "noi": "abbiamo saputo", "voi": "avete saputo", "loro": "hanno saputo" },
+        "imperfetto": { "io": "sapevo", "tu": "sapevi", "lui": "sapeva", "noi": "sapevamo", "voi": "sapevate", "loro": "sapevano" },
+        "futuro": { "io": "saprò", "tu": "saprai", "lui": "saprà", "noi": "sapremo", "voi": "saprete", "loro": "sapranno" },
+        "condizionale": { "io": "saprei", "tu": "sapresti", "lui": "saprebbe", "noi": "sapremmo", "voi": "sapreste", "loro": "saprebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Non so la risposta.", "en": "I don't know the answer." }
@@ -149,7 +200,11 @@
       "participle": "dato",
       "irregular": true,
       "tenses": {
-        "present": { "io": "do", "tu": "dai", "lui": "dà", "noi": "diamo", "voi": "date", "loro": "danno" }
+        "present": { "io": "do", "tu": "dai", "lui": "dà", "noi": "diamo", "voi": "date", "loro": "danno" },
+        "passato_prossimo": { "io": "ho dato", "tu": "hai dato", "lui": "ha dato", "noi": "abbiamo dato", "voi": "avete dato", "loro": "hanno dato" },
+        "imperfetto": { "io": "davo", "tu": "davi", "lui": "dava", "noi": "davamo", "voi": "davate", "loro": "davano" },
+        "futuro": { "io": "darò", "tu": "darai", "lui": "darà", "noi": "daremo", "voi": "darete", "loro": "daranno" },
+        "condizionale": { "io": "darei", "tu": "daresti", "lui": "darebbe", "noi": "daremmo", "voi": "dareste", "loro": "darebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Ti do il mio numero.", "en": "I give you my number." }
@@ -163,7 +218,11 @@
       "participle": "stato",
       "irregular": true,
       "tenses": {
-        "present": { "io": "sto", "tu": "stai", "lui": "sta", "noi": "stiamo", "voi": "state", "loro": "stanno" }
+        "present": { "io": "sto", "tu": "stai", "lui": "sta", "noi": "stiamo", "voi": "state", "loro": "stanno" },
+        "passato_prossimo": { "io": "sono stato/a", "tu": "sei stato/a", "lui": "è stato/a", "noi": "siamo stati/e", "voi": "siete stati/e", "loro": "sono stati/e" },
+        "imperfetto": { "io": "stavo", "tu": "stavi", "lui": "stava", "noi": "stavamo", "voi": "stavate", "loro": "stavano" },
+        "futuro": { "io": "starò", "tu": "starai", "lui": "starà", "noi": "staremo", "voi": "starete", "loro": "staranno" },
+        "condizionale": { "io": "starei", "tu": "staresti", "lui": "starebbe", "noi": "staremmo", "voi": "stareste", "loro": "starebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Come stai?", "en": "How are you?" }
@@ -177,7 +236,11 @@
       "participle": "venuto",
       "irregular": true,
       "tenses": {
-        "present": { "io": "vengo", "tu": "vieni", "lui": "viene", "noi": "veniamo", "voi": "venite", "loro": "vengono" }
+        "present": { "io": "vengo", "tu": "vieni", "lui": "viene", "noi": "veniamo", "voi": "venite", "loro": "vengono" },
+        "passato_prossimo": { "io": "sono venuto/a", "tu": "sei venuto/a", "lui": "è venuto/a", "noi": "siamo venuti/e", "voi": "siete venuti/e", "loro": "sono venuti/e" },
+        "imperfetto": { "io": "venivo", "tu": "venivi", "lui": "veniva", "noi": "venivamo", "voi": "venivate", "loro": "venivano" },
+        "futuro": { "io": "verrò", "tu": "verrai", "lui": "verrà", "noi": "verremo", "voi": "verrete", "loro": "verranno" },
+        "condizionale": { "io": "verrei", "tu": "verresti", "lui": "verrebbe", "noi": "verremmo", "voi": "verreste", "loro": "verrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Vieni con noi?", "en": "Are you coming with us?" }
@@ -191,7 +254,11 @@
       "participle": "dovuto",
       "irregular": true,
       "tenses": {
-        "present": { "io": "devo", "tu": "devi", "lui": "deve", "noi": "dobbiamo", "voi": "dovete", "loro": "devono" }
+        "present": { "io": "devo", "tu": "devi", "lui": "deve", "noi": "dobbiamo", "voi": "dovete", "loro": "devono" },
+        "passato_prossimo": { "io": "ho dovuto", "tu": "hai dovuto", "lui": "ha dovuto", "noi": "abbiamo dovuto", "voi": "avete dovuto", "loro": "hanno dovuto" },
+        "imperfetto": { "io": "dovevo", "tu": "dovevi", "lui": "doveva", "noi": "dovevamo", "voi": "dovevate", "loro": "dovevano" },
+        "futuro": { "io": "dovrò", "tu": "dovrai", "lui": "dovrà", "noi": "dovremo", "voi": "dovrete", "loro": "dovranno" },
+        "condizionale": { "io": "dovrei", "tu": "dovresti", "lui": "dovrebbe", "noi": "dovremmo", "voi": "dovreste", "loro": "dovrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Devo lavorare domani.", "en": "I have to work tomorrow." }
@@ -205,7 +272,11 @@
       "participle": "parlato",
       "irregular": false,
       "tenses": {
-        "present": { "io": "parlo", "tu": "parli", "lui": "parla", "noi": "parliamo", "voi": "parlate", "loro": "parlano" }
+        "present": { "io": "parlo", "tu": "parli", "lui": "parla", "noi": "parliamo", "voi": "parlate", "loro": "parlano" },
+        "passato_prossimo": { "io": "ho parlato", "tu": "hai parlato", "lui": "ha parlato", "noi": "abbiamo parlato", "voi": "avete parlato", "loro": "hanno parlato" },
+        "imperfetto": { "io": "parlavo", "tu": "parlavi", "lui": "parlava", "noi": "parlavamo", "voi": "parlavate", "loro": "parlavano" },
+        "futuro": { "io": "parlerò", "tu": "parlerai", "lui": "parlerà", "noi": "parleremo", "voi": "parlerete", "loro": "parleranno" },
+        "condizionale": { "io": "parlerei", "tu": "parleresti", "lui": "parlerebbe", "noi": "parleremmo", "voi": "parlereste", "loro": "parlerebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Parliamo italiano.", "en": "We speak Italian." }
@@ -219,7 +290,11 @@
       "participle": "preso",
       "irregular": false,
       "tenses": {
-        "present": { "io": "prendo", "tu": "prendi", "lui": "prende", "noi": "prendiamo", "voi": "prendete", "loro": "prendono" }
+        "present": { "io": "prendo", "tu": "prendi", "lui": "prende", "noi": "prendiamo", "voi": "prendete", "loro": "prendono" },
+        "passato_prossimo": { "io": "ho preso", "tu": "hai preso", "lui": "ha preso", "noi": "abbiamo preso", "voi": "avete preso", "loro": "hanno preso" },
+        "imperfetto": { "io": "prendevo", "tu": "prendevi", "lui": "prendeva", "noi": "prendevamo", "voi": "prendevate", "loro": "prendevano" },
+        "futuro": { "io": "prenderò", "tu": "prenderai", "lui": "prenderà", "noi": "prenderemo", "voi": "prenderete", "loro": "prenderanno" },
+        "condizionale": { "io": "prenderei", "tu": "prenderesti", "lui": "prenderebbe", "noi": "prenderemmo", "voi": "prendereste", "loro": "prenderebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Prendo un caffè al bar.", "en": "I'm having a coffee at the café." }
@@ -233,7 +308,11 @@
       "participle": "trovato",
       "irregular": false,
       "tenses": {
-        "present": { "io": "trovo", "tu": "trovi", "lui": "trova", "noi": "troviamo", "voi": "trovate", "loro": "trovano" }
+        "present": { "io": "trovo", "tu": "trovi", "lui": "trova", "noi": "troviamo", "voi": "trovate", "loro": "trovano" },
+        "passato_prossimo": { "io": "ho trovato", "tu": "hai trovato", "lui": "ha trovato", "noi": "abbiamo trovato", "voi": "avete trovato", "loro": "hanno trovato" },
+        "imperfetto": { "io": "trovavo", "tu": "trovavi", "lui": "trovava", "noi": "trovavamo", "voi": "trovavate", "loro": "trovavano" },
+        "futuro": { "io": "troverò", "tu": "troverai", "lui": "troverà", "noi": "troveremo", "voi": "troverete", "loro": "troveranno" },
+        "condizionale": { "io": "troverei", "tu": "troveresti", "lui": "troverebbe", "noi": "troveremmo", "voi": "trovereste", "loro": "troverebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Non trovo le chiavi.", "en": "I can't find the keys." }
@@ -247,7 +326,11 @@
       "participle": "pensato",
       "irregular": false,
       "tenses": {
-        "present": { "io": "penso", "tu": "pensi", "lui": "pensa", "noi": "pensiamo", "voi": "pensate", "loro": "pensano" }
+        "present": { "io": "penso", "tu": "pensi", "lui": "pensa", "noi": "pensiamo", "voi": "pensate", "loro": "pensano" },
+        "passato_prossimo": { "io": "ho pensato", "tu": "hai pensato", "lui": "ha pensato", "noi": "abbiamo pensato", "voi": "avete pensato", "loro": "hanno pensato" },
+        "imperfetto": { "io": "pensavo", "tu": "pensavi", "lui": "pensava", "noi": "pensavamo", "voi": "pensavate", "loro": "pensavano" },
+        "futuro": { "io": "penserò", "tu": "penserai", "lui": "penserà", "noi": "penseremo", "voi": "penserete", "loro": "penseranno" },
+        "condizionale": { "io": "penserei", "tu": "penseresti", "lui": "penserebbe", "noi": "penseremmo", "voi": "pensereste", "loro": "penserebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Penso a mia madre.", "en": "I think about my mother." }
@@ -261,7 +344,11 @@
       "participle": "messo",
       "irregular": false,
       "tenses": {
-        "present": { "io": "metto", "tu": "metti", "lui": "mette", "noi": "mettiamo", "voi": "mettete", "loro": "mettono" }
+        "present": { "io": "metto", "tu": "metti", "lui": "mette", "noi": "mettiamo", "voi": "mettete", "loro": "mettono" },
+        "passato_prossimo": { "io": "ho messo", "tu": "hai messo", "lui": "ha messo", "noi": "abbiamo messo", "voi": "avete messo", "loro": "hanno messo" },
+        "imperfetto": { "io": "mettevo", "tu": "mettevi", "lui": "metteva", "noi": "mettevamo", "voi": "mettevate", "loro": "mettevano" },
+        "futuro": { "io": "metterò", "tu": "metterai", "lui": "metterà", "noi": "metteremo", "voi": "metterete", "loro": "metteranno" },
+        "condizionale": { "io": "metterei", "tu": "metteresti", "lui": "metterebbe", "noi": "metteremmo", "voi": "mettereste", "loro": "metterebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Metto il libro sul tavolo.", "en": "I put the book on the table." }
@@ -275,7 +362,11 @@
       "participle": "vissuto",
       "irregular": false,
       "tenses": {
-        "present": { "io": "vivo", "tu": "vivi", "lui": "vive", "noi": "viviamo", "voi": "vivete", "loro": "vivono" }
+        "present": { "io": "vivo", "tu": "vivi", "lui": "vive", "noi": "viviamo", "voi": "vivete", "loro": "vivono" },
+        "passato_prossimo": { "io": "ho vissuto", "tu": "hai vissuto", "lui": "ha vissuto", "noi": "abbiamo vissuto", "voi": "avete vissuto", "loro": "hanno vissuto" },
+        "imperfetto": { "io": "vivevo", "tu": "vivevi", "lui": "viveva", "noi": "vivevamo", "voi": "vivevate", "loro": "vivevano" },
+        "futuro": { "io": "vivrò", "tu": "vivrai", "lui": "vivrà", "noi": "vivremo", "voi": "vivrete", "loro": "vivranno" },
+        "condizionale": { "io": "vivrei", "tu": "vivresti", "lui": "vivrebbe", "noi": "vivremmo", "voi": "vivreste", "loro": "vivrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Vivono in una piccola città.", "en": "They live in a small city." }
@@ -289,7 +380,11 @@
       "participle": "capito",
       "irregular": false,
       "tenses": {
-        "present": { "io": "capisco", "tu": "capisci", "lui": "capisce", "noi": "capiamo", "voi": "capite", "loro": "capiscono" }
+        "present": { "io": "capisco", "tu": "capisci", "lui": "capisce", "noi": "capiamo", "voi": "capite", "loro": "capiscono" },
+        "passato_prossimo": { "io": "ho capito", "tu": "hai capito", "lui": "ha capito", "noi": "abbiamo capito", "voi": "avete capito", "loro": "hanno capito" },
+        "imperfetto": { "io": "capivo", "tu": "capivi", "lui": "capiva", "noi": "capivamo", "voi": "capivate", "loro": "capivano" },
+        "futuro": { "io": "capirò", "tu": "capirai", "lui": "capirà", "noi": "capiremo", "voi": "capirete", "loro": "capiranno" },
+        "condizionale": { "io": "capirei", "tu": "capiresti", "lui": "capirebbe", "noi": "capiremmo", "voi": "capireste", "loro": "capirebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Non capisco la domanda.", "en": "I don't understand the question." }
@@ -303,7 +398,11 @@
       "participle": "chiamato",
       "irregular": false,
       "tenses": {
-        "present": { "io": "chiamo", "tu": "chiami", "lui": "chiama", "noi": "chiamiamo", "voi": "chiamate", "loro": "chiamano" }
+        "present": { "io": "chiamo", "tu": "chiami", "lui": "chiama", "noi": "chiamiamo", "voi": "chiamate", "loro": "chiamano" },
+        "passato_prossimo": { "io": "ho chiamato", "tu": "hai chiamato", "lui": "ha chiamato", "noi": "abbiamo chiamato", "voi": "avete chiamato", "loro": "hanno chiamato" },
+        "imperfetto": { "io": "chiamavo", "tu": "chiamavi", "lui": "chiamava", "noi": "chiamavamo", "voi": "chiamavate", "loro": "chiamavano" },
+        "futuro": { "io": "chiamerò", "tu": "chiamerai", "lui": "chiamerà", "noi": "chiameremo", "voi": "chiamerete", "loro": "chiameranno" },
+        "condizionale": { "io": "chiamerei", "tu": "chiameresti", "lui": "chiamerebbe", "noi": "chiameremmo", "voi": "chiamereste", "loro": "chiamerebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Chiamo mio padre.", "en": "I call my father." }
@@ -317,7 +416,11 @@
       "participle": "lavorato",
       "irregular": false,
       "tenses": {
-        "present": { "io": "lavoro", "tu": "lavori", "lui": "lavora", "noi": "lavoriamo", "voi": "lavorate", "loro": "lavorano" }
+        "present": { "io": "lavoro", "tu": "lavori", "lui": "lavora", "noi": "lavoriamo", "voi": "lavorate", "loro": "lavorano" },
+        "passato_prossimo": { "io": "ho lavorato", "tu": "hai lavorato", "lui": "ha lavorato", "noi": "abbiamo lavorato", "voi": "avete lavorato", "loro": "hanno lavorato" },
+        "imperfetto": { "io": "lavoravo", "tu": "lavoravi", "lui": "lavorava", "noi": "lavoravamo", "voi": "lavoravate", "loro": "lavoravano" },
+        "futuro": { "io": "lavorerò", "tu": "lavorerai", "lui": "lavorerà", "noi": "lavoreremo", "voi": "lavorerete", "loro": "lavoreranno" },
+        "condizionale": { "io": "lavorerei", "tu": "lavoreresti", "lui": "lavorerebbe", "noi": "lavoreremmo", "voi": "lavorereste", "loro": "lavorerebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Mia madre lavora in ospedale.", "en": "My mother works at a hospital." }
@@ -331,7 +434,11 @@
       "participle": "mangiato",
       "irregular": true,
       "tenses": {
-        "present": { "io": "mangio", "tu": "mangi", "lui": "mangia", "noi": "mangiamo", "voi": "mangiate", "loro": "mangiano" }
+        "present": { "io": "mangio", "tu": "mangi", "lui": "mangia", "noi": "mangiamo", "voi": "mangiate", "loro": "mangiano" },
+        "passato_prossimo": { "io": "ho mangiato", "tu": "hai mangiato", "lui": "ha mangiato", "noi": "abbiamo mangiato", "voi": "avete mangiato", "loro": "hanno mangiato" },
+        "imperfetto": { "io": "mangiavo", "tu": "mangiavi", "lui": "mangiava", "noi": "mangiavamo", "voi": "mangiavate", "loro": "mangiavano" },
+        "futuro": { "io": "mangerò", "tu": "mangerai", "lui": "mangerà", "noi": "mangeremo", "voi": "mangerete", "loro": "mangeranno" },
+        "condizionale": { "io": "mangerei", "tu": "mangeresti", "lui": "mangerebbe", "noi": "mangeremmo", "voi": "mangereste", "loro": "mangerebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Mangiamo la pizza stasera.", "en": "We're eating pizza tonight." }
@@ -345,7 +452,11 @@
       "participle": "letto",
       "irregular": false,
       "tenses": {
-        "present": { "io": "leggo", "tu": "leggi", "lui": "legge", "noi": "leggiamo", "voi": "leggete", "loro": "leggono" }
+        "present": { "io": "leggo", "tu": "leggi", "lui": "legge", "noi": "leggiamo", "voi": "leggete", "loro": "leggono" },
+        "passato_prossimo": { "io": "ho letto", "tu": "hai letto", "lui": "ha letto", "noi": "abbiamo letto", "voi": "avete letto", "loro": "hanno letto" },
+        "imperfetto": { "io": "leggevo", "tu": "leggevi", "lui": "leggeva", "noi": "leggevamo", "voi": "leggevate", "loro": "leggevano" },
+        "futuro": { "io": "leggerò", "tu": "leggerai", "lui": "leggerà", "noi": "leggeremo", "voi": "leggerete", "loro": "leggeranno" },
+        "condizionale": { "io": "leggerei", "tu": "leggeresti", "lui": "leggerebbe", "noi": "leggeremmo", "voi": "leggereste", "loro": "leggerebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Leggi un libro?", "en": "Are you reading a book?" }
@@ -359,7 +470,11 @@
       "participle": "amato",
       "irregular": false,
       "tenses": {
-        "present": { "io": "amo", "tu": "ami", "lui": "ama", "noi": "amiamo", "voi": "amate", "loro": "amano" }
+        "present": { "io": "amo", "tu": "ami", "lui": "ama", "noi": "amiamo", "voi": "amate", "loro": "amano" },
+        "passato_prossimo": { "io": "ho amato", "tu": "hai amato", "lui": "ha amato", "noi": "abbiamo amato", "voi": "avete amato", "loro": "hanno amato" },
+        "imperfetto": { "io": "amavo", "tu": "amavi", "lui": "amava", "noi": "amavamo", "voi": "amavate", "loro": "amavano" },
+        "futuro": { "io": "amerò", "tu": "amerai", "lui": "amerà", "noi": "ameremo", "voi": "amerete", "loro": "ameranno" },
+        "condizionale": { "io": "amerei", "tu": "ameresti", "lui": "amerebbe", "noi": "ameremmo", "voi": "amereste", "loro": "amerebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Amo la mia famiglia.", "en": "I love my family." }
@@ -373,7 +488,11 @@
       "participle": "abitato",
       "irregular": false,
       "tenses": {
-        "present": { "io": "abito", "tu": "abiti", "lui": "abita", "noi": "abitiamo", "voi": "abitate", "loro": "abitano" }
+        "present": { "io": "abito", "tu": "abiti", "lui": "abita", "noi": "abitiamo", "voi": "abitate", "loro": "abitano" },
+        "passato_prossimo": { "io": "ho abitato", "tu": "hai abitato", "lui": "ha abitato", "noi": "abbiamo abitato", "voi": "avete abitato", "loro": "hanno abitato" },
+        "imperfetto": { "io": "abitavo", "tu": "abitavi", "lui": "abitava", "noi": "abitavamo", "voi": "abitavate", "loro": "abitavano" },
+        "futuro": { "io": "abiterò", "tu": "abiterai", "lui": "abiterà", "noi": "abiteremo", "voi": "abiterete", "loro": "abiteranno" },
+        "condizionale": { "io": "abiterei", "tu": "abiteresti", "lui": "abiterebbe", "noi": "abiteremmo", "voi": "abitereste", "loro": "abiterebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Abito in una casa grande.", "en": "I live in a big house." }
@@ -387,7 +506,11 @@
       "participle": "bevuto",
       "irregular": true,
       "tenses": {
-        "present": { "io": "bevo", "tu": "bevi", "lui": "beve", "noi": "beviamo", "voi": "bevete", "loro": "bevono" }
+        "present": { "io": "bevo", "tu": "bevi", "lui": "beve", "noi": "beviamo", "voi": "bevete", "loro": "bevono" },
+        "passato_prossimo": { "io": "ho bevuto", "tu": "hai bevuto", "lui": "ha bevuto", "noi": "abbiamo bevuto", "voi": "avete bevuto", "loro": "hanno bevuto" },
+        "imperfetto": { "io": "bevevo", "tu": "bevevi", "lui": "beveva", "noi": "bevevamo", "voi": "bevevate", "loro": "bevevano" },
+        "futuro": { "io": "berrò", "tu": "berrai", "lui": "berrà", "noi": "berremo", "voi": "berrete", "loro": "berranno" },
+        "condizionale": { "io": "berrei", "tu": "berresti", "lui": "berrebbe", "noi": "berremmo", "voi": "berreste", "loro": "berrebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Bevo acqua.", "en": "I drink water." }
@@ -401,7 +524,11 @@
       "participle": "uscito",
       "irregular": true,
       "tenses": {
-        "present": { "io": "esco", "tu": "esci", "lui": "esce", "noi": "usciamo", "voi": "uscite", "loro": "escono" }
+        "present": { "io": "esco", "tu": "esci", "lui": "esce", "noi": "usciamo", "voi": "uscite", "loro": "escono" },
+        "passato_prossimo": { "io": "sono uscito/a", "tu": "sei uscito/a", "lui": "è uscito/a", "noi": "siamo usciti/e", "voi": "siete usciti/e", "loro": "sono usciti/e" },
+        "imperfetto": { "io": "uscivo", "tu": "uscivi", "lui": "usciva", "noi": "uscivamo", "voi": "uscivate", "loro": "uscivano" },
+        "futuro": { "io": "uscirò", "tu": "uscirai", "lui": "uscirà", "noi": "usciremo", "voi": "uscirete", "loro": "usciranno" },
+        "condizionale": { "io": "uscirei", "tu": "usciresti", "lui": "uscirebbe", "noi": "usciremmo", "voi": "uscireste", "loro": "uscirebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Esco alle otto.", "en": "I go out at eight." }
@@ -415,7 +542,11 @@
       "participle": "finito",
       "irregular": false,
       "tenses": {
-        "present": { "io": "finisco", "tu": "finisci", "lui": "finisce", "noi": "finiamo", "voi": "finite", "loro": "finiscono" }
+        "present": { "io": "finisco", "tu": "finisci", "lui": "finisce", "noi": "finiamo", "voi": "finite", "loro": "finiscono" },
+        "passato_prossimo": { "io": "ho finito", "tu": "hai finito", "lui": "ha finito", "noi": "abbiamo finito", "voi": "avete finito", "loro": "hanno finito" },
+        "imperfetto": { "io": "finivo", "tu": "finivi", "lui": "finiva", "noi": "finivamo", "voi": "finivate", "loro": "finivano" },
+        "futuro": { "io": "finirò", "tu": "finirai", "lui": "finirà", "noi": "finiremo", "voi": "finirete", "loro": "finiranno" },
+        "condizionale": { "io": "finirei", "tu": "finiresti", "lui": "finirebbe", "noi": "finiremmo", "voi": "finireste", "loro": "finirebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Il film finisce tardi.", "en": "The movie ends late." }
@@ -429,7 +560,11 @@
       "participle": "scritto",
       "irregular": false,
       "tenses": {
-        "present": { "io": "scrivo", "tu": "scrivi", "lui": "scrive", "noi": "scriviamo", "voi": "scrivete", "loro": "scrivono" }
+        "present": { "io": "scrivo", "tu": "scrivi", "lui": "scrive", "noi": "scriviamo", "voi": "scrivete", "loro": "scrivono" },
+        "passato_prossimo": { "io": "ho scritto", "tu": "hai scritto", "lui": "ha scritto", "noi": "abbiamo scritto", "voi": "avete scritto", "loro": "hanno scritto" },
+        "imperfetto": { "io": "scrivevo", "tu": "scrivevi", "lui": "scriveva", "noi": "scrivevamo", "voi": "scrivevate", "loro": "scrivevano" },
+        "futuro": { "io": "scriverò", "tu": "scriverai", "lui": "scriverà", "noi": "scriveremo", "voi": "scriverete", "loro": "scriveranno" },
+        "condizionale": { "io": "scriverei", "tu": "scriveresti", "lui": "scriverebbe", "noi": "scriveremmo", "voi": "scrivereste", "loro": "scriverebbero" }
       },
       "examples": [
         { "tense": "present", "it": "Scrivo un'email.", "en": "I'm writing an email." }
