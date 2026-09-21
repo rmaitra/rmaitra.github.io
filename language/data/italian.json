@@ -17,6 +17,14 @@
     { "id": "futuro", "label": "Future", "title": "Futuro semplice (future)", "description": "Future actions: parlerò = I will speak." },
     { "id": "condizionale", "label": "Conditional", "title": "Condizionale presente (conditional)", "description": "Polite requests and hypotheticals: vorrei = I would like." }
   ],
+  "functions": [
+    { "id": "ability", "label": "Ability / permission", "description": "Can, cannot, may: potere (posso, puoi), sapere for a learned skill (so nuotare), riuscire a for managing to do something." },
+    { "id": "necessity", "label": "Necessity / need", "description": "Have to and need to: dovere (devo, dobbiamo) or avere bisogno di." },
+    { "id": "desire", "label": "Desire / wish", "description": "Want, would like, hope: volere (voglio), the conditional vorrei / mi piacerebbe, desiderare, sperare di." },
+    { "id": "habitual_past", "label": "Used to / was", "description": "Ongoing or habitual past in the imperfetto: ero, avevo, abitavo, facevo." },
+    { "id": "future_plans", "label": "Future plans", "description": "Plans and intentions: the futuro (andrò, farò) or avere intenzione di." },
+    { "id": "preference", "label": "Likes / preferences", "description": "Likes and preferences: mi piace / mi piacciono, preferire." }
+  ],
   "topics": [
     { "id": "everyday", "label": "Everyday" },
     { "id": "food", "label": "Ordering food" },
@@ -816,6 +824,7 @@
       "rank": 1,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Come stai?",
       "en": "How are you?",
       "word": "come",
@@ -828,6 +837,7 @@
       "rank": 2,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Come ti chiami?",
       "en": "What's your name?",
       "word": "come",
@@ -840,6 +850,7 @@
       "rank": 3,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Dove abiti?",
       "en": "Where do you live?",
       "word": "dove",
@@ -852,6 +863,7 @@
       "rank": 4,
       "topic": "everyday",
       "type": "question",
+      "function": "desire",
       "it": "Che cosa vuoi?",
       "en": "What do you want?",
       "word": "che cosa",
@@ -864,6 +876,7 @@
       "rank": 5,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Quanti anni hai?",
       "en": "How old are you?",
       "word": "quanto",
@@ -876,6 +889,7 @@
       "rank": 6,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Chi è quella ragazza?",
       "en": "Who is that girl?",
       "word": "chi",
@@ -888,6 +902,7 @@
       "rank": 7,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Perché studi italiano?",
       "en": "Why are you studying Italian?",
       "word": "perché",
@@ -900,6 +915,7 @@
       "rank": 8,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Quando arriva il treno?",
       "en": "When does the train arrive?",
       "word": "quando",
@@ -912,6 +928,7 @@
       "rank": 9,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Dove vai oggi?",
       "en": "Where are you going today?",
       "word": "dove",
@@ -924,6 +941,7 @@
       "rank": 10,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Che ore sono?",
       "en": "What time is it?",
       "word": "che",
@@ -936,6 +954,7 @@
       "rank": 11,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Di dove sei?",
       "en": "Where are you from?",
       "word": "dove",
@@ -948,6 +967,7 @@
       "rank": 12,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Quanto costa il libro?",
       "en": "How much does the book cost?",
       "word": "quanto",
@@ -960,6 +980,7 @@
       "rank": 13,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Parli inglese?",
       "en": "Do you speak English?",
       "word": null,
@@ -972,6 +993,7 @@
       "rank": 14,
       "topic": "everyday",
       "type": "question",
+      "function": "ability",
       "it": "Puoi aiutarmi?",
       "en": "Can you help me?",
       "word": null,
@@ -984,6 +1006,7 @@
       "rank": 15,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Dov'è la stazione?",
       "en": "Where is the station?",
       "word": "dove",
@@ -996,6 +1019,7 @@
       "rank": 16,
       "topic": "everyday",
       "type": "question",
+      "function": null,
       "it": "Cosa fai nel tempo libero?",
       "en": "What do you do in your free time?",
       "word": "cosa",
@@ -1010,6 +1034,7 @@
       "rank": 1,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Io mangio la pizza.",
       "en": "I eat pizza.",
       "accepted": []
@@ -1019,6 +1044,7 @@
       "rank": 2,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Ho un cane e un gatto.",
       "en": "I have a dog and a cat.",
       "accepted": []
@@ -1028,6 +1054,7 @@
       "rank": 3,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Noi andiamo a scuola.",
       "en": "We go to school.",
       "accepted": []
@@ -1037,6 +1064,7 @@
       "rank": 4,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Il libro è sul tavolo.",
       "en": "The book is on the table.",
       "accepted": []
@@ -1046,6 +1074,7 @@
       "rank": 5,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Mia madre lavora in ospedale.",
       "en": "My mother works at a hospital.",
       "accepted": []
@@ -1055,6 +1084,7 @@
       "rank": 6,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Vivo in una casa grande.",
       "en": "I live in a big house.",
       "accepted": []
@@ -1064,6 +1094,7 @@
       "rank": 7,
       "topic": "everyday",
       "type": "negative",
+      "function": null,
       "it": "Non capisco la domanda.",
       "en": "I don't understand the question.",
       "accepted": []
@@ -1073,6 +1104,7 @@
       "rank": 8,
       "topic": "everyday",
       "type": "statement",
+      "function": "desire",
       "it": "Lui vuole bere un caffè.",
       "en": "He wants to drink a coffee.",
       "accepted": []
@@ -1082,6 +1114,7 @@
       "rank": 9,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Loro sono molto stanchi.",
       "en": "They are very tired.",
       "accepted": []
@@ -1091,6 +1124,7 @@
       "rank": 10,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "La ragazza parla italiano.",
       "en": "The girl speaks Italian.",
       "accepted": []
@@ -1100,6 +1134,7 @@
       "rank": 11,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Oggi faccio una passeggiata.",
       "en": "I'm going for a walk today.",
       "accepted": ["Faccio una passeggiata oggi."]
@@ -1109,6 +1144,7 @@
       "rank": 12,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Mio fratello ha una macchina nuova.",
       "en": "My brother has a new car.",
       "accepted": []
@@ -1118,6 +1154,7 @@
       "rank": 13,
       "topic": "everyday",
       "type": "statement",
+      "function": "necessity",
       "it": "Domani devo lavorare.",
       "en": "Tomorrow I have to work.",
       "accepted": ["Devo lavorare domani."]
@@ -1127,6 +1164,7 @@
       "rank": 14,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Vedo i bambini in strada.",
       "en": "I see the children in the street.",
       "accepted": []
@@ -1136,6 +1174,7 @@
       "rank": 15,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Voi siete i miei migliori amici.",
       "en": "You (pl.) are my best friends.",
       "accepted": []
@@ -1145,6 +1184,7 @@
       "rank": 16,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Abito in una città piccola.",
       "en": "I live in a small city.",
       "accepted": ["Abito in una piccola città."]
@@ -1154,6 +1194,7 @@
       "rank": 17,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "L'acqua è fredda.",
       "en": "The water is cold.",
       "accepted": []
@@ -1163,6 +1204,7 @@
       "rank": 18,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Prendiamo il treno alle otto.",
       "en": "We're taking the train at eight.",
       "accepted": []
@@ -1172,6 +1214,7 @@
       "rank": 19,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Mio padre legge il giornale.",
       "en": "My father reads the newspaper.",
       "accepted": []
@@ -1181,6 +1224,7 @@
       "rank": 20,
       "topic": "everyday",
       "type": "negative",
+      "function": null,
       "it": "Non ho tempo oggi.",
       "en": "I don't have time today.",
       "accepted": ["Oggi non ho tempo."]
@@ -1190,6 +1234,7 @@
       "rank": 21,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Questa casa è molto bella.",
       "en": "This house is very beautiful.",
       "accepted": []
@@ -1199,6 +1244,7 @@
       "rank": 22,
       "topic": "everyday",
       "type": "statement",
+      "function": "desire",
       "it": "Vogliamo un tavolo per due.",
       "en": "We want a table for two.",
       "accepted": []
@@ -1208,6 +1254,7 @@
       "rank": 23,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Il ristorante è vicino alla stazione.",
       "en": "The restaurant is near the station.",
       "accepted": []
@@ -1217,6 +1264,7 @@
       "rank": 24,
       "topic": "everyday",
       "type": "statement",
+      "function": null,
       "it": "Lei scrive un libro interessante.",
       "en": "She is writing an interesting book.",
       "accepted": []
@@ -1226,6 +1274,7 @@
       "rank": 25,
       "topic": "everyday",
       "type": "question",
+      "function": "ability",
       "it": "Possiamo parlare adesso?",
       "en": "Can we talk now?",
       "accepted": []
@@ -1235,6 +1284,7 @@
       "rank": 1,
       "topic": "food",
       "type": "request",
+      "function": "desire",
       "it": "Vorrei un tavolo per due.",
       "en": "I'd like a table for two.",
       "accepted": []
@@ -1244,6 +1294,7 @@
       "rank": 2,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "Ho prenotato un tavolo per le otto.",
       "en": "I booked a table for eight o’clock.",
       "accepted": []
@@ -1253,6 +1304,7 @@
       "rank": 3,
       "topic": "food",
       "type": "question",
+      "function": "ability",
       "it": "Posso vedere il menù, per favore?",
       "en": "Can I see the menu, please?",
       "accepted": []
@@ -1262,6 +1314,7 @@
       "rank": 4,
       "topic": "food",
       "type": "question",
+      "function": null,
       "it": "Che cosa mi consiglia?",
       "en": "What do you recommend?",
       "accepted": []
@@ -1271,6 +1324,7 @@
       "rank": 5,
       "topic": "food",
       "type": "request",
+      "function": "desire",
       "it": "Vorrei una pizza margherita.",
       "en": "I'd like a margherita pizza.",
       "accepted": []
@@ -1280,6 +1334,7 @@
       "rank": 6,
       "topic": "food",
       "type": "request",
+      "function": null,
       "it": "Per me gli spaghetti al pomodoro.",
       "en": "I'll have the spaghetti with tomato sauce.",
       "accepted": []
@@ -1289,6 +1344,7 @@
       "rank": 7,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "Prendo il pollo con le patate.",
       "en": "I'll have the chicken with potatoes.",
       "accepted": []
@@ -1298,6 +1354,7 @@
       "rank": 8,
       "topic": "food",
       "type": "request",
+      "function": null,
       "it": "Un'acqua naturale, per favore.",
       "en": "A still water, please.",
       "accepted": []
@@ -1307,6 +1364,7 @@
       "rank": 9,
       "topic": "food",
       "type": "question",
+      "function": null,
       "it": "Avete un menù per bambini?",
       "en": "Do you have a children's menu?",
       "accepted": []
@@ -1316,6 +1374,7 @@
       "rank": 10,
       "topic": "food",
       "type": "negative",
+      "function": null,
       "it": "Non mangio la carne.",
       "en": "I don't eat meat.",
       "accepted": []
@@ -1325,6 +1384,7 @@
       "rank": 11,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "Sono allergico alle noci.",
       "en": "I'm allergic to nuts.",
       "accepted": []
@@ -1334,6 +1394,7 @@
       "rank": 12,
       "topic": "food",
       "type": "question",
+      "function": null,
       "it": "C'è del glutine in questo piatto?",
       "en": "Is there gluten in this dish?",
       "accepted": []
@@ -1343,6 +1404,7 @@
       "rank": 13,
       "topic": "food",
       "type": "request",
+      "function": null,
       "it": "Il conto, per favore.",
       "en": "The check, please.",
       "accepted": []
@@ -1352,6 +1414,7 @@
       "rank": 14,
       "topic": "food",
       "type": "question",
+      "function": "ability",
       "it": "Possiamo pagare con la carta?",
       "en": "Can we pay by card?",
       "accepted": []
@@ -1361,6 +1424,7 @@
       "rank": 15,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "Questo vino è molto buono.",
       "en": "This wine is very good.",
       "accepted": []
@@ -1370,6 +1434,7 @@
       "rank": 16,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "La zuppa è troppo calda.",
       "en": "The soup is too hot.",
       "accepted": []
@@ -1379,6 +1444,7 @@
       "rank": 17,
       "topic": "food",
       "type": "negative",
+      "function": null,
       "it": "Non ho ordinato questo piatto.",
       "en": "I didn't order this dish.",
       "accepted": []
@@ -1388,6 +1454,7 @@
       "rank": 18,
       "topic": "food",
       "type": "question",
+      "function": "ability",
       "it": "Può portarci un altro bicchiere?",
       "en": "Can you bring us another glass?",
       "accepted": []
@@ -1397,6 +1464,7 @@
       "rank": 19,
       "topic": "food",
       "type": "request",
+      "function": "desire",
       "it": "Vorrei il caffè senza zucchero.",
       "en": "I'd like the coffee without sugar.",
       "accepted": []
@@ -1406,6 +1474,7 @@
       "rank": 20,
       "topic": "food",
       "type": "question",
+      "function": null,
       "it": "Che dolci avete?",
       "en": "What desserts do you have?",
       "accepted": []
@@ -1415,6 +1484,7 @@
       "rank": 21,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "Come antipasto prendiamo la bruschetta.",
       "en": "For a starter we'll have the bruschetta.",
       "accepted": []
@@ -1424,6 +1494,7 @@
       "rank": 22,
       "topic": "food",
       "type": "request",
+      "function": null,
       "it": "Mi porti il vino della casa.",
       "en": "Bring me the house wine.",
       "accepted": []
@@ -1433,6 +1504,7 @@
       "rank": 23,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "Il cameriere porta i piatti.",
       "en": "The waiter brings the plates.",
       "accepted": []
@@ -1442,6 +1514,7 @@
       "rank": 24,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "Siamo pronti per ordinare.",
       "en": "We're ready to order.",
       "accepted": []
@@ -1451,6 +1524,7 @@
       "rank": 25,
       "topic": "food",
       "type": "statement",
+      "function": null,
       "it": "La pasta è deliziosa.",
       "en": "The pasta is delicious.",
       "accepted": []
@@ -1460,6 +1534,7 @@
       "rank": 1,
       "topic": "directions",
       "type": "question",
+      "function": null,
       "it": "Dov'è il bagno?",
       "en": "Where is the bathroom?",
       "accepted": []
@@ -1469,6 +1544,7 @@
       "rank": 2,
       "topic": "directions",
       "type": "question",
+      "function": null,
       "it": "Scusi, dov'è la farmacia?",
       "en": "Excuse me, where is the pharmacy?",
       "accepted": []
@@ -1478,6 +1554,7 @@
       "rank": 3,
       "topic": "directions",
       "type": "question",
+      "function": null,
       "it": "Come arrivo alla stazione?",
       "en": "How do I get to the station?",
       "accepted": []
@@ -1487,6 +1564,7 @@
       "rank": 4,
       "topic": "directions",
       "type": "question",
+      "function": null,
       "it": "È lontano da qui?",
       "en": "Is it far from here?",
       "accepted": []
@@ -1496,6 +1574,7 @@
       "rank": 5,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "No, è molto vicino.",
       "en": "No, it's very close.",
       "accepted": []
@@ -1505,6 +1584,7 @@
       "rank": 6,
       "topic": "directions",
       "type": "request",
+      "function": null,
       "it": "Vada sempre dritto.",
       "en": "Go straight ahead.",
       "accepted": []
@@ -1514,6 +1594,7 @@
       "rank": 7,
       "topic": "directions",
       "type": "request",
+      "function": null,
       "it": "Giri a destra al semaforo.",
       "en": "Turn right at the traffic light.",
       "accepted": []
@@ -1523,6 +1604,7 @@
       "rank": 8,
       "topic": "directions",
       "type": "request",
+      "function": null,
       "it": "Giri a sinistra dopo la banca.",
       "en": "Turn left after the bank.",
       "accepted": []
@@ -1532,6 +1614,7 @@
       "rank": 9,
       "topic": "directions",
       "type": "request",
+      "function": null,
       "it": "Prenda la prima strada a destra.",
       "en": "Take the first street on the right.",
       "accepted": []
@@ -1541,6 +1624,7 @@
       "rank": 10,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "La chiesa è in fondo alla strada.",
       "en": "The church is at the end of the street.",
       "accepted": []
@@ -1550,6 +1634,7 @@
       "rank": 11,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "L'ospedale è di fronte al parco.",
       "en": "The hospital is opposite the park.",
       "accepted": []
@@ -1559,6 +1644,7 @@
       "rank": 12,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "Il bar è accanto alla banca.",
       "en": "The bar is next to the bank.",
       "accepted": []
@@ -1568,6 +1654,7 @@
       "rank": 13,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "La farmacia è all'angolo.",
       "en": "The pharmacy is on the corner.",
       "accepted": []
@@ -1577,6 +1664,7 @@
       "rank": 14,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "Il museo è dietro la piazza.",
       "en": "The museum is behind the square.",
       "accepted": []
@@ -1586,6 +1674,7 @@
       "rank": 15,
       "topic": "directions",
       "type": "request",
+      "function": null,
       "it": "Attraversi la piazza e poi giri a destra.",
       "en": "Cross the square and then turn right.",
       "accepted": []
@@ -1595,6 +1684,7 @@
       "rank": 16,
       "topic": "directions",
       "type": "question",
+      "function": "ability",
       "it": "Può ripetere, per favore?",
       "en": "Can you repeat that, please?",
       "accepted": []
@@ -1604,6 +1694,7 @@
       "rank": 17,
       "topic": "directions",
       "type": "negative",
+      "function": null,
       "it": "Non conosco questa zona.",
       "en": "I don't know this area.",
       "accepted": []
@@ -1613,6 +1704,7 @@
       "rank": 18,
       "topic": "directions",
       "type": "statement",
+      "function": "ability",
       "it": "Puoi andare a piedi.",
       "en": "You can go on foot.",
       "accepted": []
@@ -1622,6 +1714,7 @@
       "rank": 19,
       "topic": "directions",
       "type": "question",
+      "function": null,
       "it": "Quanto tempo ci vuole?",
       "en": "How long does it take?",
       "accepted": []
@@ -1631,6 +1724,7 @@
       "rank": 20,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "Ci vogliono dieci minuti a piedi.",
       "en": "It takes ten minutes on foot.",
       "accepted": []
@@ -1640,6 +1734,7 @@
       "rank": 21,
       "topic": "directions",
       "type": "question",
+      "function": null,
       "it": "C'è una fermata dell'autobus qui vicino?",
       "en": "Is there a bus stop nearby?",
       "accepted": []
@@ -1649,6 +1744,7 @@
       "rank": 22,
       "topic": "directions",
       "type": "question",
+      "function": "ability",
       "it": "Dove posso prendere un taxi?",
       "en": "Where can I catch a taxi?",
       "accepted": []
@@ -1658,6 +1754,7 @@
       "rank": 23,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "La metropolitana è sotto la piazza.",
       "en": "The subway is under the square.",
       "accepted": []
@@ -1667,6 +1764,7 @@
       "rank": 24,
       "topic": "directions",
       "type": "statement",
+      "function": null,
       "it": "Il ponte è a sinistra.",
       "en": "The bridge is on the left.",
       "accepted": []
@@ -1676,8 +1774,589 @@
       "rank": 25,
       "topic": "directions",
       "type": "negative",
+      "function": null,
       "it": "Non c'è nessun ristorante qui.",
       "en": "There's no restaurant here.",
+      "accepted": []
+    },
+    {
+      "id": "s76",
+      "rank": 26,
+      "topic": "everyday",
+      "type": "question",
+      "function": "ability",
+      "it": "Posso aiutarti?",
+      "en": "Can I help you?",
+      "accepted": []
+    },
+    {
+      "id": "s77",
+      "rank": 27,
+      "topic": "everyday",
+      "type": "negative",
+      "function": "ability",
+      "it": "Non posso venire domani.",
+      "en": "I can't come tomorrow.",
+      "accepted": []
+    },
+    {
+      "id": "s78",
+      "rank": 28,
+      "topic": "everyday",
+      "type": "question",
+      "function": "ability",
+      "it": "Sai nuotare?",
+      "en": "Can you swim?",
+      "accepted": []
+    },
+    {
+      "id": "s79",
+      "rank": 26,
+      "topic": "food",
+      "type": "statement",
+      "function": "ability",
+      "it": "So cucinare la pasta.",
+      "en": "I know how to cook pasta.",
+      "accepted": []
+    },
+    {
+      "id": "s80",
+      "rank": 29,
+      "topic": "everyday",
+      "type": "negative",
+      "function": "ability",
+      "it": "Non riesco ad aprire la porta.",
+      "en": "I can't manage to open the door.",
+      "accepted": []
+    },
+    {
+      "id": "s81",
+      "rank": 30,
+      "topic": "everyday",
+      "type": "question",
+      "function": "ability",
+      "it": "Puoi parlare più piano?",
+      "en": "Can you speak more slowly?",
+      "accepted": []
+    },
+    {
+      "id": "s82",
+      "rank": 31,
+      "topic": "everyday",
+      "type": "question",
+      "function": "ability",
+      "it": "Posso entrare?",
+      "en": "May I come in?",
+      "accepted": []
+    },
+    {
+      "id": "s83",
+      "rank": 32,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "ability",
+      "it": "Loro possono restare qui.",
+      "en": "They can stay here.",
+      "accepted": []
+    },
+    {
+      "id": "s84",
+      "rank": 27,
+      "topic": "food",
+      "type": "negative",
+      "function": "ability",
+      "it": "Non possiamo pagare adesso.",
+      "en": "We can't pay now.",
+      "accepted": []
+    },
+    {
+      "id": "s85",
+      "rank": 33,
+      "topic": "everyday",
+      "type": "negative",
+      "function": "ability",
+      "it": "Non so guidare.",
+      "en": "I don't know how to drive.",
+      "accepted": []
+    },
+    {
+      "id": "s86",
+      "rank": 34,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "necessity",
+      "it": "Devo studiare stasera.",
+      "en": "I have to study tonight.",
+      "accepted": []
+    },
+    {
+      "id": "s87",
+      "rank": 35,
+      "topic": "everyday",
+      "type": "negative",
+      "function": "necessity",
+      "it": "Non c'è bisogno di aspettare.",
+      "en": "There's no need to wait.",
+      "accepted": []
+    },
+    {
+      "id": "s88",
+      "rank": 28,
+      "topic": "food",
+      "type": "statement",
+      "function": "necessity",
+      "it": "Ho bisogno di un caffè.",
+      "en": "I need a coffee.",
+      "accepted": []
+    },
+    {
+      "id": "s89",
+      "rank": 36,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "necessity",
+      "it": "Dobbiamo partire presto.",
+      "en": "We have to leave early.",
+      "accepted": []
+    },
+    {
+      "id": "s90",
+      "rank": 37,
+      "topic": "everyday",
+      "type": "question",
+      "function": "necessity",
+      "it": "Hai bisogno di aiuto?",
+      "en": "Do you need help?",
+      "accepted": []
+    },
+    {
+      "id": "s91",
+      "rank": 26,
+      "topic": "directions",
+      "type": "statement",
+      "function": "necessity",
+      "it": "Devi prendere la prima strada a destra.",
+      "en": "You have to take the first street on the right.",
+      "accepted": []
+    },
+    {
+      "id": "s92",
+      "rank": 29,
+      "topic": "food",
+      "type": "statement",
+      "function": "necessity",
+      "it": "Devo pagare il conto.",
+      "en": "I have to pay the check.",
+      "accepted": []
+    },
+    {
+      "id": "s93",
+      "rank": 38,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "necessity",
+      "it": "Loro devono comprare il pane.",
+      "en": "They have to buy bread.",
+      "accepted": []
+    },
+    {
+      "id": "s94",
+      "rank": 39,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "necessity",
+      "it": "Dovete parlare con il dottore.",
+      "en": "You all have to talk to the doctor.",
+      "accepted": []
+    },
+    {
+      "id": "s95",
+      "rank": 40,
+      "topic": "everyday",
+      "type": "negative",
+      "function": "necessity",
+      "it": "Non ho bisogno di niente.",
+      "en": "I don't need anything.",
+      "accepted": []
+    },
+    {
+      "id": "s96",
+      "rank": 30,
+      "topic": "food",
+      "type": "request",
+      "function": "desire",
+      "it": "Vorrei dell'acqua.",
+      "en": "I'd like some water.",
+      "accepted": []
+    },
+    {
+      "id": "s97",
+      "rank": 41,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "desire",
+      "it": "Voglio imparare l'italiano.",
+      "en": "I want to learn Italian.",
+      "accepted": []
+    },
+    {
+      "id": "s98",
+      "rank": 42,
+      "topic": "everyday",
+      "type": "question",
+      "function": "desire",
+      "it": "Vuoi venire con noi?",
+      "en": "Do you want to come with us?",
+      "accepted": []
+    },
+    {
+      "id": "s99",
+      "rank": 43,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "desire",
+      "it": "Mi piacerebbe viaggiare in Italia.",
+      "en": "I'd like to travel in Italy.",
+      "accepted": []
+    },
+    {
+      "id": "s100",
+      "rank": 31,
+      "topic": "food",
+      "type": "request",
+      "function": "desire",
+      "it": "Desidero un tavolo vicino alla finestra.",
+      "en": "I'd like a table near the window.",
+      "accepted": []
+    },
+    {
+      "id": "s101",
+      "rank": 44,
+      "topic": "everyday",
+      "type": "negative",
+      "function": "desire",
+      "it": "Non voglio aspettare.",
+      "en": "I don't want to wait.",
+      "accepted": []
+    },
+    {
+      "id": "s102",
+      "rank": 45,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "desire",
+      "it": "Spero di vedere presto mia sorella.",
+      "en": "I hope to see my sister soon.",
+      "accepted": []
+    },
+    {
+      "id": "s103",
+      "rank": 32,
+      "topic": "food",
+      "type": "request",
+      "function": "desire",
+      "it": "Vorremmo due caffè, per favore.",
+      "en": "We'd like two coffees, please.",
+      "accepted": []
+    },
+    {
+      "id": "s104",
+      "rank": 33,
+      "topic": "food",
+      "type": "question",
+      "function": "desire",
+      "it": "Che cosa desidera?",
+      "en": "What would you like?",
+      "accepted": []
+    },
+    {
+      "id": "s105",
+      "rank": 46,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "desire",
+      "it": "Loro vogliono comprare una casa.",
+      "en": "They want to buy a house.",
+      "accepted": []
+    },
+    {
+      "id": "s106",
+      "rank": 47,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "habitual_past",
+      "it": "Da bambino ero molto timido.",
+      "en": "As a child I was very shy.",
+      "accepted": []
+    },
+    {
+      "id": "s107",
+      "rank": 48,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "habitual_past",
+      "it": "Quando ero piccolo, abitavo in campagna.",
+      "en": "When I was little, I lived in the countryside.",
+      "accepted": []
+    },
+    {
+      "id": "s108",
+      "rank": 34,
+      "topic": "food",
+      "type": "statement",
+      "function": "habitual_past",
+      "it": "Mangiavamo sempre insieme la domenica.",
+      "en": "We always used to eat together on Sundays.",
+      "accepted": []
+    },
+    {
+      "id": "s109",
+      "rank": 49,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "habitual_past",
+      "it": "Mio nonno leggeva il giornale ogni mattina.",
+      "en": "My grandfather used to read the newspaper every morning.",
+      "accepted": []
+    },
+    {
+      "id": "s110",
+      "rank": 50,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "habitual_past",
+      "it": "Da giovane avevo molti amici.",
+      "en": "When I was young I had many friends.",
+      "accepted": []
+    },
+    {
+      "id": "s111",
+      "rank": 51,
+      "topic": "everyday",
+      "type": "negative",
+      "function": "habitual_past",
+      "it": "Non uscivamo mai il lunedì.",
+      "en": "We never used to go out on Mondays.",
+      "accepted": []
+    },
+    {
+      "id": "s112",
+      "rank": 52,
+      "topic": "everyday",
+      "type": "question",
+      "function": "habitual_past",
+      "it": "Dove abitavi da bambino?",
+      "en": "Where did you live as a child?",
+      "accepted": []
+    },
+    {
+      "id": "s113",
+      "rank": 53,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "habitual_past",
+      "it": "Loro andavano al mare ogni estate.",
+      "en": "They used to go to the sea every summer.",
+      "accepted": []
+    },
+    {
+      "id": "s114",
+      "rank": 54,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "habitual_past",
+      "it": "Faceva molto freddo in quella casa.",
+      "en": "It used to be very cold in that house.",
+      "accepted": []
+    },
+    {
+      "id": "s115",
+      "rank": 55,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "habitual_past",
+      "it": "Da piccola ero sempre felice.",
+      "en": "As a little girl I was always happy.",
+      "accepted": []
+    },
+    {
+      "id": "s116",
+      "rank": 56,
+      "topic": "everyday",
+      "type": "question",
+      "function": "habitual_past",
+      "it": "Che cosa facevi da bambino?",
+      "en": "What did you do as a child?",
+      "accepted": []
+    },
+    {
+      "id": "s117",
+      "rank": 57,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "future_plans",
+      "it": "Domani andrò al mare.",
+      "en": "Tomorrow I'll go to the sea.",
+      "accepted": []
+    },
+    {
+      "id": "s118",
+      "rank": 58,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "future_plans",
+      "it": "Il prossimo anno vivrò in Italia.",
+      "en": "Next year I'll live in Italy.",
+      "accepted": []
+    },
+    {
+      "id": "s119",
+      "rank": 35,
+      "topic": "food",
+      "type": "statement",
+      "function": "future_plans",
+      "it": "Stasera cenerò con i miei amici.",
+      "en": "Tonight I'll have dinner with my friends.",
+      "accepted": []
+    },
+    {
+      "id": "s120",
+      "rank": 59,
+      "topic": "everyday",
+      "type": "question",
+      "function": "future_plans",
+      "it": "Che cosa farai questo fine settimana?",
+      "en": "What will you do this weekend?",
+      "accepted": []
+    },
+    {
+      "id": "s121",
+      "rank": 60,
+      "topic": "everyday",
+      "type": "negative",
+      "function": "future_plans",
+      "it": "Non lavorerò domenica.",
+      "en": "I won't work on Sunday.",
+      "accepted": []
+    },
+    {
+      "id": "s122",
+      "rank": 61,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "future_plans",
+      "it": "Ho intenzione di comprare una macchina nuova.",
+      "en": "I intend to buy a new car.",
+      "accepted": []
+    },
+    {
+      "id": "s123",
+      "rank": 62,
+      "topic": "everyday",
+      "type": "question",
+      "function": "future_plans",
+      "it": "Quando partirete?",
+      "en": "When will you leave?",
+      "accepted": []
+    },
+    {
+      "id": "s124",
+      "rank": 63,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "future_plans",
+      "it": "Arriverò alle otto e mezza.",
+      "en": "I'll arrive at half past eight.",
+      "accepted": []
+    },
+    {
+      "id": "s125",
+      "rank": 36,
+      "topic": "food",
+      "type": "statement",
+      "function": "future_plans",
+      "it": "Domani mangeremo in un ristorante nuovo.",
+      "en": "Tomorrow we'll eat at a new restaurant.",
+      "accepted": []
+    },
+    {
+      "id": "s126",
+      "rank": 37,
+      "topic": "food",
+      "type": "statement",
+      "function": "preference",
+      "it": "Preferisco il caffè al tè.",
+      "en": "I prefer coffee to tea.",
+      "accepted": []
+    },
+    {
+      "id": "s127",
+      "rank": 64,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "preference",
+      "it": "Mi piace la musica italiana.",
+      "en": "I like Italian music.",
+      "accepted": []
+    },
+    {
+      "id": "s128",
+      "rank": 38,
+      "topic": "food",
+      "type": "negative",
+      "function": "preference",
+      "it": "Non mi piace il pesce.",
+      "en": "I don't like fish.",
+      "accepted": []
+    },
+    {
+      "id": "s129",
+      "rank": 65,
+      "topic": "everyday",
+      "type": "question",
+      "function": "preference",
+      "it": "Ti piacciono i gatti?",
+      "en": "Do you like cats?",
+      "accepted": []
+    },
+    {
+      "id": "s130",
+      "rank": 39,
+      "topic": "food",
+      "type": "question",
+      "function": "preference",
+      "it": "Preferisci la pizza o la pasta?",
+      "en": "Do you prefer pizza or pasta?",
+      "accepted": []
+    },
+    {
+      "id": "s131",
+      "rank": 66,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "preference",
+      "it": "Mi piacciono molto i libri di storia.",
+      "en": "I really like history books.",
+      "accepted": []
+    },
+    {
+      "id": "s132",
+      "rank": 67,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "preference",
+      "it": "A mio fratello piace il calcio.",
+      "en": "My brother likes soccer.",
+      "accepted": []
+    },
+    {
+      "id": "s133",
+      "rank": 68,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "preference",
+      "it": "Preferiamo viaggiare in treno.",
+      "en": "We prefer to travel by train.",
       "accepted": []
     }
   ]

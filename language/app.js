@@ -78,10 +78,10 @@
   }
 
   // ---------- topic / type filters ----------
-  const FILTER_KEYS = { verbs: ['tense', 'person'], nouns: ['topic'], sentences: ['topic', 'type'] };
-  const FILTER_LABEL = { tense: 'Tense', person: 'Person', topic: 'Topic', type: 'Type' };
+  const FILTER_KEYS = { verbs: ['tense', 'person'], nouns: ['topic'], sentences: ['topic', 'type', 'function'] };
+  const FILTER_LABEL = { tense: 'Tense', person: 'Person', topic: 'Topic', type: 'Type', function: 'Function' };
   const DEFAULT_FILTERS = { verbs: { tense: 'present' } };
-  const filterList = (key) => ({ topic: data.topics, type: data.sentenceTypes, tense: data.tenseOptions, person: data.personOptions })[key];
+  const filterList = (key) => ({ topic: data.topics, type: data.sentenceTypes, tense: data.tenseOptions, person: data.personOptions, function: data.functions })[key];
   // Non-filtering options shown as extra pill rows (persisted in state.settings)
   const SETTINGS = {
     verbs: [{
@@ -156,8 +156,8 @@
       label: 'Sentences',
       desc: 'Translate by tapping the Italian words into the right order.',
       build: () => [
-        ...data.questions.map((s) => ({ id: `q:${s.id}`, rank: s.rank, topic: s.topic, type: s.type, s, isQuestion: true })),
-        ...data.sentences.map((s) => ({ id: `s:${s.id}`, rank: s.rank, topic: s.topic, type: s.type, s, isQuestion: false })),
+        ...data.questions.map((s) => ({ id: `q:${s.id}`, rank: s.rank, topic: s.topic, type: s.type, function: s.function, s, isQuestion: true })),
+        ...data.sentences.map((s) => ({ id: `s:${s.id}`, rank: s.rank, topic: s.topic, type: s.type, function: s.function, s, isQuestion: false })),
       ],
       render: renderSentence,
     },
@@ -459,7 +459,7 @@
       h('button', { class: 'btn secondary', onclick: () => finish(false, true) }, 'Show answer'));
 
     pane.append(h('div', { class: 'card' },
-      h('div', { class: 'eyebrow' }, ['Translate', labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic)].join(' \u00B7 ')),
+      h('div', { class: 'eyebrow' }, ['Translate', labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function && labelOf(data.functions, s.function)].filter(Boolean).join(' \u00B7 ')),
       h('div', { class: 'big' }, s.en), zone, bank, actions, feedback));
     refresh();
     keyHandler = (e) => { if (e.key === 'Enter') check(); };
@@ -486,9 +486,11 @@
       if (!gaveUp) zone.classList.add(ok ? 'correct' : 'wrong');
       ctx.grade(ok);
       const alt = (s.accepted || []);
+      const fnInfo = s.function && data.functions.find((f) => f.id === s.function);
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
         h('div', { class: 'answer' }, s.it),
         alt.length ? h('div', { class: 'note' }, 'Also accepted: ' + alt.join(' / ')) : null,
+        fnInfo ? h('div', { class: 'note' }, fnInfo.label + ' \u2014 ' + fnInfo.description) : null,
         h('div', { class: 'example' }, speakBtn(s.it), h('span', {}, s.en)),
         s.answers ? h('div', { class: 'example' }, speakBtn(s.answers[0].it),
           h('span', {}, 'Possible reply: ', h('span', { class: 'it' }, s.answers[0].it), ' — ' + s.answers[0].en)) : null));
@@ -565,11 +567,11 @@
     },
     sentences: {
       label: 'Sentences',
-      note: 'Practice sentences from the sentence builder, labelled by type and topic.',
-      head: ['#', 'Italian', 'English', 'Type', 'Topic', 'Status'],
+      note: 'Practice sentences from the sentence builder, labelled by type, topic and function.',
+      head: ['#', 'Italian', 'English', 'Type', 'Topic', 'Function', 'Status'],
       rows: () => data.sentences.map((s, i) => ({
-        search: [s.it, s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic)].join(' '),
-        cells: [i + 1, it(s.it), s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), statusCell(`s:${s.id}`)],
+        search: [s.it, s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : ''].join(' '),
+        cells: [i + 1, it(s.it), s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : '\u2014', statusCell(`s:${s.id}`)],
       })),
     },
   };
