@@ -1,0 +1,1549 @@
+{
+  "language": "it",
+  "name": "Italian",
+  "persons": ["io", "tu", "lui", "noi", "voi", "loro"],
+  "topics": [
+    { "id": "everyday", "label": "Everyday" },
+    { "id": "food", "label": "Ordering food" },
+    { "id": "directions", "label": "Directions" },
+    { "id": "bathroom", "label": "Bathroom" }
+  ],
+  "sentenceTypes": [
+    { "id": "statement", "label": "Statement", "description": "A plain affirmative sentence." },
+    { "id": "negative", "label": "Negative", "description": "A sentence with non or nessuno." },
+    { "id": "question", "label": "Question", "description": "A sentence that asks something." },
+    { "id": "request", "label": "Request / command", "description": "Asks or tells someone to do something, or orders (Vorrei..., Giri a destra)." }
+  ],
+  "verbs": [
+    {
+      "id": "essere",
+      "en": "to be",
+      "rank": 1,
+      "auxiliary": "essere",
+      "participle": "stato",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "sono", "tu": "sei", "lui": "è", "noi": "siamo", "voi": "siete", "loro": "sono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Noi siamo a casa.", "en": "We are at home." }
+      ]
+    },
+    {
+      "id": "avere",
+      "en": "to have",
+      "rank": 2,
+      "auxiliary": "avere",
+      "participle": "avuto",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "ho", "tu": "hai", "lui": "ha", "noi": "abbiamo", "voi": "avete", "loro": "hanno" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Ho due fratelli.", "en": "I have two brothers." }
+      ]
+    },
+    {
+      "id": "fare",
+      "en": "to do / to make",
+      "rank": 3,
+      "auxiliary": "avere",
+      "participle": "fatto",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "faccio", "tu": "fai", "lui": "fa", "noi": "facciamo", "voi": "fate", "loro": "fanno" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Che cosa fai oggi?", "en": "What are you doing today?" }
+      ]
+    },
+    {
+      "id": "dire",
+      "en": "to say / to tell",
+      "rank": 4,
+      "auxiliary": "avere",
+      "participle": "detto",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "dico", "tu": "dici", "lui": "dice", "noi": "diciamo", "voi": "dite", "loro": "dicono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Lei dice la verità.", "en": "She tells the truth." }
+      ]
+    },
+    {
+      "id": "andare",
+      "en": "to go",
+      "rank": 5,
+      "auxiliary": "essere",
+      "participle": "andato",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "vado", "tu": "vai", "lui": "va", "noi": "andiamo", "voi": "andate", "loro": "vanno" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Vado a scuola in treno.", "en": "I go to school by train." }
+      ]
+    },
+    {
+      "id": "potere",
+      "en": "to be able to / can",
+      "rank": 6,
+      "auxiliary": "avere",
+      "participle": "potuto",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "posso", "tu": "puoi", "lui": "può", "noi": "possiamo", "voi": "potete", "loro": "possono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Puoi aiutarmi?", "en": "Can you help me?" }
+      ]
+    },
+    {
+      "id": "volere",
+      "en": "to want",
+      "rank": 7,
+      "auxiliary": "avere",
+      "participle": "voluto",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "voglio", "tu": "vuoi", "lui": "vuole", "noi": "vogliamo", "voi": "volete", "loro": "vogliono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Voglio un caffè.", "en": "I want a coffee." }
+      ]
+    },
+    {
+      "id": "vedere",
+      "en": "to see",
+      "rank": 8,
+      "auxiliary": "avere",
+      "participle": "visto",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "vedo", "tu": "vedi", "lui": "vede", "noi": "vediamo", "voi": "vedete", "loro": "vedono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Vedo un gatto nel giardino.", "en": "I see a cat in the garden." }
+      ]
+    },
+    {
+      "id": "sapere",
+      "en": "to know (a fact) / to know how",
+      "rank": 9,
+      "auxiliary": "avere",
+      "participle": "saputo",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "so", "tu": "sai", "lui": "sa", "noi": "sappiamo", "voi": "sapete", "loro": "sanno" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Non so la risposta.", "en": "I don't know the answer." }
+      ]
+    },
+    {
+      "id": "dare",
+      "en": "to give",
+      "rank": 10,
+      "auxiliary": "avere",
+      "participle": "dato",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "do", "tu": "dai", "lui": "dà", "noi": "diamo", "voi": "date", "loro": "danno" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Ti do il mio numero.", "en": "I give you my number." }
+      ]
+    },
+    {
+      "id": "stare",
+      "en": "to stay / to be (feeling)",
+      "rank": 11,
+      "auxiliary": "essere",
+      "participle": "stato",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "sto", "tu": "stai", "lui": "sta", "noi": "stiamo", "voi": "state", "loro": "stanno" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Come stai?", "en": "How are you?" }
+      ]
+    },
+    {
+      "id": "venire",
+      "en": "to come",
+      "rank": 12,
+      "auxiliary": "essere",
+      "participle": "venuto",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "vengo", "tu": "vieni", "lui": "viene", "noi": "veniamo", "voi": "venite", "loro": "vengono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Vieni con noi?", "en": "Are you coming with us?" }
+      ]
+    },
+    {
+      "id": "dovere",
+      "en": "to have to / must",
+      "rank": 13,
+      "auxiliary": "avere",
+      "participle": "dovuto",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "devo", "tu": "devi", "lui": "deve", "noi": "dobbiamo", "voi": "dovete", "loro": "devono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Devo lavorare domani.", "en": "I have to work tomorrow." }
+      ]
+    },
+    {
+      "id": "parlare",
+      "en": "to speak",
+      "rank": 14,
+      "auxiliary": "avere",
+      "participle": "parlato",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "parlo", "tu": "parli", "lui": "parla", "noi": "parliamo", "voi": "parlate", "loro": "parlano" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Parliamo italiano.", "en": "We speak Italian." }
+      ]
+    },
+    {
+      "id": "prendere",
+      "en": "to take / to have (food, drink)",
+      "rank": 15,
+      "auxiliary": "avere",
+      "participle": "preso",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "prendo", "tu": "prendi", "lui": "prende", "noi": "prendiamo", "voi": "prendete", "loro": "prendono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Prendo un caffè al bar.", "en": "I'm having a coffee at the café." }
+      ]
+    },
+    {
+      "id": "trovare",
+      "en": "to find",
+      "rank": 16,
+      "auxiliary": "avere",
+      "participle": "trovato",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "trovo", "tu": "trovi", "lui": "trova", "noi": "troviamo", "voi": "trovate", "loro": "trovano" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Non trovo le chiavi.", "en": "I can't find the keys." }
+      ]
+    },
+    {
+      "id": "pensare",
+      "en": "to think",
+      "rank": 17,
+      "auxiliary": "avere",
+      "participle": "pensato",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "penso", "tu": "pensi", "lui": "pensa", "noi": "pensiamo", "voi": "pensate", "loro": "pensano" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Penso a mia madre.", "en": "I think about my mother." }
+      ]
+    },
+    {
+      "id": "mettere",
+      "en": "to put",
+      "rank": 18,
+      "auxiliary": "avere",
+      "participle": "messo",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "metto", "tu": "metti", "lui": "mette", "noi": "mettiamo", "voi": "mettete", "loro": "mettono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Metto il libro sul tavolo.", "en": "I put the book on the table." }
+      ]
+    },
+    {
+      "id": "vivere",
+      "en": "to live",
+      "rank": 19,
+      "auxiliary": "avere",
+      "participle": "vissuto",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "vivo", "tu": "vivi", "lui": "vive", "noi": "viviamo", "voi": "vivete", "loro": "vivono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Vivono in una piccola città.", "en": "They live in a small city." }
+      ]
+    },
+    {
+      "id": "capire",
+      "en": "to understand",
+      "rank": 20,
+      "auxiliary": "avere",
+      "participle": "capito",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "capisco", "tu": "capisci", "lui": "capisce", "noi": "capiamo", "voi": "capite", "loro": "capiscono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Non capisco la domanda.", "en": "I don't understand the question." }
+      ]
+    },
+    {
+      "id": "chiamare",
+      "en": "to call",
+      "rank": 21,
+      "auxiliary": "avere",
+      "participle": "chiamato",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "chiamo", "tu": "chiami", "lui": "chiama", "noi": "chiamiamo", "voi": "chiamate", "loro": "chiamano" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Chiamo mio padre.", "en": "I call my father." }
+      ]
+    },
+    {
+      "id": "lavorare",
+      "en": "to work",
+      "rank": 22,
+      "auxiliary": "avere",
+      "participle": "lavorato",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "lavoro", "tu": "lavori", "lui": "lavora", "noi": "lavoriamo", "voi": "lavorate", "loro": "lavorano" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Mia madre lavora in ospedale.", "en": "My mother works at a hospital." }
+      ]
+    },
+    {
+      "id": "mangiare",
+      "en": "to eat",
+      "rank": 23,
+      "auxiliary": "avere",
+      "participle": "mangiato",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "mangio", "tu": "mangi", "lui": "mangia", "noi": "mangiamo", "voi": "mangiate", "loro": "mangiano" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Mangiamo la pizza stasera.", "en": "We're eating pizza tonight." }
+      ]
+    },
+    {
+      "id": "leggere",
+      "en": "to read",
+      "rank": 24,
+      "auxiliary": "avere",
+      "participle": "letto",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "leggo", "tu": "leggi", "lui": "legge", "noi": "leggiamo", "voi": "leggete", "loro": "leggono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Leggi un libro?", "en": "Are you reading a book?" }
+      ]
+    },
+    {
+      "id": "amare",
+      "en": "to love",
+      "rank": 25,
+      "auxiliary": "avere",
+      "participle": "amato",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "amo", "tu": "ami", "lui": "ama", "noi": "amiamo", "voi": "amate", "loro": "amano" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Amo la mia famiglia.", "en": "I love my family." }
+      ]
+    },
+    {
+      "id": "abitare",
+      "en": "to live (reside)",
+      "rank": 26,
+      "auxiliary": "avere",
+      "participle": "abitato",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "abito", "tu": "abiti", "lui": "abita", "noi": "abitiamo", "voi": "abitate", "loro": "abitano" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Abito in una casa grande.", "en": "I live in a big house." }
+      ]
+    },
+    {
+      "id": "bere",
+      "en": "to drink",
+      "rank": 27,
+      "auxiliary": "avere",
+      "participle": "bevuto",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "bevo", "tu": "bevi", "lui": "beve", "noi": "beviamo", "voi": "bevete", "loro": "bevono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Bevo acqua.", "en": "I drink water." }
+      ]
+    },
+    {
+      "id": "uscire",
+      "en": "to go out",
+      "rank": 28,
+      "auxiliary": "essere",
+      "participle": "uscito",
+      "irregular": true,
+      "tenses": {
+        "present": { "io": "esco", "tu": "esci", "lui": "esce", "noi": "usciamo", "voi": "uscite", "loro": "escono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Esco alle otto.", "en": "I go out at eight." }
+      ]
+    },
+    {
+      "id": "finire",
+      "en": "to finish / to end",
+      "rank": 29,
+      "auxiliary": "avere",
+      "participle": "finito",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "finisco", "tu": "finisci", "lui": "finisce", "noi": "finiamo", "voi": "finite", "loro": "finiscono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Il film finisce tardi.", "en": "The movie ends late." }
+      ]
+    },
+    {
+      "id": "scrivere",
+      "en": "to write",
+      "rank": 30,
+      "auxiliary": "avere",
+      "participle": "scritto",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "scrivo", "tu": "scrivi", "lui": "scrive", "noi": "scriviamo", "voi": "scrivete", "loro": "scrivono" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Scrivo un'email.", "en": "I'm writing an email." }
+      ]
+    }
+  ],
+  "nouns": [
+    { "id": "casa", "en": "house / home", "rank": 1, "topic": "everyday", "gender": "f", "art": "la", "plural": "case" },
+    { "id": "anno", "en": "year", "rank": 2, "topic": "everyday", "gender": "m", "art": "l'", "plural": "anni" },
+    { "id": "giorno", "en": "day", "rank": 3, "topic": "everyday", "gender": "m", "art": "il", "plural": "giorni" },
+    { "id": "uomo", "en": "man", "rank": 4, "topic": "everyday", "gender": "m", "art": "l'", "plural": "uomini" },
+    { "id": "donna", "en": "woman", "rank": 5, "topic": "everyday", "gender": "f", "art": "la", "plural": "donne" },
+    { "id": "tempo", "en": "time / weather", "rank": 6, "topic": "everyday", "gender": "m", "art": "il", "plural": "tempi" },
+    { "id": "vita", "en": "life", "rank": 7, "topic": "everyday", "gender": "f", "art": "la", "plural": "vite" },
+    { "id": "cosa", "en": "thing", "rank": 8, "topic": "everyday", "gender": "f", "art": "la", "plural": "cose" },
+    { "id": "persona", "en": "person", "rank": 9, "topic": "everyday", "gender": "f", "art": "la", "plural": "persone" },
+    { "id": "mano", "en": "hand", "rank": 10, "topic": "everyday", "gender": "f", "art": "la", "plural": "mani" },
+    { "id": "amico", "en": "friend (m)", "rank": 11, "topic": "everyday", "gender": "m", "art": "l'", "plural": "amici" },
+    { "id": "ragazzo", "en": "boy / boyfriend", "rank": 12, "topic": "everyday", "gender": "m", "art": "il", "plural": "ragazzi" },
+    { "id": "ragazza", "en": "girl / girlfriend", "rank": 13, "topic": "everyday", "gender": "f", "art": "la", "plural": "ragazze" },
+    { "id": "bambino", "en": "child (m)", "rank": 14, "topic": "everyday", "gender": "m", "art": "il", "plural": "bambini" },
+    { "id": "padre", "en": "father", "rank": 15, "topic": "everyday", "gender": "m", "art": "il", "plural": "padri" },
+    { "id": "madre", "en": "mother", "rank": 16, "topic": "everyday", "gender": "f", "art": "la", "plural": "madri" },
+    { "id": "fratello", "en": "brother", "rank": 17, "topic": "everyday", "gender": "m", "art": "il", "plural": "fratelli" },
+    { "id": "sorella", "en": "sister", "rank": 18, "topic": "everyday", "gender": "f", "art": "la", "plural": "sorelle" },
+    { "id": "figlio", "en": "son", "rank": 19, "topic": "everyday", "gender": "m", "art": "il", "plural": "figli" },
+    { "id": "famiglia", "en": "family", "rank": 20, "topic": "everyday", "gender": "f", "art": "la", "plural": "famiglie" },
+    { "id": "città", "en": "city", "rank": 21, "topic": "everyday", "gender": "f", "art": "la", "plural": "città" },
+    { "id": "paese", "en": "country / village", "rank": 22, "topic": "everyday", "gender": "m", "art": "il", "plural": "paesi" },
+    { "id": "mondo", "en": "world", "rank": 23, "topic": "everyday", "gender": "m", "art": "il", "plural": "mondi" },
+    { "id": "lavoro", "en": "work / job", "rank": 24, "topic": "everyday", "gender": "m", "art": "il", "plural": "lavori" },
+    { "id": "scuola", "en": "school", "rank": 25, "topic": "everyday", "gender": "f", "art": "la", "plural": "scuole" },
+    { "id": "strada", "en": "street / road", "rank": 26, "topic": "everyday", "gender": "f", "art": "la", "plural": "strade" },
+    { "id": "nome", "en": "name", "rank": 27, "topic": "everyday", "gender": "m", "art": "il", "plural": "nomi" },
+    { "id": "parola", "en": "word", "rank": 28, "topic": "everyday", "gender": "f", "art": "la", "plural": "parole" },
+    { "id": "domanda", "en": "question", "rank": 29, "topic": "everyday", "gender": "f", "art": "la", "plural": "domande" },
+    { "id": "acqua", "en": "water", "rank": 30, "topic": "everyday", "gender": "f", "art": "l'", "plural": "acque" },
+    { "id": "pane", "en": "bread", "rank": 31, "topic": "everyday", "gender": "m", "art": "il", "plural": "pani" },
+    { "id": "vino", "en": "wine", "rank": 32, "topic": "everyday", "gender": "m", "art": "il", "plural": "vini" },
+    { "id": "caffè", "en": "coffee", "rank": 33, "topic": "everyday", "gender": "m", "art": "il", "plural": "caffè" },
+    { "id": "libro", "en": "book", "rank": 34, "topic": "everyday", "gender": "m", "art": "il", "plural": "libri" },
+    { "id": "tavolo", "en": "table", "rank": 35, "topic": "everyday", "gender": "m", "art": "il", "plural": "tavoli" },
+    { "id": "porta", "en": "door", "rank": 36, "topic": "everyday", "gender": "f", "art": "la", "plural": "porte" },
+    { "id": "finestra", "en": "window", "rank": 37, "topic": "everyday", "gender": "f", "art": "la", "plural": "finestre" },
+    { "id": "macchina", "en": "car / machine", "rank": 38, "topic": "everyday", "gender": "f", "art": "la", "plural": "macchine" },
+    { "id": "treno", "en": "train", "rank": 39, "topic": "everyday", "gender": "m", "art": "il", "plural": "treni" },
+    { "id": "telefono", "en": "telephone", "rank": 40, "topic": "everyday", "gender": "m", "art": "il", "plural": "telefoni" },
+    { "id": "ristorante", "en": "restaurant", "rank": 41, "topic": "everyday", "gender": "m", "art": "il", "plural": "ristoranti" },
+    { "id": "ospedale", "en": "hospital", "rank": 42, "topic": "everyday", "gender": "m", "art": "l'", "plural": "ospedali" },
+    { "id": "studente", "en": "student (m)", "rank": 43, "topic": "everyday", "gender": "m", "art": "lo", "plural": "studenti" },
+    { "id": "zaino", "en": "backpack", "rank": 44, "topic": "everyday", "gender": "m", "art": "lo", "plural": "zaini" },
+    { "id": "zio", "en": "uncle", "rank": 45, "topic": "everyday", "gender": "m", "art": "lo", "plural": "zii" },
+    { "id": "stato", "en": "state / country", "rank": 46, "topic": "everyday", "gender": "m", "art": "lo", "plural": "stati" },
+    { "id": "sbaglio", "en": "mistake", "rank": 47, "topic": "everyday", "gender": "m", "art": "lo", "plural": "sbagli" },
+    { "id": "sport", "en": "sport", "rank": 48, "topic": "everyday", "gender": "m", "art": "lo", "plural": "sport" },
+    { "id": "amica", "en": "friend (f)", "rank": 49, "topic": "everyday", "gender": "f", "art": "l'", "plural": "amiche" },
+    { "id": "idea", "en": "idea", "rank": 50, "topic": "everyday", "gender": "f", "art": "l'", "plural": "idee" },
+    { "id": "ora", "en": "hour / time", "rank": 51, "topic": "everyday", "gender": "f", "art": "l'", "plural": "ore" },
+    { "id": "occhio", "en": "eye", "rank": 52, "topic": "everyday", "gender": "m", "art": "l'", "plural": "occhi" },
+    { "id": "albero", "en": "tree", "rank": 53, "topic": "everyday", "gender": "m", "art": "l'", "plural": "alberi" },
+    { "id": "aeroporto", "en": "airport", "rank": 54, "topic": "everyday", "gender": "m", "art": "l'", "plural": "aeroporti" },
+    { "id": "università", "en": "university", "rank": 55, "topic": "everyday", "gender": "f", "art": "l'", "plural": "università" },
+    { "id": "testa", "en": "head", "rank": 56, "topic": "everyday", "gender": "f", "art": "la", "plural": "teste" },
+    { "id": "cuore", "en": "heart", "rank": 57, "topic": "everyday", "gender": "m", "art": "il", "plural": "cuori" },
+    { "id": "gatto", "en": "cat", "rank": 58, "topic": "everyday", "gender": "m", "art": "il", "plural": "gatti" },
+    { "id": "cane", "en": "dog", "rank": 59, "topic": "everyday", "gender": "m", "art": "il", "plural": "cani" },
+    { "id": "mare", "en": "sea", "rank": 60, "topic": "everyday", "gender": "m", "art": "il", "plural": "mari" },
+    { "id": "sole", "en": "sun", "rank": 61, "topic": "everyday", "gender": "m", "art": "il", "plural": "soli" },
+    { "id": "notte", "en": "night", "rank": 62, "topic": "everyday", "gender": "f", "art": "la", "plural": "notti" },
+    { "id": "problema", "en": "problem", "rank": 63, "topic": "everyday", "gender": "m", "art": "il", "plural": "problemi" },
+    { "id": "esempio", "en": "example", "rank": 64, "topic": "everyday", "gender": "m", "art": "l'", "plural": "esempi" },
+    { "id": "orologio", "en": "watch / clock", "rank": 65, "topic": "everyday", "gender": "m", "art": "l'", "plural": "orologi" },
+    { "id": "psicologo", "en": "psychologist (m)", "rank": 66, "topic": "everyday", "gender": "m", "art": "lo", "plural": "psicologi" },
+    { "id": "scontrino", "en": "receipt", "rank": 67, "topic": "everyday", "gender": "m", "art": "lo", "plural": "scontrini" },
+    { "id": "bagno", "en": "bathroom", "rank": 1, "topic": "bathroom", "gender": "m", "art": "il", "plural": "bagni" },
+    { "id": "doccia", "en": "shower", "rank": 2, "topic": "bathroom", "gender": "f", "art": "la", "plural": "docce" },
+    { "id": "vasca", "en": "bathtub", "rank": 3, "topic": "bathroom", "gender": "f", "art": "la", "plural": "vasche" },
+    { "id": "lavandino", "en": "sink", "rank": 4, "topic": "bathroom", "gender": "m", "art": "il", "plural": "lavandini" },
+    { "id": "rubinetto", "en": "faucet / tap", "rank": 5, "topic": "bathroom", "gender": "m", "art": "il", "plural": "rubinetti" },
+    { "id": "gabinetto", "en": "toilet", "rank": 6, "topic": "bathroom", "gender": "m", "art": "il", "plural": "gabinetti" },
+    { "id": "bidet", "en": "bidet", "rank": 7, "topic": "bathroom", "gender": "m", "art": "il", "plural": "bidet" },
+    { "id": "specchio", "en": "mirror", "rank": 8, "topic": "bathroom", "gender": "m", "art": "lo", "plural": "specchi" },
+    { "id": "asciugamano", "en": "towel", "rank": 9, "topic": "bathroom", "gender": "m", "art": "l'", "plural": "asciugamani" },
+    { "id": "sapone", "en": "soap", "rank": 10, "topic": "bathroom", "gender": "m", "art": "il", "plural": "saponi" },
+    { "id": "shampoo", "en": "shampoo", "rank": 11, "topic": "bathroom", "gender": "m", "art": "lo", "plural": "shampoo" },
+    { "id": "carta igienica", "en": "toilet paper", "rank": 12, "topic": "bathroom", "gender": "f", "art": "la", "plural": "carte igieniche" },
+    { "id": "spazzolino", "en": "toothbrush", "rank": 13, "topic": "bathroom", "gender": "m", "art": "lo", "plural": "spazzolini" },
+    { "id": "dentifricio", "en": "toothpaste", "rank": 14, "topic": "bathroom", "gender": "m", "art": "il", "plural": "dentifrici" },
+    { "id": "pettine", "en": "comb", "rank": 15, "topic": "bathroom", "gender": "m", "art": "il", "plural": "pettini" },
+    { "id": "rasoio", "en": "razor", "rank": 16, "topic": "bathroom", "gender": "m", "art": "il", "plural": "rasoi" },
+    { "id": "asciugacapelli", "en": "hair dryer", "rank": 17, "topic": "bathroom", "gender": "m", "art": "l'", "plural": "asciugacapelli" },
+    { "id": "pattumiera", "en": "trash can", "rank": 18, "topic": "bathroom", "gender": "f", "art": "la", "plural": "pattumiere" }
+  ],
+  "adjectives": [
+    {
+      "id": "buono",
+      "en": "good",
+      "rank": 1,
+      "forms": { "ms": "buono", "fs": "buona", "mp": "buoni", "fp": "buone" }
+    },
+    {
+      "id": "grande",
+      "en": "big / great",
+      "rank": 2,
+      "forms": { "ms": "grande", "fs": "grande", "mp": "grandi", "fp": "grandi" }
+    },
+    {
+      "id": "piccolo",
+      "en": "small",
+      "rank": 3,
+      "forms": { "ms": "piccolo", "fs": "piccola", "mp": "piccoli", "fp": "piccole" }
+    },
+    {
+      "id": "nuovo",
+      "en": "new",
+      "rank": 4,
+      "forms": { "ms": "nuovo", "fs": "nuova", "mp": "nuovi", "fp": "nuove" }
+    },
+    {
+      "id": "vecchio",
+      "en": "old",
+      "rank": 5,
+      "forms": { "ms": "vecchio", "fs": "vecchia", "mp": "vecchi", "fp": "vecchie" }
+    },
+    {
+      "id": "bello",
+      "en": "beautiful",
+      "rank": 6,
+      "forms": { "ms": "bello", "fs": "bella", "mp": "belli", "fp": "belle" }
+    },
+    {
+      "id": "giovane",
+      "en": "young",
+      "rank": 7,
+      "forms": { "ms": "giovane", "fs": "giovane", "mp": "giovani", "fp": "giovani" }
+    },
+    {
+      "id": "importante",
+      "en": "important",
+      "rank": 8,
+      "forms": { "ms": "importante", "fs": "importante", "mp": "importanti", "fp": "importanti" }
+    },
+    {
+      "id": "difficile",
+      "en": "difficult",
+      "rank": 9,
+      "forms": { "ms": "difficile", "fs": "difficile", "mp": "difficili", "fp": "difficili" }
+    },
+    {
+      "id": "facile",
+      "en": "easy",
+      "rank": 10,
+      "forms": { "ms": "facile", "fs": "facile", "mp": "facili", "fp": "facili" }
+    },
+    {
+      "id": "alto",
+      "en": "tall / high",
+      "rank": 11,
+      "forms": { "ms": "alto", "fs": "alta", "mp": "alti", "fp": "alte" }
+    },
+    {
+      "id": "basso",
+      "en": "short / low",
+      "rank": 12,
+      "forms": { "ms": "basso", "fs": "bassa", "mp": "bassi", "fp": "basse" }
+    },
+    {
+      "id": "felice",
+      "en": "happy",
+      "rank": 13,
+      "forms": { "ms": "felice", "fs": "felice", "mp": "felici", "fp": "felici" }
+    },
+    {
+      "id": "stanco",
+      "en": "tired",
+      "rank": 14,
+      "forms": { "ms": "stanco", "fs": "stanca", "mp": "stanchi", "fp": "stanche" }
+    },
+    {
+      "id": "caldo",
+      "en": "hot",
+      "rank": 15,
+      "forms": { "ms": "caldo", "fs": "calda", "mp": "caldi", "fp": "calde" }
+    },
+    {
+      "id": "freddo",
+      "en": "cold",
+      "rank": 16,
+      "forms": { "ms": "freddo", "fs": "fredda", "mp": "freddi", "fp": "fredde" }
+    },
+    {
+      "id": "lungo",
+      "en": "long",
+      "rank": 17,
+      "forms": { "ms": "lungo", "fs": "lunga", "mp": "lunghi", "fp": "lunghe" }
+    },
+    {
+      "id": "bravo",
+      "en": "good at / skilled",
+      "rank": 18,
+      "forms": { "ms": "bravo", "fs": "brava", "mp": "bravi", "fp": "brave" }
+    },
+    {
+      "id": "simpatico",
+      "en": "nice / likeable",
+      "rank": 19,
+      "forms": { "ms": "simpatico", "fs": "simpatica", "mp": "simpatici", "fp": "simpatiche" }
+    },
+    {
+      "id": "interessante",
+      "en": "interesting",
+      "rank": 20,
+      "forms": { "ms": "interessante", "fs": "interessante", "mp": "interessanti", "fp": "interessanti" }
+    }
+  ],
+  "numbers": [
+    { "value": 1, "it": "uno", "rank": 1 },
+    { "value": 2, "it": "due", "rank": 2 },
+    { "value": 3, "it": "tre", "rank": 3 },
+    { "value": 4, "it": "quattro", "rank": 4 },
+    { "value": 5, "it": "cinque", "rank": 5 },
+    { "value": 6, "it": "sei", "rank": 6 },
+    { "value": 7, "it": "sette", "rank": 7 },
+    { "value": 8, "it": "otto", "rank": 8 },
+    { "value": 9, "it": "nove", "rank": 9 },
+    { "value": 10, "it": "dieci", "rank": 10 },
+    { "value": 11, "it": "undici", "rank": 11 },
+    { "value": 12, "it": "dodici", "rank": 12 },
+    { "value": 13, "it": "tredici", "rank": 13 },
+    { "value": 14, "it": "quattordici", "rank": 14 },
+    { "value": 15, "it": "quindici", "rank": 15 },
+    { "value": 16, "it": "sedici", "rank": 16 },
+    { "value": 17, "it": "diciassette", "rank": 17 },
+    { "value": 18, "it": "diciotto", "rank": 18 },
+    { "value": 19, "it": "diciannove", "rank": 19 },
+    { "value": 20, "it": "venti", "rank": 20 },
+    { "value": 30, "it": "trenta", "rank": 21 },
+    { "value": 40, "it": "quaranta", "rank": 22 },
+    { "value": 50, "it": "cinquanta", "rank": 23 },
+    { "value": 60, "it": "sessanta", "rank": 24 },
+    { "value": 70, "it": "settanta", "rank": 25 },
+    { "value": 80, "it": "ottanta", "rank": 26 },
+    { "value": 90, "it": "novanta", "rank": 27 },
+    { "value": 100, "it": "cento", "rank": 28 }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "rank": 1,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Come stai?",
+      "en": "How are you?",
+      "word": "come",
+      "answers": [
+        { "it": "Sto bene, grazie.", "en": "I'm well, thanks." }
+      ]
+    },
+    {
+      "id": "q2",
+      "rank": 2,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Come ti chiami?",
+      "en": "What's your name?",
+      "word": "come",
+      "answers": [
+        { "it": "Mi chiamo Luca.", "en": "My name is Luca." }
+      ]
+    },
+    {
+      "id": "q3",
+      "rank": 3,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Dove abiti?",
+      "en": "Where do you live?",
+      "word": "dove",
+      "answers": [
+        { "it": "Abito in una piccola città.", "en": "I live in a small city." }
+      ]
+    },
+    {
+      "id": "q4",
+      "rank": 4,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Che cosa vuoi?",
+      "en": "What do you want?",
+      "word": "che cosa",
+      "answers": [
+        { "it": "Voglio un caffè.", "en": "I want a coffee." }
+      ]
+    },
+    {
+      "id": "q5",
+      "rank": 5,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Quanti anni hai?",
+      "en": "How old are you?",
+      "word": "quanto",
+      "answers": [
+        { "it": "Ho venticinque anni.", "en": "I'm twenty-five." }
+      ]
+    },
+    {
+      "id": "q6",
+      "rank": 6,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Chi è quella ragazza?",
+      "en": "Who is that girl?",
+      "word": "chi",
+      "answers": [
+        { "it": "È mia sorella.", "en": "She's my sister." }
+      ]
+    },
+    {
+      "id": "q7",
+      "rank": 7,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Perché studi italiano?",
+      "en": "Why are you studying Italian?",
+      "word": "perché",
+      "answers": [
+        { "it": "Perché mi piace la lingua.", "en": "Because I like the language." }
+      ]
+    },
+    {
+      "id": "q8",
+      "rank": 8,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Quando arriva il treno?",
+      "en": "When does the train arrive?",
+      "word": "quando",
+      "answers": [
+        { "it": "Arriva alle otto.", "en": "It arrives at eight." }
+      ]
+    },
+    {
+      "id": "q9",
+      "rank": 9,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Dove vai oggi?",
+      "en": "Where are you going today?",
+      "word": "dove",
+      "answers": [
+        { "it": "Vado al lavoro.", "en": "I'm going to work." }
+      ]
+    },
+    {
+      "id": "q10",
+      "rank": 10,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Che ore sono?",
+      "en": "What time is it?",
+      "word": "che",
+      "answers": [
+        { "it": "Sono le tre.", "en": "It's three o'clock." }
+      ]
+    },
+    {
+      "id": "q11",
+      "rank": 11,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Di dove sei?",
+      "en": "Where are you from?",
+      "word": "dove",
+      "answers": [
+        { "it": "Sono di Roma.", "en": "I'm from Rome." }
+      ]
+    },
+    {
+      "id": "q12",
+      "rank": 12,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Quanto costa il libro?",
+      "en": "How much does the book cost?",
+      "word": "quanto",
+      "answers": [
+        { "it": "Costa dieci euro.", "en": "It costs ten euros." }
+      ]
+    },
+    {
+      "id": "q13",
+      "rank": 13,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Parli inglese?",
+      "en": "Do you speak English?",
+      "word": null,
+      "answers": [
+        { "it": "Sì, parlo inglese.", "en": "Yes, I speak English." }
+      ]
+    },
+    {
+      "id": "q14",
+      "rank": 14,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Puoi aiutarmi?",
+      "en": "Can you help me?",
+      "word": null,
+      "answers": [
+        { "it": "Certo, dimmi pure.", "en": "Of course, go ahead." }
+      ]
+    },
+    {
+      "id": "q15",
+      "rank": 15,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Dov'è la stazione?",
+      "en": "Where is the station?",
+      "word": "dove",
+      "answers": [
+        { "it": "È a destra.", "en": "It's on the right." }
+      ]
+    },
+    {
+      "id": "q16",
+      "rank": 16,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Cosa fai nel tempo libero?",
+      "en": "What do you do in your free time?",
+      "word": "cosa",
+      "answers": [
+        { "it": "Leggo e cammino.", "en": "I read and I walk." }
+      ]
+    }
+  ],
+  "sentences": [
+    {
+      "id": "s1",
+      "rank": 1,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Io mangio la pizza.",
+      "en": "I eat pizza.",
+      "accepted": []
+    },
+    {
+      "id": "s2",
+      "rank": 2,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Ho un cane e un gatto.",
+      "en": "I have a dog and a cat.",
+      "accepted": []
+    },
+    {
+      "id": "s3",
+      "rank": 3,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Noi andiamo a scuola.",
+      "en": "We go to school.",
+      "accepted": []
+    },
+    {
+      "id": "s4",
+      "rank": 4,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Il libro è sul tavolo.",
+      "en": "The book is on the table.",
+      "accepted": []
+    },
+    {
+      "id": "s5",
+      "rank": 5,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Mia madre lavora in ospedale.",
+      "en": "My mother works at a hospital.",
+      "accepted": []
+    },
+    {
+      "id": "s6",
+      "rank": 6,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Vivo in una casa grande.",
+      "en": "I live in a big house.",
+      "accepted": []
+    },
+    {
+      "id": "s7",
+      "rank": 7,
+      "topic": "everyday",
+      "type": "negative",
+      "it": "Non capisco la domanda.",
+      "en": "I don't understand the question.",
+      "accepted": []
+    },
+    {
+      "id": "s8",
+      "rank": 8,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Lui vuole bere un caffè.",
+      "en": "He wants to drink a coffee.",
+      "accepted": []
+    },
+    {
+      "id": "s9",
+      "rank": 9,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Loro sono molto stanchi.",
+      "en": "They are very tired.",
+      "accepted": []
+    },
+    {
+      "id": "s10",
+      "rank": 10,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "La ragazza parla italiano.",
+      "en": "The girl speaks Italian.",
+      "accepted": []
+    },
+    {
+      "id": "s11",
+      "rank": 11,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Oggi faccio una passeggiata.",
+      "en": "I'm going for a walk today.",
+      "accepted": ["Faccio una passeggiata oggi."]
+    },
+    {
+      "id": "s12",
+      "rank": 12,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Mio fratello ha una macchina nuova.",
+      "en": "My brother has a new car.",
+      "accepted": []
+    },
+    {
+      "id": "s13",
+      "rank": 13,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Domani devo lavorare.",
+      "en": "Tomorrow I have to work.",
+      "accepted": ["Devo lavorare domani."]
+    },
+    {
+      "id": "s14",
+      "rank": 14,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Vedo i bambini in strada.",
+      "en": "I see the children in the street.",
+      "accepted": []
+    },
+    {
+      "id": "s15",
+      "rank": 15,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Voi siete i miei migliori amici.",
+      "en": "You (pl.) are my best friends.",
+      "accepted": []
+    },
+    {
+      "id": "s16",
+      "rank": 16,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Abito in una città piccola.",
+      "en": "I live in a small city.",
+      "accepted": ["Abito in una piccola città."]
+    },
+    {
+      "id": "s17",
+      "rank": 17,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "L'acqua è fredda.",
+      "en": "The water is cold.",
+      "accepted": []
+    },
+    {
+      "id": "s18",
+      "rank": 18,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Prendiamo il treno alle otto.",
+      "en": "We're taking the train at eight.",
+      "accepted": []
+    },
+    {
+      "id": "s19",
+      "rank": 19,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Mio padre legge il giornale.",
+      "en": "My father reads the newspaper.",
+      "accepted": []
+    },
+    {
+      "id": "s20",
+      "rank": 20,
+      "topic": "everyday",
+      "type": "negative",
+      "it": "Non ho tempo oggi.",
+      "en": "I don't have time today.",
+      "accepted": ["Oggi non ho tempo."]
+    },
+    {
+      "id": "s21",
+      "rank": 21,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Questa casa è molto bella.",
+      "en": "This house is very beautiful.",
+      "accepted": []
+    },
+    {
+      "id": "s22",
+      "rank": 22,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Vogliamo un tavolo per due.",
+      "en": "We want a table for two.",
+      "accepted": []
+    },
+    {
+      "id": "s23",
+      "rank": 23,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Il ristorante è vicino alla stazione.",
+      "en": "The restaurant is near the station.",
+      "accepted": []
+    },
+    {
+      "id": "s24",
+      "rank": 24,
+      "topic": "everyday",
+      "type": "statement",
+      "it": "Lei scrive un libro interessante.",
+      "en": "She is writing an interesting book.",
+      "accepted": []
+    },
+    {
+      "id": "s25",
+      "rank": 25,
+      "topic": "everyday",
+      "type": "question",
+      "it": "Possiamo parlare adesso?",
+      "en": "Can we talk now?",
+      "accepted": []
+    },
+    {
+      "id": "s26",
+      "rank": 1,
+      "topic": "food",
+      "type": "request",
+      "it": "Vorrei un tavolo per due.",
+      "en": "I'd like a table for two.",
+      "accepted": []
+    },
+    {
+      "id": "s27",
+      "rank": 2,
+      "topic": "food",
+      "type": "statement",
+      "it": "Ho prenotato un tavolo per le otto.",
+      "en": "I booked a table for eight o’clock.",
+      "accepted": []
+    },
+    {
+      "id": "s28",
+      "rank": 3,
+      "topic": "food",
+      "type": "question",
+      "it": "Posso vedere il menù, per favore?",
+      "en": "Can I see the menu, please?",
+      "accepted": []
+    },
+    {
+      "id": "s29",
+      "rank": 4,
+      "topic": "food",
+      "type": "question",
+      "it": "Che cosa mi consiglia?",
+      "en": "What do you recommend?",
+      "accepted": []
+    },
+    {
+      "id": "s30",
+      "rank": 5,
+      "topic": "food",
+      "type": "request",
+      "it": "Vorrei una pizza margherita.",
+      "en": "I'd like a margherita pizza.",
+      "accepted": []
+    },
+    {
+      "id": "s31",
+      "rank": 6,
+      "topic": "food",
+      "type": "request",
+      "it": "Per me gli spaghetti al pomodoro.",
+      "en": "I'll have the spaghetti with tomato sauce.",
+      "accepted": []
+    },
+    {
+      "id": "s32",
+      "rank": 7,
+      "topic": "food",
+      "type": "statement",
+      "it": "Prendo il pollo con le patate.",
+      "en": "I'll have the chicken with potatoes.",
+      "accepted": []
+    },
+    {
+      "id": "s33",
+      "rank": 8,
+      "topic": "food",
+      "type": "request",
+      "it": "Un'acqua naturale, per favore.",
+      "en": "A still water, please.",
+      "accepted": []
+    },
+    {
+      "id": "s34",
+      "rank": 9,
+      "topic": "food",
+      "type": "question",
+      "it": "Avete un menù per bambini?",
+      "en": "Do you have a children's menu?",
+      "accepted": []
+    },
+    {
+      "id": "s35",
+      "rank": 10,
+      "topic": "food",
+      "type": "negative",
+      "it": "Non mangio la carne.",
+      "en": "I don't eat meat.",
+      "accepted": []
+    },
+    {
+      "id": "s36",
+      "rank": 11,
+      "topic": "food",
+      "type": "statement",
+      "it": "Sono allergico alle noci.",
+      "en": "I'm allergic to nuts.",
+      "accepted": []
+    },
+    {
+      "id": "s37",
+      "rank": 12,
+      "topic": "food",
+      "type": "question",
+      "it": "C'è del glutine in questo piatto?",
+      "en": "Is there gluten in this dish?",
+      "accepted": []
+    },
+    {
+      "id": "s38",
+      "rank": 13,
+      "topic": "food",
+      "type": "request",
+      "it": "Il conto, per favore.",
+      "en": "The check, please.",
+      "accepted": []
+    },
+    {
+      "id": "s39",
+      "rank": 14,
+      "topic": "food",
+      "type": "question",
+      "it": "Possiamo pagare con la carta?",
+      "en": "Can we pay by card?",
+      "accepted": []
+    },
+    {
+      "id": "s40",
+      "rank": 15,
+      "topic": "food",
+      "type": "statement",
+      "it": "Questo vino è molto buono.",
+      "en": "This wine is very good.",
+      "accepted": []
+    },
+    {
+      "id": "s41",
+      "rank": 16,
+      "topic": "food",
+      "type": "statement",
+      "it": "La zuppa è troppo calda.",
+      "en": "The soup is too hot.",
+      "accepted": []
+    },
+    {
+      "id": "s42",
+      "rank": 17,
+      "topic": "food",
+      "type": "negative",
+      "it": "Non ho ordinato questo piatto.",
+      "en": "I didn't order this dish.",
+      "accepted": []
+    },
+    {
+      "id": "s43",
+      "rank": 18,
+      "topic": "food",
+      "type": "question",
+      "it": "Può portarci un altro bicchiere?",
+      "en": "Can you bring us another glass?",
+      "accepted": []
+    },
+    {
+      "id": "s44",
+      "rank": 19,
+      "topic": "food",
+      "type": "request",
+      "it": "Vorrei il caffè senza zucchero.",
+      "en": "I'd like the coffee without sugar.",
+      "accepted": []
+    },
+    {
+      "id": "s45",
+      "rank": 20,
+      "topic": "food",
+      "type": "question",
+      "it": "Che dolci avete?",
+      "en": "What desserts do you have?",
+      "accepted": []
+    },
+    {
+      "id": "s46",
+      "rank": 21,
+      "topic": "food",
+      "type": "statement",
+      "it": "Come antipasto prendiamo la bruschetta.",
+      "en": "For a starter we'll have the bruschetta.",
+      "accepted": []
+    },
+    {
+      "id": "s47",
+      "rank": 22,
+      "topic": "food",
+      "type": "request",
+      "it": "Mi porti il vino della casa.",
+      "en": "Bring me the house wine.",
+      "accepted": []
+    },
+    {
+      "id": "s48",
+      "rank": 23,
+      "topic": "food",
+      "type": "statement",
+      "it": "Il cameriere porta i piatti.",
+      "en": "The waiter brings the plates.",
+      "accepted": []
+    },
+    {
+      "id": "s49",
+      "rank": 24,
+      "topic": "food",
+      "type": "statement",
+      "it": "Siamo pronti per ordinare.",
+      "en": "We're ready to order.",
+      "accepted": []
+    },
+    {
+      "id": "s50",
+      "rank": 25,
+      "topic": "food",
+      "type": "statement",
+      "it": "La pasta è deliziosa.",
+      "en": "The pasta is delicious.",
+      "accepted": []
+    },
+    {
+      "id": "s51",
+      "rank": 1,
+      "topic": "directions",
+      "type": "question",
+      "it": "Dov'è il bagno?",
+      "en": "Where is the bathroom?",
+      "accepted": []
+    },
+    {
+      "id": "s52",
+      "rank": 2,
+      "topic": "directions",
+      "type": "question",
+      "it": "Scusi, dov'è la farmacia?",
+      "en": "Excuse me, where is the pharmacy?",
+      "accepted": []
+    },
+    {
+      "id": "s53",
+      "rank": 3,
+      "topic": "directions",
+      "type": "question",
+      "it": "Come arrivo alla stazione?",
+      "en": "How do I get to the station?",
+      "accepted": []
+    },
+    {
+      "id": "s54",
+      "rank": 4,
+      "topic": "directions",
+      "type": "question",
+      "it": "È lontano da qui?",
+      "en": "Is it far from here?",
+      "accepted": []
+    },
+    {
+      "id": "s55",
+      "rank": 5,
+      "topic": "directions",
+      "type": "statement",
+      "it": "No, è molto vicino.",
+      "en": "No, it's very close.",
+      "accepted": []
+    },
+    {
+      "id": "s56",
+      "rank": 6,
+      "topic": "directions",
+      "type": "request",
+      "it": "Vada sempre dritto.",
+      "en": "Go straight ahead.",
+      "accepted": []
+    },
+    {
+      "id": "s57",
+      "rank": 7,
+      "topic": "directions",
+      "type": "request",
+      "it": "Giri a destra al semaforo.",
+      "en": "Turn right at the traffic light.",
+      "accepted": []
+    },
+    {
+      "id": "s58",
+      "rank": 8,
+      "topic": "directions",
+      "type": "request",
+      "it": "Giri a sinistra dopo la banca.",
+      "en": "Turn left after the bank.",
+      "accepted": []
+    },
+    {
+      "id": "s59",
+      "rank": 9,
+      "topic": "directions",
+      "type": "request",
+      "it": "Prenda la prima strada a destra.",
+      "en": "Take the first street on the right.",
+      "accepted": []
+    },
+    {
+      "id": "s60",
+      "rank": 10,
+      "topic": "directions",
+      "type": "statement",
+      "it": "La chiesa è in fondo alla strada.",
+      "en": "The church is at the end of the street.",
+      "accepted": []
+    },
+    {
+      "id": "s61",
+      "rank": 11,
+      "topic": "directions",
+      "type": "statement",
+      "it": "L'ospedale è di fronte al parco.",
+      "en": "The hospital is opposite the park.",
+      "accepted": []
+    },
+    {
+      "id": "s62",
+      "rank": 12,
+      "topic": "directions",
+      "type": "statement",
+      "it": "Il bar è accanto alla banca.",
+      "en": "The bar is next to the bank.",
+      "accepted": []
+    },
+    {
+      "id": "s63",
+      "rank": 13,
+      "topic": "directions",
+      "type": "statement",
+      "it": "La farmacia è all'angolo.",
+      "en": "The pharmacy is on the corner.",
+      "accepted": []
+    },
+    {
+      "id": "s64",
+      "rank": 14,
+      "topic": "directions",
+      "type": "statement",
+      "it": "Il museo è dietro la piazza.",
+      "en": "The museum is behind the square.",
+      "accepted": []
+    },
+    {
+      "id": "s65",
+      "rank": 15,
+      "topic": "directions",
+      "type": "request",
+      "it": "Attraversi la piazza e poi giri a destra.",
+      "en": "Cross the square and then turn right.",
+      "accepted": []
+    },
+    {
+      "id": "s66",
+      "rank": 16,
+      "topic": "directions",
+      "type": "question",
+      "it": "Può ripetere, per favore?",
+      "en": "Can you repeat that, please?",
+      "accepted": []
+    },
+    {
+      "id": "s67",
+      "rank": 17,
+      "topic": "directions",
+      "type": "negative",
+      "it": "Non conosco questa zona.",
+      "en": "I don't know this area.",
+      "accepted": []
+    },
+    {
+      "id": "s68",
+      "rank": 18,
+      "topic": "directions",
+      "type": "statement",
+      "it": "Puoi andare a piedi.",
+      "en": "You can go on foot.",
+      "accepted": []
+    },
+    {
+      "id": "s69",
+      "rank": 19,
+      "topic": "directions",
+      "type": "question",
+      "it": "Quanto tempo ci vuole?",
+      "en": "How long does it take?",
+      "accepted": []
+    },
+    {
+      "id": "s70",
+      "rank": 20,
+      "topic": "directions",
+      "type": "statement",
+      "it": "Ci vogliono dieci minuti a piedi.",
+      "en": "It takes ten minutes on foot.",
+      "accepted": []
+    },
+    {
+      "id": "s71",
+      "rank": 21,
+      "topic": "directions",
+      "type": "question",
+      "it": "C'è una fermata dell'autobus qui vicino?",
+      "en": "Is there a bus stop nearby?",
+      "accepted": []
+    },
+    {
+      "id": "s72",
+      "rank": 22,
+      "topic": "directions",
+      "type": "question",
+      "it": "Dove posso prendere un taxi?",
+      "en": "Where can I catch a taxi?",
+      "accepted": []
+    },
+    {
+      "id": "s73",
+      "rank": 23,
+      "topic": "directions",
+      "type": "statement",
+      "it": "La metropolitana è sotto la piazza.",
+      "en": "The subway is under the square.",
+      "accepted": []
+    },
+    {
+      "id": "s74",
+      "rank": 24,
+      "topic": "directions",
+      "type": "statement",
+      "it": "Il ponte è a sinistra.",
+      "en": "The bridge is on the left.",
+      "accepted": []
+    },
+    {
+      "id": "s75",
+      "rank": 25,
+      "topic": "directions",
+      "type": "negative",
+      "it": "Non c'è nessun ristorante qui.",
+      "en": "There's no restaurant here.",
+      "accepted": []
+    }
+  ]
+}

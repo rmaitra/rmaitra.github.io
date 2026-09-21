@@ -121,6 +121,17 @@
         "link":"/math/"
     },
     {
+        "title":"Italiano Studio",
+        "description":"Practice Italian verb conjugation, noun articles, and sentence building with spaced repetition.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "gradient":"linear-gradient(135deg, #0a2e1a 0%, #1f6b3a 100%)",
+        "link":"/language/"
+    },
+    {
         "title":"GRE Words",
         "description":"Browse the GRE master wordlist and quiz yourself on definitions.",
         "subtitle":"",
