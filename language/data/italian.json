@@ -2359,5 +2359,437 @@
       "en": "We prefer to travel by train.",
       "accepted": []
     }
+  ],
+  "readings": [
+    {
+      "id": "colosseo",
+      "title": "Il Colosseo",
+      "source": {
+        "title": "Colosseo",
+        "url": "https://it.wikipedia.org/wiki/Colosseo"
+      },
+      "sentences": [
+        {
+          "it": "Il Colosseo era il più grande anfiteatro romano del mondo, situato nel centro della città di Roma.",
+          "en": "The Colosseum was the largest Roman amphitheater in the world, located in the center of the city of Rome.",
+          "id": "colosseo-0",
+          "rank": 1
+        },
+        {
+          "it": "L'anfiteatro fu edificato in epoca flavia su un'area al limite orientale del Foro Romano.",
+          "en": "The amphitheater was built in the Flavian era on an area at the eastern edge of the Roman Forum.",
+          "id": "colosseo-1",
+          "rank": 2
+        },
+        {
+          "it": "La sua costruzione, iniziata da Vespasiano nel 70 dopo Cristo, fu conclusa da Tito.",
+          "en": "Its construction, begun by Vespasian in 70 AD, was completed by Titus.",
+          "id": "colosseo-2",
+          "rank": 3
+        },
+        {
+          "it": "L'altezza attuale raggiunge 48 metri, ma originariamente arrivava a 52 metri.",
+          "en": "Its current height reaches 48 meters, but it originally reached 52 meters.",
+          "id": "colosseo-3",
+          "rank": 4
+        },
+        {
+          "it": "Oggi è un simbolo della città di Roma e una delle maggiori attrazioni turistiche.",
+          "en": "Today it is a symbol of the city of Rome and one of the major tourist attractions.",
+          "id": "colosseo-4",
+          "rank": 5
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "pizza",
+      "title": "La pizza",
+      "source": {
+        "title": "Pizza",
+        "url": "https://it.wikipedia.org/wiki/Pizza"
+      },
+      "sentences": [
+        {
+          "it": "La pizza è un prodotto gastronomico della cucina italiana.",
+          "en": "Pizza is a gastronomic product of Italian cuisine.",
+          "id": "pizza-0",
+          "rank": 6
+        },
+        {
+          "it": "La versione più conosciuta della pizza è quella napoletana.",
+          "en": "The best-known version of pizza is the Neapolitan one.",
+          "id": "pizza-1",
+          "rank": 7
+        },
+        {
+          "it": "La pizza è l'alimento più mangiato al mondo dopo il riso, seguito dalla pasta.",
+          "en": "Pizza is the most eaten food in the world after rice, followed by pasta.",
+          "id": "pizza-2",
+          "rank": 8
+        },
+        {
+          "it": "Pizza è la parola italiana più famosa al mondo, seguita dal saluto ciao.",
+          "en": "Pizza is the most famous Italian word in the world, followed by the greeting ciao.",
+          "id": "pizza-3",
+          "rank": 9
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "caffe",
+      "title": "Il caffè",
+      "source": {
+        "title": "Caffè",
+        "url": "https://it.wikipedia.org/wiki/Caff%C3%A8"
+      },
+      "sentences": [
+        {
+          "it": "Il caffè è una bevanda ottenuta dalla macinazione dei semi di alcuni alberi tropicali.",
+          "en": "Coffee is a drink obtained by grinding the seeds of certain tropical trees.",
+          "id": "caffe-0",
+          "rank": 10
+        },
+        {
+          "it": "Le due varietà più diffuse sono l'arabica e la robusta.",
+          "en": "The two most common varieties are arabica and robusta.",
+          "id": "caffe-1",
+          "rank": 11
+        },
+        {
+          "it": "Attualmente il caffè rappresenta la bevanda più consumata al mondo.",
+          "en": "Today coffee is the most consumed drink in the world.",
+          "id": "caffe-2",
+          "rank": 12
+        },
+        {
+          "it": "Dal punto di vista economico, costituisce la merce più scambiata dopo i prodotti petroliferi.",
+          "en": "From an economic point of view, it is the most traded commodity after petroleum products.",
+          "id": "caffe-3",
+          "rank": 13
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "gatto",
+      "title": "Il gatto",
+      "source": {
+        "title": "Felis silvestris catus",
+        "url": "https://it.wikipedia.org/wiki/Felis_silvestris_catus"
+      },
+      "sentences": [
+        {
+          "it": "Il gatto domestico è un mammifero carnivoro appartenente alla famiglia Felidae.",
+          "en": "The domestic cat is a carnivorous mammal belonging to the family Felidae.",
+          "id": "gatto-0",
+          "rank": 14
+        },
+        {
+          "it": "Il gatto domestico è un predatore di piccoli animali, specialmente roditori e uccelli.",
+          "en": "The domestic cat is a predator of small animals, especially rodents and birds.",
+          "id": "gatto-1",
+          "rank": 15
+        },
+        {
+          "it": "Per comunicare, utilizza vari vocalizzi, le fusa, le posizioni del corpo e i feromoni.",
+          "en": "To communicate, it uses various vocalizations, purring, body positions and pheromones.",
+          "id": "gatto-2",
+          "rank": 16
+        },
+        {
+          "it": "Si possono contare una cinquantina di razze differenti, riconosciute con certificazioni.",
+          "en": "There are about fifty different breeds, recognized with certifications.",
+          "id": "gatto-3",
+          "rank": 17
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "cane",
+      "title": "Il cane",
+      "source": {
+        "title": "Canis lupus familiaris",
+        "url": "https://it.wikipedia.org/wiki/Canis_lupus_familiaris"
+      },
+      "sentences": [
+        {
+          "it": "Il cane domestico è un mammifero appartenente all'ordine Carnivora e alla famiglia Canidae.",
+          "en": "The domestic dog is a mammal belonging to the order Carnivora and the family Canidae.",
+          "id": "cane-0",
+          "rank": 18
+        },
+        {
+          "it": "Il mantello può essere corto o lungo, ispido o morbido, liscio o riccio.",
+          "en": "The coat can be short or long, wiry or soft, smooth or curly.",
+          "id": "cane-1",
+          "rank": 19
+        },
+        {
+          "it": "Il colore varia a seconda della discendenza: bianco, nero, rosso, marrone.",
+          "en": "The color varies depending on lineage: white, black, red, brown.",
+          "id": "cane-2",
+          "rank": 20
+        },
+        {
+          "it": "La coda varia in forma e lunghezza, tanto che in alcune razze è assente.",
+          "en": "The tail varies in shape and length, so much that in some breeds it is absent.",
+          "id": "cane-3",
+          "rank": 21
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "dante",
+      "title": "Dante Alighieri",
+      "source": {
+        "title": "Dante Alighieri",
+        "url": "https://it.wikipedia.org/wiki/Dante_Alighieri"
+      },
+      "sentences": [
+        {
+          "it": "Dante Alighieri è stato un poeta, scrittore e politico italiano.",
+          "en": "Dante Alighieri was an Italian poet, writer and politician.",
+          "id": "dante-0",
+          "rank": 22
+        },
+        {
+          "it": "Viene considerato il padre della lingua italiana.",
+          "en": "He is considered the father of the Italian language.",
+          "id": "dante-1",
+          "rank": 23
+        },
+        {
+          "it": "Dante viene soprannominato il Sommo Poeta.",
+          "en": "Dante is nicknamed the Supreme Poet.",
+          "id": "dante-2",
+          "rank": 24
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "vaticano",
+      "title": "La Città del Vaticano",
+      "source": {
+        "title": "Città del Vaticano",
+        "url": "https://it.wikipedia.org/wiki/Citt%C3%A0_del_Vaticano"
+      },
+      "sentences": [
+        {
+          "it": "Il Vaticano è il più piccolo Stato sovrano del mondo.",
+          "en": "The Vatican is the smallest sovereign state in the world.",
+          "id": "vaticano-0",
+          "rank": 25
+        },
+        {
+          "it": "La sua forma di governo è una monarchia assoluta elettiva.",
+          "en": "Its form of government is an elective absolute monarchy.",
+          "id": "vaticano-1",
+          "rank": 26
+        },
+        {
+          "it": "La lingua ufficiale è l'italiano, mentre il latino è la lingua ufficiale della Santa Sede.",
+          "en": "The official language is Italian, while Latin is the official language of the Holy See.",
+          "id": "vaticano-2",
+          "rank": 27
+        },
+        {
+          "it": "Lo Stato batte moneta propria e adotta l'euro.",
+          "en": "The state mints its own coins and uses the euro.",
+          "id": "vaticano-3",
+          "rank": 28
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "leonardo",
+      "title": "Leonardo da Vinci",
+      "source": {
+        "title": "Leonardo da Vinci",
+        "url": "https://it.wikipedia.org/wiki/Leonardo_da_Vinci"
+      },
+      "sentences": [
+        {
+          "it": "Leonardo da Vinci è stato uno scienziato, inventore e artista italiano.",
+          "en": "Leonardo da Vinci was an Italian scientist, inventor and artist.",
+          "id": "leonardo-0",
+          "rank": 29
+        },
+        {
+          "it": "Fu scienziato, filosofo, architetto, pittore, scultore e ingegnere.",
+          "en": "He was a scientist, philosopher, architect, painter, sculptor and engineer.",
+          "id": "leonardo-1",
+          "rank": 30
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "roma",
+      "title": "Roma",
+      "source": {
+        "title": "Roma",
+        "url": "https://it.wikipedia.org/wiki/Roma"
+      },
+      "sentences": [
+        {
+          "it": "Roma è la capitale della Repubblica Italiana.",
+          "en": "Rome is the capital of the Italian Republic.",
+          "id": "roma-0",
+          "rank": 31
+        },
+        {
+          "it": "È inoltre il comune europeo con la maggiore superficie di aree verdi.",
+          "en": "It is also the European municipality with the largest area of green space.",
+          "id": "roma-1",
+          "rank": 32
+        },
+        {
+          "it": "Nel 1960 Roma ha ospitato i Giochi olimpici.",
+          "en": "In 1960 Rome hosted the Olympic Games.",
+          "id": "roma-2",
+          "rank": 33
+        },
+        {
+          "it": "Roma è definita Caput mundi e Città eterna.",
+          "en": "Rome is called Caput Mundi and the Eternal City.",
+          "id": "roma-3",
+          "rank": 34
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "napoli",
+      "title": "Napoli",
+      "source": {
+        "title": "Napoli",
+        "url": "https://it.wikipedia.org/wiki/Napoli"
+      },
+      "sentences": [
+        {
+          "it": "Napoli è una delle più antiche città d'Europa.",
+          "en": "Naples is one of the oldest cities in Europe.",
+          "id": "napoli-0",
+          "rank": 35
+        },
+        {
+          "it": "Nel 1995 l'UNESCO ha dichiarato patrimonio mondiale il centro storico di Napoli.",
+          "en": "In 1995 UNESCO declared the historic center of Naples a World Heritage Site.",
+          "id": "napoli-1",
+          "rank": 36
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "venezia",
+      "title": "Venezia",
+      "source": {
+        "title": "Venezia",
+        "url": "https://it.wikipedia.org/wiki/Venezia"
+      },
+      "sentences": [
+        {
+          "it": "Venezia è un comune italiano, capoluogo della regione del Veneto.",
+          "en": "Venice is an Italian municipality, capital of the Veneto region.",
+          "id": "venezia-0",
+          "rank": 37
+        },
+        {
+          "it": "La città è stata per 1100 anni la capitale della Repubblica di Venezia.",
+          "en": "For 1,100 years the city was the capital of the Republic of Venice.",
+          "id": "venezia-1",
+          "rank": 38
+        },
+        {
+          "it": "Venezia è conosciuta come la Serenissima e la Regina dell'Adriatico.",
+          "en": "Venice is known as la Serenissima and the Queen of the Adriatic.",
+          "id": "venezia-2",
+          "rank": 39
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "firenze",
+      "title": "Firenze",
+      "source": {
+        "title": "Firenze",
+        "url": "https://it.wikipedia.org/wiki/Firenze"
+      },
+      "sentences": [
+        {
+          "it": "Firenze è considerata il luogo d'origine del Rinascimento.",
+          "en": "Florence is considered the birthplace of the Renaissance.",
+          "id": "firenze-0",
+          "rank": 40
+        },
+        {
+          "it": "Nel 1986 Firenze fu nominata città europea della cultura.",
+          "en": "In 1986 Florence was named European City of Culture.",
+          "id": "firenze-1",
+          "rank": 41
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "sicilia",
+      "title": "La Sicilia",
+      "source": {
+        "title": "Sicilia",
+        "url": "https://it.wikipedia.org/wiki/Sicilia"
+      },
+      "sentences": [
+        {
+          "it": "La Sicilia è la regione più estesa d'Italia.",
+          "en": "Sicily is the largest region in Italy.",
+          "id": "sicilia-0",
+          "rank": 42
+        },
+        {
+          "it": "Dal 1130 al 1816, l'isola fu un'entità statale, il Regno di Sicilia.",
+          "en": "From 1130 to 1816, the island was a state entity, the Kingdom of Sicily.",
+          "id": "sicilia-1",
+          "rank": 43
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "italia",
+      "title": "L'Italia",
+      "source": {
+        "title": "Italia",
+        "url": "https://it.wikipedia.org/wiki/Italia"
+      },
+      "sentences": [
+        {
+          "it": "L'Italia è una repubblica parlamentare dell'Europa meridionale.",
+          "en": "Italy is a parliamentary republic in southern Europe.",
+          "id": "italia-0",
+          "rank": 44
+        },
+        {
+          "it": "L'Italia conta una popolazione di circa 59 milioni di abitanti.",
+          "en": "Italy has a population of about 59 million inhabitants.",
+          "id": "italia-1",
+          "rank": 45
+        },
+        {
+          "it": "L'Italia è membro fondatore dell'Unione europea.",
+          "en": "Italy is a founding member of the European Union.",
+          "id": "italia-2",
+          "rank": 46
+        }
+      ],
+      "license": "CC BY-SA 4.0"
+    }
   ]
 }

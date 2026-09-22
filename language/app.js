@@ -88,6 +88,10 @@
       key: 'format', label: 'Format', fallback: 'mixed',
       options: [{ id: 'mixed', label: 'Mixed' }, { id: 'choose', label: 'Choose' }, { id: 'type', label: 'Type' }],
     }],
+    reading: [{
+      key: 'direction', label: 'Direction', fallback: 'it-en',
+      options: [{ id: 'it-en', label: 'Italian → English' }, { id: 'en-it', label: 'English → Italian' }],
+    }],
   };
   const getSetting = (mode, key) => ((state.settings && state.settings[mode]) || {})[key] || SETTINGS[mode].find((x) => x.key === key).fallback;
   const labelOf = (list, id) => (list.find((x) => x.id === id) || {}).label || id;
@@ -160,6 +164,14 @@
         ...data.sentences.map((s) => ({ id: `s:${s.id}`, rank: s.rank, topic: s.topic, type: s.type, function: s.function, s, isQuestion: false })),
       ],
       render: renderSentence,
+    },
+    reading: {
+      label: 'Reading',
+      desc: 'Real Italian, from Wikipedia — translate each sentence by tapping the words into order. Vocabulary here goes beyond the rest of the app.',
+      build: () => data.readings.flatMap((r, ri) => r.sentences.map((s, si) => ({
+        id: `r:${s.id}`, rank: s.rank, reading: r, sIndex: si, s,
+      }))),
+      render: renderReading,
     },
   };
   function getItems(mode) {
@@ -499,6 +511,64 @@
     }
   }
 
+  // ---------- 4. reading (real-text tile translation) ----------
+  function renderReading(item, ctx) {
+    const { reading, sIndex, s } = item;
+    const itToEn = getSetting('reading', 'direction') === 'it-en';
+    const prompt = itToEn ? s.it : s.en;
+    const target = itToEn ? s.en : s.it;
+    const words = stripEnd(target).split(/\s+/);
+    const tiles = shuffleTiles(words.map((w, i) => ({ id: i, text: i === 0 ? w.charAt(0).toLowerCase() + w.slice(1) : w })));
+    const accepted = [norm(stripEnd(target))];
+    let placed = [];
+    let answered = false;
+
+    const zone = h('div', { class: 'answer-zone' });
+    const bank = h('div', { class: 'bank' });
+    const feedback = h('div');
+    const checkBtn = h('button', { class: 'btn', onclick: check, disabled: true }, 'Check');
+    const actions = h('div', { class: 'actions' }, checkBtn,
+      h('button', { class: 'btn secondary', onclick: () => { placed = []; refresh(); } }, 'Clear'),
+      h('button', { class: 'btn secondary', onclick: () => finish(false, true) }, 'Show answer'));
+
+    pane.append(h('div', { class: 'card' },
+      h('div', { class: 'eyebrow' }, `Reading · ${reading.title} · sentence ${sIndex + 1} of ${reading.sentences.length} · ${itToEn ? 'Italian → English' : 'English → Italian'}`),
+      h('div', { class: 'big' }, prompt, itToEn ? speakBtn(s.it) : null), zone, bank, actions, feedback));
+    refresh();
+    keyHandler = (e) => { if (e.key === 'Enter') check(); };
+
+    function shuffleTiles(list) {
+      let out = shuffle(list);
+      for (let n = 0; n < 5 && list.length > 1 && out.every((t, i) => t.id === i); n++) out = shuffle(list);
+      return out;
+    }
+    function refresh() {
+      const inZone = new Set(placed.map((t) => t.id));
+      zone.replaceChildren(...placed.map((t) => h('button', { class: 'tile', disabled: answered, onclick: () => { placed = placed.filter((p) => p !== t); refresh(); } }, t.text)));
+      bank.replaceChildren(...tiles.filter((t) => !inZone.has(t.id)).map((t) => h('button', { class: 'tile', disabled: answered, onclick: () => { placed.push(t); refresh(); } }, t.text)));
+      checkBtn.disabled = answered || placed.length !== tiles.length;
+    }
+    function check() {
+      if (answered || placed.length !== tiles.length) return;
+      finish(accepted.includes(norm(placed.map((t) => t.text).join(' '))), false);
+    }
+    function finish(ok, gaveUp) {
+      answered = true;
+      if (gaveUp) placed = tiles.slice().sort((a, b) => a.id - b.id);
+      refresh();
+      if (!gaveUp) zone.classList.add(ok ? 'correct' : 'wrong');
+      ctx.grade(ok);
+      feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
+        h('div', { class: 'answer' }, target),
+        h('div', { class: 'example' }, speakBtn(s.it), h('span', {}, s.it + ' — ' + s.en)),
+        h('div', { class: 'note' }, 'Source: Wikipedia — ',
+          h('a', { href: reading.source.url, target: '_blank', rel: 'noopener' }, reading.source.title),
+          ' (', reading.license, ')')));
+      autoSpeak(s.it);
+      afterAnswer(ctx, actions, nextButton(ctx));
+    }
+  }
+
   // ---------- 4. word tables (reference browser) ----------
   function statusOf(id) {
     const r = state.srs[id];
@@ -573,6 +643,15 @@
         search: [s.it, s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : ''].join(' '),
         cells: [i + 1, it(s.it), s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : '\u2014', statusCell(`s:${s.id}`)],
       })),
+    },
+    readings: {
+      label: 'Readings',
+      note: 'Real Italian text from Wikipedia, sentence by sentence, used by the Reading tab.',
+      head: ['#', 'Italian', 'English', 'Source', 'Status'],
+      rows: () => data.readings.flatMap((r) => r.sentences.map((s, i) => ({
+        search: [s.it, s.en, r.title].join(' '),
+        cells: [`${r.title} ${i + 1}`, it(s.it), s.en, r.title, statusCell(`r:${s.id}`)],
+      }))),
     },
   };
 
