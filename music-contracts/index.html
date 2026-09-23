@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loonatic Studios Agreements</title>
+<meta name="description" content="Review and sign Loonatic Studios agreements online, then send the signed PDF to the studio.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #09090b;
+        --bg-card: #121216;
+        --bg-input: #0b0b0e;
+        --line: #24242b;
+        --line-strong: #34343d;
+        --text: #ebe8f2;
+        --text-2: #a9a6b3;
+        --text-3: #75727f;
+        --accent: #b658ff;
+        --accent-strong: #9d3cf0;
+        --accent-dim: rgba(182, 88, 255, 0.14);
+        --ok: #4ade80;
+        --warn: #fbbf24;
+        --paper: #fbf9f4;
+        --paper-line: #e4dfd3;
+        --ink: #1c1a20;
+        --ink-2: #5d5864;
+        --fill-bg: #efe3fb;
+        --fill-ink: #4b1580;
+        --radius: 14px;
+        --sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body {
+        margin: 0; background: var(--bg); color: var(--text);
+        font: 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased;
+    }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    a { color: var(--accent); }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+    /* ── Header ───────────────────────────────────────────── */
+    .top {
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        padding: 18px 24px; border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: var(--text); }
+    .brand b { font-weight: 700; letter-spacing: 0.14em; font-size: 17px; }
+    .brand span { color: var(--accent); letter-spacing: 0.3em; font-size: 11px; font-weight: 600; }
+    .top small { color: var(--text-3); font-size: 13px; }
+
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .hero { padding: 44px 0 24px; }
+    .hero h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.1; margin: 0 0 10px; letter-spacing: -0.02em; }
+    .hero p { color: var(--text-2); margin: 0; max-width: 640px; }
+
+    /* ── Agreement picker ─────────────────────────────────── */
+    .picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 8px 0 36px; }
+    .pick {
+        text-align: left; background: var(--bg-card); border: 1px solid var(--line); border-radius: 12px;
+        padding: 14px 16px; cursor: pointer; transition: border-color .15s, background .15s;
+    }
+    .pick:hover { border-color: var(--line-strong); }
+    .pick[aria-pressed="true"] { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-dim), transparent); }
+    .pick b { display: block; font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .pick span { display: block; font-size: 13px; color: var(--text-2); line-height: 1.4; }
+    .picker.locked .pick:not([aria-pressed="true"]) { display: none; }
+
+    /* ── Layout ───────────────────────────────────────────── */
+    .layout { display: grid; grid-template-columns: 1fr; gap: 28px; padding-bottom: 120px; }
+    @media (min-width: 1040px) {
+        .layout { grid-template-columns: 220px minmax(0, 1fr); gap: 40px; }
+    }
+    .rail { display: none; }
+    @media (min-width: 1040px) {
+        .rail { display: block; position: sticky; top: 24px; align-self: start; }
+    }
+    .rail ol { list-style: none; margin: 0; padding: 0; }
+    .rail li { margin: 0; }
+    .rail a {
+        display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; color: var(--text-2);
+        text-decoration: none; font-size: 14px;
+    }
+    .rail a:hover { color: var(--text); }
+    .dot {
+        flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line-strong);
+        display: grid; place-items: center; font-size: 11px; font-weight: 600; color: var(--text-3); margin-top: 1px;
+    }
+    .done .dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .done a { color: var(--text); }
+    .rail em { display: block; font-style: normal; font-size: 12px; color: var(--text-3); }
+    .rail .note { margin-top: 20px; font-size: 12.5px; color: var(--text-3); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 16px; }
+
+    main { min-width: 0; max-width: 820px; }
+    .card {
+        background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 26px; margin-bottom: 24px;
+    }
+    .card h2 { font-size: 20px; margin: 0 0 4px; letter-spacing: -0.01em; }
+    .card > p.sub { color: var(--text-2); margin: 0 0 20px; font-size: 14.5px; }
+    .step { color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+    .badge {
+        display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text-2);
+        border: 1px solid var(--line-strong); border-radius: 999px; padding: 2px 10px; margin-left: 8px; vertical-align: 3px;
+    }
+
+    /* ── Forms ────────────────────────────────────────────── */
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px 18px; }
+    @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } .wide { grid-column: 1 / -1; } }
+    label.f { display: block; }
+    label.f > span { display: block; font-size: 13.5px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+    label.f > span i { color: var(--accent); font-style: normal; }
+    label.f small { display: block; color: var(--text-3); font-size: 12.5px; margin-top: 5px; }
+    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=number], select, textarea {
+        width: 100%; background: var(--bg-input); border: 1px solid var(--line-strong); border-radius: 9px;
+        padding: 10px 12px; font-size: 15px; outline: none; transition: border-color .15s, box-shadow .15s;
+        color-scheme: dark;
+    }
+    textarea { min-height: 84px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+    input:disabled, select:disabled, textarea:disabled { opacity: .65; cursor: not-allowed; }
+    .invalid { border-color: #f87171 !important; }
+
+    .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 10px;
+        padding: 11px 18px; font-weight: 600; font-size: 15px; cursor: pointer; border: 1px solid var(--line-strong);
+        background: transparent; color: var(--text); transition: background .15s, border-color .15s, opacity .15s;
+        text-decoration: none;
+    }
+    .btn:hover { border-color: var(--text-3); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn.primary:hover { background: var(--accent-strong); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .btn.small { padding: 6px 12px; font-size: 13px; border-radius: 8px; }
+    .btn.link { border: none; padding: 6px 0; color: var(--text-2); font-weight: 500; }
+    .btn.link:hover { color: var(--text); }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+    /* writers table (split sheet) */
+    .writers { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .writers th { text-align: left; font-weight: 500; font-size: 12px; color: var(--text-3); padding: 0 6px 6px 0; }
+    .writers td { padding: 0 6px 8px 0; vertical-align: top; }
+    .writers td input, .writers td select { padding: 8px 9px; font-size: 14px; }
+    .writers .x { background: none; border: none; color: var(--text-3); cursor: pointer; font-size: 18px; padding: 6px; }
+    .writers-wrap { overflow-x: auto; }
+    .writers-wrap table { min-width: 640px; }
+    .total { font-size: 13px; color: var(--text-2); }
+    .total.bad { color: var(--warn); }
+
+    /* ── Paper document ───────────────────────────────────── */
+    .doc-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin: 36px 0 12px; flex-wrap: wrap; }
+    .doc-head h2 { font-size: 20px; margin: 0; }
+    .paper {
+        background: var(--paper); color: var(--ink); border-radius: 6px; padding: 64px 68px;
+        font: 16.5px/1.68 var(--serif); box-shadow: 0 30px 80px -30px rgba(0,0,0,.8);
+        margin-bottom: 28px;
+    }
+    @media (max-width: 640px) { .paper { padding: 32px 22px; font-size: 16px; } }
+    .paper .kicker { font: 600 11px/1 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: #7a2fc0; margin-bottom: 14px; }
+    .paper h1 { font: 600 30px/1.2 var(--serif); margin: 0 0 8px; letter-spacing: -0.01em; }
+    .paper .meta { font: 13px/1.4 var(--sans); color: var(--ink-2); margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid var(--paper-line); }
+    .paper section { margin-bottom: 26px; }
+    .paper h3 { font: 600 15px/1.35 var(--sans); margin: 0 0 8px; letter-spacing: 0.01em; }
+    .paper h3 .n { color: #7a2fc0; margin-right: 8px; }
+    .paper p { margin: 0 0 12px; }
+    .paper ol.al { list-style: none; margin: 0 0 12px; padding: 0 0 0 30px; }
+    .paper ol.al li { position: relative; margin-bottom: 6px; }
+    .paper ol.al li::before { content: attr(data-l); position: absolute; left: -30px; color: var(--ink-2); }
+    .paper .fill { background: var(--fill-bg); color: var(--fill-ink); border-radius: 3px; padding: 0 3px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+    .paper .blank { border-bottom: 1.5px dashed #b5aec0; color: #9a93a4; font-style: italic; padding: 0 2px; }
+    .paper dl { display: grid; grid-template-columns: minmax(120px, 190px) 1fr; gap: 8px 18px; margin: 0; }
+    .paper dt { font: 600 13px/1.6 var(--sans); color: var(--ink-2); }
+    .paper dd { margin: 0; }
+    @media (max-width: 520px) { .paper dl { grid-template-columns: 1fr; gap: 2px; } .paper dd { margin-bottom: 10px; } }
+    .paper table.wt { width: 100%; border-collapse: collapse; font: 13.5px/1.45 var(--sans); margin: 4px 0 14px; }
+    .paper table.wt th { text-align: left; border-bottom: 1.5px solid var(--ink); padding: 6px 8px 6px 0; font-weight: 600; }
+    .paper table.wt td { border-bottom: 1px solid var(--paper-line); padding: 6px 8px 6px 0; }
+    .paper .tw { overflow-x: auto; }
+
+    .initial {
+        display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-top: 4px;
+        font: 500 12.5px/1 var(--sans); color: var(--ink-2); letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .initial input {
+        width: 76px; text-align: center; font: 600 17px/1 var(--serif); letter-spacing: 0.08em; text-transform: uppercase;
+        background: #fff; color: var(--ink); border: 1.5px dashed #b39ad0; border-radius: 6px; padding: 7px 4px;
+        color-scheme: light;
+    }
+    .initial input:focus { border-style: solid; border-color: #7a2fc0; box-shadow: 0 0 0 3px rgba(122,47,192,.18); }
+    .initial.ok input { border: 1.5px solid #7a2fc0; background: var(--fill-bg); }
+    .initial .tick { width: 16px; color: #7a2fc0; font-size: 15px; visibility: hidden; }
+    .initial.ok .tick { visibility: visible; }
+
+    /* ── Signature ────────────────────────────────────────── */
+    .pad-wrap { position: relative; margin-top: 6px; }
+    .pad {
+        display: block; width: 100%; height: 190px; background: var(--paper); border-radius: 10px; touch-action: none;
+        cursor: crosshair; border: 1px solid var(--line-strong);
+    }
+    .pad-wrap::after {
+        content: ''; position: absolute; left: 28px; right: 28px; bottom: 46px; border-bottom: 1.5px solid #cfc8bb; pointer-events: none;
+    }
+    .pad-hint { position: absolute; left: 30px; bottom: 20px; font: 12px var(--sans); color: #9d96a6; pointer-events: none; }
+    .pad-tools { position: absolute; top: 8px; right: 8px; }
+    .pad-tools .btn { background: #fff; color: #333; border-color: #ddd; }
+    .checks { display: grid; gap: 12px; margin: 22px 0; }
+    .check { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; color: var(--text-2); cursor: pointer; }
+    .check input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); flex: none; }
+    .guardian { margin-top: 26px; padding-top: 22px; border-top: 1px dashed var(--line-strong); }
+    .guardian h3 { margin: 0 0 4px; font-size: 16px; }
+    .missing { margin: 0 0 16px; padding: 12px 16px; border-radius: 10px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.25); font-size: 14px; }
+    .missing b { color: var(--warn); font-weight: 600; }
+    .missing ul { margin: 6px 0 0; padding-left: 18px; color: var(--text-2); }
+    .missing a { color: var(--text); }
+
+    /* ── Done ─────────────────────────────────────────────── */
+    .done-card { border-color: rgba(182,88,255,.45); background: linear-gradient(180deg, rgba(182,88,255,.10), var(--bg-card) 60%); }
+    .done-card h2 { display: flex; align-items: center; gap: 10px; }
+    .seal { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 16px; }
+    .receipt { font: 13px/1.6 ui-monospace, 'SF Mono', Menlo, monospace; color: var(--text-2); background: var(--bg-input); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 18px 0; word-break: break-all; }
+    .receipt b { color: var(--text); font-weight: 500; }
+    ol.next { margin: 18px 0 0; padding-left: 20px; color: var(--text-2); font-size: 14.5px; }
+    ol.next li { margin-bottom: 6px; }
+
+    .signed-lock input, .signed-lock select, .signed-lock textarea { pointer-events: none; }
+
+    /* ── Mobile progress bar ──────────────────────────────── */
+    .bar {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: rgba(12,12,15,.92);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); font-size: 14px;
+    }
+    .bar .meter { flex: 1; height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin-top: 6px; max-width: 220px; }
+    .bar .meter i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+    @media (min-width: 1040px) { .bar { display: none; } }
+
+    .toast {
+        position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px); opacity: 0;
+        background: #1d1d23; border: 1px solid var(--line-strong); padding: 10px 16px; border-radius: 10px; font-size: 14px;
+        transition: opacity .2s, transform .2s; pointer-events: none; z-index: 20; max-width: calc(100% - 32px);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    footer.foot { color: var(--text-3); font-size: 12.5px; padding: 0 0 40px; }
+
+    @media (max-width: 640px) {
+        .wrap { padding: 0 16px; }
+        .top { padding: 14px 16px; }
+        .card { padding: 20px 18px; }
+    }
+
+</style>
+</head>
+<body>
+<header class="top">
+    <a class="brand" href="./"><b>LOONATIC</b><span>STUDIOS</span></a>
+    <small>Artist agreements</small>
+</header>
+
+<div class="wrap">
+    <section class="hero">
+        <h1 id="heroTitle">Review &amp; sign your agreement</h1>
+        <p id="heroSub">Fill in your details, read the agreement and initial the key sections, then sign. You'll get a PDF to email back to the studio.</p>
+    </section>
+
+    <nav class="picker" id="picker" aria-label="Choose an agreement"></nav>
+
+    <div class="layout">
+        <aside class="rail" aria-label="Progress">
+            <ol id="railSteps"></ol>
+            <p class="note">Nothing you enter leaves this device until you send the PDF yourself.</p>
+        </aside>
+
+        <main id="main">
+            <section class="card" id="partyCard">
+                <div class="step">Step 1</div>
+                <h2 id="partyTitle">Your details</h2>
+                <p class="sub">Use your legal name as it appears on your ID.</p>
+                <div class="grid" id="partyFields"></div>
+            </section>
+
+            <section class="card" id="termsCard">
+                <div class="step">Step 2</div>
+                <h2>Terms <span class="badge" id="lockBadge" hidden>🔒 Set by the studio</span></h2>
+                <p class="sub" id="termsSub">These details are filled into the agreement below.</p>
+                <div class="grid" id="termsFields"></div>
+                <div class="row" id="studioTools" style="margin-top:18px">
+                    <button class="btn small" type="button" id="copyLink">Copy pre-filled link for artist</button>
+                    <small style="color:var(--text-3);font-size:12.5px">Studio: fill in the terms, then send this link so the artist can't change them.</small>
+                </div>
+            </section>
+
+            <div class="doc-head" id="docAnchor">
+                <div>
+                    <div class="step">Step 3</div>
+                    <h2>Read &amp; initial</h2>
+                </div>
+                <small id="initialCount" style="color:var(--text-2)"></small>
+            </div>
+            <article class="paper" id="paper" aria-label="Agreement text"></article>
+
+            <section class="card" id="signCard">
+                <div class="step">Step 4</div>
+                <h2>Sign</h2>
+                <p class="sub">Type your full legal name and draw your signature.</p>
+                <div class="grid">
+                    <label class="f wide"><span>Full legal name <i>*</i></span>
+                        <input type="text" id="typedName" autocomplete="off" placeholder="Must match the name in Step 1">
+                    </label>
+                </div>
+                <div class="pad-wrap">
+                    <canvas class="pad" id="padSigner" aria-label="Signature pad"></canvas>
+                    <span class="pad-hint">Sign above the line with your finger, stylus or mouse</span>
+                    <div class="pad-tools"><button class="btn small" type="button" data-clear="padSigner">Clear</button></div>
+                </div>
+
+                <div class="guardian" id="guardianBox" hidden>
+                    <h3>Parent or guardian</h3>
+                    <p class="sub" style="color:var(--text-2);font-size:14px;margin:0 0 16px">Because the signer is under 18, a parent or legal guardian must also agree and sign.</p>
+                    <div class="grid">
+                        <label class="f"><span>Guardian's full legal name <i>*</i></span><input type="text" id="guardianName" data-g></label>
+                        <label class="f"><span>Relationship <i>*</i></span><input type="text" id="guardianRelation" placeholder="e.g. Mother" data-g></label>
+                        <label class="f wide"><span>Guardian's email <i>*</i></span><input type="email" id="guardianEmail" data-g></label>
+                    </div>
+                    <div class="pad-wrap">
+                        <canvas class="pad" id="padGuardian" aria-label="Guardian signature pad"></canvas>
+                        <span class="pad-hint">Parent / guardian signature</span>
+                        <div class="pad-tools"><button class="btn small" type="button" data-clear="padGuardian">Clear</button></div>
+                    </div>
+                </div>
+
+                <div class="checks">
+                    <label class="check"><input type="checkbox" id="cRead"><span id="cReadText">I have read the entire agreement and understand it.</span></label>
+                    <label class="check"><input type="checkbox" id="cEsign"><span>I agree to sign electronically. My typed name and drawn signature are my legal signature, just as if I signed on paper.</span></label>
+                </div>
+                <div class="missing" id="missing" hidden></div>
+                <button class="btn primary" type="button" id="signBtn">Sign agreement</button>
+            </section>
+
+            <section class="card done-card" id="doneCard" hidden>
+                <div class="step">Step 5</div>
+                <h2><span class="seal">✓</span> Signed</h2>
+                <p class="sub" id="doneSub"></p>
+                <div class="receipt" id="receipt"></div>
+                <div class="row">
+                    <button class="btn primary" type="button" id="dlBtn">Download PDF</button>
+                    <button class="btn" type="button" id="mailBtn">Email to studio</button>
+                    <button class="btn" type="button" id="shareBtn" hidden>Share PDF…</button>
+                </div>
+                <ol class="next" id="nextSteps"></ol>
+                <div class="row" style="margin-top:18px">
+                    <button class="btn link" type="button" id="editBtn">Make a change and re-sign</button>
+                    <button class="btn link" type="button" id="resetBtn">Start over</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer class="foot" id="foot"></footer>
+</div>
+
+<div class="bar" id="bar">
+    <div style="flex:1;min-width:0"><div id="barText">Getting started</div><div class="meter"><i id="barMeter"></i></div></div>
+    <button class="btn primary small" type="button" id="barNext">Next</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="contracts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
