@@ -302,7 +302,7 @@ Data was validated with scripts that check: 42 reference conjugations, article �
 - **More number work:** 21–99 with the vowel-dropping rule (*ventuno, ventotto*), hundreds and thousands, prices, dates, telling time, ordinals.
 - **Example sentences for every tense**, generated per verb and checked.
 - **Function words:** prepositions and articulated prepositions (*a + il = al*), possessives, demonstratives, object and reflexive pronouns, *ci / ne*.
-- **More lessons**, continuing the suggested sequence: 7 *Al bar* (ordering: vorrei, quanto costa, il conto), 8 *Il, la, lo* (articles), 9 *La mia famiglia* (avere, possessives), 10 *Dov'è…?* (directions, c'è / ci sono), 11 *Parlo italiano* (regular -are verbs), 12 *Mi piace!* (likes), 13 *Che ore sono?* (time, days), 14 *Domande* (question words); then -ere/-ire verbs, potere/dovere/volere, passato prossimo.
+- **More lessons:** the planned curriculum (lessons 7–45 in six units, A1 → A2, with review lessons and the data each lesson needs) is in [`LESSONS.md`](LESSONS.md).
 - **Lesson features:** a tile-builder role-play mode (recall instead of recognition), a slow-speed toggle for dialogues, and per-lesson practice filters in the drill tabs.
 
 ### New exercise types
