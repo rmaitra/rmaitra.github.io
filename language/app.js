@@ -44,7 +44,10 @@
 
   // ---------- persistence ----------
   function defaults() {
-    return { srs: {}, correct: 0, total: 0, streak: 0, mode: 'verbs', table: 'verbs', tableTense: 'present', filters: {}, settings: {}, autoplay: false };
+    return {
+      srs: {}, correct: 0, total: 0, streak: 0, mode: 'lessons', table: 'verbs', tableTense: 'present', filters: {}, settings: {}, autoplay: false,
+      lessons: {}, lesson: null, lessonAudio: false, lessonHandsFree: false, lessonHideEn: false,
+    };
   }
   function load() {
     try {
@@ -179,17 +182,45 @@
   }
 
   // ---------- audio (browser speech synthesis) ----------
+  // A segment is { text, lang: 'target' | 'en', voice?, pitch? }; 'target' is the
+  // language being learned (data.speechLang), 'en' is used for lesson narration.
   const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
-  function speak(text) {
-    if (!canSpeak) return;
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'it-IT';
-    const voice = speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().replace('_', '-').startsWith('it'));
-    if (voice) u.voice = voice;
-    u.rate = 0.9;
-    speechSynthesis.speak(u);
+  let speechRun = 0;
+  const speechLang = (seg) => (seg.lang === 'en' ? 'en-US' : data.speechLang || data.language);
+  function pickVoice(lang, n) {
+    const want = lang.toLowerCase();
+    const voices = speechSynthesis.getVoices()
+      .filter((v) => v.lang.toLowerCase().replace('_', '-').startsWith(want.slice(0, 2)))
+      .sort((a, b) => (b.lang.toLowerCase().replace('_', '-') === want) - (a.lang.toLowerCase().replace('_', '-') === want));
+    return voices.length ? voices[n % voices.length] : null;
   }
+  function utter(seg) {
+    return new Promise((resolve) => {
+      // Read "ciao / salve" as a pause rather than "slash", and drop ellipses
+      const u = new SpeechSynthesisUtterance(seg.text.replace(/\s*\/\s*/g, ', ').replace(/…/g, ' '));
+      u.lang = speechLang(seg);
+      const voice = pickVoice(u.lang, seg.voice || 0);
+      if (voice) u.voice = voice;
+      u.rate = seg.lang === 'en' ? 1 : 0.9;
+      u.pitch = seg.pitch || 1;
+      const timer = setTimeout(resolve, 3000 + seg.text.length * 120); // some engines never fire onend
+      u.onend = u.onerror = () => { clearTimeout(timer); resolve(); };
+      speechSynthesis.speak(u);
+    });
+  }
+  // Speak segments in order; resolves true only if nothing interrupted them
+  function say(segments) {
+    if (!canSpeak || !segments.length) return Promise.resolve(false);
+    const run = ++speechRun;
+    speechSynthesis.cancel();
+    return segments.reduce((p, seg) => p.then(() => run === speechRun && utter(seg)), Promise.resolve())
+      .then(() => run === speechRun);
+  }
+  function stopSpeech() {
+    speechRun++;
+    if (canSpeak) speechSynthesis.cancel();
+  }
+  const speak = (text) => { say([{ text, lang: 'target' }]); };
   const speakBtn = (text) => canSpeak ? h('button', { class: 'speak', title: 'Listen', 'aria-label': 'Listen', onclick: () => speak(text) }, '🔊') : null;
   const autoSpeak = (text) => { if (state.autoplay) speak(text); };
 
@@ -688,6 +719,363 @@
     fill();
   }
 
+  // ---------- 6. lessons (guided, step-by-step presentations) ----------
+  // Lesson text marks target-language phrases with *asterisks*: they are highlighted,
+  // tappable to hear, and read with the target-language voice when narrating.
+  const LESSONS_DESC = 'Short guided lessons in a suggested order: new words, examples and quick checks, then a real conversation. Read along, or turn on Read aloud and listen.';
+  const PRACTICE_MODE = { v: 'verbs', n: 'nouns', '#': 'numbers', q: 'sentences', s: 'sentences', r: 'reading' };
+  const T = (text, extra) => ({ text, lang: 'target', ...extra });
+  const E = (text) => ({ text, lang: 'en' });
+  const speechOf = (text) => (text || '').split(/\*([^*]+)\*/)
+    .map((t, i) => (i % 2 ? T(t) : E(t)))
+    .filter((s) => /[\p{L}\p{N}]/u.test(s.text));
+  const rich = (text) => (text || '').split(/\*([^*]+)\*/)
+    .map((t, i) => (i % 2 ? h('span', { class: 'tl', title: 'Listen', onclick: () => speak(t) }, t) : t))
+    .filter((x) => x !== '');
+  const cell = (x) => h('button', { class: 'cell', title: 'Listen', onclick: () => speak(x.it) },
+    h('span', { class: 'c-it' }, x.it), h('span', { class: 'c-en' }, x.en));
+
+  const lessonList = () => (data.lessons || []).slice().sort((a, b) => a.order - b.order);
+  const lessonProgress = (id) => (state.lessons && state.lessons[id]) || { pos: 0, done: false };
+  function setLessonProgress(id, patch) {
+    state.lessons = { ...state.lessons, [id]: { ...lessonProgress(id), ...patch } };
+    save();
+  }
+  // Queue the lesson's practice items for review (due now), unless already seen
+  function seedPractice(lesson) {
+    for (const id of lesson.practice || []) {
+      if (!state.srs[id]) state.srs[id] = { box: 0, due: Date.now(), seen: 0, right: 0 };
+    }
+    save();
+  }
+
+  // One beat per press of Next. A dialogue gives a beat per line; with `practice` it
+  // is followed by a role-play pass where each of that speaker's lines is a choice.
+  function lessonBeats(lesson) {
+    const beats = [];
+    for (const step of lesson.steps) {
+      if (step.type !== 'dialogue') { beats.push({ kind: step.type, step }); continue; }
+      step.lines.forEach((line, i) => beats.push({ kind: 'line', step, line, first: i === 0 }));
+      if (!step.practice) continue;
+      beats.push({ kind: 'roleplay', step });
+      let before = [];
+      for (const line of step.lines) {
+        if (line.s === step.practice) { beats.push({ kind: 'turn', step, line, before }); before = []; }
+        else before.push(line);
+      }
+      if (before.length) beats.push({ kind: 'lines', step, lines: before });
+    }
+    beats.push({ kind: 'recap' });
+    return beats;
+  }
+
+  function openLesson(id) {
+    state.lesson = id;
+    save();
+    show();
+    window.scrollTo(0, 0);
+  }
+  function closeLesson() {
+    state.lesson = null;
+    save();
+    show();
+  }
+
+  function renderLessons() {
+    const lesson = lessonList().find((l) => l.id === state.lesson);
+    if (lesson) renderLesson(lesson);
+    else renderLessonList();
+  }
+
+  function renderLessonList() {
+    const lessons = lessonList();
+    if (!lessons.length) { pane.append(h('div', { class: 'empty' }, 'No lessons yet.')); return; }
+    pane.append(h('ol', { class: 'lesson-list' }, lessons.map((l, i) => {
+      const p = lessonProgress(l.id);
+      const started = !p.done && p.pos > 0;
+      return h('li', {}, h('button', { class: 'lesson-card' + (p.done ? ' done' : ''), onclick: () => openLesson(l.id) },
+        h('span', { class: 'lesson-num' }, p.done ? '✓' : String(i + 1)),
+        h('span', { class: 'lesson-body' },
+          h('span', { class: 'lesson-title' }, l.title, h('span', { class: 'lesson-sub' }, l.subtitle)),
+          h('span', { class: 'lesson-goals' }, l.goals.map((g) => g.replace(/\*/g, '')).join(' · ')),
+          started ? h('span', { class: 'meter' }, h('span', { style: `width:${Math.round(100 * (p.pos + 1) / lessonBeats(l).length)}%` })) : null),
+        h('span', { class: 'lesson-go' }, p.done ? 'Review' : started ? 'Continue' : 'Start')));
+    })));
+  }
+
+  let lessonTimer = null;
+  function renderLesson(lesson) {
+    const lessons = lessonList();
+    const number = lessons.indexOf(lesson) + 1;
+    const beats = lessonBeats(lesson);
+    const last = beats.length - 1;
+    const allLines = lesson.steps.filter((s) => s.type === 'dialogue').flatMap((s) => s.lines).filter((l) => l.it);
+    let pos = -1;
+    let blocked = false; // an unanswered question holds the Next button
+    let choose = null; // answers the open question by option index (keys 1–9)
+    let thread = null; // the conversation currently being built
+
+    const flow = h('div', { class: 'lesson-flow' + (state.lessonHideEn ? ' hide-en' : '') });
+    const nextBtn = h('button', { class: 'btn', onclick: () => advance() }, 'Next');
+    const fill = h('span');
+    const counter = h('span', { class: 'count' });
+    const bar = h('div', { class: 'lesson-bar' }, h('span', { class: 'meter' }, fill), counter, nextBtn);
+
+    const boxes = {};
+    const toggle = (key, label, onchange) => h('label', { class: 'toggle' },
+      boxes[key] = h('input', { type: 'checkbox', checked: !!state[key], onchange: (e) => { state[key] = e.target.checked; onchange(state[key]); save(); } }),
+      label);
+    pane.append(
+      h('div', { class: 'lesson-top' },
+        h('button', { class: 'link-btn', onclick: closeLesson }, '← All lessons'),
+        h('div', { class: 'lesson-tools' },
+          canSpeak ? toggle('lessonAudio', 'Read aloud', (on) => {
+            if (on) return;
+            stopSpeech();
+            clearTimeout(lessonTimer);
+            state.lessonHandsFree = boxes.lessonHandsFree.checked = false;
+          }) : null,
+          canSpeak ? toggle('lessonHandsFree', 'Hands-free', (on) => {
+            clearTimeout(lessonTimer);
+            if (!on) return;
+            state.lessonAudio = boxes.lessonAudio.checked = true;
+            autoNext();
+          }) : null,
+          toggle('lessonHideEn', 'Hide chat translations', (on) => flow.classList.toggle('hide-en', on)),
+          h('button', { class: 'link-btn', onclick: () => { setLessonProgress(lesson.id, { pos: 0 }); show(); } }, 'restart'))),
+      h('header', { class: 'lesson-head' },
+        h('div', { class: 'eyebrow' }, `Lesson ${number} · ${lesson.subtitle}`),
+        h('h2', {}, lesson.title),
+        h('div', { class: 'goals-label' }, 'By the end you’ll be able to:'),
+        h('ul', { class: 'goals' }, lesson.goals.map((g) => h('li', {}, rich(g))))),
+      flow, bar);
+
+    keyHandler = (e) => {
+      const n = Number(e.key);
+      if (choose && n >= 1 && n <= 9) { choose(n - 1); return; }
+      const onControl = ['BUTTON', 'INPUT', 'A'].includes(e.target.tagName);
+      if (e.key === 'ArrowRight' || ((e.key === ' ' || e.key === 'Enter') && !onControl)) {
+        e.preventDefault();
+        advance();
+      }
+    };
+
+    function advance() {
+      clearTimeout(lessonTimer);
+      if (blocked || pos >= last) return;
+      reveal(pos + 1, true);
+    }
+    function reveal(i, live) {
+      pos = i;
+      blocked = false;
+      choose = null;
+      const { el, speech } = renderBeat(beats[i], live);
+      if (i === last) {
+        setLessonProgress(lesson.id, { pos, done: true });
+        seedPractice(lesson);
+      } else {
+        setLessonProgress(lesson.id, { pos });
+      }
+      updateBar();
+      if (live) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        narrate(speech);
+      }
+      return el;
+    }
+    function answered(speech) {
+      blocked = false;
+      choose = null;
+      updateBar();
+      nextBtn.focus({ preventScroll: true });
+      narrate(speech);
+    }
+    function updateBar() {
+      fill.style.width = `${Math.round(100 * (pos + 1) / beats.length)}%`;
+      counter.textContent = `${pos + 1} / ${beats.length}`;
+      nextBtn.disabled = blocked;
+      nextBtn.textContent = blocked ? 'Choose an answer' : 'Next';
+      bar.hidden = pos >= last;
+    }
+    function narrate(speech) {
+      clearTimeout(lessonTimer);
+      if (!state.lessonAudio || !canSpeak) return;
+      if (!speech.length) { autoNext(); return; }
+      say(speech).then((finished) => { if (finished) autoNext(); });
+    }
+    function autoNext() {
+      clearTimeout(lessonTimer);
+      if (state.lessonHandsFree && !blocked && pos < last) lessonTimer = setTimeout(advance, 700);
+    }
+
+    const speakerIndex = (step, s) => Object.keys(step.speakers).indexOf(s);
+    // The role-played speaker sits on the right, like your own messages
+    const isRight = (step, s) => (step.practice ? s === step.practice : speakerIndex(step, s) === 1);
+    const lineSpeech = (step, line) => (line.narration ? [E(line.narration)]
+      : [T(line.it, { voice: speakerIndex(step, line.s), pitch: [0.95, 1.15, 1.05][speakerIndex(step, line.s) % 3] })]);
+    function bubble(step, line) {
+      if (line.narration) return h('div', { class: 'narr' }, line.narration);
+      return h('div', { class: 'bubble ' + (isRight(step, line.s) ? 'right' : 'left'), title: 'Listen', onclick: () => say(lineSpeech(step, line)) },
+        h('div', { class: 'who' }, step.speakers[line.s].name),
+        h('div', { class: 'b-it' }, line.it),
+        h('div', { class: 'en' }, line.en));
+    }
+    const wrongLines = (line) => (line.wrong && line.wrong.length ? line.wrong
+      : shuffle(allLines.filter((l) => norm(l.it) !== norm(line.it))).slice(0, 2).map((l) => l.it));
+    const choiceBtn = (content, k, onpick) => h('button', { class: 'choice', onclick: () => onpick(k) },
+      h('span', { class: 'key' }, String(k + 1)), h('span', {}, content));
+
+    // Appends one beat to the page; returns the element to scroll to and what to say
+    function renderBeat(beat, live) {
+      const { step } = beat;
+      const add = (node) => flow.appendChild(node);
+      let el;
+      let speech = [];
+      switch (beat.kind) {
+        case 'heading':
+          el = add(h('h3', { class: 'blk l-h' }, rich(step.text)));
+          speech = speechOf(step.text);
+          break;
+        case 'text':
+          el = add(h('p', { class: 'blk l-p' }, rich(step.text)));
+          speech = speechOf(step.text);
+          break;
+        case 'word':
+          el = add(h('div', { class: 'blk word' },
+            h('div', { class: 'w-it' }, step.it, speakBtn(step.it)),
+            h('div', { class: 'w-en' }, step.en),
+            step.note ? h('div', { class: 'w-note' }, rich(step.note)) : null));
+          speech = [T(step.it), E(step.en), ...speechOf(step.note)];
+          break;
+        case 'example':
+          el = add(h('div', { class: 'blk ex' }, speakBtn(step.it),
+            h('div', {}, h('div', { class: 'ex-it' }, step.it), h('div', { class: 'ex-en' }, step.en))));
+          speech = [T(step.it), E(step.en)];
+          break;
+        case 'note':
+          el = add(h('aside', { class: 'blk callout' },
+            h('div', { class: 'callout-label' }, step.label || 'Note'), h('div', {}, rich(step.text))));
+          speech = [E((step.label || 'Note') + '.'), ...speechOf(step.text)];
+          break;
+        case 'list':
+          el = add(h('div', { class: 'blk' },
+            step.title ? h('div', { class: 'list-title' }, rich(step.title)) : null,
+            h('div', { class: 'list-grid' }, step.items.map(cell))));
+          speech = [...speechOf(step.title), ...step.items.map((x) => T(x.it))];
+          break;
+        case 'check': {
+          const fb = h('div', { class: 'check-fb' });
+          let done = !live;
+          const mark = (k) => buttons.forEach((b, j) => {
+            b.disabled = true;
+            if (j === step.answer) b.classList.add('correct');
+            else if (j === k) b.classList.add('wrong');
+          });
+          const pick = (k) => {
+            if (done || k >= step.options.length) return;
+            done = true;
+            mark(k);
+            const ok = k === step.answer;
+            const explain = step.why ? step.why : ok ? '' : `The answer is ${step.options[step.answer]}.`;
+            fb.replaceChildren(h('span', { class: 'verdict ' + (ok ? 'good' : 'bad') }, ok ? 'Yes! ' : 'Not quite. '), ...rich(explain));
+            answered([E(ok ? 'Yes!' : 'Not quite.'), ...speechOf(explain)]);
+          };
+          const buttons = step.options.map((o, k) => choiceBtn(rich(o), k, pick));
+          el = add(h('div', { class: 'blk check' }, h('div', { class: 'eyebrow' }, 'Quick check'),
+            h('div', { class: 'check-q' }, rich(step.prompt)), h('div', { class: 'choices' }, buttons), fb));
+          if (live) {
+            blocked = true;
+            choose = pick;
+            speech = speechOf(step.prompt);
+          } else {
+            mark(step.answer);
+            if (step.why) fb.append(...rich(step.why));
+          }
+          break;
+        }
+        case 'line':
+          if (beat.first) {
+            thread = add(h('div', { class: 'blk thread' }, step.title ? h('div', { class: 'thread-title' }, step.title) : null));
+            if (step.title) speech.push(E(step.title + '.'));
+          }
+          el = thread.appendChild(bubble(step, beat.line));
+          speech.push(...lineSpeech(step, beat.line));
+          break;
+        case 'roleplay': {
+          const name = step.speakers[step.practice].name;
+          el = thread = add(h('div', { class: 'blk thread roleplay' },
+            h('div', { class: 'thread-title' }, `Your turn: you’re ${name}`),
+            h('div', { class: 'thread-sub' }, `Replay “${step.title}”. Each time it’s ${name}’s turn, pick what to say.`)));
+          speech = [E(`Your turn. You're ${name}. Each time it's ${name}'s turn, pick what to say.`)];
+          break;
+        }
+        case 'turn': {
+          const name = step.speakers[step.practice].name;
+          for (const l of beat.before) {
+            thread.append(bubble(step, l));
+            speech.push(...lineSpeech(step, l));
+          }
+          if (!live) { el = thread.appendChild(bubble(step, beat.line)); break; }
+          const options = shuffle([beat.line.it, ...wrongLines(beat.line)]);
+          let done = false;
+          const pick = (k) => {
+            if (done || k >= options.length) return;
+            done = true;
+            const ok = options[k] === beat.line.it;
+            const reply = bubble(step, beat.line);
+            if (ok) reply.classList.add('got');
+            el.replaceWith(...(ok ? [] : [h('div', { class: 'turn-miss' }, `You picked “${options[k]}”. ${name} would say:`)]), reply);
+            answered([...(ok ? [] : [E(`Not quite. ${name} would say:`)]), ...lineSpeech(step, beat.line)]);
+          };
+          el = thread.appendChild(h('div', { class: 'turn' }, h('div', { class: 'who' }, `You (${name})`),
+            options.map((o, k) => choiceBtn(o, k, pick))));
+          blocked = true;
+          choose = pick;
+          break;
+        }
+        case 'lines':
+          for (const l of beat.lines) {
+            el = thread.appendChild(bubble(step, l));
+            speech.push(...lineSpeech(step, l));
+          }
+          break;
+        case 'recap': {
+          const items = lesson.steps.flatMap((s) => (s.type === 'word' ? [s] : s.type === 'list' && s.recap ? s.items : []));
+          const modes = [...new Set((lesson.practice || []).map((id) => PRACTICE_MODE[id.split(':')[0]]).filter(Boolean))];
+          const next = lessons[number];
+          const practise = (m) => {
+            state.mode = m;
+            state.filters = { ...state.filters, [m]: DEFAULT_FILTERS[m] || {} };
+            recent[m] = [];
+            save();
+            show();
+            window.scrollTo(0, 0);
+          };
+          el = add(h('section', { class: 'blk recap' },
+            h('h3', { class: 'l-h' }, 'Lesson complete'),
+            h('p', { class: 'l-p' }, 'Here is everything this lesson introduced. Tap anything to hear it again.'),
+            h('div', { class: 'list-grid' }, items.map(cell)),
+            modes.length ? h('p', { class: 'l-p muted' }, `This lesson’s practice items are now in your review queue, so they’ll come up soon in ${modes.map((m) => MODES[m].label).join(' and ')}.`) : null,
+            h('div', { class: 'actions' },
+              next ? h('button', { class: 'btn', onclick: () => openLesson(next.id) }, `Next lesson: ${next.title} →`) : null,
+              modes.map((m) => h('button', { class: 'btn secondary', onclick: () => practise(m) }, `Practise in ${MODES[m].label}`)),
+              h('button', { class: 'btn secondary', onclick: closeLesson }, 'All lessons'))));
+          speech = [E('Lesson complete.')];
+          break;
+        }
+        default:
+          el = add(h('div', { class: 'blk' }));
+      }
+      return { el, speech };
+    }
+
+    // Resume where the learner left off: earlier beats render already answered
+    const start = Math.min(lessonProgress(lesson.id).pos, last);
+    let lastEl = null;
+    for (let i = 0; i <= start; i++) lastEl = reveal(i, i === 0 && start === 0);
+    if (start > 0 && start < last) requestAnimationFrame(() => lastEl.scrollIntoView({ block: 'center' }));
+  }
+
   // ---------- chrome: tabs, stats, score ----------
   function renderScore() {
     const streak = state.streak > 1 ? ` · streak ${state.streak}` : '';
@@ -695,7 +1083,7 @@
   }
   function renderStats() {
     const statsEl = document.getElementById('stats');
-    if (state.mode === 'tables') { statsEl.replaceChildren(); return; }
+    if (state.mode === 'tables' || state.mode === 'lessons') { statsEl.replaceChildren(); return; }
     const now = Date.now();
     let fresh = 0, learning = 0, mastered = 0, due = 0;
     for (const i of poolFor(state.mode)) {
@@ -708,13 +1096,19 @@
     statsEl.replaceChildren(stat('New', fresh), stat('Learning', learning), stat('Mastered', mastered), stat('Due', due));
   }
   function renderTabs() {
-    const tabs = [...Object.entries(MODES).map(([key, m]) => [key, m.label]), ['tables', 'Word tables']];
+    const tabs = [['lessons', 'Lessons'], ...Object.entries(MODES).map(([key, m]) => [key, m.label]), ['tables', 'Word tables']];
     document.getElementById('modeTabs').replaceChildren(...tabs.map(([key, label]) =>
       h('button', {
         class: 'mode-btn' + (key === state.mode ? ' active' : ''),
-        onclick: () => { state.mode = key; save(); renderTabs(); show(); },
+        onclick: () => {
+          if (key === 'lessons') state.lesson = null; // the tab always leads back to the list
+          state.mode = key;
+          save();
+          show();
+        },
       }, label)));
-    document.getElementById('modeDesc').textContent = state.mode === 'tables' ? '' : MODES[state.mode].desc;
+    const desc = state.mode === 'tables' ? '' : state.mode === 'lessons' ? (state.lesson ? '' : LESSONS_DESC) : MODES[state.mode].desc;
+    document.getElementById('modeDesc').textContent = desc;
     document.querySelector('main').classList.toggle('wide', state.mode === 'tables');
   }
 
@@ -752,12 +1146,15 @@
   }
 
   function show() {
+    clearTimeout(lessonTimer);
+    stopSpeech();
     renderTabs();
     renderFilters();
-    if (state.mode === 'tables') {
+    if (state.mode === 'tables' || state.mode === 'lessons') {
       keyHandler = null;
       pane.replaceChildren();
-      renderTables();
+      if (state.mode === 'tables') renderTables();
+      else renderLessons();
       renderStats();
     } else {
       ask();
@@ -784,7 +1181,7 @@
 
   function init(json) {
     data = json;
-    if (!MODES[state.mode] && state.mode !== 'tables') state.mode = 'verbs';
+    if (!MODES[state.mode] && state.mode !== 'tables' && state.mode !== 'lessons') state.mode = 'lessons';
     document.addEventListener('keydown', (e) => {
       if (!keyHandler || e.ctrlKey || e.metaKey || e.altKey) return;
       if (e.key === 'Enter' && e.target.tagName === 'BUTTON') return; // let the focused button handle it
@@ -800,7 +1197,10 @@
     }
     document.getElementById('resetLink').addEventListener('click', () => {
       if (!confirm('Reset all progress and scores?')) return;
-      state = { ...defaults(), mode: state.mode, table: state.table, tableTense: state.tableTense, filters: state.filters, settings: state.settings, autoplay: state.autoplay };
+      state = {
+        ...defaults(), mode: state.mode, table: state.table, tableTense: state.tableTense, filters: state.filters, settings: state.settings, autoplay: state.autoplay,
+        lessonAudio: state.lessonAudio, lessonHandsFree: state.lessonHandsFree, lessonHideEn: state.lessonHideEn,
+      };
       save();
       renderScore();
       show();

@@ -1,6 +1,7 @@
 {
   "language": "it",
   "name": "Italian",
+  "speechLang": "it-IT",
   "persons": ["io", "tu", "lui", "noi", "voi", "loro"],
   "personOptions": [
     { "id": "io", "label": "I (io)", "en": "I" },
@@ -29,7 +30,8 @@
     { "id": "everyday", "label": "Everyday" },
     { "id": "food", "label": "Ordering food" },
     { "id": "directions", "label": "Directions" },
-    { "id": "bathroom", "label": "Bathroom" }
+    { "id": "bathroom", "label": "Bathroom" },
+    { "id": "social", "label": "Meeting people" }
   ],
   "sentenceTypes": [
     { "id": "statement", "label": "Statement", "description": "A plain affirmative sentence." },
@@ -2358,6 +2360,188 @@
       "it": "Preferiamo viaggiare in treno.",
       "en": "We prefer to travel by train.",
       "accepted": []
+    },
+    {
+      "id": "s134",
+      "rank": 1,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Buongiorno, signora!",
+      "en": "Good morning, ma'am!",
+      "accepted": []
+    },
+    {
+      "id": "s135",
+      "rank": 2,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Ciao, a domani!",
+      "en": "Bye, see you tomorrow!",
+      "accepted": []
+    },
+    {
+      "id": "s136",
+      "rank": 3,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Arrivederci, buona giornata!",
+      "en": "Goodbye, have a good day!",
+      "accepted": []
+    },
+    {
+      "id": "s137",
+      "rank": 4,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Mi chiamo Emma.",
+      "en": "My name is Emma.",
+      "accepted": []
+    },
+    {
+      "id": "s138",
+      "rank": 5,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Piacere, sono Marco.",
+      "en": "Nice to meet you, I'm Marco.",
+      "accepted": []
+    },
+    {
+      "id": "s139",
+      "rank": 6,
+      "topic": "social",
+      "type": "question",
+      "function": null,
+      "it": "Come si chiama, signora?",
+      "en": "What's your name, ma'am?",
+      "accepted": []
+    },
+    {
+      "id": "s140",
+      "rank": 7,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Sono di Milano.",
+      "en": "I'm from Milan.",
+      "accepted": []
+    },
+    {
+      "id": "s141",
+      "rank": 8,
+      "topic": "social",
+      "type": "question",
+      "function": null,
+      "it": "Come sta, signora?",
+      "en": "How are you, ma'am?",
+      "accepted": []
+    },
+    {
+      "id": "s142",
+      "rank": 9,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Sto molto bene, grazie.",
+      "en": "I'm very well, thanks.",
+      "accepted": []
+    },
+    {
+      "id": "s143",
+      "rank": 10,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Oggi sono molto stanca.",
+      "en": "Today I'm very tired.",
+      "accepted": [
+        "Sono molto stanca oggi."
+      ]
+    },
+    {
+      "id": "s144",
+      "rank": 40,
+      "topic": "food",
+      "type": "request",
+      "function": null,
+      "it": "Un caffè, per favore.",
+      "en": "A coffee, please.",
+      "accepted": []
+    },
+    {
+      "id": "s145",
+      "rank": 11,
+      "topic": "social",
+      "type": "negative",
+      "function": null,
+      "it": "Mi dispiace, non parlo italiano.",
+      "en": "I'm sorry, I don't speak Italian.",
+      "accepted": []
+    },
+    {
+      "id": "s146",
+      "rank": 12,
+      "topic": "social",
+      "type": "question",
+      "function": null,
+      "it": "Scusi, parla inglese?",
+      "en": "Excuse me, do you speak English?",
+      "accepted": []
+    },
+    {
+      "id": "s147",
+      "rank": 13,
+      "topic": "social",
+      "type": "negative",
+      "function": null,
+      "it": "Non sono italiano, sono americano.",
+      "en": "I'm not Italian, I'm American.",
+      "accepted": []
+    },
+    {
+      "id": "s148",
+      "rank": 14,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Siamo studenti di italiano.",
+      "en": "We're students of Italian.",
+      "accepted": []
+    },
+    {
+      "id": "s149",
+      "rank": 15,
+      "topic": "social",
+      "type": "question",
+      "function": null,
+      "it": "Sei italiana?",
+      "en": "Are you Italian? (to a woman)",
+      "accepted": []
+    },
+    {
+      "id": "s150",
+      "rank": 16,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Ho diciotto anni.",
+      "en": "I'm eighteen years old.",
+      "accepted": []
+    },
+    {
+      "id": "s151",
+      "rank": 17,
+      "topic": "social",
+      "type": "statement",
+      "function": null,
+      "it": "Mia sorella ha dodici anni.",
+      "en": "My sister is twelve years old.",
+      "accepted": []
     }
   ],
   "readings": [
@@ -2790,6 +2974,342 @@
         }
       ],
       "license": "CC BY-SA 4.0"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "greetings",
+      "order": 1,
+      "title": "Ciao!",
+      "subtitle": "Greetings and goodbyes",
+      "goals": ["Greet anyone, at any time of day", "Say goodbye, casually or politely", "Choose between casual *tu* and polite *Lei*"],
+      "practice": ["s:s134", "s:s135", "s:s136"],
+      "steps": [
+        { "type": "heading", "text": "Saying hello" },
+        { "type": "text", "text": "Italians choose a greeting based on two things: the time of day, and how well they know you. Let’s start with the one you probably already know." },
+        { "type": "word", "it": "ciao", "en": "hi / bye", "note": "Casual: friends, family, children and people your own age. It works for hello and for goodbye." },
+        { "type": "example", "it": "Ciao, Marco!", "en": "Hi, Marco!" },
+        { "type": "word", "it": "buongiorno", "en": "good morning / good day", "note": "The polite, all-purpose hello from morning until early afternoon. Use it in shops and cafés, and with anyone you don’t know." },
+        { "type": "word", "it": "buonasera", "en": "good evening", "note": "Takes over from *buongiorno* in the late afternoon, from around 4 or 5 pm." },
+        { "type": "word", "it": "salve", "en": "hello", "note": "A neutral hello, useful when you can’t decide between casual and polite." },
+        { "type": "word", "it": "signore / signora", "en": "sir / ma’am", "note": "Often added to a polite greeting. Before a surname, *signore* shortens to *signor*: *Buongiorno, signor Rossi!*" },
+        { "type": "example", "it": "Buongiorno, signora!", "en": "Good morning, ma’am!" },
+        { "type": "note", "label": "Tu or Lei?", "text": "Italian has two words for “you”. *Tu* is casual: friends, family, children, people your age. *Lei* is polite: strangers, shop staff, older people. *Ciao* goes with *tu*; *buongiorno* and *buonasera* are safe with anyone." },
+        { "type": "check", "prompt": "It’s 10 am and you walk into a bakery. What do you say?", "options": ["*Ciao!*", "*Buongiorno!*", "*Buonasera!*"], "answer": 1, "why": "You don’t know the baker, so be polite, and it’s morning, so *buongiorno*." },
+        { "type": "check", "prompt": "You bump into a friend from class at 7 pm. What’s the most natural greeting?", "options": ["*Ciao!*", "*Buongiorno!*", "*Signora!*"], "answer": 0, "why": "With a friend, *ciao* is natural at any hour." },
+        { "type": "heading", "text": "Saying goodbye" },
+        { "type": "word", "it": "arrivederci", "en": "goodbye", "note": "The standard goodbye. Polite enough for anyone, and friends use it too." },
+        { "type": "word", "it": "a presto", "en": "see you soon" },
+        { "type": "word", "it": "a domani", "en": "see you tomorrow" },
+        { "type": "word", "it": "buona giornata", "en": "have a good day", "note": "What shop staff say as you leave during the day. In the evening it becomes *buona serata*." },
+        { "type": "word", "it": "buonanotte", "en": "good night", "note": "Only for the end of the night, when someone is going home or to bed. Never use it as a greeting." },
+        { "type": "example", "it": "Ciao, a domani!", "en": "Bye, see you tomorrow!" },
+        { "type": "example", "it": "Arrivederci, buona serata!", "en": "Goodbye, have a good evening!" },
+        { "type": "check", "prompt": "You’re leaving a friend’s place at midnight. What do you say?", "options": ["*Buonanotte!*", "*Buongiorno!*", "*Salve!*"], "answer": 0, "why": "*Buonanotte* is for the end of the night. *Salve* is only a hello." },
+        { "type": "check", "prompt": "Which goodbye can you use with anyone, casual or polite?", "options": ["*Ciao*", "*Arrivederci*", "*Buonanotte*"], "answer": 1, "why": "*Arrivederci* works everywhere. *Ciao* is only for people you’d call *tu*." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Anna stops at a café on her way to work. Tap any line to hear it again." },
+        { "type": "dialogue", "title": "At the café, 8 am", "speakers": { "b": { "name": "Barista" }, "a": { "name": "Anna" } }, "practice": "a", "lines": [
+          { "s": "a", "it": "Buongiorno!", "en": "Good morning!", "wrong": ["Buonanotte!", "Arrivederci!"] },
+          { "s": "b", "it": "Buongiorno, signora!", "en": "Good morning, ma’am!" },
+          { "narration": "Anna drinks her coffee and pays." },
+          { "s": "a", "it": "Arrivederci!", "en": "Goodbye!", "wrong": ["Buonanotte!", "Buonasera!"] },
+          { "s": "b", "it": "Arrivederci, buona giornata!", "en": "Goodbye, have a good day!" },
+          { "s": "a", "it": "Buona giornata!", "en": "Have a good day!", "wrong": ["Buona serata!", "Buonanotte!"] }
+        ] },
+        { "type": "text", "text": "That evening, Anna runs into her friend Luca." },
+        { "type": "dialogue", "title": "In the street, 9 pm", "speakers": { "l": { "name": "Luca" }, "a": { "name": "Anna" } }, "practice": "a", "lines": [
+          { "s": "l", "it": "Ciao, Anna!", "en": "Hi, Anna!" },
+          { "s": "a", "it": "Ciao, Luca!", "en": "Hi, Luca!", "wrong": ["Buongiorno, signore!", "Arrivederci, Luca!"] },
+          { "narration": "They chat for a while." },
+          { "s": "l", "it": "Buonanotte, Anna! A domani!", "en": "Good night, Anna! See you tomorrow!" },
+          { "s": "a", "it": "Ciao, a domani!", "en": "Bye, see you tomorrow!", "wrong": ["Buongiorno, a domani!", "Salve, a domani!"] }
+        ] }
+      ]
+    },
+    {
+      "id": "introductions",
+      "order": 2,
+      "title": "Mi chiamo…",
+      "subtitle": "Introducing yourself",
+      "goals": ["Say your name and ask someone theirs", "Say where you’re from", "Respond when you meet someone new"],
+      "practice": ["q:q2", "q:q11", "s:s137", "s:s138", "s:s139", "s:s140"],
+      "steps": [
+        { "type": "heading", "text": "What’s your name?" },
+        { "type": "text", "text": "Italians don’t say “my name is”. They say *mi chiamo*, literally “I call myself”. Learn it as one block for now. The grammar behind it comes much later." },
+        { "type": "word", "it": "Mi chiamo…", "en": "My name is…" },
+        { "type": "example", "it": "Mi chiamo Anna.", "en": "My name is Anna." },
+        { "type": "word", "it": "Come ti chiami?", "en": "What’s your name? (casual)", "note": "Literally “How do you call yourself?” Use it with people you’d greet with *ciao*." },
+        { "type": "word", "it": "Come si chiama?", "en": "What’s your name? (polite)", "note": "The *Lei* version, for strangers and older people. It also means “What’s he / she called?”" },
+        { "type": "word", "it": "Sono…", "en": "I’m…", "note": "The quick way: *Sono Marco*, “I’m Marco.”" },
+        { "type": "word", "it": "E tu?", "en": "And you? (casual)", "note": "Polite version: *E Lei?*" },
+        { "type": "check", "prompt": "A new classmate says *Ciao, mi chiamo Sara.* What is she telling you?", "options": ["Her name", "Where she’s from", "How she is"], "answer": 0, "why": "*Mi chiamo Sara* means “My name is Sara.”" },
+        { "type": "check", "prompt": "You’re asking an elderly gentleman his name. Which question do you use?", "options": ["*Come ti chiami?*", "*Come si chiama?*", "*E tu?*"], "answer": 1, "why": "With a stranger or someone older, use the polite *Lei* form: *Come si chiama?*" },
+        { "type": "heading", "text": "Nice to meet you" },
+        { "type": "word", "it": "Piacere!", "en": "Nice to meet you!", "note": "Said with a handshake, often with your name: *Piacere, Marco.*" },
+        { "type": "word", "it": "Piacere mio.", "en": "The pleasure’s mine.", "note": "A friendly reply to *piacere*. You can also just say *piacere* back." },
+        { "type": "word", "it": "Molto piacere.", "en": "Very nice to meet you." },
+        { "type": "note", "label": "Culture", "text": "Italians shake hands when they meet someone new, and friends often greet each other with a kiss on each cheek. Either way, *piacere* is the word that goes with it." },
+        { "type": "heading", "text": "Where are you from?" },
+        { "type": "word", "it": "Di dove sei?", "en": "Where are you from? (casual)", "note": "Polite version: *Di dov’è?*" },
+        { "type": "word", "it": "Sono di…", "en": "I’m from…", "note": "Use it with a city: *Sono di Roma*, *Sono di Chicago*. For countries you’ll use a nationality instead, which is in lesson 5." },
+        { "type": "example", "it": "Sono di Milano. E tu?", "en": "I’m from Milan. And you?" },
+        { "type": "note", "label": "Tip", "text": "*Io* means “I”. Italian usually drops it, because *sono* already tells you who is speaking. Add it for contrast: *Lui è di Roma, io sono di Napoli*, “He’s from Rome, I’m from Naples.”" },
+        { "type": "check", "prompt": "Someone asks *Di dove sei?* Which answer fits?", "options": ["*Mi chiamo Luca.*", "*Sono di Torino.*", "*Piacere mio.*"], "answer": 1, "why": "*Di dove sei?* asks where you’re from, so *Sono di Torino*, “I’m from Turin.”" },
+        { "type": "check", "prompt": "Someone shakes your hand and says *Piacere!* What’s a natural reply?", "options": ["*Piacere mio.*", "*A domani!*", "*Come si chiama?*"], "answer": 0 },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "At a friend’s party, Marco meets Emma. They’re about the same age, so they use *tu*." },
+        { "type": "dialogue", "title": "At a party", "speakers": { "m": { "name": "Marco" }, "e": { "name": "Emma" } }, "practice": "e", "lines": [
+          { "s": "m", "it": "Ciao! Mi chiamo Marco. E tu?", "en": "Hi! My name’s Marco. And you?" },
+          { "s": "e", "it": "Ciao, sono Emma. Piacere!", "en": "Hi, I’m Emma. Nice to meet you!", "wrong": ["Sono di Boston. Piacere!", "Buonanotte, Marco!"] },
+          { "s": "m", "it": "Piacere mio! Di dove sei?", "en": "The pleasure’s mine! Where are you from?" },
+          { "s": "e", "it": "Sono di Boston. E tu?", "en": "I’m from Boston. And you?", "wrong": ["Mi chiamo Emma. E tu?", "Piacere mio. E tu?"] },
+          { "s": "m", "it": "Io sono di Bologna.", "en": "I’m from Bologna." }
+        ] },
+        { "type": "text", "text": "Now a polite version. Two strangers meet at a conference, so they use *Lei*." },
+        { "type": "dialogue", "title": "At a conference", "speakers": { "r": { "name": "Giorgio Rossi" }, "b": { "name": "Paola Bianchi" } }, "lines": [
+          { "s": "r", "it": "Buongiorno. Mi chiamo Giorgio Rossi.", "en": "Good morning. My name is Giorgio Rossi." },
+          { "s": "b", "it": "Piacere, Paola Bianchi.", "en": "Nice to meet you, Paola Bianchi." },
+          { "s": "r", "it": "Molto piacere. Di dov’è, signora?", "en": "Very nice to meet you. Where are you from, ma’am?" },
+          { "s": "b", "it": "Sono di Firenze. E Lei?", "en": "I’m from Florence. And you?" },
+          { "s": "r", "it": "Sono di Palermo.", "en": "I’m from Palermo." }
+        ] }
+      ]
+    },
+    {
+      "id": "how-are-you",
+      "order": 3,
+      "title": "Come stai?",
+      "subtitle": "How are you?",
+      "goals": ["Ask how someone is, casually and politely", "Answer honestly, from great to not so good", "Keep the conversation going with *e tu?*"],
+      "practice": ["q:q1", "s:s141", "s:s142", "s:s143"],
+      "steps": [
+        { "type": "heading", "text": "How are you?" },
+        { "type": "text", "text": "After hello, Italians usually ask how you are, and unlike in English, they may actually expect an answer." },
+        { "type": "word", "it": "Come stai?", "en": "How are you? (casual)", "note": "From the verb *stare*. Use it with anyone you’d call *tu*." },
+        { "type": "word", "it": "Come sta?", "en": "How are you? (polite)", "note": "The *Lei* version, for people you’d greet with *buongiorno*." },
+        { "type": "word", "it": "Come va?", "en": "How’s it going?", "note": "Relaxed and very common. It works with both *tu* and *Lei*." },
+        { "type": "note", "label": "Grammar in a nutshell", "text": "Italian has two verbs for “to be”: *essere* and *stare*. For how you feel, Italians use *stare*: *sto bene* means “I’m well”. For now, just learn *sto* as the word that goes with how you are." },
+        { "type": "heading", "text": "Answering" },
+        { "type": "list", "title": "From great to not so good", "recap": true, "items": [
+          { "it": "Benissimo!", "en": "great!" },
+          { "it": "Molto bene.", "en": "very well" },
+          { "it": "Bene, grazie.", "en": "fine, thanks" },
+          { "it": "Abbastanza bene.", "en": "pretty well" },
+          { "it": "Non c’è male.", "en": "not bad" },
+          { "it": "Così così.", "en": "so-so" },
+          { "it": "Male.", "en": "badly / not well" }
+        ] },
+        { "type": "word", "it": "Sto bene.", "en": "I’m well.", "note": "The full sentence. Often shortened to just *bene*." },
+        { "type": "word", "it": "grazie", "en": "thank you", "note": "Tag it on after your answer: *Bene, grazie.*" },
+        { "type": "word", "it": "E tu? / E Lei?", "en": "And you? (casual / polite)", "note": "Throw the question back." },
+        { "type": "word", "it": "anch’io", "en": "me too / I too", "note": "Short for *anche io*. *Bene anch’io* means “I’m well too.”" },
+        { "type": "word", "it": "Sono stanco / stanca.", "en": "I’m tired.", "note": "Tired uses *essere*, not *stare*. The ending matches you: *stanco* for a man, *stanca* for a woman." },
+        { "type": "check", "prompt": "Your friend asks *Come stai?* and you feel great. What do you say?", "options": ["*Benissimo, grazie!*", "*Così così.*", "*Male.*"], "answer": 0 },
+        { "type": "check", "prompt": "Your new neighbour is an older woman. How do you ask how she is?", "options": ["*Come stai?*", "*Come sta?*", "*Come ti chiami?*"], "answer": 1, "why": "*Come sta?* is the polite *Lei* form." },
+        { "type": "check", "prompt": "What does *così così* mean?", "options": ["Very well", "So-so", "Not bad"], "answer": 1 },
+        { "type": "note", "label": "Culture", "text": "Italians answer “how are you?” more honestly than English speakers do. Saying *così così* or *non c’è male* is perfectly normal, and may start a real chat." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Giulia meets her friend Paolo at the bus stop." },
+        { "type": "dialogue", "title": "At the bus stop", "speakers": { "g": { "name": "Giulia" }, "p": { "name": "Paolo" } }, "practice": "p", "lines": [
+          { "s": "g", "it": "Ciao, Paolo! Come stai?", "en": "Hi, Paolo! How are you?" },
+          { "s": "p", "it": "Bene, grazie. E tu?", "en": "Fine, thanks. And you?", "wrong": ["Sono di Roma. E tu?", "Mi chiamo Paolo. E tu?"] },
+          { "s": "g", "it": "Così così. Sono molto stanca.", "en": "So-so. I’m really tired." },
+          { "s": "p", "it": "Anch’io sono stanco!", "en": "I’m tired too!", "wrong": ["Anch’io sono stanca!", "Piacere mio!"] },
+          { "narration": "The bus arrives." },
+          { "s": "g", "it": "Ciao, a presto!", "en": "Bye, see you soon!" },
+          { "s": "p", "it": "Ciao, Giulia!", "en": "Bye, Giulia!", "wrong": ["Buongiorno, Giulia!", "Piacere, Giulia!"] }
+        ] },
+        { "type": "text", "text": "Later, Giulia meets her elderly neighbour, Signora Conti, on the stairs." },
+        { "type": "dialogue", "title": "On the stairs", "speakers": { "g": { "name": "Giulia" }, "c": { "name": "Signora Conti" } }, "lines": [
+          { "s": "g", "it": "Buongiorno, signora Conti! Come sta?", "en": "Good morning, Mrs Conti! How are you?" },
+          { "s": "c", "it": "Non c’è male, grazie. E tu, cara?", "en": "Not bad, thanks. And you, dear?" },
+          { "s": "g", "it": "Abbastanza bene, grazie.", "en": "Pretty well, thanks." },
+          { "s": "c", "it": "Buona giornata, Giulia!", "en": "Have a good day, Giulia!" },
+          { "s": "g", "it": "Buona giornata, signora!", "en": "Have a good day, ma’am!" }
+        ] },
+        { "type": "note", "label": "Notice", "text": "Signora Conti says *tu* to Giulia, but Giulia says *Lei* to her. Older people often use *tu* with younger ones, while the younger person stays polite until invited to switch." }
+      ]
+    },
+    {
+      "id": "politeness",
+      "order": 4,
+      "title": "Per favore, grazie",
+      "subtitle": "Polite essentials",
+      "goals": ["Say please, thank you and you’re welcome", "Get someone’s attention and apologise", "Cope when you don’t understand"],
+      "practice": ["s:s144", "s:s33", "s:s38", "s:s7", "s:s66", "s:s145", "s:s146", "s:s52"],
+      "steps": [
+        { "type": "heading", "text": "Please and thank you" },
+        { "type": "word", "it": "per favore", "en": "please", "note": "Goes at the end of a request: *Un caffè, per favore.*" },
+        { "type": "example", "it": "Un caffè, per favore.", "en": "A coffee, please." },
+        { "type": "word", "it": "grazie / grazie mille", "en": "thank you / thanks so much", "note": "*Grazie mille* is literally “a thousand thanks”." },
+        { "type": "word", "it": "prego", "en": "you’re welcome", "note": "It also means “please, go ahead”: when holding a door, inviting someone in, or handing something over." },
+        { "type": "word", "it": "di niente", "en": "don’t mention it", "note": "A casual alternative to *prego*." },
+        { "type": "note", "label": "Culture", "text": "*Prego* is one of the most useful words in Italian. A waiter who says *Prego?* means “What can I get you?”. A shopkeeper handing you your change says *prego*. So does someone waving you through a door." },
+        { "type": "check", "prompt": "Someone says *Grazie mille!* You reply:", "options": ["*Prego!*", "*Per favore!*", "*Grazie!*"], "answer": 0 },
+        { "type": "heading", "text": "Excuse me and sorry" },
+        { "type": "word", "it": "scusi / scusa", "en": "excuse me (polite / casual)", "note": "To get someone’s attention, or to apologise for something small. *Scusi* for strangers, *scusa* for friends." },
+        { "type": "example", "it": "Scusi, dov’è la farmacia?", "en": "Excuse me, where is the pharmacy?" },
+        { "type": "word", "it": "permesso", "en": "excuse me (coming through)", "note": "For squeezing past people on a crowded bus, or when stepping into someone’s home." },
+        { "type": "word", "it": "mi dispiace", "en": "I’m sorry", "note": "Real regret or sympathy: bad news, or when you can’t help. Bumping into someone is *scusi*, not *mi dispiace*." },
+        { "type": "check", "prompt": "You need to get past people blocking the train door. You say:", "options": ["*Permesso!*", "*Mi dispiace!*", "*Prego!*"], "answer": 0, "why": "*Permesso* is “coming through”." },
+        { "type": "check", "prompt": "You step on a stranger’s foot. You say:", "options": ["*Scusi!*", "*Scusa!*", "*Prego!*"], "answer": 0, "why": "A stranger gets the polite *scusi*. *Scusa* is for friends." },
+        { "type": "heading", "text": "When you don’t understand" },
+        { "type": "word", "it": "Non capisco.", "en": "I don’t understand." },
+        { "type": "word", "it": "Non lo so.", "en": "I don’t know." },
+        { "type": "word", "it": "Può ripetere, per favore?", "en": "Can you repeat that, please?", "note": "Casual version: *Puoi ripetere?*" },
+        { "type": "word", "it": "Più piano, per favore.", "en": "More slowly, please." },
+        { "type": "word", "it": "Parla inglese?", "en": "Do you speak English? (polite)", "note": "Casual version: *Parli inglese?*" },
+        { "type": "example", "it": "Scusi, non capisco. Può ripetere, per favore?", "en": "Sorry, I don’t understand. Can you repeat that, please?" },
+        { "type": "check", "prompt": "A stranger asks you for directions, but you’re a tourist and have no idea. You say:", "options": ["*Mi dispiace, non lo so.*", "*Permesso, non lo so.*", "*Prego, non lo so.*"], "answer": 0, "why": "You’re sorry you can’t help, so *mi dispiace*." },
+        { "type": "check", "prompt": "Someone is speaking too fast for you. What do you ask?", "options": ["*Più piano, per favore.*", "*Prego, più piano.*", "*Permesso, più piano.*"], "answer": 0 },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Tom, a tourist, is lost in Rome and looking for *la stazione*, the station. He stops a passer-by." },
+        { "type": "dialogue", "title": "Lost in Rome", "speakers": { "s": { "name": "Signora" }, "t": { "name": "Tom" } }, "practice": "t", "lines": [
+          { "s": "t", "it": "Scusi, signora! Parla inglese?", "en": "Excuse me, ma’am! Do you speak English?", "wrong": ["Permesso, signora! Parla inglese?", "Prego, signora! Parla inglese?"] },
+          { "s": "s", "it": "No, mi dispiace. Solo italiano.", "en": "No, I’m sorry. Only Italian." },
+          { "s": "t", "it": "Dov’è la stazione, per favore?", "en": "Where’s the station, please?", "wrong": ["Dov’è la stazione, prego?", "Dov’è la stazione, mi dispiace?"] },
+          { "s": "s", "it": "È a destra, dopo la piazza.", "en": "It’s on the right, after the square." },
+          { "s": "t", "it": "Scusi, non capisco. Può ripetere, per favore?", "en": "Sorry, I don’t understand. Can you repeat that, please?", "wrong": ["Scusi, non lo so. Arrivederci!", "Grazie mille, arrivederci!"] },
+          { "s": "s", "it": "A destra. Dopo la piazza.", "en": "On the right. After the square." },
+          { "s": "t", "it": "Grazie mille!", "en": "Thanks so much!", "wrong": ["Prego!", "Permesso!"] },
+          { "s": "s", "it": "Prego!", "en": "You’re welcome!" }
+        ] }
+      ]
+    },
+    {
+      "id": "essere",
+      "order": 5,
+      "title": "Io sono…",
+      "subtitle": "The verb essere",
+      "goals": ["Use all six forms of *essere* (to be)", "Say your nationality with the right ending", "Make a sentence negative with *non*, and ask yes / no questions"],
+      "practice": ["v:essere:present:io", "v:essere:present:tu", "v:essere:present:lui", "v:essere:present:noi", "v:essere:present:voi", "v:essere:present:loro", "s:s9", "s:s15", "s:s147", "s:s148", "s:s149"],
+      "steps": [
+        { "type": "heading", "text": "To be: essere" },
+        { "type": "text", "text": "*Essere* (to be) is the most common verb in Italian, and like “to be” in English, it’s irregular. You’ve already met *sono*. Here is the whole family." },
+        { "type": "list", "title": "*Essere*, present tense", "recap": true, "items": [
+          { "it": "io sono", "en": "I am" },
+          { "it": "tu sei", "en": "you are (casual)" },
+          { "it": "lui / lei è", "en": "he / she is" },
+          { "it": "Lei è", "en": "you are (polite)" },
+          { "it": "noi siamo", "en": "we are" },
+          { "it": "voi siete", "en": "you all are" },
+          { "it": "loro sono", "en": "they are" }
+        ] },
+        { "type": "note", "label": "Watch out", "text": "*Sono* means both “I am” and “they are”. The context tells you which. Also, *è* (is) has an accent, while *e* without one means “and”." },
+        { "type": "note", "label": "Tip", "text": "The polite *Lei* uses the same form as “he / she”: *Lei è italiana?* can mean “Is she Italian?” or “Are you Italian?”. Context, and the capital L in writing, tell you which." },
+        { "type": "check", "prompt": "Complete: *Noi ___ amici.* (We are friends.)", "options": ["*siamo*", "*sono*", "*siete*"], "answer": 0 },
+        { "type": "check", "prompt": "Complete: *Tu ___ di Roma?* (Are you from Rome?)", "options": ["*è*", "*sei*", "*sono*"], "answer": 1 },
+        { "type": "heading", "text": "Nationalities" },
+        { "type": "text", "text": "Nationality words describe you, so their ending matches you. Most end in *-o* for a man and *-a* for a woman." },
+        { "type": "list", "title": "Nationalities with *-o* / *-a*", "recap": true, "items": [
+          { "it": "italiano / italiana", "en": "Italian" },
+          { "it": "americano / americana", "en": "American" },
+          { "it": "spagnolo / spagnola", "en": "Spanish" },
+          { "it": "tedesco / tedesca", "en": "German" },
+          { "it": "messicano / messicana", "en": "Mexican" }
+        ] },
+        { "type": "list", "title": "Nationalities with *-e*, the same for everyone", "recap": true, "items": [
+          { "it": "inglese", "en": "English" },
+          { "it": "francese", "en": "French" },
+          { "it": "canadese", "en": "Canadian" },
+          { "it": "cinese", "en": "Chinese" },
+          { "it": "giapponese", "en": "Japanese" }
+        ] },
+        { "type": "example", "it": "Marco è italiano. Giulia è italiana.", "en": "Marco is Italian. Giulia is Italian." },
+        { "type": "example", "it": "Sono inglese.", "en": "I’m English." },
+        { "type": "note", "label": "Notice", "text": "Italian writes nationalities with a small letter: *italiano*, not “Italiano”." },
+        { "type": "heading", "text": "Saying no, and asking" },
+        { "type": "text", "text": "To make a sentence negative, put *non* right before the verb. That’s all there is to it." },
+        { "type": "example", "it": "Non sono italiano.", "en": "I’m not Italian." },
+        { "type": "example", "it": "Lei non è di Roma.", "en": "She isn’t from Rome." },
+        { "type": "text", "text": "To ask a yes / no question, keep the same words and raise your voice at the end." },
+        { "type": "example", "it": "Sei italiana?", "en": "Are you Italian? (to a woman)" },
+        { "type": "check", "prompt": "Emma is from London. How does she say “I’m not Italian”?", "options": ["*Non sono italiana.*", "*Sono non italiana.*", "*Non sono italiano.*"], "answer": 0, "why": "*Non* goes before the verb, and Emma is a woman, so *italiana*." },
+        { "type": "check", "prompt": "Pedro is from Madrid. Which sentence is right?", "options": ["*Pedro è spagnolo.*", "*Pedro è spagnola.*", "*Pedro sono spagnolo.*"], "answer": 0 },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "At a language exchange in Florence, Chiara meets two newcomers, Sam and Mia." },
+        { "type": "dialogue", "title": "Language exchange", "speakers": { "c": { "name": "Chiara" }, "m": { "name": "Mia" }, "s": { "name": "Sam" } }, "practice": "s", "lines": [
+          { "s": "c", "it": "Ciao! Siete studenti?", "en": "Hi! Are you students?" },
+          { "s": "s", "it": "Sì, siamo studenti di italiano.", "en": "Yes, we’re students of Italian.", "wrong": ["Sì, sono studenti di italiano.", "Sì, siete studenti di italiano."] },
+          { "s": "c", "it": "Di dove siete?", "en": "Where are you from?" },
+          { "s": "s", "it": "Io sono americano, di Chicago.", "en": "I’m American, from Chicago.", "wrong": ["Io sono americana, di Chicago.", "Io è americano, di Chicago."] },
+          { "s": "m", "it": "E io sono canadese.", "en": "And I’m Canadian." },
+          { "s": "c", "it": "Mia, sei di Toronto?", "en": "Mia, are you from Toronto?" },
+          { "s": "m", "it": "No, non sono di Toronto. Sono di Vancouver.", "en": "No, I’m not from Toronto. I’m from Vancouver." },
+          { "s": "c", "it": "Benvenuti a Firenze!", "en": "Welcome to Florence!" },
+          { "s": "s", "it": "Grazie mille!", "en": "Thanks so much!", "wrong": ["Prego!", "Mi dispiace!"] }
+        ] }
+      ]
+    },
+    {
+      "id": "numbers-age",
+      "order": 6,
+      "title": "Numeri e anni",
+      "subtitle": "Numbers 0–20 and age",
+      "goals": ["Count from 0 to 20", "Ask someone’s age and give yours", "Use *avere* (to have) with *io*, *tu* and *lui / lei*"],
+      "practice": ["#:1", "#:2", "#:3", "#:4", "#:5", "#:6", "#:7", "#:8", "#:9", "#:10", "#:11", "#:12", "#:13", "#:14", "#:15", "#:16", "#:17", "#:18", "#:19", "#:20", "q:q5", "v:avere:present:io", "v:avere:present:tu", "v:avere:present:lui", "s:s150", "s:s151"],
+      "steps": [
+        { "type": "heading", "text": "0 to 10" },
+        { "type": "list", "title": "Tap a number to hear it", "items": [
+          { "it": "zero", "en": "0" },
+          { "it": "uno", "en": "1" },
+          { "it": "due", "en": "2" },
+          { "it": "tre", "en": "3" },
+          { "it": "quattro", "en": "4" },
+          { "it": "cinque", "en": "5" },
+          { "it": "sei", "en": "6" },
+          { "it": "sette", "en": "7" },
+          { "it": "otto", "en": "8" },
+          { "it": "nove", "en": "9" },
+          { "it": "dieci", "en": "10" }
+        ] },
+        { "type": "note", "label": "Tip", "text": "*Sei* is both “six” and “you are” (from *essere*). Context always tells you which." },
+        { "type": "check", "prompt": "What is *otto*?", "options": ["8", "7", "4"], "answer": 0 },
+        { "type": "heading", "text": "11 to 20" },
+        { "type": "text", "text": "Eleven to sixteen end in *-dici*, from *dieci* (ten). Seventeen to nineteen flip it around, and *dici-* comes first." },
+        { "type": "list", "title": "Tap a number to hear it", "items": [
+          { "it": "undici", "en": "11" },
+          { "it": "dodici", "en": "12" },
+          { "it": "tredici", "en": "13" },
+          { "it": "quattordici", "en": "14" },
+          { "it": "quindici", "en": "15" },
+          { "it": "sedici", "en": "16" },
+          { "it": "diciassette", "en": "17" },
+          { "it": "diciotto", "en": "18" },
+          { "it": "diciannove", "en": "19" },
+          { "it": "venti", "en": "20" }
+        ] },
+        { "type": "note", "label": "Pattern", "text": "Compare *sedici* (16, “six-ten”) with *diciassette* (17, “ten-seven”). The switch happens at seventeen." },
+        { "type": "check", "prompt": "Which one is 17?", "options": ["*diciassette*", "*settedici*", "*sedici*"], "answer": 0 },
+        { "type": "check", "prompt": "What is *quindici*?", "options": ["15", "5", "50"], "answer": 0 },
+        { "type": "heading", "text": "How old are you?" },
+        { "type": "text", "text": "In English you are an age. In Italian you have years, so age uses *avere* (to have), not *essere*." },
+        { "type": "list", "title": "*Avere*: the forms you need today", "recap": true, "items": [
+          { "it": "io ho", "en": "I have" },
+          { "it": "tu hai", "en": "you have (casual)" },
+          { "it": "lui / lei ha", "en": "he / she has" },
+          { "it": "Lei ha", "en": "you have (polite)" }
+        ] },
+        { "type": "note", "label": "Spelling", "text": "The h in *ho*, *hai* and *ha* is silent. It’s there to tell *ho* (I have) apart from *o* (or), and *ha* (has) from *a* (to)." },
+        { "type": "word", "it": "Quanti anni hai?", "en": "How old are you? (casual)", "note": "Literally “How many years do you have?” Polite version: *Quanti anni ha?*" },
+        { "type": "word", "it": "Ho … anni.", "en": "I’m … years old.", "note": "Always include *anni*: *Ho diciotto anni.*" },
+        { "type": "example", "it": "Ho venti anni.", "en": "I’m twenty." },
+        { "type": "example", "it": "Mia sorella ha dodici anni.", "en": "My sister is twelve." },
+        { "type": "check", "prompt": "How do you say “I’m fifteen”?", "options": ["*Ho quindici anni.*", "*Sono quindici anni.*", "*Ha quindici anni.*"], "answer": 0, "why": "Age uses *avere*, and *ho* is “I have”. *Ha* would be “he / she has”." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "At summer camp, Alessia, a counsellor, chats with a new camper." },
+        { "type": "dialogue", "title": "Summer camp", "speakers": { "a": { "name": "Alessia" }, "l": { "name": "Luca" } }, "practice": "l", "lines": [
+          { "s": "a", "it": "Ciao! Come ti chiami?", "en": "Hi! What’s your name?" },
+          { "s": "l", "it": "Mi chiamo Luca.", "en": "My name’s Luca.", "wrong": ["Ho dieci anni.", "Sono di Roma."] },
+          { "s": "a", "it": "Quanti anni hai, Luca?", "en": "How old are you, Luca?" },
+          { "s": "l", "it": "Ho undici anni. E tu?", "en": "I’m eleven. And you?", "wrong": ["Sono undici anni. E tu?", "Hai undici anni. E tu?"] },
+          { "s": "a", "it": "Io ho diciannove anni.", "en": "I’m nineteen." },
+          { "narration": "Luca points at a girl nearby." },
+          { "s": "l", "it": "E lei? Quanti anni ha?", "en": "And her? How old is she?", "wrong": ["E lei? Quanti anni hai?", "E lei? Quanti anni ho?"] },
+          { "s": "a", "it": "Lei è Sofia. Ha dodici anni.", "en": "That’s Sofia. She’s twelve." }
+        ] }
+      ]
     }
   ]
 }

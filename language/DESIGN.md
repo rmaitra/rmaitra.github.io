@@ -25,16 +25,27 @@ On GitHub Pages it works as-is.
 
 | File | Lines | Purpose |
 |---|---|---|
-| `index.html` | ~220 | Page shell and all CSS (design tokens, components). |
-| `app.js` | ~740 | All logic in one IIFE: state, spaced repetition, filters, four exercises, tables, audio. |
-| `data/italian.json` | ~2,360 | All language content and UI labels for categories (≈85 KB). |
+| `index.html` | ~330 | Page shell and all CSS (design tokens, components). |
+| `app.js` | ~1,220 | All logic in one IIFE: state, spaced repetition, filters, exercises, lessons, tables, audio. |
+| `data/italian.json` | ~3,310 | All language content, lessons and UI labels for categories (≈125 KB). |
 | `DESIGN.md` | — | This document. |
 
 ---
 
 ## 3. Feature inventory
 
-The top bar has six tabs: **Verbs · Nouns · Numbers · Sentences · Reading · Word tables**. The header also shows a running score (`correct/total`, plus a streak once it exceeds 1), an **Auto-play audio** toggle (only shown when the browser supports speech synthesis) and a **reset progress** link.
+The top bar has seven tabs: **Lessons · Verbs · Nouns · Numbers · Sentences · Reading · Word tables**. New users land on Lessons. The header also shows a running score (`correct/total`, plus a streak once it exceeds 1), an **Auto-play audio** toggle (only shown when the browser supports speech synthesis) and a **reset progress** link.
+
+### 3.0 Lessons (guided presentations)
+- An ordered list of lessons (suggested order, nothing locked). Each card shows number, title, subtitle, goals and status: Start / Continue (with a progress bar) / Review (✓ once finished).
+- **Player:** one beat per **Next** (button, Space, Enter or →). Each beat appends a block to the bottom of the page and scrolls to it, so the lesson builds downward like a chat response. A sticky bar shows progress and the Next button.
+- **Block types:** heading, text, word card (Italian, English, note), example line, callout note (Culture, Tip, Watch out …), list grid (conjugations, numbers, answer scales), **quick check** (ungraded multiple choice with an explanation; Next is held until it is answered; keys 1–9) and **dialogue**.
+- **Dialogues** render as a text-message thread, one bubble per beat (left/right speakers, italic narration lines between). With `practice`, a **"Your turn"** replay follows. The learner plays one speaker and picks each of that speaker's lines from three options; a wrong pick shows "You picked X. Anna would say:" and the right line. Ungraded.
+- **Audio:** *Read aloud* narrates each new block: English text with an English voice, and Italian phrases with the Italian voice (dialogue speakers get different voices/pitches). *Hands-free* also advances automatically when narration ends, and pauses at questions. Tapping any Italian phrase, word cell or bubble plays it.
+- *Hide chat translations* blurs the English under bubbles (hover or press to reveal). *Restart* replays a lesson from the top.
+- **Resume:** the current beat is saved per lesson, so reopening continues where the learner left off. Earlier questions are shown already answered.
+- **Recap and spaced repetition:** the last beat lists every word card (and lists marked `recap`), marks the lesson done and **queues the lesson's `practice` items for review** (SRS record in box 0, due now, only if never seen). Buttons: *Next lesson*, *Practise in Sentences / Verbs / Numbers* (resets that tab's filters so the items show) and *All lessons*.
+- **Current lessons:** 1 *Ciao!* (greetings/goodbyes, tu vs Lei), 2 *Mi chiamo…* (introductions, where you're from), 3 *Come stai?* (how are you, stare vs essere), 4 *Per favore, grazie* (politeness, not understanding), 5 *Io sono…* (essere, nationalities and agreement, *non*, questions), 6 *Numeri e anni* (0–20, age with avere).
 
 ### 3.1 Verbs (conjugation)
 - 30 verbs × 5 tenses × 6 persons = **900 forms**.
@@ -101,7 +112,9 @@ Top-level keys:
 | `persons` | `["io","tu","lui","noi","voi","loro"]` (order used everywhere) |
 | `personOptions` | `{id, label, en}` — filter labels and English gloss |
 | `tenseOptions` | `{id, label, title, description}` — chip label, eyebrow title, feedback note |
+| `speechLang` | BCP-47 tag for the target-language voice (`"it-IT"`); English narration uses `en-US` |
 | `topics`, `sentenceTypes`, `functions` | `{id, label[, description]}` — category labels |
+| `lessons` | guided lessons (below) |
 | `verbs`, `nouns`, `adjectives`, `numbers`, `questions`, `sentences` | the content (below) |
 
 ```jsonc
@@ -128,10 +141,35 @@ Top-level keys:
   "it": "Non posso venire domani.", "en": "I can't come tomorrow.", "accepted": [] }
 ```
 
+**Lessons** hold no language-specific logic, so another language's JSON can carry its own `lessons` list. In any text field, `*asterisks*` mark a target-language phrase: it is highlighted, tappable and spoken with the target voice.
+
+```jsonc
+{ "id": "greetings", "order": 1, "title": "Ciao!", "subtitle": "Greetings and goodbyes",
+  "goals": ["Greet anyone, at any time of day", "Choose between casual *tu* and polite *Lei*"],
+  "practice": ["s:s134", "q:q1", "v:essere:present:io", "#:5"],   // SRS item ids queued on completion
+  "steps": [
+    { "type": "heading", "text": "Saying hello" },
+    { "type": "text", "text": "… *ciao* …" },
+    { "type": "word", "it": "buongiorno", "en": "good morning", "note": "optional, may use *markup*" },
+    { "type": "example", "it": "Buongiorno, signora!", "en": "Good morning, ma'am!" },
+    { "type": "note", "label": "Culture", "text": "…" },
+    { "type": "list", "title": "…", "recap": true, "items": [{ "it": "io sono", "en": "I am" }] },
+    { "type": "check", "prompt": "…", "options": ["*Ciao!*", "*Buongiorno!*"], "answer": 1, "why": "…" },
+    { "type": "dialogue", "title": "At the café, 8 am", "speakers": { "b": { "name": "Barista" }, "a": { "name": "Anna" } },
+      "practice": "a",                                   // optional role-play pass as this speaker
+      "lines": [
+        { "s": "a", "it": "Buongiorno!", "en": "Good morning!", "wrong": ["Buonanotte!", "Arrivederci!"] },
+        { "narration": "Anna drinks her coffee and pays." } ] }
+  ] }
+```
+- Speaker order matters: without `practice` the second speaker sits on the right; with it, the practised speaker does. Voices are assigned by speaker order.
+- `wrong` gives the two distractors for a role-play turn. Without it, two other lines from the lesson's dialogues are used. Write them by hand: automatic distractors can accidentally be valid replies.
+- The recap is generated from `word` steps and `list` steps with `recap: true`, so it needs no authoring.
+
 ### Data design decisions
 - **Everything is explicit.** Conjugation tables, articles, plurals and adjective forms are stored in full instead of being computed by rules, so irregular forms can never break the grader.
 - **`rank`** is a frequency/teaching order used to introduce new items. It is per-topic for nouns and sentences (ties are broken randomly so "All" interleaves topics). Table "#" columns are simple row numbers, not ranks.
-- **Stable ids.** Sentence ids (`s1…s133`) are never renumbered; new content is appended so saved progress stays valid.
+- **Stable ids.** Sentence ids (`s1…s151`) are never renumbered; new content is appended so saved progress stays valid.
 - **`accepted`** holds word-order variants only (same set of words).
 - **Categories are data-driven.** Labels and descriptions live in the JSON lists; adding a topic, type or function needs no code change beyond tagging items.
 
@@ -143,7 +181,8 @@ Top-level keys:
 | Adjectives | 20 | four forms each (not yet exercised) |
 | Numbers | 28 | 1–20, tens to 100 |
 | Questions | 16 | with sample replies |
-| Sentences | 133 | 68 everyday, 39 ordering food, 26 directions |
+| Sentences | 151 | 68 everyday, 40 ordering food, 26 directions, 17 meeting people (s134–s151, added for lessons) |
+| Lessons | 6 | 22–27 steps each (35–44 beats) |
 | Readings | 14 (46 sentences) | Wikipedia lead-paragraph excerpts, curated; CC BY-SA 4.0, attributed in-app |
 
 ---
@@ -157,15 +196,16 @@ Top-level keys:
 3. **Spaced repetition** — `record`, `pickNext`.
 4. **Filters and settings** — `FILTER_KEYS`, `DEFAULT_FILTERS`, `SETTINGS`, `matchesFilters`, `poolFor`.
 5. **Item pools** — the `MODES` registry: each mode has `label`, `desc`, `build()` (items from data) and `render(item, ctx)`.
-6. **Audio** — `speak`, `speakBtn`, `autoSpeak`.
+6. **Audio** — `say(segments)` queues target-language and English segments and resolves `true` only if nothing interrupted it (this drives hands-free); `stopSpeech`, `speak`, `speakBtn`, `autoSpeak`.
 7. **Shared UI** — `feedbackBox`, `nextButton`, `afterAnswer`.
 8. **Exercises** — `renderVerb`, `renderNoun`, `renderNumber`, `renderSentence`.
-9. **Word tables** — declarative `TABLES` specs (`head`, `note`, `rows()`) and one generic `renderTables`.
-10. **Chrome** — `renderScore`, `renderStats`, `renderTabs`, `renderFilters`, `show`, `ask`, `init`.
+9. **Lessons** — `lessonBeats` flattens steps into beats (one per Next; dialogues expand to one per line plus role-play turns); `renderLessonList`; `renderLesson` (resume, keyboard, toggles, narration/hands-free) with `renderBeat` for each block type; `seedPractice`.
+10. **Word tables** — declarative `TABLES` specs (`head`, `note`, `rows()`) and one generic `renderTables`.
+11. **Chrome** — `renderScore`, `renderStats`, `renderTabs`, `renderFilters`, `show`, `ask`, `init`.
 
 **Adding an exercise** means adding a `MODES` entry (build + render) and, optionally, a `FILTER_KEYS`/`SETTINGS` entry and a `TABLES` entry. `pickNext`, stats, filters, scoring and persistence come for free.
 
-**Render flow:** `show()` draws tabs and filters, then either `renderTables()` or `ask()`. `ask()` picks an item with `pickNext`, then calls the mode's `render(item, ctx)`, where `ctx.grade(ok)` records the result (once) and `ctx.next` asks again.
+**Render flow:** `show()` stops any speech or hands-free timer, draws tabs and filters, then calls `renderLessons()`, `renderTables()` or `ask()`. `ask()` picks an item with `pickNext`, then calls the mode's `render(item, ctx)`, where `ctx.grade(ok)` records the result (once) and `ctx.next` asks again.
 
 ### Item ids (the SRS keys)
 `v:<verb>:<tense>:<person>` · `n:<noun>` · `#:<value>` · `q:<id>` · `s:<id>`.
@@ -178,7 +218,10 @@ The answer format (Choose vs Type) is deliberately not part of the id.
   mode, table, tableTense,          // last-used tab / table / verb-table tense
   filters: { [mode]: { tense?, person?, topic?, type?, function? } },
   settings: { verbs: { format } },
-  autoplay }
+  autoplay,
+  lessons: { [lessonId]: { pos, done } },   // pos = last revealed beat
+  lesson,                                   // open lesson id, or null for the list
+  lessonAudio, lessonHandsFree, lessonHideEn }
 ```
 Loading merges over `defaults()` so older saves keep working when new fields are added.
 
@@ -207,6 +250,10 @@ Loading merges over `defaults()` so older saves keep working when new fields are
 - Mixed formats: recognition (choose) and recall (type) alternate by default.
 - Every answer, right or wrong, shows the whole paradigm (verb table, plural + rule, sentence translation) so each attempt teaches something.
 - Sentence categories (type / topic / function) let a learner drill a specific situation, such as "Ordering food" or "Necessity".
+- **Lessons teach phrases before grammar.** Early lessons teach whole units (*mi chiamo*, *come stai*, *sto bene*) and explain the grammar later, so the learner can hold a real exchange after lesson 3.
+- **Retrieval inside lessons.** An ungraded quick check comes every few blocks, because reading alone gives false confidence. Wrong choices show why they are wrong.
+- **Watch, then play a part.** Each lesson ends with a conversation that uses only what was taught (plus words glossed in context). The learner then replays it as one speaker, which turns watching into producing. Distractors target the lesson's contrasts (*stanco/stanca*, *ha/hai*, *scusi/scusa*).
+- **Lessons feed the drills.** Finishing a lesson queues its practice items, so spaced repetition picks up what the lesson introduced.
 
 ---
 
@@ -227,6 +274,8 @@ No test files are committed. Each change was verified with temporary iframe-driv
 - answered every item in a mode correctly (all 900 verb forms in Choose mode, all 28 numbers in both directions, all 149 sentences by tapping tiles);
 - checked filter counts against the JSON, disabled combinations, persistence across reload, wrong-answer paths, accent tolerance and keyboard input;
 - checked the tables (row/column counts, search, per-tense views).
+
+Lessons were checked with Playwright (`playwright-core` driving the system Chrome) with a fake `speechSynthesis` that logs utterances and fires `onend`. The checks walked all six lessons by keyboard to the recap with no console errors, confirmed done flags and SRS seeding, resume after reload, hands-free advancing until the first question, role-play wrong-answer rendering and a 390 px mobile layout. A data check confirms every `practice` id exists, every `answer` index is in range, every dialogue speaker is declared and every `*markup*` pair is balanced.
 
 Data was validated with scripts that check: 42 reference conjugations, article ↔ initial-letter rules, `lo` triggers, gender ↔ article, that `question`/`negative` labels agree with the sentence text, unique sentence text, valid category ids, and that `accepted` variants use the same words.
 
@@ -253,7 +302,8 @@ Data was validated with scripts that check: 42 reference conjugations, article �
 - **More number work:** 21–99 with the vowel-dropping rule (*ventuno, ventotto*), hundreds and thousands, prices, dates, telling time, ordinals.
 - **Example sentences for every tense**, generated per verb and checked.
 - **Function words:** prepositions and articulated prepositions (*a + il = al*), possessives, demonstratives, object and reflexive pronouns, *ci / ne*.
-- **Cultural notes** attached to items (formal *Lei* vs informal *tu*, café ordering etiquette).
+- **More lessons**, continuing the suggested sequence: 7 *Al bar* (ordering: vorrei, quanto costa, il conto), 8 *Il, la, lo* (articles), 9 *La mia famiglia* (avere, possessives), 10 *Dov'è…?* (directions, c'è / ci sono), 11 *Parlo italiano* (regular -are verbs), 12 *Mi piace!* (likes), 13 *Che ore sono?* (time, days), 14 *Domande* (question words); then -ere/-ire verbs, potere/dovere/volere, passato prossimo.
+- **Lesson features:** a tile-builder role-play mode (recall instead of recognition), a slow-speed toggle for dialogues, and per-lesson practice filters in the drill tabs.
 
 ### New exercise types
 - **Adjective agreement** (data already exists): pick/type the right form for a noun, plus adjective position.
