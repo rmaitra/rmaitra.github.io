@@ -91,6 +91,10 @@
       key: 'format', label: 'Format', fallback: 'mixed',
       options: [{ id: 'mixed', label: 'Mixed' }, { id: 'choose', label: 'Choose' }, { id: 'type', label: 'Type' }],
     }],
+    nouns: [{
+      key: 'drill', label: 'Drill', fallback: 'mixed',
+      options: [{ id: 'mixed', label: 'Mixed' }, { id: 'article', label: 'Article' }, { id: 'meaning', label: 'Meaning' }],
+    }],
     reading: [{
       key: 'direction', label: 'Direction', fallback: 'it-en',
       options: [{ id: 'it-en', label: 'Italian → English' }, { id: 'en-it', label: 'English → Italian' }],
@@ -103,8 +107,8 @@
     k === skipKey || !filters[k] || filters[k] === 'all' || item[k] === filters[k]);
   const poolFor = (mode) => getItems(mode).filter((i) => matchesFilters(i, mode, activeFilters(mode)));
 
-  // Due items first (weakest box, oldest due), otherwise introduce the next
-  // unseen item in frequency-rank order, otherwise practise the soonest-due item.
+  // Due items first (weakest box, oldest due), otherwise introduce a random
+  // unseen item, otherwise practise one of the soonest-due items.
   function pickNext(mode) {
     const items = poolFor(mode);
     const now = Date.now();
@@ -125,10 +129,10 @@
       due.sort((a, b) => state.srs[a.id].box - state.srs[b.id].box || state.srs[a.id].due - state.srs[b.id].due);
       pick = due[Math.floor(Math.random() * Math.min(3, due.length))];
     } else if (fresh.length) {
-      const minRank = Math.min(...fresh.map((i) => i.rank));
-      pick = pickRandom(fresh.filter((i) => i.rank === minRank));
+      pick = pickRandom(fresh);
     } else {
-      pick = pool.slice().sort((a, b) => state.srs[a.id].due - state.srs[b.id].due)[0];
+      const soonest = pool.slice().sort((a, b) => state.srs[a.id].due - state.srs[b.id].due);
+      pick = pickRandom(soonest.slice(0, 3));
     }
     last.push(pick.id);
     if (last.length > RECENT_WINDOW) last.shift();
@@ -139,7 +143,7 @@
   const MODES = {
     verbs: {
       label: 'Verbs',
-      desc: 'Conjugate the most common verbs. Pick a tense and person, and choose whether to select or type the answer. Verbs are introduced in frequency order.',
+      desc: 'Conjugate the most common verbs. Pick a tense and person, and choose whether to select or type the answer.',
       build: () => data.verbs.flatMap((verb) =>
         Object.keys(verb.tenses).flatMap((tense) =>
           data.persons.map((person) => ({
@@ -149,13 +153,13 @@
     },
     nouns: {
       label: 'Nouns',
-      desc: 'Pick the right article. Watch for lo / l’ and un / uno / un’.',
+      desc: 'Pick the right article, or pick the noun that matches an English meaning. Watch for lo / l’ and un / uno / un’.',
       build: () => data.nouns.map((noun) => ({ id: `n:${noun.id}`, rank: noun.rank, topic: noun.topic, noun })),
       render: renderNoun,
     },
     numbers: {
       label: 'Numbers',
-      desc: 'Numbers 1\u201320, then the tens up to 100. Type the word, or pick the digits.',
+      desc: 'Numbers 1\u2013100. Type the word, or pick the digits.',
       build: () => data.numbers.map((num) => ({ id: `#:${num.value}`, rank: num.rank, num })),
       render: renderNumber,
     },
@@ -373,6 +377,57 @@
   }
 
   function renderNoun(item, ctx) {
+    const drill = getSetting('nouns', 'drill');
+    if (drill === 'meaning' || (drill === 'mixed' && Math.random() < 0.5)) renderNounMeaning(item, ctx);
+    else renderNounArticle(item, ctx);
+  }
+
+  // Three wrong nouns, preferring the same topic
+  function nounChoices(noun) {
+    const others = shuffle(data.nouns.filter((n) => n.id !== noun.id && n.en !== noun.en));
+    const pool = [...others.filter((n) => n.topic === noun.topic), ...others.filter((n) => n.topic !== noun.topic)];
+    return shuffle([noun, ...pool.slice(0, 3)]);
+  }
+
+  function renderNounMeaning(item, ctx) {
+    const { noun } = item;
+    const options = nounChoices(noun);
+    let answered = false;
+
+    const feedback = h('div');
+    const actions = h('div', { class: 'actions' });
+    const buttons = options.map((n, i) =>
+      h('button', { class: 'option', onclick: () => choose(n) }, withArticle(n.art, n.id), h('span', { class: 'key' }, String(i + 1))));
+
+    pane.append(h('div', { class: 'card' },
+      h('div', { class: 'eyebrow' }, 'Which noun means'),
+      h('div', { class: 'big' }, noun.en),
+      h('div', { class: 'options' }, buttons),
+      feedback, actions));
+    keyHandler = (e) => { const n = Number(e.key); if (n >= 1 && n <= options.length) choose(options[n - 1]); };
+
+    function choose(pick) {
+      if (answered) return;
+      answered = true;
+      const ok = pick === noun;
+      ctx.grade(ok);
+      buttons.forEach((b, i) => {
+        b.disabled = true;
+        if (options[i] === noun) b.classList.add('correct');
+        else if (options[i] === pick) b.classList.add('wrong');
+      });
+      const singular = withArticle(noun.art, noun.id);
+      feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : 'Not quite',
+        h('div', { class: 'answer' }, singular + '  ·  ' + withArticle(pluralArticle(noun), noun.plural)),
+        h('div', { class: 'note' }, (noun.gender === 'm' ? 'masculine' : 'feminine') + ' — ' + noun.en),
+        !ok ? h('div', { class: 'note' }, withArticle(pick.art, pick.id) + ' means ' + pick.en + '.') : null,
+        h('div', { class: 'example' }, speakBtn(singular))));
+      autoSpeak(singular);
+      afterAnswer(ctx, actions, nextButton(ctx));
+    }
+  }
+
+  function renderNounArticle(item, ctx) {
     const { noun } = item;
     const definite = Math.random() < 0.5;
     const options = definite ? DEFINITE : INDEFINITE;
@@ -417,7 +472,11 @@
   function numberNote(v) {
     if (v >= 11 && v <= 16) return 'Eleven to sixteen end in -dici.';
     if (v >= 17 && v <= 19) return 'Seventeen to nineteen are dici- plus the digit: diciassette, diciotto, diciannove.';
-    if (v >= 30 && v <= 90) return 'Trenta ends in -enta; quaranta to novanta end in -anta.';
+    if (v > 20 && v < 100 && v % 10 === 1) return 'Before uno the ten drops its last vowel: ventuno, trentuno.';
+    if (v > 20 && v < 100 && v % 10 === 8) return 'Before otto the ten drops its last vowel: ventotto, trentotto.';
+    if (v > 20 && v < 100 && v % 10 === 3) return 'A final tre takes an accent: ventitré, trentatré.';
+    if (v >= 30 && v <= 90 && v % 10 === 0) return 'Trenta ends in -enta; quaranta to novanta end in -anta.';
+    if (v > 20 && v < 100) return 'Join the ten and the unit into one word: trenta + due = trentadue.';
     return null;
   }
 
@@ -427,10 +486,11 @@
     let answered = false;
     const feedback = h('div');
     const actions = h('div', { class: 'actions' });
-    const showFeedback = (ok) => {
+    const showFeedback = (ok, accentNote) => {
       const note = numberNote(num.value);
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : 'Not quite',
         h('div', { class: 'answer' }, `${num.value} = ${num.it}`),
+        accentNote ? h('div', { class: 'note' }, 'Mind the accent: ' + num.it) : null,
         note ? h('div', { class: 'note' }, note) : null,
         h('div', { class: 'example' }, speakBtn(num.it))));
       autoSpeak(num.it);
@@ -453,9 +513,10 @@
         if (answered || (!gaveUp && !guess.trim())) return;
         answered = true;
         input.disabled = true;
-        const ok = !gaveUp && norm(guess) === num.it;
+        const exact = !gaveUp && norm(guess) === num.it;
+        const ok = exact || (!gaveUp && stripAccents(norm(guess)) === stripAccents(num.it));
         ctx.grade(ok);
-        showFeedback(ok);
+        showFeedback(ok, ok && !exact);
       }
     } else {
       const nearest = getItems('numbers').filter((i) => i.num.value !== num.value)
@@ -483,6 +544,72 @@
       }
     }
   }
+
+  // ---------- word glosses (sentence feedback) ----------
+  // Every known word form -> { en, note }. Hand-written glossary entries (incl. multi-word
+  // phrases) win over articles, prepositions and conjunctions, which win over generated forms.
+  let lexicon = null;
+  const articleAgreement = (a) => a.gender.split('/').map((g) => (g === 'm' ? 'masc.' : 'fem.')).join(' / ') + ' ' + (a.number === 'pl' ? 'pl.' : 'sing.');
+  function getLexicon() {
+    if (lexicon) return lexicon;
+    lexicon = new Map();
+    const add = (word, en, note) => { const k = norm(word); if (!lexicon.has(k)) lexicon.set(k, { en, note }); };
+    (data.glossary || []).forEach((w) => add(w.it, w.en, w.pos));
+    (data.articles || []).forEach((a) => add(a.it, a.en, `${a.type} article \u00B7 ${articleAgreement(a)}`));
+    (data.prepositions || []).filter((p) => !/\s/.test(p.it)).forEach((p) => add(p.it, p.en, p.type === 'articulated' ? p.note : 'preposition'));
+    (data.conjunctions || []).forEach((c) => add(c.it, c.en, 'conjunction'));
+    const verbForms = new Map();
+    data.verbs.forEach((v) => {
+      add(v.id, v.en, 'verb \u00B7 infinitive');
+      Object.entries(v.tenses).forEach(([tense, forms]) => data.persons.forEach((p) => {
+        const words = forms[p].split(' ');
+        const main = words[words.length - 1];
+        const m = main.match(/^(.*)(.)\/(.)$/);
+        const variants = m ? [m[1] + m[2], m[1] + m[3]] : [main];
+        // Compound tenses: gloss the participle; the auxiliary is glossed as its own verb
+        if (words.length > 1) return variants.forEach((w) => add(w, v.en, `verb \u00B7 participle of ${v.id}`));
+        const key = norm(main) + '|' + tense;
+        if (!verbForms.has(key)) verbForms.set(key, { word: main, v, tense, persons: [] });
+        if (verbForms.get(key).v === v) verbForms.get(key).persons.push(PERSON_LABEL[p]);
+      }));
+    });
+    verbForms.forEach(({ word, v, tense, persons }) =>
+      add(word, v.en, `verb \u00B7 ${v.id}, ${labelOf(data.tenseOptions, tense).toLowerCase()}, ${persons.join(' / ')}`));
+    data.nouns.forEach((n) => {
+      add(n.id, n.en, `noun \u00B7 ${n.gender === 'm' ? 'masc.' : 'fem.'}`);
+      add(n.plural, n.en, `noun \u00B7 plural of ${n.id}`);
+    });
+    data.adjectives.forEach((a) => Object.values(a.forms).forEach((f) => add(f, a.en, 'adjective')));
+    data.numbers.forEach((n) => add(n.it, String(n.value), 'number'));
+    return lexicon;
+  }
+
+  // Split a sentence into words (elided forms like l'acqua become l' + acqua), then gloss
+  // them, matching the longest glossary phrase (up to 4 words) first.
+  function glossWords(sentence) {
+    const lex = getLexicon();
+    const tokens = [];
+    sentence.split(/\s+/).forEach((raw) => {
+      const w = raw.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}'’]+$/gu, '');
+      if (!w) return;
+      const m = w.match(/^(\p{L}+['’])(\p{L}.*)$/u);
+      if (m) tokens.push(m[1], m[2]); else tokens.push(w);
+    });
+    const join = (list) => list.reduce((acc, t, i) => acc + (i && !/['’]$/.test(list[i - 1]) ? ' ' : '') + t, '');
+    const out = [];
+    for (let i = 0; i < tokens.length;) {
+      let n = Math.min(4, tokens.length - i);
+      for (; n > 1 && !lex.has(norm(join(tokens.slice(i, i + n)))); n--);
+      const text = join(tokens.slice(i, i + n));
+      const hit = lex.get(norm(text));
+      const isName = !hit && i > 0 && /^\p{Lu}/u.test(text);
+      out.push({ it: text, en: hit ? hit.en : isName ? text : '\u2014', note: hit ? hit.note : isName ? 'name' : '' });
+      i += n;
+    }
+    return out;
+  }
+  const glossList = (sentence) => h('div', { class: 'gloss-list' }, glossWords(sentence).map((g) =>
+    h('div', { class: 'gloss-row' }, h('span', { class: 'it' }, g.it), h('span', {}, g.en), h('span', { class: 'gloss-note' }, g.note))));
 
   // ---------- 3. sentence builder ----------
   function renderSentence(item, ctx) {
@@ -535,6 +662,7 @@
         alt.length ? h('div', { class: 'note' }, 'Also accepted: ' + alt.join(' / ')) : null,
         fnInfo ? h('div', { class: 'note' }, fnInfo.label + ' \u2014 ' + fnInfo.description) : null,
         h('div', { class: 'example' }, speakBtn(s.it), h('span', {}, s.en)),
+        glossList(s.it),
         s.answers ? h('div', { class: 'example' }, speakBtn(s.answers[0].it),
           h('span', {}, 'Possible reply: ', h('span', { class: 'it' }, s.answers[0].it), ' — ' + s.answers[0].en)) : null));
       autoSpeak(s.it);
@@ -648,9 +776,36 @@
         cells: [i + 1, a.en, it(a.forms.ms), it(a.forms.fs, null), it(a.forms.mp, null), it(a.forms.fp, null)],
       })),
     },
+    articles: {
+      label: 'Articles',
+      note: 'Definite (the), indefinite (a / an) and partitive (some). The article depends on the gender, the number and the first letters of the next word.',
+      head: ['#', 'Italian', 'English', 'Type', 'Agreement', 'When to use'],
+      rows: () => data.articles.map((a, i) => ({
+        search: [a.it, a.en, a.type, a.note].join(' '),
+        cells: [i + 1, it(a.it), a.en, a.type, articleAgreement(a), a.note],
+      })),
+    },
+    prepositions: {
+      label: 'Prepositions',
+      note: 'Simple prepositions, the articulated forms they make with the definite article (di + il = del), and common prepositional phrases.',
+      head: ['#', 'Italian', 'English', 'Type', 'Notes'],
+      rows: () => data.prepositions.map((p, i) => ({
+        search: [p.it, p.en, p.type, p.note].join(' '),
+        cells: [i + 1, it(p.it), p.en, p.type, p.note],
+      })),
+    },
+    conjunctions: {
+      label: 'Conjunctions',
+      note: 'Coordinating conjunctions join equal parts; subordinating ones introduce a dependent clause.',
+      head: ['#', 'Italian', 'English', 'Type', 'Example'],
+      rows: () => data.conjunctions.map((c, i) => ({
+        search: [c.it, c.en, c.type, c.note].join(' '),
+        cells: [i + 1, it(c.it), c.en, c.type, it(c.note)],
+      })),
+    },
     numbers: {
       label: 'Numbers',
-      note: '1\u201320, then the tens up to 100.',
+      note: '1\u2013100. Compound numbers join the ten and the unit into one word.',
       head: ['#', 'Digits', 'Italian', 'Status'],
       rows: () => data.numbers.map((n, i) => ({
         search: [n.value, n.it].join(' '),
@@ -787,19 +942,23 @@
     else renderLessonList();
   }
 
+  const checkOrder = new WeakMap();
   function renderLessonList() {
     const lessons = lessonList();
     if (!lessons.length) { pane.append(h('div', { class: 'empty' }, 'No lessons yet.')); return; }
-    pane.append(h('ol', { class: 'lesson-list' }, lessons.map((l, i) => {
+    const unitTitle = (id) => ((data.lessonUnits || []).find((u) => u.id === id) || {}).title;
+    pane.append(h('ol', { class: 'lesson-list' }, lessons.flatMap((l, i) => {
       const p = lessonProgress(l.id);
+      const heading = l.unit && (i === 0 || lessons[i - 1].unit !== l.unit)
+        ? h('li', { class: 'unit-head' }, `Unit ${l.unit}`, unitTitle(l.unit) ? h('span', {}, ' \u00B7 ' + unitTitle(l.unit)) : null) : null;
       const started = !p.done && p.pos > 0;
-      return h('li', {}, h('button', { class: 'lesson-card' + (p.done ? ' done' : ''), onclick: () => openLesson(l.id) },
+      return [heading, h('li', {}, h('button', { class: 'lesson-card' + (p.done ? ' done' : ''), onclick: () => openLesson(l.id) },
         h('span', { class: 'lesson-num' }, p.done ? '✓' : String(i + 1)),
         h('span', { class: 'lesson-body' },
           h('span', { class: 'lesson-title' }, l.title, h('span', { class: 'lesson-sub' }, l.subtitle)),
           h('span', { class: 'lesson-goals' }, l.goals.map((g) => g.replace(/\*/g, '')).join(' · ')),
           started ? h('span', { class: 'meter' }, h('span', { style: `width:${Math.round(100 * (p.pos + 1) / lessonBeats(l).length)}%` })) : null),
-        h('span', { class: 'lesson-go' }, p.done ? 'Review' : started ? 'Continue' : 'Start')));
+        h('span', { class: 'lesson-go' }, p.done ? 'Review' : started ? 'Continue' : 'Start')))].filter(Boolean);
     })));
   }
 
@@ -966,21 +1125,25 @@
         case 'check': {
           const fb = h('div', { class: 'check-fb' });
           let done = !live;
+          // Options are authored with the answer first; show them in a shuffled order that stays put on re-render
+          if (!checkOrder.has(step)) checkOrder.set(step, shuffle(step.options.map((_, j) => j)));
+          const order = checkOrder.get(step);
+          const answerAt = order.indexOf(step.answer);
           const mark = (k) => buttons.forEach((b, j) => {
             b.disabled = true;
-            if (j === step.answer) b.classList.add('correct');
+            if (j === answerAt) b.classList.add('correct');
             else if (j === k) b.classList.add('wrong');
           });
           const pick = (k) => {
             if (done || k >= step.options.length) return;
             done = true;
             mark(k);
-            const ok = k === step.answer;
+            const ok = k === answerAt;
             const explain = step.why ? step.why : ok ? '' : `The answer is ${step.options[step.answer]}.`;
             fb.replaceChildren(h('span', { class: 'verdict ' + (ok ? 'good' : 'bad') }, ok ? 'Yes! ' : 'Not quite. '), ...rich(explain));
             answered([E(ok ? 'Yes!' : 'Not quite.'), ...speechOf(explain)]);
           };
-          const buttons = step.options.map((o, k) => choiceBtn(rich(o), k, pick));
+          const buttons = order.map((j, k) => choiceBtn(rich(step.options[j]), k, pick));
           el = add(h('div', { class: 'blk check' }, h('div', { class: 'eyebrow' }, 'Quick check'),
             h('div', { class: 'check-q' }, rich(step.prompt)), h('div', { class: 'choices' }, buttons), fb));
           if (live) {
@@ -988,7 +1151,7 @@
             choose = pick;
             speech = speechOf(step.prompt);
           } else {
-            mark(step.answer);
+            mark(answerAt);
             if (step.why) fb.append(...rich(step.why));
           }
           break;

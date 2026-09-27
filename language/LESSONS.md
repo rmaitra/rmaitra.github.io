@@ -1,6 +1,6 @@
 # Italiano Studio — Lesson Plan
 
-The planned curriculum for the **Lessons** tab. It continues from lessons 1–6, which are already in `data/italian.json` → `lessons`. The lesson format (step types, dialogues, role-play, `practice` ids) is documented in `DESIGN.md` §3.0 and §4. This file covers *what* to teach, and in what order.
+The planned curriculum for the **Lessons** tab. Lessons 1–16 (Units 1–2) are built and live in `data/italian.json` → `lessons`, grouped by `unit` under the `lessonUnits` headings. The lesson format (step types, dialogues, role-play, `practice` ids) is documented in `DESIGN.md` §3.0 and §4. This file covers *what* to teach, and in what order.
 
 Levels follow the CEFR scale: lessons 1–33 (Units 1–4) are roughly **A1** (the basics) and 34–45 (Units 5–6) roughly **A2** (everyday independence).
 
@@ -8,14 +8,14 @@ Levels follow the CEFR scale: lessons 1–33 (Units 1–4) are roughly **A1** (t
 
 ## How to write a lesson
 
-Keep the conventions set by lessons 1–6:
+Keep the conventions set by lessons 1–16:
 
 - **Size:** 6–10 new words or phrases, 20–30 steps, about 35–45 Next presses. Split a lesson that grows past that.
 - **Shape:** 2–4 sections, each with a heading, then words, examples and a quick check. End with an "In conversation" section: one dialogue with a `practice` role-play, and optionally a second one, often the polite/*Lei* version of the first.
 - **Teach phrases before grammar.** Teach useful phrases as whole units first (*vorrei*, *mi piace*, *mi alzo*) and explain the rule in a later lesson. Point back when that happens ("Remember *mi chiamo* from lesson 2? Now you know why.").
 - **Dialogues use only taught words**, plus at most one or two new context words, glossed in the text step before the dialogue (as lesson 4 does with *la stazione*). Reuse vocabulary from earlier lessons on purpose.
 - **Write `wrong` distractors by hand** and aim them at the lesson's key contrast (*ha/hai*, *stanco/stanca*, *c'è/ci sono*, *è andato/ha andato*). One distractor should be tempting; the other should be clearly wrong.
-- **Quick checks are ungraded**, so use them for the mistakes English speakers typically make, and always fill in `why`.
+- **Quick checks are ungraded**, so use them for the mistakes English speakers typically make, and always fill in `why`. Write the correct option first (`answer: 0`): the app shuffles options when it shows them.
 - **`practice` ids** should include existing sentences where they fit. Add new sentences (next free id, `topic` set) when a lesson needs them in the Sentences tab.
 - **Review lessons** (*Ripasso*) close each unit. They teach nothing new: checks that mix earlier lessons, then one longer dialogue that combines them.
 
@@ -33,85 +33,25 @@ Legend for the entries below: **Links** = existing items to reference in `practi
 | 4 | *Per favore, grazie* | *Per favore, grazie, prego, scusi/scusa, permesso, mi dispiace*, what to say when you don't understand |
 | 5 | *Io sono…* | All of *essere*, nationalities and -o/-a agreement, *non*, questions by intonation |
 | 6 | *Numeri e anni* | 0–20, age with *ho / hai / ha … anni* |
-
-### 7. *Ripasso 1* — Review: meeting someone new
-- **Goals:** Hold a whole first conversation, from greeting to goodbye, with the right register.
-- **Content:** Checks that mix lessons 1–6: choosing the register (*tu*/*Lei* forms side by side), *essere* vs *stare* vs *avere* (*sono stanco*, *sto bene*, *ho vent'anni*), matching questions to answers.
-- **Dialogue:** A long one at a language exchange. Two people greet, introduce themselves, give where they're from, nationality, age and how they are, then say goodbye. Role-play as either speaker. Add a polite version with an older host.
-- **Links:** `q:q1`, `q:q2`, `q:q5`, `q:q11`, `s:s134`–`s:s151`.
+| 7 | *Ripasso 1* | Review: *tu*/*Lei* side by side, *essere* / *stare* / *avere*, question–answer matching; a language-exchange dialogue and a polite homestay dialogue |
 
 ---
 
-## Unit 2 — Things, places and numbers
+## Unit 2 — Things, places and numbers ✅ (built)
 
-### 8. *Al bar* — Ordering at a café
-- **Goals:** Order food and drink, ask the price, pay.
-- **Teach:** *Vorrei…* (as a phrase; the grammar comes in lesson 29), *un caffè / un cappuccino / un cornetto / un'acqua*, *per me…*, *Quanto costa? / Quant'è?*, *il conto*, *lo scontrino*, *euro*, *Prego?* (what can I get you?), *Altro? — No, basta così.*
-- **Notes:** Culture: at many bars you pay at the *cassa* first and hand the *scontrino* to the barista. Cappuccino is a morning drink. *Un caffè* means an espresso. Standing at the counter costs less than sitting.
-- **Checks:** *vorrei* vs *voglio* (the polite one); *un* vs *una* in front of the items (preview of lesson 9); prices using 1–20.
-- **Dialogue:** Morning bar: order a cappuccino and a cornetto, ask the price, pay. Role-play as the customer. A second dialogue has two friends ordering *per me… / e per te?*
-- **Links:** `s:s30`, `s:s33`, `s:s44`, `s:s96`, `s:s103`, `s:s104`, `s:s144`, `q:q12`, `n:caffè`, `n:scontrino`.
-- **New data:** Nouns *cappuccino, cornetto, tè, succo, panino, euro*. Sentences *Quant'è?*, *Altro? No, basta così.*
+| # | Title | Covers |
+|---|---|---|
+| 8 | *Al bar* | *Vorrei* (as a phrase), café items, *per me*, *Prego? / Altro? / Basta così*, *ecco*, *Quant'è? / Quanto costa?*, paying at the *cassa* |
+| 9 | *Il, la, lo* | Gender from the ending (and *la mano*, *il problema*), *il / lo / la / l'*, *un / uno / una / un'* |
+| 10 | *Tanti!* | -o → -i, -a → -e, -e → -i; *i / gli / le*; invariable nouns (*caffè, città, sport, bar*) |
+| 11 | *La mia famiglia* | Family nouns, all of *avere*, *mio / mia / miei / mie*, *tuo / tua*, no article with one relative |
+| 12 | *Com'è?* | Four-form and two-form adjectives, position after the noun, *molto*; *grande uomo* / *bel* mentioned only |
+| 13 | *Fino a cento* | Tens, compounds (*ventuno, ventotto, ventitré*), prices, *quanto costa / costano*, a market dialogue |
+| 14 | *Che ore sono?* | *Sono le… / è l'una*, *e un quarto / e mezza / meno un quarto*, *a che ora? — alle…*, 24-hour clock |
+| 15 | *Oggi, domani* | Days (*lunedì* vs *il lunedì*), *oggi / domani / ieri*, months, dates with *il primo*, *Quanti ne abbiamo oggi?* |
+| 16 | *Ripasso 2* | Review checks across the unit; a long café catch-up dialogue |
 
-### 9. *Il, la, lo* — Gender and articles
-- **Goals:** Guess a noun's gender from its ending and choose *il / lo / la / l'* and *un / uno / una / un'*.
-- **Teach:** -o usually masculine, -a usually feminine, -e either. The article rules (the Nouns tab's `ARTICLE_RULE` text is the reference): *lo / uno* before z, s + consonant, gn, ps; *l'* before vowels; *un'* only for feminine nouns.
-- **Notes:** Learn every noun together with its article. Exceptions worth knowing: *la mano*, *il problema*.
-- **Checks:** *lo zaino* vs *il zaino*, *un'amica* vs *un amico*, *l'acqua*.
-- **Dialogue:** Packing for a trip: "*Hai lo zaino? — Sì, e il telefono.*" Role-play as the one checking the list.
-- **Links:** Nouns tab items such as `n:zaino`, `n:studente`, `n:amica`, `n:amico`, `n:acqua`, `n:mano`, `n:problema`, `n:sport`, `n:psicologo`.
-
-### 10. *Tanti!* — Plurals
-- **Goals:** Make nouns and articles plural.
-- **Teach:** -o → -i, -a → -e, -e → -i; *il → i*, *lo / l' (m) → gli*, *la / l' (f) → le*. Nouns that don't change: *il caffè → i caffè*, *la città → le città*, *lo sport → gli sport*.
-- **Checks:** *gli amici* vs *i amici*; *le case*; *due caffè*, not *due caffèi*.
-- **Dialogue:** Ordering at a bar for a group: "*Tre caffè e due cornetti, per favore.*" Reuses lesson 8.
-- **Links:** Noun plurals are already in the data (the `plural` field). New sentences where needed.
-
-### 11. *La mia famiglia* — Family and *avere*
-- **Goals:** Describe your family; use every form of *avere*; use possessives.
-- **Teach:** All of *avere* (*ho, hai, ha, abbiamo, avete, hanno*); *padre, madre, fratello, sorella, figlio/figlia, genitori, nonno/nonna*; *mio / mia / miei / mie*, *tuo / tua*.
-- **Notes:** No article with a singular family member (*mia madre*), but keep it in the plural (*i miei fratelli*) and with *la mia famiglia*. The *h* in the forms of *avere* is silent (from lesson 6).
-- **Checks:** *mia madre* vs *la mia madre*; *hanno* vs *sono* for age; *mio fratello* vs *mia fratello*.
-- **Dialogue:** Looking at a photo: "*Chi è? — È mia sorella. Ha dodici anni.*" Role-play as the photo's owner.
-- **Links:** `v:avere:present:*`, `s:s2`, `s:s5`, `s:s12`, `q:q6`, `n:padre`, `n:madre`, `n:fratello`, `n:sorella`, `n:figlio`, `n:famiglia`.
-- **New data:** Nouns *genitori, nonno, nonna, figlia*.
-
-### 12. *Com'è?* — Describing with adjectives
-- **Goals:** Describe people and things with adjectives that agree.
-- **Teach:** Four endings for -o adjectives, two for -e adjectives; adjectives usually go *after* the noun (*una casa grande*); *molto*; *essere* + adjective. This is the first lesson to use the `adjectives` data.
-- **Notes:** A few adjectives come first and change meaning with position (*un grande uomo*); mention that only. *Bello* changes like the article (*un bel libro*): mention it, don't drill it.
-- **Checks:** *le case piccole*, *i ragazzi simpatici*, *una ragazza alta*.
-- **Dialogue:** Describing a new flatmate or a new town to a friend. Role-play as the one describing.
-- **Links:** Adjectives (they have no SRS ids yet); `s:s6`, `s:s16`, `s:s21`, `s:s9`.
-- **New data:** An adjective-agreement exercise would give adjectives SRS ids (on DESIGN.md's future list). Until then, use sentences.
-
-### 13. *Fino a cento* — Numbers to 100, prices
-- **Goals:** Count to 100, read prices and phone numbers.
-- **Teach:** Tens (*trenta … cento*); the vowel drop (*ventuno, ventotto*); the accent on *-tré* (*ventitré*); prices (*tre euro e cinquanta*).
-- **Checks:** *ventotto* vs *ventiotto*; *quarantatré*.
-- **Dialogue:** At a market stall, asking the price of several things. Role-play as the buyer.
-- **Links:** `#:20`–`#:100`.
-- **New data:** Numbers 21–99 in `numbers` (the Numbers tab would then drill them too).
-
-### 14. *Che ore sono?* — Telling the time
-- **Goals:** Tell the time and say when things happen.
-- **Teach:** *Che ore sono? / Che ora è?*; *Sono le tre*, *È l'una*, *mezzogiorno / mezzanotte*; *e un quarto, e mezza, meno un quarto*; *A che ora…? — Alle otto.*
-- **Notes:** Timetables use the 24-hour clock (*le venti e trenta*).
-- **Checks:** *è l'una* vs *sono le una*; *alle* vs *a le*.
-- **Dialogue:** Planning to meet: "*A che ora parte il treno? — Alle nove e mezza.*" Role-play as the one asking.
-- **Links:** `q:q8`, `q:q10`, `s:s18`, `n:ora`, `n:orologio`.
-
-### 15. *Oggi, domani* — Days, months, dates
-- **Goals:** Talk about days, dates and when things happen.
-- **Teach:** Days of the week (lower case, *il lunedì* = on Mondays), months, *oggi / domani / ieri / stasera*, *il fine settimana*, dates (*il primo maggio*, *il tre giugno*), *Quanti ne abbiamo oggi?*
-- **Checks:** *lunedì* vs *il lunedì*; *il primo* vs *il uno*.
-- **Dialogue:** Booking a dinner: which day, what time. Combines lessons 13 and 14.
-- **New data:** A `time` topic with days and months (a list in the data, or nouns).
-
-### 16. *Ripasso 2* — Review: a day out
-- **Content:** Checks that mix articles, plurals, *avere*, adjectives, numbers and time.
-- **Dialogue:** A longer one: meeting a friend at a bar at a set time, ordering for two, talking about family, paying.
+Data added for Unit 2: nouns for the café and market (*cappuccino, cornetto, tè, succo, panino, euro, conto, cassa, mela, arancia, pomodoro, chilo*), family (*genitore, figlia, nonno, nonna*) and a new **Time & dates** topic (the seven days, *settimana, mese, mattina, pomeriggio, sera, compleanno, quarto*); numbers 21–99; sentences s185–s214. Months are glossary words, not nouns, so the Nouns drill doesn't ask for plurals like *gli agosti*. Adjectives still have no SRS ids, so lesson 12 practises through sentences.
 
 ---
 
@@ -330,10 +270,8 @@ Not planned in detail yet: the imperative (*tu* and *Lei*: *Scusa! Mi dica!*), c
 
 | Needed by | Work |
 |---|---|
-| 8, 10, 11, 31 | New nouns (drinks and snacks, family, shopping, clothes) |
-| 13 | Numbers 21–99 in `numbers` |
-| 15 | Days and months (a new topic or list) |
-| 12, 31 | An adjective-agreement exercise, so adjectives get SRS ids |
+| 31 | New nouns (shopping, clothes) |
+| 31 (and 12, retroactively) | An adjective-agreement exercise, so adjectives get SRS ids |
 | 17–19, 28, 30, 35 | New verbs: *studiare, dormire, partire, aprire, preferire, conoscere, arrivare, tornare*, and reflexive verbs, all with full tense tables |
 | 27 | A combined-preposition table (a `list` step is enough) |
 | All | New sentences for each lesson (`topic` set, next free ids) so its `practice` list has Sentences-tab items |

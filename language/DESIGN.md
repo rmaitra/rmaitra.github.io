@@ -25,10 +25,13 @@ On GitHub Pages it works as-is.
 
 | File | Lines | Purpose |
 |---|---|---|
-| `index.html` | ~330 | Page shell and all CSS (design tokens, components). |
-| `app.js` | ~1,220 | All logic in one IIFE: state, spaced repetition, filters, exercises, lessons, tables, audio. |
-| `data/italian.json` | ~3,310 | All language content, lessons and UI labels for categories (≈125 KB). |
+| `index.html` | ~340 | Page shell and all CSS (design tokens, components). |
+| `app.js` | ~1,380 | All logic in one IIFE: state, spaced repetition, filters, exercises, lessons, tables, audio. |
+| `data/italian.json` | ~5,100 | All language content, lessons and UI labels for categories (≈250 KB). |
 | `DESIGN.md` | — | This document. |
+| `ARCHITECTURE.md` | — | Map of the runtime: services, data, state and control flow (with diagrams). |
+| `LESSONS.md` | — | Lesson curriculum plan. |
+| `MULTILANGUAGE.md` | — | Plan for a generic engine with language packs (Spanish, French, Japanese). |
 
 ---
 
@@ -37,15 +40,15 @@ On GitHub Pages it works as-is.
 The top bar has seven tabs: **Lessons · Verbs · Nouns · Numbers · Sentences · Reading · Word tables**. New users land on Lessons. The header also shows a running score (`correct/total`, plus a streak once it exceeds 1), an **Auto-play audio** toggle (only shown when the browser supports speech synthesis) and a **reset progress** link.
 
 ### 3.0 Lessons (guided presentations)
-- An ordered list of lessons (suggested order, nothing locked). Each card shows number, title, subtitle, goals and status: Start / Continue (with a progress bar) / Review (✓ once finished).
+- An ordered list of lessons (suggested order, nothing locked), grouped under unit headings (`lessonUnits` + each lesson's `unit`). Each card shows number, title, subtitle, goals and status: Start / Continue (with a progress bar) / Review (✓ once finished).
 - **Player:** one beat per **Next** (button, Space, Enter or →). Each beat appends a block to the bottom of the page and scrolls to it, so the lesson builds downward like a chat response. A sticky bar shows progress and the Next button.
-- **Block types:** heading, text, word card (Italian, English, note), example line, callout note (Culture, Tip, Watch out …), list grid (conjugations, numbers, answer scales), **quick check** (ungraded multiple choice with an explanation; Next is held until it is answered; keys 1–9) and **dialogue**.
+- **Block types:** heading, text, word card (Italian, English, note), example line, callout note (Culture, Tip, Watch out …), list grid (conjugations, numbers, answer scales), **quick check** (ungraded multiple choice with an explanation; Next is held until it is answered; keys 1–9; options are authored answer-first and shuffled once per page load) and **dialogue**.
 - **Dialogues** render as a text-message thread, one bubble per beat (left/right speakers, italic narration lines between). With `practice`, a **"Your turn"** replay follows. The learner plays one speaker and picks each of that speaker's lines from three options; a wrong pick shows "You picked X. Anna would say:" and the right line. Ungraded.
 - **Audio:** *Read aloud* narrates each new block: English text with an English voice, and Italian phrases with the Italian voice (dialogue speakers get different voices/pitches). *Hands-free* also advances automatically when narration ends, and pauses at questions. Tapping any Italian phrase, word cell or bubble plays it.
 - *Hide chat translations* blurs the English under bubbles (hover or press to reveal). *Restart* replays a lesson from the top.
 - **Resume:** the current beat is saved per lesson, so reopening continues where the learner left off. Earlier questions are shown already answered.
 - **Recap and spaced repetition:** the last beat lists every word card (and lists marked `recap`), marks the lesson done and **queues the lesson's `practice` items for review** (SRS record in box 0, due now, only if never seen). Buttons: *Next lesson*, *Practise in Sentences / Verbs / Numbers* (resets that tab's filters so the items show) and *All lessons*.
-- **Current lessons:** 1 *Ciao!* (greetings/goodbyes, tu vs Lei), 2 *Mi chiamo…* (introductions, where you're from), 3 *Come stai?* (how are you, stare vs essere), 4 *Per favore, grazie* (politeness, not understanding), 5 *Io sono…* (essere, nationalities and agreement, *non*, questions), 6 *Numeri e anni* (0–20, age with avere).
+- **Current lessons:** 1 *Ciao!* (greetings/goodbyes, tu vs Lei), 2 *Mi chiamo…* (introductions, where you're from), 3 *Come stai?* (how are you, stare vs essere), 4 *Per favore, grazie* (politeness, not understanding), 5 *Io sono…* (essere, nationalities and agreement, *non*, questions), 6 *Numeri e anni* (0–20, age with avere), 7 *Ripasso 1* (review). Unit 2: 8 *Al bar* (ordering, *vorrei*, paying), 9 *Il, la, lo* (gender and articles), 10 *Tanti!* (plurals), 11 *La mia famiglia* (family, all of *avere*, *mio/tuo*), 12 *Com’è?* (adjective agreement and position), 13 *Fino a cento* (21–100, prices), 14 *Che ore sono?* (time), 15 *Oggi, domani* (days, months, dates), 16 *Ripasso 2* (review).
 
 ### 3.1 Verbs (conjugation)
 - 30 verbs × 5 tenses × 6 persons = **900 forms**.
@@ -59,28 +62,30 @@ The top bar has seven tabs: **Lessons · Verbs · Nouns · Numbers · Sentences 
 - **Feedback:** verdict, the answer with its pronoun, a one-line description of the tense, the full six-person table (asked row highlighted), and an example sentence (present tense only) with a 🔊 button.
 - Irregular verbs (15 of 30) are flagged in the prompt.
 
-### 3.2 Nouns (articles)
+### 3.2 Nouns (articles & meaning)
 - 85 nouns: 67 everyday + 18 bathroom (*bagno, doccia, lavandino, asciugamano, carta igienica, asciugacapelli …*).
 - Multiple choice, randomly **definite** (il / lo / la / l') or **indefinite** (un / uno / una / un'). Keys 1–4 select.
 - Feedback shows the singular and plural with articles (`il libro · i libri`), the gender and the rule that applies (e.g. "Masculine nouns starting with z, s + consonant, gn, ps or pn take *lo*").
-- Filter: *Topic* (Everyday / Bathroom).
+- **Meaning drill:** shows the English definition; pick the matching noun (shown with its article) from four, distractors drawn from the same topic first. Feedback gives singular · plural, the gender, and what the wrong pick means.
+- Filter: *Topic* (Everyday / Bathroom). Setting: *Drill* — Mixed (default, 50/50) / Article / Meaning. Both drills share one SRS item per noun.
 
 ### 3.3 Numbers
-- 28 numbers: 1–20, then 30, 40 … 90, 100.
-- Randomly either **type the word** for a digit or **pick the digit** for an Italian word (four nearest-value options). Hints for the *-dici*, *dici-* and *-anta* patterns.
+- 100 numbers: 1–100.
+- Randomly either **type the word** for a digit or **pick the digit** for an Italian word (four nearest-value options). Hints for the *-dici*, *dici-* and *-anta* patterns and for compounds (*ventuno / ventotto* vowel drop, *-tré* accent). A typed answer that is right except for the accent counts, with a "Mind the accent" note.
 
 ### 3.4 Sentences (word-order builder)
-- 149 items: 16 questions + 133 sentences. The English prompt is shown and the user taps shuffled Italian word tiles into order; **Check** is enabled once all tiles are placed; **Clear** and **Show answer** available.
+- 200 items: 16 questions + 184 sentences. The English prompt is shown and the user taps shuffled Italian word tiles into order; **Check** is enabled once all tiles are placed; **Clear** and **Show answer** available.
 - Word-order variants are accepted where the JSON lists them (e.g. *Domani devo lavorare* / *Devo lavorare domani*).
 - **Three independent labels per sentence**, each with its own filter row (counts shown; combinations with no items are greyed out):
   - **Type** — Statement, Negative, Question, Request / command.
-  - **Topic** — Everyday, Ordering food, Directions.
-  - **Function** — Ability / permission, Necessity / need, Desire / wish, Used to / was, Future plans, Likes / preferences (optional; most older sentences have none).
-- The prompt eyebrow shows the labels (`Translate · Negative · Ordering food · Ability / permission`); feedback adds a short grammar note for the function and, for questions, a sample reply.
+  - **Topic** — Everyday, Ordering food, Directions, Meeting people, Time & dates.
+  - **Function** — Ability / permission, Necessity / need, Desire / wish, Used to / was, Future plans, Likes / preferences, Prepositions (optional; most older sentences have none).
+- The prompt eyebrow shows the labels (`Translate · Negative · Ordering food · Ability / permission`); feedback adds a short grammar note for the function, a **word-by-word gloss** (each word or set phrase with its English meaning and a small grammar note, e.g. *stai — to stay / to be (feeling) · verb · stare, present, tu*) and, for questions, a sample reply.
+- The gloss comes from `glossWords()`: a lexicon built once from `glossary` (hand-written, incl. multi-word phrases like *per favore*, *c'è*, *mi piace* — matched longest-first, up to 4 words), then articles, prepositions, conjunctions, and every generated verb form / participle, noun singular & plural, adjective form and number. Elided words split (*dell'acqua* → *dell'* + *acqua*); unknown capitalised words mid-sentence are labelled as names. Every word in the sentences and questions is covered.
 
 ### 3.5 Reading (real-text tile translation)
 - 14 short readings (46 sentences total), sourced from Italian Wikipedia lead paragraphs (`data/italian.json` → `readings`), each a `{id, title, source: {title, url}, license, sentences: [{id, it, en, rank}]}`.
-- Reuses the same word-tile mechanic as Sentences (tap the target-language words into order; Check / Clear / Show answer), one sentence at a time, walked through a reading in order via `rank` (global across all readings) before the SRS starts resurfacing due items.
+- Reuses the same word-tile mechanic as Sentences (tap the target-language words into order; Check / Clear / Show answer), one sentence at a time, in random order across all readings (the eyebrow names the reading and sentence number).
 - **Direction setting** (pill row, persisted in `state.settings.reading.direction`, same mechanism as the Verbs format setting): *Italian → English* (default — Italian sentence shown with a 🔊 button, tap English words into order) or *English → Italian* (English shown, tap Italian words into order, the original behaviour).
 - Unlike the rest of the app, vocabulary here is **not** limited to what's taught elsewhere — this is real encyclopedic Italian, lightly trimmed for sentence length (long compound/subordinate clauses shortened or split; parenthetical IPA/citations and huge grouped numbers dropped) but not paraphrased otherwise.
 - Feedback includes a "Source: Wikipedia — `<article>` (CC BY-SA 4.0)" attribution line linking to the original article, since the Italian text is reused verbatim/near-verbatim under Wikipedia's license.
@@ -88,7 +93,8 @@ The top bar has seven tabs: **Lessons · Verbs · Nouns · Numbers · Sentences 
 - There is **no "Simple Italian" Wikipedia** (unlike Simple English); readings are pulled from the regular `it.wikipedia.org` and curated down to short, complete, tile-able sentences.
 
 ### 3.6 Word tables (reference)
-Sub-tabs: **Verbs · Nouns · Adjectives · Numbers · Questions · Sentences**.
+Sub-tabs: **Verbs · Nouns · Adjectives · Articles · Prepositions · Conjunctions · Numbers · Questions · Sentences · Readings**.
+- *Articles*: definite, indefinite and partitive, with agreement and when to use each. *Prepositions*: simple, all 35 articulated forms (di/a/da/in/su × article) and common phrases (*vicino a*, *di fronte a* …). *Conjunctions*: coordinating and subordinating, each with an example.
 - Search box (case- and accent-insensitive, also matches topic/type/function labels) with an "x of y" counter.
 - *Verbs* has a tense picker; irregular verbs are blue; a *Mastered* column shows progress (`n/6`) for the chosen tense.
 - Most tables show a per-row **status** pill (New / Learning / Mastered) drawn from the user's spaced-repetition data.
@@ -114,8 +120,10 @@ Top-level keys:
 | `tenseOptions` | `{id, label, title, description}` — chip label, eyebrow title, feedback note |
 | `speechLang` | BCP-47 tag for the target-language voice (`"it-IT"`); English narration uses `en-US` |
 | `topics`, `sentenceTypes`, `functions` | `{id, label[, description]}` — category labels |
-| `lessons` | guided lessons (below) |
+| `lessons`, `lessonUnits` | guided lessons (below); `lessonUnits` = `{id, title}` headings, matched by each lesson's `unit` |
 | `verbs`, `nouns`, `adjectives`, `numbers`, `questions`, `sentences` | the content (below) |
+| `articles`, `prepositions`, `conjunctions` | `{it, en, type, note}` (articles add `gender`, `number`) — reference tables and sentence glosses |
+| `glossary` | `{it, en, pos}` — every other word or phrase used in sentences (pronouns, adverbs, extra nouns and verb forms, set phrases) |
 
 ```jsonc
 // verb
@@ -168,8 +176,8 @@ Top-level keys:
 
 ### Data design decisions
 - **Everything is explicit.** Conjugation tables, articles, plurals and adjective forms are stored in full instead of being computed by rules, so irregular forms can never break the grader.
-- **`rank`** is a frequency/teaching order used to introduce new items. It is per-topic for nouns and sentences (ties are broken randomly so "All" interleaves topics). Table "#" columns are simple row numbers, not ranks.
-- **Stable ids.** Sentence ids (`s1…s151`) are never renumbered; new content is appended so saved progress stays valid.
+- **`rank`** is a frequency/teaching order. Drills no longer use it (new items are picked at random); it is kept as data for a possible "frequency order" option. It is per-topic for nouns and sentences (ties are broken randomly so "All" interleaves topics). Table "#" columns are simple row numbers, not ranks.
+- **Stable ids.** Sentence ids (`s1…s184`) are never renumbered; new content is appended so saved progress stays valid.
 - **`accepted`** holds word-order variants only (same set of words).
 - **Categories are data-driven.** Labels and descriptions live in the JSON lists; adding a topic, type or function needs no code change beyond tagging items.
 
@@ -177,12 +185,16 @@ Top-level keys:
 | Type | Count | Notes |
 |---|---|---|
 | Verbs | 30 | 15 irregular; 900 conjugated forms |
-| Nouns | 85 | 67 everyday, 18 bathroom |
+| Nouns | 115 | 71 everyday, 18 bathroom, 12 food (café and market), 14 time (days, week, month …) |
 | Adjectives | 20 | four forms each (not yet exercised) |
-| Numbers | 28 | 1–20, tens to 100 |
+| Numbers | 100 | 1–100 |
+| Articles | 14 | definite, indefinite, partitive |
+| Prepositions | 64 | 10 simple, 35 articulated, 19 phrases |
+| Conjunctions | 26 | coordinating and subordinating |
+| Glossary | 226 | words and phrases for sentence glosses |
 | Questions | 16 | with sample replies |
-| Sentences | 151 | 68 everyday, 40 ordering food, 26 directions, 17 meeting people (s134–s151, added for lessons) |
-| Lessons | 6 | 22–27 steps each (35–44 beats) |
+| Sentences | 214 | 104 everyday, 52 ordering food, 30 directions, 18 meeting people, 10 time & dates (s134–s151 and s185–s214 added for lessons; s152–s184 added for the Prepositions function, which also tags 14 older items) |
+| Lessons | 16 | Units 1–2; 16–28 steps each |
 | Readings | 14 (46 sentences) | Wikipedia lead-paragraph excerpts, curated; CC BY-SA 4.0, attributed in-app |
 
 ---
@@ -238,8 +250,8 @@ Loading merges over `defaults()` so older saves keep working when new fields are
 1. Take the filtered pool and exclude the last 3 items shown (cleared whenever a filter or setting changes).
 2. Split into *due* and *fresh* (never seen).
 3. Pick from **due** if there are ≥ 5 of them, or if there are no fresh items, or 70% of the time otherwise; due items are sorted by weakest box then oldest due, and one of the top three is chosen at random.
-4. Otherwise introduce the **fresh item with the lowest `rank`** (random among ties) — so vocabulary is introduced in frequency order.
-5. If nothing is due or fresh, practise the soonest-due item.
+4. Otherwise introduce a **random fresh item** from the whole filtered pool (not in `rank` order, so drills don't repeat a fixed sequence). Lessons are unaffected: they are scripted.
+5. If nothing is due or fresh, practise one of the three soonest-due items at random.
 
 ### Grading rules
 - **Text answers:** lower-cased, NFC-normalised, curly apostrophes normalised, whitespace collapsed. Accent-only mistakes are accepted with a note. `x/y` forms accept both variants.
@@ -302,7 +314,7 @@ Data was validated with scripts that check: 42 reference conjugations, article �
 - **More number work:** 21–99 with the vowel-dropping rule (*ventuno, ventotto*), hundreds and thousands, prices, dates, telling time, ordinals.
 - **Example sentences for every tense**, generated per verb and checked.
 - **Function words:** prepositions and articulated prepositions (*a + il = al*), possessives, demonstratives, object and reflexive pronouns, *ci / ne*.
-- **More lessons:** the planned curriculum (lessons 7–45 in six units, A1 → A2, with review lessons and the data each lesson needs) is in [`LESSONS.md`](LESSONS.md).
+- **More lessons:** the planned curriculum (lessons 17–45 in six units, A1 → A2, with review lessons and the data each lesson needs) is in [`LESSONS.md`](LESSONS.md).
 - **Lesson features:** a tile-builder role-play mode (recall instead of recognition), a slow-speed toggle for dialogues, and per-lesson practice filters in the drill tabs.
 
 ### New exercise types
