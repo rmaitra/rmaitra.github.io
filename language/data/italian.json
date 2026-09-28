@@ -592,6 +592,96 @@
       "examples": [
         { "tense": "present", "it": "Scrivo un'email.", "en": "I'm writing an email." }
       ]
+    },
+    {
+      "id": "studiare",
+      "en": "to study",
+      "rank": 31,
+      "auxiliary": "avere",
+      "participle": "studiato",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "studio", "tu": "studi", "lui": "studia", "noi": "studiamo", "voi": "studiate", "loro": "studiano" },
+        "passato_prossimo": { "io": "ho studiato", "tu": "hai studiato", "lui": "ha studiato", "noi": "abbiamo studiato", "voi": "avete studiato", "loro": "hanno studiato" },
+        "imperfetto": { "io": "studiavo", "tu": "studiavi", "lui": "studiava", "noi": "studiavamo", "voi": "studiavate", "loro": "studiavano" },
+        "futuro": { "io": "studierò", "tu": "studierai", "lui": "studierà", "noi": "studieremo", "voi": "studierete", "loro": "studieranno" },
+        "condizionale": { "io": "studierei", "tu": "studieresti", "lui": "studierebbe", "noi": "studieremmo", "voi": "studiereste", "loro": "studierebbero" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Studio italiano ogni sera.", "en": "I study Italian every evening." }
+      ]
+    },
+    {
+      "id": "dormire",
+      "en": "to sleep",
+      "rank": 32,
+      "auxiliary": "avere",
+      "participle": "dormito",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "dormo", "tu": "dormi", "lui": "dorme", "noi": "dormiamo", "voi": "dormite", "loro": "dormono" },
+        "passato_prossimo": { "io": "ho dormito", "tu": "hai dormito", "lui": "ha dormito", "noi": "abbiamo dormito", "voi": "avete dormito", "loro": "hanno dormito" },
+        "imperfetto": { "io": "dormivo", "tu": "dormivi", "lui": "dormiva", "noi": "dormivamo", "voi": "dormivate", "loro": "dormivano" },
+        "futuro": { "io": "dormirò", "tu": "dormirai", "lui": "dormirà", "noi": "dormiremo", "voi": "dormirete", "loro": "dormiranno" },
+        "condizionale": { "io": "dormirei", "tu": "dormiresti", "lui": "dormirebbe", "noi": "dormiremmo", "voi": "dormireste", "loro": "dormirebbero" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Dormo otto ore.", "en": "I sleep eight hours." }
+      ]
+    },
+    {
+      "id": "partire",
+      "en": "to leave",
+      "rank": 33,
+      "auxiliary": "essere",
+      "participle": "partito",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "parto", "tu": "parti", "lui": "parte", "noi": "partiamo", "voi": "partite", "loro": "partono" },
+        "passato_prossimo": { "io": "sono partito/a", "tu": "sei partito/a", "lui": "è partito/a", "noi": "siamo partiti/e", "voi": "siete partiti/e", "loro": "sono partiti/e" },
+        "imperfetto": { "io": "partivo", "tu": "partivi", "lui": "partiva", "noi": "partivamo", "voi": "partivate", "loro": "partivano" },
+        "futuro": { "io": "partirò", "tu": "partirai", "lui": "partirà", "noi": "partiremo", "voi": "partirete", "loro": "partiranno" },
+        "condizionale": { "io": "partirei", "tu": "partiresti", "lui": "partirebbe", "noi": "partiremmo", "voi": "partireste", "loro": "partirebbero" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Il treno parte alle nove.", "en": "The train leaves at nine." }
+      ]
+    },
+    {
+      "id": "aprire",
+      "en": "to open",
+      "rank": 34,
+      "auxiliary": "avere",
+      "participle": "aperto",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "apro", "tu": "apri", "lui": "apre", "noi": "apriamo", "voi": "aprite", "loro": "aprono" },
+        "passato_prossimo": { "io": "ho aperto", "tu": "hai aperto", "lui": "ha aperto", "noi": "abbiamo aperto", "voi": "avete aperto", "loro": "hanno aperto" },
+        "imperfetto": { "io": "aprivo", "tu": "aprivi", "lui": "apriva", "noi": "aprivamo", "voi": "aprivate", "loro": "aprivano" },
+        "futuro": { "io": "aprirò", "tu": "aprirai", "lui": "aprirà", "noi": "apriremo", "voi": "aprirete", "loro": "apriranno" },
+        "condizionale": { "io": "aprirei", "tu": "apriresti", "lui": "aprirebbe", "noi": "apriremmo", "voi": "aprireste", "loro": "aprirebbero" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Il museo apre alle dieci.", "en": "The museum opens at ten." }
+      ]
+    },
+    {
+      "id": "preferire",
+      "en": "to prefer",
+      "rank": 35,
+      "auxiliary": "avere",
+      "participle": "preferito",
+      "irregular": false,
+      "tenses": {
+        "present": { "io": "preferisco", "tu": "preferisci", "lui": "preferisce", "noi": "preferiamo", "voi": "preferite", "loro": "preferiscono" },
+        "passato_prossimo": { "io": "ho preferito", "tu": "hai preferito", "lui": "ha preferito", "noi": "abbiamo preferito", "voi": "avete preferito", "loro": "hanno preferito" },
+        "imperfetto": { "io": "preferivo", "tu": "preferivi", "lui": "preferiva", "noi": "preferivamo", "voi": "preferivate", "loro": "preferivano" },
+        "futuro": { "io": "preferirò", "tu": "preferirai", "lui": "preferirà", "noi": "preferiremo", "voi": "preferirete", "loro": "preferiranno" },
+        "condizionale": { "io": "preferirei", "tu": "preferiresti", "lui": "preferirebbe", "noi": "preferiremmo", "voi": "preferireste", "loro": "preferirebbero" }
+      },
+      "examples": [
+        { "tense": "present", "it": "Preferisco il tè.", "en": "I prefer tea." }
+      ]
     }
   ],
   "nouns": [
@@ -1325,7 +1415,29 @@
     { "it": "tuo", "en": "your (masc.)", "pos": "possessive" },
     { "it": "tua", "en": "your (fem.)", "pos": "possessive", "lemma": "tuo" },
     { "it": "mie", "en": "my (fem. pl.)", "pos": "possessive", "lemma": "mio" },
-    { "it": "l'una", "en": "one o'clock", "pos": "phrase" }
+    { "it": "l'una", "en": "one o'clock", "pos": "phrase" },
+    { "it": "alle sei", "en": "at six (o'clock)", "pos": "phrase" },
+    { "it": "le sei", "en": "six o'clock", "pos": "phrase" },
+    { "it": "fa caldo", "en": "it's hot (weather)", "pos": "phrase" },
+    { "it": "fa freddo", "en": "it's cold (weather)", "pos": "phrase" },
+    { "it": "anche a me", "en": "me too (I like it too)", "pos": "phrase" },
+    { "it": "a me no", "en": "I don't (not me)", "pos": "phrase" },
+    { "it": "neanche a me", "en": "me neither", "pos": "phrase" },
+    { "it": "di più", "en": "more", "pos": "phrase" },
+    { "it": "ufficio", "en": "office", "pos": "noun" },
+    { "it": "qual", "en": "which / what (before è)", "pos": "question word", "lemma": "quale" },
+    { "it": "quale", "en": "which / what", "pos": "question word" },
+    { "it": "numero", "en": "number", "pos": "noun" },
+    { "it": "quante", "en": "how many (fem.)", "pos": "question word", "lemma": "quanto" },
+    { "it": "quanta", "en": "how much (fem.)", "pos": "question word", "lemma": "quanto" },
+    { "it": "farmacie", "en": "pharmacies", "pos": "noun", "lemma": "farmacia" },
+    { "it": "secondo", "en": "main course / second", "pos": "noun" },
+    { "it": "contorno", "en": "side dish", "pos": "noun" },
+    { "it": "allergica", "en": "allergic (fem.)", "pos": "adjective", "lemma": "allergico" },
+    { "it": "spinaci", "en": "spinach", "pos": "noun" },
+    { "it": "trattoria", "en": "trattoria (simple family restaurant)", "pos": "noun" },
+    { "it": "Firenze", "en": "Florence", "pos": "name" },
+    { "it": "Colosseo", "en": "the Colosseum", "pos": "name" }
   ],
   "questions": [
     {
@@ -3721,6 +3833,312 @@
       "accepted": [
         "Ci vediamo alle dieci al bar."
       ]
+    },
+    {
+      "id": "s215",
+      "rank": 105,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Studio italiano ogni giorno.",
+      "en": "I study Italian every day.",
+      "accepted": [
+        "Ogni giorno studio italiano."
+      ]
+    },
+    {
+      "id": "s216",
+      "rank": 106,
+      "topic": "everyday",
+      "type": "question",
+      "function": null,
+      "it": "Dove lavori?",
+      "en": "Where do you work?",
+      "accepted": []
+    },
+    {
+      "id": "s217",
+      "rank": 107,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Lavoriamo in un ufficio a Milano.",
+      "en": "We work in an office in Milan.",
+      "accepted": []
+    },
+    {
+      "id": "s218",
+      "rank": 108,
+      "topic": "everyday",
+      "type": "question",
+      "function": null,
+      "it": "Mangiate sempre a casa?",
+      "en": "Do you (all) always eat at home?",
+      "accepted": []
+    },
+    {
+      "id": "s219",
+      "rank": 109,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Leggo un libro sul treno.",
+      "en": "I read a book on the train.",
+      "accepted": []
+    },
+    {
+      "id": "s220",
+      "rank": 110,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Loro vivono a Firenze.",
+      "en": "They live in Florence.",
+      "accepted": []
+    },
+    {
+      "id": "s221",
+      "rank": 53,
+      "topic": "food",
+      "type": "question",
+      "function": null,
+      "it": "Prendi un caffè con me?",
+      "en": "Will you have a coffee with me?",
+      "accepted": []
+    },
+    {
+      "id": "s222",
+      "rank": 111,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Dormo otto ore ogni notte.",
+      "en": "I sleep eight hours every night.",
+      "accepted": [
+        "Ogni notte dormo otto ore."
+      ]
+    },
+    {
+      "id": "s223",
+      "rank": 11,
+      "topic": "time",
+      "type": "question",
+      "function": null,
+      "it": "A che ora parti domani?",
+      "en": "What time are you leaving tomorrow?",
+      "accepted": [
+        "Domani a che ora parti?"
+      ]
+    },
+    {
+      "id": "s224",
+      "rank": 12,
+      "topic": "time",
+      "type": "statement",
+      "function": null,
+      "it": "Finisco di lavorare alle sei.",
+      "en": "I finish work at six.",
+      "accepted": []
+    },
+    {
+      "id": "s225",
+      "rank": 112,
+      "topic": "everyday",
+      "type": "question",
+      "function": null,
+      "it": "Capite l'italiano?",
+      "en": "Do you (all) understand Italian?",
+      "accepted": []
+    },
+    {
+      "id": "s226",
+      "rank": 113,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Apro la finestra.",
+      "en": "I'll open the window.",
+      "accepted": []
+    },
+    {
+      "id": "s227",
+      "rank": 13,
+      "topic": "time",
+      "type": "question",
+      "function": null,
+      "it": "Che cosa fai sabato?",
+      "en": "What are you doing on Saturday?",
+      "accepted": [
+        "Sabato che cosa fai?"
+      ]
+    },
+    {
+      "id": "s228",
+      "rank": 114,
+      "topic": "everyday",
+      "type": "question",
+      "function": null,
+      "it": "Vado al mare, vieni anche tu?",
+      "en": "I'm going to the seaside, are you coming too?",
+      "accepted": []
+    },
+    {
+      "id": "s229",
+      "rank": 115,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Usciamo stasera con gli amici.",
+      "en": "We're going out tonight with friends.",
+      "accepted": [
+        "Stasera usciamo con gli amici."
+      ]
+    },
+    {
+      "id": "s230",
+      "rank": 116,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Fa caldo oggi.",
+      "en": "It's hot today.",
+      "accepted": [
+        "Oggi fa caldo."
+      ]
+    },
+    {
+      "id": "s231",
+      "rank": 54,
+      "topic": "food",
+      "type": "question",
+      "function": null,
+      "it": "Beviamo un caffè insieme?",
+      "en": "Shall we have a coffee together?",
+      "accepted": []
+    },
+    {
+      "id": "s232",
+      "rank": 117,
+      "topic": "everyday",
+      "type": "question",
+      "function": null,
+      "it": "Qual è il tuo numero di telefono?",
+      "en": "What's your phone number?",
+      "accepted": []
+    },
+    {
+      "id": "s233",
+      "rank": 118,
+      "topic": "everyday",
+      "type": "question",
+      "function": null,
+      "it": "Quante sorelle hai?",
+      "en": "How many sisters do you have?",
+      "accepted": []
+    },
+    {
+      "id": "s234",
+      "rank": 14,
+      "topic": "time",
+      "type": "question",
+      "function": null,
+      "it": "Quando parte l'autobus?",
+      "en": "When does the bus leave?",
+      "accepted": []
+    },
+    {
+      "id": "s235",
+      "rank": 119,
+      "topic": "everyday",
+      "type": "question",
+      "function": null,
+      "it": "Perché non vieni con noi?",
+      "en": "Why don't you come with us?",
+      "accepted": []
+    },
+    {
+      "id": "s236",
+      "rank": 31,
+      "topic": "directions",
+      "type": "statement",
+      "function": null,
+      "it": "Ci sono due farmacie in questa strada.",
+      "en": "There are two pharmacies on this street.",
+      "accepted": []
+    },
+    {
+      "id": "s237",
+      "rank": 55,
+      "topic": "food",
+      "type": "statement",
+      "function": null,
+      "it": "Come secondo prendo il pesce.",
+      "en": "For the main course I'll have fish.",
+      "accepted": [
+        "Prendo il pesce come secondo."
+      ]
+    },
+    {
+      "id": "s238",
+      "rank": 56,
+      "topic": "food",
+      "type": "statement",
+      "function": null,
+      "it": "Sono allergica al glutine.",
+      "en": "I'm allergic to gluten.",
+      "accepted": []
+    },
+    {
+      "id": "s239",
+      "rank": 57,
+      "topic": "food",
+      "type": "statement",
+      "function": "preference",
+      "it": "Anche a me piace la pizza.",
+      "en": "I like pizza too.",
+      "accepted": []
+    },
+    {
+      "id": "s240",
+      "rank": 58,
+      "topic": "food",
+      "type": "negative",
+      "function": "preference",
+      "it": "Non mi piacciono gli spinaci.",
+      "en": "I don't like spinach.",
+      "accepted": []
+    },
+    {
+      "id": "s241",
+      "rank": 120,
+      "topic": "everyday",
+      "type": "statement",
+      "function": "preference",
+      "it": "Mi piace molto viaggiare.",
+      "en": "I really like travelling.",
+      "accepted": []
+    },
+    {
+      "id": "s242",
+      "rank": 32,
+      "topic": "directions",
+      "type": "question",
+      "function": null,
+      "it": "Scusi, c'è una trattoria qui vicino?",
+      "en": "Excuse me, is there a trattoria near here?",
+      "accepted": []
+    },
+    {
+      "id": "s243",
+      "rank": 121,
+      "topic": "everyday",
+      "type": "statement",
+      "function": null,
+      "it": "Domani vado al Colosseo.",
+      "en": "Tomorrow I'm going to the Colosseum.",
+      "accepted": [
+        "Vado al Colosseo domani."
+      ]
     }
   ],
   "readings": [
@@ -4157,7 +4575,8 @@
   ],
   "lessonUnits": [
     { "id": 1, "title": "First conversations" },
-    { "id": 2, "title": "Things, places and numbers" }
+    { "id": 2, "title": "Things, places and numbers" },
+    { "id": 3, "title": "Doing things: the present tense" }
   ],
   "lessons": [
     {
@@ -5101,6 +5520,533 @@
           { "s": "b", "it": "Sono quattro euro e cinquanta.", "en": "That’s four euros fifty." },
           { "s": "s", "it": "Ecco cinque euro. Ciao, Giulia! A presto!", "en": "Here’s five euros. Bye, Giulia! See you soon!", "wrong": ["Ecco quindici euro. Ciao, Giulia! A presto!", "Ecco cinque euro. Ciao, Giulia! Piacere!"] },
           { "s": "g", "it": "Ciao, Sam! Ci vediamo sabato!", "en": "Bye, Sam! See you Saturday!" }
+        ] }
+      ]
+    },
+    {
+      "id": "are-verbs",
+      "order": 17,
+      "unit": 3,
+      "title": "Parlo italiano",
+      "subtitle": "Regular -are verbs",
+      "goals": ["Conjugate any regular *-are* verb", "Talk about work, study and where you live", "Drop the subject pronoun, the way Italians do"],
+      "practice": ["v:parlare:present:io", "v:parlare:present:tu", "v:parlare:present:lui", "v:parlare:present:noi", "v:parlare:present:voi", "v:parlare:present:loro", "v:abitare:present:io", "v:abitare:present:tu", "v:abitare:present:lui", "v:abitare:present:noi", "v:abitare:present:voi", "v:abitare:present:loro", "v:lavorare:present:io", "v:lavorare:present:tu", "v:lavorare:present:lui", "v:lavorare:present:noi", "v:lavorare:present:voi", "v:lavorare:present:loro", "v:mangiare:present:io", "v:mangiare:present:tu", "v:mangiare:present:lui", "v:mangiare:present:noi", "v:mangiare:present:voi", "v:mangiare:present:loro", "v:studiare:present:io", "v:studiare:present:tu", "v:studiare:present:lui", "v:studiare:present:noi", "v:studiare:present:voi", "v:studiare:present:loro", "q:q3", "q:q13", "s:s10", "s:s5", "s:s215", "s:s216", "s:s217", "s:s218"],
+      "steps": [
+        { "type": "heading", "text": "One pattern, hundreds of verbs" },
+        { "type": "text", "text": "Most Italian verbs end in *-are*. Take off *-are*, add the endings below, and you can use hundreds of verbs, starting with *parlare* (to speak)." },
+        { "type": "list", "title": "*Parlare* (to speak)", "recap": true, "items": [
+          { "it": "io parlo", "en": "I speak" },
+          { "it": "tu parli", "en": "you speak" },
+          { "it": "lui / lei parla", "en": "he / she speaks" },
+          { "it": "Lei parla", "en": "you speak (polite)" },
+          { "it": "noi parliamo", "en": "we speak" },
+          { "it": "voi parlate", "en": "you speak (plural)" },
+          { "it": "loro parlano", "en": "they speak" }
+        ] },
+        { "type": "note", "label": "Pattern", "text": "The endings are *-o, -i, -a, -iamo, -ate, -ano*. Every regular *-are* verb uses them." },
+        { "type": "check", "prompt": "*noi* + *lavorare*", "options": ["*lavoriamo*", "*lavoramo*", "*lavorano*"], "answer": 0, "why": "*Noi* always ends in *-iamo*, whatever the verb." },
+        { "type": "heading", "text": "Leave out io, tu, lui…" },
+        { "type": "text", "text": "The ending already says who is doing it, so Italians usually drop the pronoun: *Parlo italiano* rather than *Io parlo italiano*. Keep the pronoun for emphasis or contrast: *Io lavoro, tu no!*" },
+        { "type": "example", "it": "Abito a Roma.", "en": "I live in Rome." },
+        { "type": "example", "it": "Dove lavori?", "en": "Where do you work?" },
+        { "type": "note", "label": "Pronunciation", "text": "The *loro* form keeps the stress of the *lui* form: *PAR-la*, *PAR-la-no*; *la-VO-ra*, *la-VO-ra-no*. It never falls on the *-a-* of *-ano*." },
+        { "type": "check", "prompt": "“They speak English.”", "options": ["*Parlano inglese.*", "*Parlate inglese.*", "*Parla inglese.*"], "answer": 0 },
+        { "type": "heading", "text": "Useful -are verbs" },
+        { "type": "list", "title": "Regular *-are* verbs", "recap": true, "items": [
+          { "it": "abitare", "en": "to live (in a place)" },
+          { "it": "lavorare", "en": "to work" },
+          { "it": "studiare", "en": "to study" },
+          { "it": "mangiare", "en": "to eat" },
+          { "it": "chiamare", "en": "to call" },
+          { "it": "amare", "en": "to love" },
+          { "it": "trovare", "en": "to find" },
+          { "it": "pensare", "en": "to think" }
+        ] },
+        { "type": "note", "label": "Spelling", "text": "Verbs ending in *-iare* keep only one *i*: *mangiare*, *tu mangi*; *studiare*, *tu studi* (never *mangii*). Verbs in *-care* and *-gare* add an *h* to keep the hard sound: *pagare*, *tu paghi*." },
+        { "type": "check", "prompt": "*tu* + *mangiare*", "options": ["*mangi*", "*mangii*", "*mangia*"], "answer": 0 },
+        { "type": "check", "prompt": "To two friends: “Do you study Italian?”", "options": ["*Studiate italiano?*", "*Studiamo italiano?*", "*Studiano italiano?*"], "answer": 0, "why": "Talking to more than one person is *voi*: *-ate*." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Luca meets Anna, a new colleague, at the coffee machine. New word: *l’ufficio*, “the office”." },
+        { "type": "dialogue", "title": "The new colleague", "speakers": {"l": {"name": "Luca"}, "a": {"name": "Anna"}}, "practice": "a", "lines": [
+          { "s": "l", "it": "Ciao! Sei nuova? Come ti chiami?", "en": "Hi! Are you new? What’s your name?" },
+          { "s": "a", "it": "Sì, mi chiamo Anna. Lavoro in questo ufficio.", "en": "Yes, my name’s Anna. I work in this office.", "wrong": ["Sì, mi chiamo Anna. Lavora in questo ufficio.", "Sì, mi chiamo Anna. Lavoro in questa ufficio."] },
+          { "s": "l", "it": "Piacere! Abiti a Milano?", "en": "Nice to meet you! Do you live in Milan?" },
+          { "s": "a", "it": "No, abito a Monza, ma studio a Milano la sera.", "en": "No, I live in Monza, but I study in Milan in the evenings.", "wrong": ["No, abita a Monza, ma studia a Milano la sera.", "No, abito a Monza, ma studo a Milano la sera."] },
+          { "s": "l", "it": "Che cosa studi?", "en": "What do you study?" },
+          { "s": "a", "it": "Studio inglese. E tu, parli inglese?", "en": "I study English. And you, do you speak English?", "wrong": ["Studi inglese. E tu, parli inglese?", "Studio inglese. E tu, parla inglese?"] },
+          { "s": "l", "it": "Sì, parlo inglese. Mangiamo insieme oggi?", "en": "Yes, I speak English. Shall we eat together today?" },
+          { "s": "a", "it": "Sì, grazie, Luca!", "en": "Yes, thanks, Luca!", "wrong": ["Sì, prego, Luca!", "Sì, mangiano, Luca!"] }
+        ] }
+      ]
+    },
+    {
+      "id": "ere-verbs",
+      "order": 18,
+      "unit": 3,
+      "title": "Leggo e scrivo",
+      "subtitle": "Regular -ere verbs",
+      "goals": ["Conjugate regular *-ere* verbs", "Use *prendere* for food, drink and transport", "Talk about your free time"],
+      "practice": ["v:prendere:present:io", "v:prendere:present:tu", "v:prendere:present:lui", "v:prendere:present:noi", "v:prendere:present:voi", "v:prendere:present:loro", "v:leggere:present:io", "v:leggere:present:tu", "v:leggere:present:lui", "v:leggere:present:noi", "v:leggere:present:voi", "v:leggere:present:loro", "v:scrivere:present:io", "v:scrivere:present:tu", "v:scrivere:present:lui", "v:scrivere:present:noi", "v:scrivere:present:voi", "v:scrivere:present:loro", "v:vivere:present:io", "v:vivere:present:tu", "v:vivere:present:lui", "v:vivere:present:noi", "v:vivere:present:voi", "v:vivere:present:loro", "s:s19", "s:s24", "s:s32", "q:q16", "s:s219", "s:s220", "s:s221"],
+      "steps": [
+        { "type": "heading", "text": "The -ere pattern" },
+        { "type": "text", "text": "The second group ends in *-ere*. The endings match *-are* except in three places: *lui* ends in *-e*, *voi* in *-ete* and *loro* in *-ono*." },
+        { "type": "list", "title": "*Prendere* (to take)", "recap": true, "items": [
+          { "it": "io prendo", "en": "I take" },
+          { "it": "tu prendi", "en": "you take" },
+          { "it": "lui / lei prende", "en": "he / she takes" },
+          { "it": "noi prendiamo", "en": "we take" },
+          { "it": "voi prendete", "en": "you take (plural)" },
+          { "it": "loro prendono", "en": "they take" }
+        ] },
+        { "type": "check", "prompt": "*voi* + *leggere*", "options": ["*leggete*", "*leggate*", "*leggiamo*"], "answer": 0, "why": "*-ere* verbs make *voi* with *-ete*." },
+        { "type": "check", "prompt": "*loro* + *scrivere*", "options": ["*scrivono*", "*scrivano*", "*scriveno*"], "answer": 0 },
+        { "type": "heading", "text": "Useful -ere verbs" },
+        { "type": "list", "title": "Regular *-ere* verbs", "recap": true, "items": [
+          { "it": "leggere", "en": "to read" },
+          { "it": "scrivere", "en": "to write" },
+          { "it": "vivere", "en": "to live" },
+          { "it": "vedere", "en": "to see" },
+          { "it": "mettere", "en": "to put" },
+          { "it": "prendere", "en": "to take, to have" }
+        ] },
+        { "type": "note", "label": "Pronunciation", "text": "*Gg* and *c* change sound with the vowel after them. In *leggere* the *gg* is soft, like the “dg” in “edge”. In *leggo* it’s hard, like “leg-go”." },
+        { "type": "heading", "text": "Prendere: take, have, catch" },
+        { "type": "text", "text": "*Prendere* does far more work than “take”. Italians use it to order food and drink, and to catch buses and trains." },
+        { "type": "list", "title": "With *prendere*", "recap": true, "items": [
+          { "it": "Prendo un caffè.", "en": "I’ll have a coffee." },
+          { "it": "Prendo il treno.", "en": "I take the train." },
+          { "it": "Prendo l’autobus.", "en": "I catch the bus." },
+          { "it": "Che cosa prendi?", "en": "What are you having?" }
+        ] },
+        { "type": "check", "prompt": "At a bar: “I’ll have a tea.”", "options": ["*Prendo un tè.*", "*Ho un tè.*", "*Mangio un tè.*"], "answer": 0, "why": "To order, say *prendo* (I take). *Ho un tè* means you already have one." },
+        { "type": "check", "prompt": "“We take the train.”", "options": ["*Prendiamo il treno.*", "*Prendete il treno.*", "*Prendono il treno.*"], "answer": 0 },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Carla asks Giorgio about his Sunday. New words: *il giornale* (the newspaper) and *anche a te* (you too)." },
+        { "type": "dialogue", "title": "Sunday plans", "speakers": {"c": {"name": "Carla"}, "g": {"name": "Giorgio"}}, "practice": "g", "lines": [
+          { "s": "c", "it": "Che cosa fai domenica?", "en": "What are you doing on Sunday?" },
+          { "s": "g", "it": "Leggo il giornale e scrivo a mia madre.", "en": "I’ll read the paper and write to my mother.", "wrong": ["Leggio il giornale e scrivo a mia madre.", "Legge il giornale e scrive a mia madre."] },
+          { "s": "c", "it": "Non vedi Marco?", "en": "Aren’t you seeing Marco?" },
+          { "s": "g", "it": "Sì! Prendiamo un caffè insieme la sera.", "en": "Yes! We’re having a coffee together in the evening.", "wrong": ["Sì! Prendete un caffè insieme la sera.", "Sì! Abbiamo un caffè insieme la sera."] },
+          { "s": "c", "it": "Dove vive Marco?", "en": "Where does Marco live?" },
+          { "s": "g", "it": "Vive a Firenze. Prendo il treno.", "en": "He lives in Florence. I’m taking the train.", "wrong": ["Vivo a Firenze. Prendo il treno.", "Vive a Firenze. Prende il treno."] },
+          { "s": "c", "it": "Che bello! Buona domenica!", "en": "How nice! Have a good Sunday!" },
+          { "s": "g", "it": "Grazie, anche a te!", "en": "Thanks, you too!", "wrong": ["Prego, anche a te!", "Grazie, anche io!"] }
+        ] }
+      ]
+    },
+    {
+      "id": "ire-verbs",
+      "order": 19,
+      "unit": 3,
+      "title": "Dormo e capisco",
+      "subtitle": "The two -ire patterns",
+      "goals": ["Conjugate both kinds of *-ire* verb", "Tell *dormo* verbs from *capisco* verbs", "Talk about sleeping, leaving and finishing"],
+      "practice": ["v:dormire:present:io", "v:dormire:present:tu", "v:dormire:present:lui", "v:dormire:present:noi", "v:dormire:present:voi", "v:dormire:present:loro", "v:partire:present:io", "v:partire:present:tu", "v:partire:present:lui", "v:partire:present:noi", "v:partire:present:voi", "v:partire:present:loro", "v:capire:present:io", "v:capire:present:tu", "v:capire:present:lui", "v:capire:present:noi", "v:capire:present:voi", "v:capire:present:loro", "v:finire:present:io", "v:finire:present:tu", "v:finire:present:lui", "v:finire:present:noi", "v:finire:present:voi", "v:finire:present:loro", "v:preferire:present:io", "v:preferire:present:tu", "v:preferire:present:lui", "v:preferire:present:noi", "v:preferire:present:voi", "v:preferire:present:loro", "s:s7", "s:s222", "s:s223", "s:s224", "s:s225", "s:s226"],
+      "steps": [
+        { "type": "heading", "text": "The -ire pattern" },
+        { "type": "text", "text": "Verbs in *-ire* take the same endings as *-ere*, except *voi*, which ends in *-ite*." },
+        { "type": "list", "title": "*Dormire* (to sleep)", "recap": true, "items": [
+          { "it": "io dormo", "en": "I sleep" },
+          { "it": "tu dormi", "en": "you sleep" },
+          { "it": "lui / lei dorme", "en": "he / she sleeps" },
+          { "it": "noi dormiamo", "en": "we sleep" },
+          { "it": "voi dormite", "en": "you sleep (plural)" },
+          { "it": "loro dormono", "en": "they sleep" }
+        ] },
+        { "type": "list", "title": "Like *dormire*", "recap": true, "items": [
+          { "it": "partire", "en": "to leave" },
+          { "it": "aprire", "en": "to open" }
+        ] },
+        { "type": "check", "prompt": "*voi* + *dormire*", "options": ["*dormite*", "*dormete*", "*dormate*"], "answer": 0 },
+        { "type": "heading", "text": "The -isc- verbs" },
+        { "type": "text", "text": "Many *-ire* verbs add *-isc-* before the ending in every form except *noi* and *voi*. Nothing in the infinitive tells you which verbs do this, so learn each one with its *io* form." },
+        { "type": "list", "title": "*Capire* (to understand)", "recap": true, "items": [
+          { "it": "io capisco", "en": "I understand" },
+          { "it": "tu capisci", "en": "you understand" },
+          { "it": "lui / lei capisce", "en": "he / she understands" },
+          { "it": "noi capiamo", "en": "we understand" },
+          { "it": "voi capite", "en": "you understand (plural)" },
+          { "it": "loro capiscono", "en": "they understand" }
+        ] },
+        { "type": "list", "title": "Like *capire*", "recap": true, "items": [
+          { "it": "finire", "en": "to finish" },
+          { "it": "preferire", "en": "to prefer" }
+        ] },
+        { "type": "note", "label": "Pronunciation", "text": "*-sco* is hard, like “sko”. *-sci* and *-sce* are soft, like “shee” and “sheh”: *capisco* (ca-PEE-sko), *capisci* (ca-PEE-shee)." },
+        { "type": "check", "prompt": "*io* + *capire*", "options": ["*capisco*", "*capo*", "*capiso*"], "answer": 0, "why": "*Capire* takes *-isc-*: *capisco*. (*Capo* means “boss”!)" },
+        { "type": "check", "prompt": "*noi* + *finire*", "options": ["*finiamo*", "*finisciamo*", "*finiscono*"], "answer": 0, "why": "*Noi* and *voi* never take *-isc-*." },
+        { "type": "check", "prompt": "To two friends: “Do you prefer tea?”", "options": ["*Preferite il tè?*", "*Preferiscete il tè?*", "*Preferisci il tè?*"], "answer": 0, "why": "*Voi* has no *-isc-*: *preferite*." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Flatmates Sara and Marco plan the next day. New words: *presto* (early) and *finire di lavorare* (to finish work)." },
+        { "type": "dialogue", "title": "Flatmates", "speakers": {"s": {"name": "Sara"}, "m": {"name": "Marco"}}, "practice": "m", "lines": [
+          { "s": "s", "it": "A che ora parti domani?", "en": "What time are you leaving tomorrow?" },
+          { "s": "m", "it": "Parto alle otto. E tu?", "en": "I leave at eight. And you?", "wrong": ["Partisco alle otto. E tu?", "Parte alle otto. E tu?"] },
+          { "s": "s", "it": "Io alle nove. A che ora finisci di lavorare?", "en": "At nine. What time do you finish work?" },
+          { "s": "m", "it": "Finisco alle sei.", "en": "I finish at six.", "wrong": ["Fino alle sei.", "Finiamo alle sei."] },
+          { "s": "s", "it": "Allora mangiamo insieme alle sette?", "en": "So shall we eat together at seven?" },
+          { "s": "m", "it": "Sì! Ma stasera dormo presto, sono stanco.", "en": "Yes! But tonight I’m going to bed early, I’m tired.", "wrong": ["Sì! Ma stasera dorme presto, sono stanco.", "Sì! Ma stasera dormisco presto, sono stanco."] },
+          { "s": "s", "it": "Buonanotte, Marco!", "en": "Good night, Marco!" },
+          { "s": "m", "it": "Buonanotte!", "en": "Good night!", "wrong": ["Buongiorno!", "Piacere!"] }
+        ] }
+      ]
+    },
+    {
+      "id": "irregular-verbs",
+      "order": 20,
+      "unit": 3,
+      "title": "Faccio, vado, vengo",
+      "subtitle": "Common irregular verbs",
+      "goals": ["Use six everyday irregular verbs", "Make plans with *andare* and *venire*", "Talk about the weather with *fare*"],
+      "practice": ["v:fare:present:io", "v:fare:present:tu", "v:fare:present:lui", "v:fare:present:noi", "v:fare:present:voi", "v:fare:present:loro", "v:andare:present:io", "v:andare:present:tu", "v:andare:present:lui", "v:andare:present:noi", "v:andare:present:voi", "v:andare:present:loro", "v:venire:present:io", "v:venire:present:tu", "v:venire:present:lui", "v:venire:present:noi", "v:venire:present:voi", "v:venire:present:loro", "v:uscire:present:io", "v:uscire:present:tu", "v:uscire:present:lui", "v:uscire:present:noi", "v:uscire:present:voi", "v:uscire:present:loro", "v:bere:present:io", "v:bere:present:tu", "v:bere:present:lui", "v:bere:present:noi", "v:bere:present:voi", "v:bere:present:loro", "v:dire:present:io", "v:dire:present:tu", "v:dire:present:lui", "v:dire:present:noi", "v:dire:present:voi", "v:dire:present:loro", "q:q9", "s:s3", "s:s11", "s:s227", "s:s228", "s:s229", "s:s230", "s:s231"],
+      "steps": [
+        { "type": "heading", "text": "The verbs that break the rules" },
+        { "type": "text", "text": "The verbs people use most are the ones that don’t follow the patterns. Learn these six as they are." },
+        { "type": "list", "title": "*Fare* (to do, to make)", "recap": true, "items": [
+          { "it": "io faccio", "en": "I do" },
+          { "it": "tu fai", "en": "you do" },
+          { "it": "lui / lei fa", "en": "he / she does" },
+          { "it": "noi facciamo", "en": "we do" },
+          { "it": "voi fate", "en": "you do (plural)" },
+          { "it": "loro fanno", "en": "they do" }
+        ] },
+        { "type": "list", "title": "*Andare* (to go)", "recap": true, "items": [
+          { "it": "io vado", "en": "I go" },
+          { "it": "tu vai", "en": "you go" },
+          { "it": "lui / lei va", "en": "he / she goes" },
+          { "it": "noi andiamo", "en": "we go" },
+          { "it": "voi andate", "en": "you go (plural)" },
+          { "it": "loro vanno", "en": "they go" }
+        ] },
+        { "type": "note", "label": "Pattern", "text": "*Noi* and *voi* are often regular (*andiamo, andate*), while the other forms change completely." },
+        { "type": "check", "prompt": "*io* + *andare*", "options": ["*vado*", "*ando*", "*andiamo*"], "answer": 0 },
+        { "type": "check", "prompt": "To a friend: “What are you doing?”", "options": ["*Che cosa fai?*", "*Che cosa faci?*", "*Che cosa fate?*"], "answer": 0 },
+        { "type": "heading", "text": "Coming and going out" },
+        { "type": "list", "title": "*Venire* (to come)", "recap": true, "items": [
+          { "it": "io vengo", "en": "I come" },
+          { "it": "tu vieni", "en": "you come" },
+          { "it": "lui / lei viene", "en": "he / she comes" },
+          { "it": "noi veniamo", "en": "we come" },
+          { "it": "voi venite", "en": "you come (plural)" },
+          { "it": "loro vengono", "en": "they come" }
+        ] },
+        { "type": "list", "title": "*Uscire* (to go out)", "recap": true, "items": [
+          { "it": "io esco", "en": "I go out" },
+          { "it": "tu esci", "en": "you go out" },
+          { "it": "lui / lei esce", "en": "he / she goes out" },
+          { "it": "noi usciamo", "en": "we go out" },
+          { "it": "voi uscite", "en": "you go out (plural)" },
+          { "it": "loro escono", "en": "they go out" }
+        ] },
+        { "type": "note", "label": "Watch out", "text": "*Uscire* changes its first letter: *esco*, *esci*, *esce*, *escono*, but *usciamo* and *uscite*." },
+        { "type": "check", "prompt": "*loro* + *uscire*", "options": ["*escono*", "*uscono*", "*usciono*"], "answer": 0 },
+        { "type": "check", "prompt": "“Are you coming with me?”", "options": ["*Vieni con me?*", "*Veni con me?*", "*Vengo con me?*"], "answer": 0 },
+        { "type": "heading", "text": "Drinking and saying" },
+        { "type": "list", "title": "*Bere* (to drink)", "recap": true, "items": [
+          { "it": "io bevo", "en": "I drink" },
+          { "it": "tu bevi", "en": "you drink" },
+          { "it": "lui / lei beve", "en": "he / she drinks" },
+          { "it": "noi beviamo", "en": "we drink" },
+          { "it": "voi bevete", "en": "you drink (plural)" },
+          { "it": "loro bevono", "en": "they drink" }
+        ] },
+        { "type": "list", "title": "*Dire* (to say)", "recap": true, "items": [
+          { "it": "io dico", "en": "I say" },
+          { "it": "tu dici", "en": "you say" },
+          { "it": "lui / lei dice", "en": "he / she says" },
+          { "it": "noi diciamo", "en": "we say" },
+          { "it": "voi dite", "en": "you say (plural)" },
+          { "it": "loro dicono", "en": "they say" }
+        ] },
+        { "type": "heading", "text": "Everyday phrases with fare" },
+        { "type": "list", "title": "*Fare* in set phrases", "recap": true, "items": [
+          { "it": "fare colazione", "en": "to have breakfast" },
+          { "it": "fare una passeggiata", "en": "to go for a walk" },
+          { "it": "fare la spesa", "en": "to do the grocery shopping" },
+          { "it": "Fa caldo.", "en": "It’s hot." },
+          { "it": "Fa freddo.", "en": "It’s cold." }
+        ] },
+        { "type": "note", "label": "Tip", "text": "The weather uses *fare*, not *essere*: *fa caldo*, never *è caldo*. And *andare a* + a place or a verb: *vado a Roma*, *vado a mangiare*." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Friday afternoon. Giulia texts her friend Paolo about the weekend." },
+        { "type": "dialogue", "title": "Weekend plans", "speakers": {"g": {"name": "Giulia"}, "p": {"name": "Paolo"}}, "practice": "p", "lines": [
+          { "s": "g", "it": "Che cosa fai sabato?", "en": "What are you doing on Saturday?" },
+          { "s": "p", "it": "Vado al mare con mia sorella. Vieni?", "en": "I’m going to the seaside with my sister. Are you coming?", "wrong": ["Ando al mare con mia sorella. Vieni?", "Vado al mare con mia sorella. Vengo?"] },
+          { "s": "g", "it": "Sì, vengo! A che ora uscite?", "en": "Yes, I’m coming! What time are you leaving?" },
+          { "s": "p", "it": "Usciamo alle nove.", "en": "We’re leaving at nine.", "wrong": ["Esciamo alle nove.", "Escono alle nove."] },
+          { "s": "g", "it": "Fa caldo sabato?", "en": "Is it hot on Saturday?" },
+          { "s": "p", "it": "Sì, fa molto caldo!", "en": "Yes, it’s very hot!", "wrong": ["Sì, è molto caldo!", "Sì, fanno molto caldo!"] },
+          { "s": "g", "it": "Perfetto. Faccio i panini!", "en": "Perfect. I’ll make the sandwiches!" },
+          { "s": "p", "it": "Grazie! Io porto l’acqua.", "en": "Thanks! I’ll bring the water.", "wrong": ["Grazie! Io porta l’acqua.", "Grazie! Io faccio l’acqua."] }
+        ] }
+      ]
+    },
+    {
+      "id": "questions",
+      "order": 21,
+      "unit": 3,
+      "title": "Domande",
+      "subtitle": "Question words",
+      "goals": ["Ask open questions: who, what, where, when, why, how", "Make *quanto* agree with its noun", "Spell *qual è* correctly"],
+      "practice": ["q:q1", "q:q2", "q:q3", "q:q4", "q:q5", "q:q6", "q:q7", "q:q8", "q:q9", "q:q10", "q:q11", "q:q12", "q:q13", "q:q14", "q:q15", "q:q16", "s:s232", "s:s233", "s:s234", "s:s235"],
+      "steps": [
+        { "type": "heading", "text": "Question words" },
+        { "type": "list", "title": "The question words", "recap": true, "items": [
+          { "it": "chi?", "en": "who?" },
+          { "it": "che cosa? / cosa?", "en": "what?" },
+          { "it": "dove?", "en": "where?" },
+          { "it": "quando?", "en": "when?" },
+          { "it": "perché?", "en": "why?" },
+          { "it": "come?", "en": "how?" },
+          { "it": "quanto?", "en": "how much?" },
+          { "it": "quale?", "en": "which?" }
+        ] },
+        { "type": "note", "label": "Word order", "text": "The question word goes first, and the rest keeps normal order: *Dove abiti?* A subject often moves to the end: *Quando arriva il treno?*" },
+        { "type": "check", "prompt": "You want to know where the pharmacy is:", "options": ["*Dov’è la farmacia?*", "*Quando è la farmacia?*", "*Chi è la farmacia?*"], "answer": 0 },
+        { "type": "check", "prompt": "*Chi è?* asks about…", "options": ["a person", "a place", "a time"], "answer": 0 },
+        { "type": "heading", "text": "Why? Because!" },
+        { "type": "word", "it": "Perché…?", "en": "Why…?", "note": "The same word means “because”: *Perché studi italiano? — Perché mi piace.*" },
+        { "type": "example", "it": "Perché non vieni? — Perché sono stanco.", "en": "Why aren’t you coming? — Because I’m tired." },
+        { "type": "heading", "text": "How much, how many" },
+        { "type": "list", "title": "*Quanto* agrees", "recap": true, "items": [
+          { "it": "Quanto costa?", "en": "How much does it cost?" },
+          { "it": "Quanta acqua?", "en": "How much water?" },
+          { "it": "Quanti anni hai?", "en": "How old are you?" },
+          { "it": "Quante sorelle hai?", "en": "How many sisters do you have?" }
+        ] },
+        { "type": "note", "label": "Agreement", "text": "*Quanto* works like an adjective: *quanto* and *quanta* in the singular, *quanti* and *quante* in the plural, matching the noun that follows." },
+        { "type": "check", "prompt": "“How many sisters do you have?”", "options": ["*Quante sorelle hai?*", "*Quanti sorelle hai?*", "*Quanto sorelle hai?*"], "answer": 0 },
+        { "type": "check", "prompt": "“How old are you?”", "options": ["*Quanti anni hai?*", "*Quanto anni hai?*", "*Quante anni hai?*"], "answer": 0, "why": "*Anni* is masculine plural, so *quanti*." },
+        { "type": "heading", "text": "Which one?" },
+        { "type": "word", "it": "Qual è…?", "en": "What is… / Which is…?", "note": "*Quale* drops its *e* before *è*, with no apostrophe." },
+        { "type": "check", "prompt": "“What’s your phone number?”", "options": ["*Qual è il tuo numero di telefono?*", "*Qual’è il tuo numero di telefono?*", "*Che è il tuo numero di telefono?*"], "answer": 0, "why": "No apostrophe: *qual è*. Plenty of Italians get this wrong too." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Tom has just moved in, and his neighbour Elena shows him around. He has lots of questions. New words: *il mercato* (the market) and *tutti i giorni* (every day)." },
+        { "type": "dialogue", "title": "The new neighbour", "speakers": {"e": {"name": "Elena"}, "t": {"name": "Tom"}}, "practice": "t", "lines": [
+          { "s": "t", "it": "Scusa, chi è il signore con il cane?", "en": "Sorry, who’s the man with the dog?", "wrong": ["Scusa, che cosa è il signore con il cane?", "Scusa, dove è il signore con il cane?"] },
+          { "s": "e", "it": "È il signor Rossi. È molto simpatico.", "en": "That’s Mr Rossi. He’s very nice." },
+          { "s": "t", "it": "Dove fai la spesa?", "en": "Where do you do your shopping?", "wrong": ["Dove fa la spesa?", "Dove faccio la spesa?"] },
+          { "s": "e", "it": "Al mercato, in piazza.", "en": "At the market, in the square." },
+          { "s": "t", "it": "Quando è aperto?", "en": "When is it open?", "wrong": ["Perché è aperto?", "Chi è aperto?"] },
+          { "s": "e", "it": "Tutti i giorni, dalle otto all’una.", "en": "Every day, from eight to one." },
+          { "s": "t", "it": "E quanto costano le mele?", "en": "And how much are the apples?", "wrong": ["E quanti costano le mele?", "E quanto costa le mele?"] },
+          { "s": "e", "it": "Due euro al chilo. Perché? Ti piacciono le mele?", "en": "Two euros a kilo. Why? Do you like apples?" },
+          { "s": "t", "it": "Sì, molto!", "en": "Yes, a lot!", "wrong": ["Perché, molto!", "Sì, molta!"] }
+        ] }
+      ]
+    },
+    {
+      "id": "directions",
+      "order": 22,
+      "unit": 3,
+      "title": "Dov’è…?",
+      "subtitle": "Directions and places",
+      "goals": ["Ask where something is and understand the answer", "Choose *c’è* or *ci sono*", "Follow directions: *a destra, a sinistra, dritto*"],
+      "practice": ["s:s51", "s:s52", "s:s53", "s:s54", "s:s55", "s:s56", "s:s57", "s:s58", "s:s59", "s:s60", "s:s61", "s:s62", "s:s63", "s:s64", "s:s65", "s:s68", "s:s69", "s:s70", "s:s71", "s:s74", "s:s75", "s:s91", "s:s236", "s:s242"],
+      "steps": [
+        { "type": "heading", "text": "Asking the way" },
+        { "type": "word", "it": "Scusi, dov’è…?", "en": "Excuse me, where is…?", "note": "*Dove* + *è* = *dov’è*. For more than one thing: *Dove sono…?*" },
+        { "type": "word", "it": "C’è… qui vicino?", "en": "Is there a… near here?" },
+        { "type": "example", "it": "Scusi, c’è una farmacia qui vicino?", "en": "Excuse me, is there a pharmacy near here?" },
+        { "type": "heading", "text": "C’è or ci sono?" },
+        { "type": "list", "title": "There is, there are", "recap": true, "items": [
+          { "it": "c’è", "en": "there is" },
+          { "it": "ci sono", "en": "there are" },
+          { "it": "non c’è", "en": "there isn’t" },
+          { "it": "non ci sono", "en": "there aren’t" }
+        ] },
+        { "type": "example", "it": "Ci sono due farmacie in questa strada.", "en": "There are two pharmacies on this street." },
+        { "type": "check", "prompt": "“Are there any restaurants near here?”", "options": ["*Ci sono ristoranti qui vicino?*", "*C’è ristoranti qui vicino?*", "*Ci è ristoranti qui vicino?*"], "answer": 0 },
+        { "type": "heading", "text": "Where things are" },
+        { "type": "list", "title": "Places", "recap": true, "items": [
+          { "it": "a destra", "en": "on the right" },
+          { "it": "a sinistra", "en": "on the left" },
+          { "it": "dritto", "en": "straight on" },
+          { "it": "all’angolo", "en": "on the corner" },
+          { "it": "vicino a", "en": "near" },
+          { "it": "lontano da", "en": "far from" },
+          { "it": "di fronte a", "en": "opposite" },
+          { "it": "accanto a", "en": "next to" },
+          { "it": "dietro", "en": "behind" }
+        ] },
+        { "type": "note", "label": "Tip", "text": "*A* and *da* join the article after them: *vicino alla stazione*, *di fronte al parco*, *lontano dal centro*. Learn them as phrases for now; lesson 27 has the full table." },
+        { "type": "check", "prompt": "“The bar is next to the bank.”", "options": ["*Il bar è accanto alla banca.*", "*Il bar è accanto a la banca.*", "*Il bar è dietro la banca.*"], "answer": 0 },
+        { "type": "heading", "text": "Following directions" },
+        { "type": "text", "text": "Strangers give directions with the polite *Lei* command form. You don’t need to make these yet, just recognise them." },
+        { "type": "list", "title": "Directions", "recap": true, "items": [
+          { "it": "Giri a destra.", "en": "Turn right." },
+          { "it": "Vada dritto.", "en": "Go straight on." },
+          { "it": "Prenda la prima a sinistra.", "en": "Take the first on the left." },
+          { "it": "Attraversi la piazza.", "en": "Cross the square." }
+        ] },
+        { "type": "note", "label": "Culture", "text": "Italians give directions by landmarks more than street names: *dopo la chiesa*, *al semaforo*, *in fondo alla strada*." },
+        { "type": "check", "prompt": "*Giri a sinistra al semaforo.* What do you do?", "options": ["Turn left at the traffic light", "Turn right at the traffic light", "Go straight past the traffic light"], "answer": 0 },
+        { "type": "check", "prompt": "*È lontano? — No, sono cinque minuti a piedi.*", "options": ["It’s a five-minute walk", "It’s five kilometres away", "You need to take a bus"], "answer": 0 },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Tom is in Rome and needs a pharmacy. He stops a woman in the street." },
+        { "type": "dialogue", "title": "Looking for a pharmacy", "speakers": {"s": {"name": "Signora"}, "t": {"name": "Tom"}}, "practice": "t", "lines": [
+          { "s": "t", "it": "Scusi, c’è una farmacia qui vicino?", "en": "Excuse me, is there a pharmacy near here?", "wrong": ["Scusi, ci sono una farmacia qui vicino?", "Scusa, c’è una farmacia qui vicino?"] },
+          { "s": "s", "it": "Sì, non è lontano. Vada dritto e al semaforo giri a destra.", "en": "Yes, it’s not far. Go straight on and turn right at the traffic light." },
+          { "s": "t", "it": "Al semaforo a destra. E poi?", "en": "Right at the traffic light. And then?", "wrong": ["Al semaforo a sinistra. E poi?", "Al semaforo dritto. E poi?"] },
+          { "s": "s", "it": "La farmacia è accanto alla banca, di fronte al parco.", "en": "The pharmacy is next to the bank, opposite the park." },
+          { "s": "t", "it": "Accanto alla banca. Grazie mille!", "en": "Next to the bank. Thanks so much!", "wrong": ["Dietro la banca. Grazie mille!", "Accanto alla chiesa. Grazie mille!"] },
+          { "s": "s", "it": "Prego! Sono cinque minuti a piedi.", "en": "You’re welcome! It’s a five-minute walk." },
+          { "s": "t", "it": "Grazie, buona giornata!", "en": "Thanks, have a good day!", "wrong": ["Prego, buona giornata!", "Grazie, buonanotte!"] }
+        ] },
+        { "type": "text", "text": "Later, Tom texts his friend Luca, who lives in Rome. New word: *subito*, “right away”." },
+        { "type": "dialogue", "title": "Where are you?", "speakers": {"l": {"name": "Luca"}, "t": {"name": "Tom"}}, "practice": "t", "lines": [
+          { "s": "l", "it": "Dove sei?", "en": "Where are you?" },
+          { "s": "t", "it": "Sono in piazza, di fronte alla chiesa.", "en": "I’m in the square, opposite the church.", "wrong": ["Sono in piazza, di fronte la chiesa.", "C’è in piazza, di fronte alla chiesa."] },
+          { "s": "l", "it": "Ah, vicino! C’è un bar all’angolo?", "en": "Oh, that’s close! Is there a café on the corner?" },
+          { "s": "t", "it": "Sì, ci sono due bar!", "en": "Yes, there are two cafés!", "wrong": ["Sì, c’è due bar!", "Sì, ci sono due bari!"] },
+          { "s": "l", "it": "Perfetto. Vengo subito!", "en": "Perfect. I’ll come right away!" }
+        ] }
+      ]
+    },
+    {
+      "id": "restaurant",
+      "order": 23,
+      "unit": 3,
+      "title": "Al ristorante",
+      "subtitle": "Eating out",
+      "goals": ["Book a table and order a full meal", "Mention an allergy", "Ask for the bill and pay"],
+      "practice": ["s:s26", "s:s27", "s:s28", "s:s29", "s:s30", "s:s31", "s:s32", "s:s33", "s:s34", "s:s35", "s:s36", "s:s37", "s:s38", "s:s39", "s:s40", "s:s41", "s:s42", "s:s43", "s:s44", "s:s45", "s:s46", "s:s47", "s:s48", "s:s49", "s:s50", "s:s79", "s:s84", "s:s92", "s:s100", "s:s237", "s:s238"],
+      "steps": [
+        { "type": "heading", "text": "Booking and arriving" },
+        { "type": "word", "it": "Ho prenotato un tavolo per due.", "en": "I’ve booked a table for two.", "note": "Without a booking: *Avete un tavolo per due?*" },
+        { "type": "word", "it": "il menù", "en": "the menu" },
+        { "type": "heading", "text": "The courses" },
+        { "type": "list", "title": "A full Italian meal", "recap": true, "items": [
+          { "it": "l’antipasto", "en": "the starter" },
+          { "it": "il primo", "en": "first course: pasta, risotto or soup" },
+          { "it": "il secondo", "en": "main course: meat or fish" },
+          { "it": "il contorno", "en": "side dish" },
+          { "it": "il dolce", "en": "dessert" }
+        ] },
+        { "type": "note", "label": "Culture", "text": "Nobody expects you to order every course. A *primo* alone, or a *secondo* with a *contorno*, is completely normal. Pasta is a course of its own, never a side dish." },
+        { "type": "check", "prompt": "Where does pasta usually come?", "options": ["*il primo*", "*il secondo*", "*il contorno*"], "answer": 0 },
+        { "type": "heading", "text": "Ordering" },
+        { "type": "word", "it": "Che cosa mi consiglia?", "en": "What do you recommend?" },
+        { "type": "word", "it": "Per me…", "en": "For me…", "note": "From lesson 8. *Come primo…* and *come secondo…* (for the first / main course) work too." },
+        { "type": "example", "it": "Come secondo prendo il pesce.", "en": "For the main course I’ll have fish." },
+        { "type": "check", "prompt": "The waiter asks what you’d like. “The chicken for me”:", "options": ["*Per me il pollo.*", "*A me il pollo.*", "*Per mi il pollo.*"], "answer": 0, "why": "*Per me* is for ordering. *A me* is for likes, in the next lesson." },
+        { "type": "heading", "text": "Allergies" },
+        { "type": "word", "it": "Sono allergico / allergica a…", "en": "I’m allergic to…", "note": "Men say *allergico*, women *allergica*. *A* joins the article: *alle noci*, *al glutine*." },
+        { "type": "example", "it": "Sono allergica al glutine.", "en": "I’m allergic to gluten." },
+        { "type": "word", "it": "Non mangio la carne.", "en": "I don’t eat meat." },
+        { "type": "check", "prompt": "Sofia is allergic to nuts:", "options": ["*Sono allergica alle noci.*", "*Sono allergico alle noci.*", "*Ho allergica alle noci.*"], "answer": 0 },
+        { "type": "heading", "text": "The bill" },
+        { "type": "word", "it": "Il conto, per favore.", "en": "The bill, please." },
+        { "type": "word", "it": "Possiamo pagare con la carta?", "en": "Can we pay by card?" },
+        { "type": "note", "label": "Culture", "text": "The waiter won’t bring the bill until you ask for it: rushing you would be rude. A *coperto* (cover charge, for bread and service) on the bill is normal. Tipping is optional, and rounding up is plenty." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Anna arrives at a *trattoria*, a simple family-run restaurant, for dinner." },
+        { "type": "dialogue", "title": "Dinner at the trattoria", "speakers": {"c": {"name": "Waiter"}, "a": {"name": "Anna"}}, "practice": "a", "lines": [
+          { "s": "c", "it": "Buonasera! Avete prenotato?", "en": "Good evening! Do you have a booking?" },
+          { "s": "a", "it": "Sì, ho prenotato un tavolo per due. Anna Neri.", "en": "Yes, I’ve booked a table for two. Anna Neri.", "wrong": ["Sì, ho prenotato un tavolo per due. Arrivederci!", "No, ho prenotato un tavolo per due."] },
+          { "s": "c", "it": "Prego. Ecco il menù.", "en": "This way. Here’s the menu." },
+          { "s": "a", "it": "Grazie. Che cosa mi consiglia?", "en": "Thank you. What do you recommend?", "wrong": ["Grazie. Che cosa mi consigli?", "Grazie. Che cosa consiglio?"] },
+          { "s": "c", "it": "Gli spaghetti al pomodoro sono molto buoni.", "en": "The spaghetti with tomato sauce is very good." },
+          { "s": "a", "it": "Allora per me gli spaghetti. Ma sono allergica alle noci.", "en": "Then the spaghetti for me. But I’m allergic to nuts.", "wrong": ["Allora per me gli spaghetti. Ma sono allergico alle noci.", "Allora a me gli spaghetti. Ma sono allergica alle noci."] },
+          { "s": "c", "it": "Nessun problema, non ci sono noci.", "en": "No problem, there are no nuts." },
+          { "narration": "After the meal." },
+          { "s": "a", "it": "Il conto, per favore. Possiamo pagare con la carta?", "en": "The bill, please. Can we pay by card?", "wrong": ["Il conto, prego. Possiamo pagare con la carta?", "Il conto, per favore. Possiamo pagare con il carta?"] },
+          { "s": "c", "it": "Certo!", "en": "Of course!" }
+        ] }
+      ]
+    },
+    {
+      "id": "likes",
+      "order": 24,
+      "unit": 3,
+      "title": "Mi piace!",
+      "subtitle": "Likes and preferences",
+      "goals": ["Say what you like and don’t like", "Choose *piace* or *piacciono*", "Agree and disagree: *anche a me*, *a me no*"],
+      "practice": ["s:s126", "s:s127", "s:s128", "s:s129", "s:s130", "s:s131", "s:s132", "s:s133", "q:q7", "s:s239", "s:s240", "s:s241"],
+      "steps": [
+        { "type": "heading", "text": "I like it" },
+        { "type": "text", "text": "Remember *piacere* from lesson 2? It means “to please”. In Italian you don’t like things: things please you. *Mi piace la pizza* is literally “pizza pleases me”." },
+        { "type": "word", "it": "Mi piace…", "en": "I like…", "note": "With one thing or a verb: *Mi piace la pizza. Mi piace viaggiare.*" },
+        { "type": "word", "it": "Mi piacciono…", "en": "I like… (more than one)", "note": "With plural things: *Mi piacciono i gatti.*" },
+        { "type": "example", "it": "Mi piace molto viaggiare.", "en": "I really like travelling." },
+        { "type": "check", "prompt": "“I like cats.”", "options": ["*Mi piacciono i gatti.*", "*Mi piace i gatti.*", "*Io piaccio i gatti.*"], "answer": 0, "why": "*Gatti* is plural, so *piacciono*. *Io piaccio* would mean “I am pleasing”!" },
+        { "type": "check", "prompt": "“I like reading.”", "options": ["*Mi piace leggere.*", "*Mi piacciono leggere.*", "*Io piace leggere.*"], "answer": 0, "why": "A verb always takes the singular *piace*." },
+        { "type": "heading", "text": "You, him, her" },
+        { "type": "list", "title": "Who likes it", "recap": true, "items": [
+          { "it": "mi piace", "en": "I like" },
+          { "it": "ti piace", "en": "you like" },
+          { "it": "gli piace", "en": "he likes" },
+          { "it": "le piace", "en": "she likes" },
+          { "it": "Le piace", "en": "you like (polite)" }
+        ] },
+        { "type": "note", "label": "Tip", "text": "*Non* goes first: *Non mi piace il pesce.*" },
+        { "type": "check", "prompt": "To a friend: “Do you like Italian music?”", "options": ["*Ti piace la musica italiana?*", "*Ti piacciono la musica italiana?*", "*Mi piace la musica italiana?*"], "answer": 0 },
+        { "type": "heading", "text": "Me too, me neither" },
+        { "type": "list", "title": "Agreeing and disagreeing", "recap": true, "items": [
+          { "it": "Anche a me!", "en": "Me too!" },
+          { "it": "A me no.", "en": "I don’t." },
+          { "it": "Neanche a me.", "en": "Me neither." },
+          { "it": "A me sì.", "en": "I do." }
+        ] },
+        { "type": "note", "label": "Watch out", "text": "Because the verb is *piacere*, “me too” is *anche a me*, not *anche io*. Use *anche io* with other verbs: *Studio italiano. — Anche io!*" },
+        { "type": "check", "prompt": "*Mi piace il calcio!* You like it too:", "options": ["*Anche a me!*", "*Anche io!*", "*Neanche a me!*"], "answer": 0 },
+        { "type": "check", "prompt": "*Non mi piace il pesce.* You don’t like it either:", "options": ["*Neanche a me.*", "*Anche a me.*", "*A me sì.*"], "answer": 0 },
+        { "type": "heading", "text": "Preferring" },
+        { "type": "word", "it": "Preferisco…", "en": "I prefer…", "note": "From lesson 19. *Preferisco il tè al caffè*: I prefer tea to coffee." },
+        { "type": "word", "it": "di più", "en": "more", "note": "*Che cosa ti piace di più?* What do you like more?" },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Friday night. Chiara and Ben are deciding what to do." },
+        { "type": "dialogue", "title": "What shall we do?", "speakers": {"c": {"name": "Chiara"}, "b": {"name": "Ben"}}, "practice": "b", "lines": [
+          { "s": "c", "it": "Ti piace il cinema?", "en": "Do you like the cinema?" },
+          { "s": "b", "it": "Sì, mi piace molto! E a te?", "en": "Yes, I like it a lot! And you?", "wrong": ["Sì, mi piacciono molto! E a te?", "Sì, mi piace molto! E tu?"] },
+          { "s": "c", "it": "Anche a me! Ti piacciono i film italiani?", "en": "Me too! Do you like Italian films?" },
+          { "s": "b", "it": "Sì, ma preferisco i film americani.", "en": "Yes, but I prefer American films.", "wrong": ["Sì, ma preferiscono i film americani.", "Sì, ma prefero i film americani."] },
+          { "s": "c", "it": "Io no, preferisco i film italiani. Allora… pizza?", "en": "Not me, I prefer Italian films. So… pizza?" },
+          { "s": "b", "it": "Sì! Mi piace la pizza.", "en": "Yes! I like pizza.", "wrong": ["Sì! Mi piacciono la pizza.", "Sì! Io piace la pizza."] },
+          { "s": "c", "it": "Anche a me! Andiamo!", "en": "Me too! Let’s go!" }
+        ] }
+      ]
+    },
+    {
+      "id": "review-3",
+      "order": 25,
+      "unit": 3,
+      "title": "Ripasso 3",
+      "subtitle": "Review: a weekend in Rome",
+      "goals": ["Get around a city, eat out and talk about likes", "Mix all three verb groups and the irregular verbs"],
+      "practice": ["s:s242", "s:s243", "s:s215", "s:s219", "s:s222", "s:s227", "s:s232", "s:s236", "s:s237", "s:s239"],
+      "steps": [
+        { "type": "heading", "text": "Verbs" },
+        { "type": "text", "text": "This review mixes all of Unit 3. Nothing new, just practice." },
+        { "type": "check", "prompt": "*noi* + *parlare*", "options": ["*parliamo*", "*parlamo*", "*parlano*"], "answer": 0 },
+        { "type": "check", "prompt": "*voi* + *prendere*", "options": ["*prendete*", "*prendate*", "*prendite*"], "answer": 0 },
+        { "type": "check", "prompt": "*loro* + *finire*", "options": ["*finiscono*", "*finono*", "*finiscano*"], "answer": 0 },
+        { "type": "check", "prompt": "*io* + *uscire*", "options": ["*esco*", "*usco*", "*uscio*"], "answer": 0 },
+        { "type": "heading", "text": "Questions, places, likes" },
+        { "type": "check", "prompt": "“How many brothers do you have?”", "options": ["*Quanti fratelli hai?*", "*Quante fratelli hai?*", "*Quanto fratelli hai?*"], "answer": 0 },
+        { "type": "check", "prompt": "“There are two cafés.”", "options": ["*Ci sono due bar.*", "*C’è due bar.*", "*Ci sono due bari.*"], "answer": 0 },
+        { "type": "check", "prompt": "“I like trains.”", "options": ["*Mi piacciono i treni.*", "*Mi piace i treni.*", "*Mi piacciono il treno.*"], "answer": 0 },
+        { "type": "check", "prompt": "Ordering: “The fish for me.”", "options": ["*Per me il pesce.*", "*A me il pesce.*", "*Mi piace il pesce.*"], "answer": 0 },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Tom’s first evening in Rome, from the station to dinner with his friend Luca. New words: *la carbonara* (a Roman pasta dish) and *buonissimo* (really good)." },
+        { "type": "dialogue", "title": "A weekend in Rome", "speakers": {"s": {"name": "Signore"}, "t": {"name": "Tom"}, "l": {"name": "Luca"}, "c": {"name": "Waiter"}}, "practice": "t", "lines": [
+          { "narration": "Tom arrives at the station and looks for Luca’s favourite trattoria." },
+          { "s": "t", "it": "Scusi, c’è una trattoria qui vicino? Si chiama Da Gino.", "en": "Excuse me, is there a trattoria near here? It’s called Da Gino.", "wrong": ["Scusa, c’è una trattoria qui vicino? Si chiama Da Gino.", "Scusi, ci sono una trattoria qui vicino? Si chiama Da Gino."] },
+          { "s": "s", "it": "Sì, non è lontano. Vada dritto e prenda la seconda a sinistra.", "en": "Yes, it’s not far. Go straight on and take the second on the left." },
+          { "s": "t", "it": "La seconda a sinistra. Grazie!", "en": "The second on the left. Thanks!", "wrong": ["La seconda a destra. Grazie!", "La prima a sinistra. Grazie!"] },
+          { "narration": "At the trattoria, Luca is already at a table." },
+          { "s": "l", "it": "Tom! Come stai? Che cosa prendi?", "en": "Tom! How are you? What are you having?" },
+          { "s": "t", "it": "Bene! Che cosa mi consigli?", "en": "Good! What do you recommend?", "wrong": ["Bene! Che cosa mi consiglia?", "Bene! Che cosa ti consiglio?"] },
+          { "s": "l", "it": "La carbonara è buonissima. Ti piace la pasta?", "en": "The carbonara is really good. Do you like pasta?" },
+          { "s": "t", "it": "Sì, mi piace molto!", "en": "Yes, I like it a lot!", "wrong": ["Sì, mi piacciono molto!", "Sì, piaccio molto!"] },
+          { "s": "c", "it": "Buonasera! Che cosa prendete?", "en": "Good evening! What are you having?" },
+          { "s": "t", "it": "Per me la carbonara, per favore.", "en": "The carbonara for me, please.", "wrong": ["A me la carbonara, per favore.", "Per me la carbonara, prego."] },
+          { "s": "l", "it": "Anche per me. E due acque.", "en": "Same for me. And two waters." },
+          { "narration": "After dinner." },
+          { "s": "l", "it": "Allora, che cosa fai domani?", "en": "So, what are you doing tomorrow?" },
+          { "s": "t", "it": "Vado al Colosseo. Vieni con me?", "en": "I’m going to the Colosseum. Are you coming with me?", "wrong": ["Ando al Colosseo. Vieni con me?", "Vado al Colosseo. Vengo con me?"] },
+          { "s": "l", "it": "Sì, vengo! A che ora esci?", "en": "Yes, I’ll come! What time are you going out?" },
+          { "s": "t", "it": "Esco alle nove.", "en": "I’m going out at nine.", "wrong": ["Usco alle nove.", "Esce alle nove."] },
+          { "s": "l", "it": "Perfetto. Ci vediamo alle nove!", "en": "Perfect. See you at nine!" }
         ] }
       ]
     }

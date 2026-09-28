@@ -48,10 +48,10 @@ The top bar has eight tabs: **Lessons · Verbs · Nouns · Numbers · Sentences 
 - *Hide chat translations* blurs the English under bubbles (hover or press to reveal). *Restart* replays a lesson from the top.
 - **Resume:** the current beat is saved per lesson, so reopening continues where the learner left off. Earlier questions are shown already answered.
 - **Recap and spaced repetition:** the last beat lists every word card (and lists marked `recap`), marks the lesson done and **queues the lesson's `practice` items for review** (SRS record in box 0, due now, only if never seen). Buttons: *Next lesson*, *Practise in Sentences / Verbs / Numbers* (resets that tab's filters so the items show) and *All lessons*.
-- **Current lessons:** 1 *Ciao!* (greetings/goodbyes, tu vs Lei), 2 *Mi chiamo…* (introductions, where you're from), 3 *Come stai?* (how are you, stare vs essere), 4 *Per favore, grazie* (politeness, not understanding), 5 *Io sono…* (essere, nationalities and agreement, *non*, questions), 6 *Numeri e anni* (0–20, age with avere), 7 *Ripasso 1* (review). Unit 2: 8 *Al bar* (ordering, *vorrei*, paying), 9 *Il, la, lo* (gender and articles), 10 *Tanti!* (plurals), 11 *La mia famiglia* (family, all of *avere*, *mio/tuo*), 12 *Com’è?* (adjective agreement and position), 13 *Fino a cento* (21–100, prices), 14 *Che ore sono?* (time), 15 *Oggi, domani* (days, months, dates), 16 *Ripasso 2* (review).
+- **Current lessons:** 1 *Ciao!* (greetings/goodbyes, tu vs Lei), 2 *Mi chiamo…* (introductions, where you're from), 3 *Come stai?* (how are you, stare vs essere), 4 *Per favore, grazie* (politeness, not understanding), 5 *Io sono…* (essere, nationalities and agreement, *non*, questions), 6 *Numeri e anni* (0–20, age with avere), 7 *Ripasso 1* (review). Unit 2: 8 *Al bar* (ordering, *vorrei*, paying), 9 *Il, la, lo* (gender and articles), 10 *Tanti!* (plurals), 11 *La mia famiglia* (family, all of *avere*, *mio/tuo*), 12 *Com’è?* (adjective agreement and position), 13 *Fino a cento* (21–100, prices), 14 *Che ore sono?* (time), 15 *Oggi, domani* (days, months, dates), 16 *Ripasso 2* (review). Unit 3: 17 *Parlo italiano* (-are), 18 *Leggo e scrivo* (-ere, *prendere*), 19 *Dormo e capisco* (-ire and -isc-), 20 *Faccio, vado, vengo* (irregulars, *fare* phrases), 21 *Domande* (question words), 22 *Dov’è…?* (directions, *c’è / ci sono*), 23 *Al ristorante* (eating out), 24 *Mi piace!* (likes), 25 *Ripasso 3* (review).
 
 ### 3.1 Verbs (conjugation)
-- 30 verbs × 5 tenses × 6 persons = **900 forms**.
+- 35 verbs × 5 tenses × 6 persons = **1,050 forms**.
 - **Tenses:** present, passato prossimo, imperfetto, futuro semplice, condizionale presente.
 - **Filters:** *Tense* (default Present, or All) and *Person* — I (io), you (tu), he / she (lui / lei), we (noi), you all (voi), they (loro).
 - **Format:** *Mixed* (random per question, default), *Choose* (four options) or *Type*.
@@ -194,7 +194,7 @@ Top-level keys:
 ### Content inventory
 | Type | Count | Notes |
 |---|---|---|
-| Verbs | 30 | 15 irregular; 900 conjugated forms |
+| Verbs | 35 | 15 irregular; 1,050 conjugated forms |
 | Nouns | 115 | 71 everyday, 18 bathroom, 12 food (café and market), 14 time (days, week, month …) |
 | Adjectives | 20 | four forms each (not yet exercised) |
 | Numbers | 100 | 1–100 |
@@ -203,8 +203,8 @@ Top-level keys:
 | Conjunctions | 26 | coordinating and subordinating |
 | Glossary | 226 | words and phrases for sentence glosses |
 | Questions | 16 | with sample replies |
-| Sentences | 214 | 104 everyday, 52 ordering food, 30 directions, 18 meeting people, 10 time & dates (s134–s151 and s185–s214 added for lessons; s152–s184 added for the Prepositions function, which also tags 14 older items) |
-| Lessons | 16 | Units 1–2; 16–28 steps each |
+| Sentences | 243 | 121 everyday, 58 ordering food, 32 directions, 18 meeting people, 14 time & dates (s134–s151, s185–s214 and s215–s243 added for lessons; s152–s184 added for the Prepositions function, which also tags 14 older items) |
+| Lessons | 25 | Units 1–3; 14–28 steps each |
 | Readings | 14 (46 sentences) | Wikipedia lead-paragraph excerpts, curated; CC BY-SA 4.0, attributed in-app |
 
 ---
@@ -324,7 +324,7 @@ Data was validated with scripts that check: 42 reference conjugations, article �
 - **More number work:** 21–99 with the vowel-dropping rule (*ventuno, ventotto*), hundreds and thousands, prices, dates, telling time, ordinals.
 - **Example sentences for every tense**, generated per verb and checked.
 - **Function words:** prepositions and articulated prepositions (*a + il = al*), possessives, demonstratives, object and reflexive pronouns, *ci / ne*.
-- **More lessons:** the planned curriculum (lessons 17–45 in six units, A1 → A2, with review lessons and the data each lesson needs) is in [`LESSONS.md`](LESSONS.md).
+- **More lessons:** the planned curriculum (lessons 26–45 in six units, A1 → A2, with review lessons and the data each lesson needs) is in [`LESSONS.md`](LESSONS.md).
 - **Lesson features:** a tile-builder role-play mode (recall instead of recognition), a slow-speed toggle for dialogues, and per-lesson practice filters in the drill tabs.
 
 ### New exercise types

@@ -1,6 +1,6 @@
 # Italiano Studio — Lesson Plan
 
-The planned curriculum for the **Lessons** tab. Lessons 1–16 (Units 1–2) are built and live in `data/italian.json` → `lessons`, grouped by `unit` under the `lessonUnits` headings. The lesson format (step types, dialogues, role-play, `practice` ids) is documented in `DESIGN.md` §3.0 and §4. This file covers *what* to teach, and in what order.
+The planned curriculum for the **Lessons** tab. Lessons 1–25 (Units 1–3) are built and live in `data/italian.json` → `lessons`, grouped by `unit` under the `lessonUnits` headings. The lesson format (step types, dialogues, role-play, `practice` ids) is documented in `DESIGN.md` §3.0 and §4. This file covers *what* to teach, and in what order.
 
 Levels follow the CEFR scale: lessons 1–33 (Units 1–4) are roughly **A1** (the basics) and 34–45 (Units 5–6) roughly **A2** (everyday independence).
 
@@ -8,7 +8,7 @@ Levels follow the CEFR scale: lessons 1–33 (Units 1–4) are roughly **A1** (t
 
 ## How to write a lesson
 
-Keep the conventions set by lessons 1–16:
+Keep the conventions set by lessons 1–25:
 
 - **Size:** 6–10 new words or phrases, 20–30 steps, about 35–45 Next presses. Split a lesson that grows past that.
 - **Shape:** 2–4 sections, each with a heading, then words, examples and a quick check. End with an "In conversation" section: one dialogue with a `practice` role-play, and optionally a second one, often the polite/*Lei* version of the first.
@@ -55,72 +55,21 @@ Data added for Unit 2: nouns for the café and market (*cappuccino, cornetto, t�
 
 ---
 
-## Unit 3 — Doing things: the present tense
+## Unit 3 — Doing things: the present tense ✅ (built)
 
-### 17. *Parlo italiano* — Regular -are verbs
-- **Goals:** Conjugate any regular -are verb and talk about your routine.
-- **Teach:** The pattern *-o, -i, -a, -iamo, -ate, -ano* with *parlare, abitare, lavorare, mangiare, chiamare, studiare*; subject pronouns are usually dropped.
-- **Notes:** Spelling of *mangiare* (*mangi*, not *mangii*) and *cercare / pagare* (*cerchi, paghi*): mention it.
-- **Checks:** *parliamo* vs *parlamo*; *loro parlano* stress (a pronunciation note).
-- **Dialogue:** A date or a new colleague: "*Dove lavori? — Lavoro in un ospedale.*" Role-play as the one answering.
-- **Links:** `v:parlare:present:*`, `v:abitare:present:*`, `v:lavorare:present:*`, `v:mangiare:present:*`, `q:q3`, `q:q13`, `s:s10`, `s:s5`.
-- **New data:** Verb *studiare*.
+| # | Title | Covers |
+|---|---|---|
+| 17 | *Parlo italiano* | Regular *-are* verbs (*-o, -i, -a, -iamo, -ate, -ano*), dropping the subject pronoun, *-iare* / *-care* / *-gare* spelling, *loro* stress |
+| 18 | *Leggo e scrivo* | Regular *-ere* verbs (*-e, -ete, -ono*), *prendere* for ordering and transport, soft and hard *gg* |
+| 19 | *Dormo e capisco* | *-ire* verbs: *dormire / partire / aprire* vs *-isc-* verbs *capire / finire / preferire* (no *-isc-* in *noi / voi*) |
+| 20 | *Faccio, vado, vengo* | *fare, andare, venire, uscire, bere, dire* in the present; *fare* phrases and weather (*fa caldo*, never *è caldo*) |
+| 21 | *Domande* | *chi, che cosa, dove, quando, perché, come, quanto, quale*; *quanto* agreement; *qual è* without an apostrophe |
+| 22 | *Dov'è…?* | *c'è / ci sono*, place phrases (*accanto a, di fronte a…*), polite direction commands to recognise; a street dialogue and a casual text follow-up |
+| 23 | *Al ristorante* | Booking, the courses, *per me* vs *a me*, *allergico / allergica*, the bill, *coperto* and tipping |
+| 24 | *Mi piace!* | *mi piace / mi piacciono*, *ti / gli / le / Le piace*, *anche a me / a me no / neanche a me*, *preferire*, *di più* |
+| 25 | *Ripasso 3* | Review checks across the verb groups, questions, places and likes; a long dialogue from the station to dinner in Rome |
 
-### 18. *Leggo e scrivo* — Regular -ere verbs
-- **Goals:** Conjugate regular -ere verbs.
-- **Teach:** *-o, -i, -e, -iamo, -ete, -ono* with *prendere, leggere, scrivere, vivere, vedere, mettere*; *prendere* for food and transport (*prendo un caffè*, *prendo il treno*).
-- **Checks:** *-ete* vs *-ate*; *loro leggono*.
-- **Dialogue:** Weekend habits: reading, writing, taking the train.
-- **Links:** `v:prendere:present:*`, `v:leggere:present:*`, `v:scrivere:present:*`, `v:vivere:present:*`, `s:s19`, `s:s24`, `s:s32`.
-
-### 19. *Dormo e capisco* — The two -ire patterns
-- **Goals:** Conjugate -ire verbs of both kinds.
-- **Teach:** *dormire / partire / aprire* (*dormo*) vs *capire / finire / preferire* (*capisco*, with -isc- in every form except *noi* and *voi*).
-- **Checks:** *capisco* vs *capo*; *finiamo* (no -isc-).
-- **Dialogue:** Roommates: "*A che ora parti? — Parto alle otto, ma finisco di lavorare alle sei.*"
-- **Links:** `v:capire:present:*`, `v:finire:present:*`, `s:s7`.
-- **New data:** Verbs *dormire, partire, aprire, preferire*.
-
-### 20. *Faccio, vado, vengo* — Common irregular verbs
-- **Goals:** Use the most frequent irregular verbs.
-- **Teach:** *fare, andare, venire, uscire, bere, dire* in the present. Uses of *fare*: *fare colazione, fare una passeggiata, fare la spesa*, and weather (*fa caldo*).
-- **Notes:** *andare a* + infinitive or a place; *venire con me?*
-- **Checks:** *vado* vs *ando*; *facciamo*; *escono*.
-- **Dialogue:** Weekend plans: "*Che cosa fai sabato? — Vado al mare. Vieni?*" Role-play as the one invited.
-- **Links:** `v:fare:present:*`, `v:andare:present:*`, `v:venire:present:*`, `v:uscire:present:*`, `v:bere:present:*`, `q:q9`, `s:s3`, `s:s11`.
-
-### 21. *Domande* — Question words
-- **Goals:** Ask open questions.
-- **Teach:** *chi, che cosa / cosa / che, dove, quando, perché, come, quanto / quanta / quanti / quante, quale*. *Perché* means both "why" and "because".
-- **Checks:** *quanti anni* vs *quanto anni*; *qual è* (no apostrophe).
-- **Dialogue:** A job interview or a new neighbour asking lots of questions. Role-play as the one asking.
-- **Links:** All of `q:q1`–`q:q16`.
-
-### 22. *Dov'è…?* — Directions and places
-- **Goals:** Ask for and follow directions, and say what is where.
-- **Teach:** *c'è / ci sono*; *a destra, a sinistra, dritto, all'angolo, vicino a, lontano da, di fronte a, accanto a, dietro*; *giri, vada, prenda, attraversi* as fixed polite instructions (the imperative comes later).
-- **Checks:** *c'è* vs *ci sono*; *vicino alla* (preview of lesson 27).
-- **Dialogue:** Asking a passer-by for the pharmacy, then the bus stop. Role-play as the tourist. A casual version follows between friends.
-- **Links:** The whole directions topic, `s:s51`–`s:s75`, plus `s:s91`.
-
-### 23. *Al ristorante* — Eating out
-- **Goals:** Book a table, order a full meal, handle allergies, pay.
-- **Teach:** *Ho prenotato…*, *un tavolo per due*, *il menù*, courses (*antipasto, primo, secondo, contorno, dolce*), *Che cosa mi consiglia?*, *Sono allergico/a a…*, *Il conto, per favore*, *Possiamo pagare con la carta?*
-- **Notes:** Culture: the *coperto* (cover charge) is normal, tipping is optional, and the waiter won't bring the bill until you ask.
-- **Checks:** Course order; *allergico* vs *allergica*; *per me* vs *a me*.
-- **Dialogue:** A full dinner from arrival to paying. Role-play as the diner.
-- **Links:** Most of the food topic, `s:s26`–`s:s50`, and `s:s79`, `s:s84`, `s:s92`, `s:s100`.
-
-### 24. *Mi piace!* — Likes and preferences
-- **Goals:** Say what you like and don't like, and compare.
-- **Teach:** *mi piace* + singular or infinitive, *mi piacciono* + plural; *ti piace?*; *anche a me / a me no / neanche a me*; *preferire*; *di più*.
-- **Notes:** *Piacere* works "backwards": the thing pleases you. Keep that explanation short.
-- **Checks:** *mi piace i gatti* ✗ → *mi piacciono*; *anche a me* vs *anche io*.
-- **Dialogue:** Choosing a film or a restaurant together. Role-play as either friend.
-- **Links:** The preference function, `s:s126`–`s:s133`, and `q:q7`.
-
-### 25. *Ripasso 3* — Review: a weekend in Rome
-- **Dialogue:** A long one: arrive, ask directions, eat at a restaurant, talk about likes. Checks drill the present-tense verb groups.
+Data added for Unit 3: verbs *studiare, dormire, partire, aprire, preferire* (all five tenses); sentences s215–s243; glossary entries for their words and set phrases (*fa caldo*, *anche a me*, *alle sei*…).
 
 ---
 
@@ -272,7 +221,7 @@ Not planned in detail yet: the imperative (*tu* and *Lei*: *Scusa! Mi dica!*), c
 |---|---|
 | 31 | New nouns (shopping, clothes) |
 | 31 (and 12, retroactively) | An adjective-agreement exercise, so adjectives get SRS ids |
-| 17–19, 28, 30, 35 | New verbs: *studiare, dormire, partire, aprire, preferire, conoscere, arrivare, tornare*, and reflexive verbs, all with full tense tables |
+| 28, 30, 35 | New verbs: *conoscere, arrivare, tornare*, and reflexive verbs, all with full tense tables |
 | 27 | A combined-preposition table (a `list` step is enough) |
 | All | New sentences for each lesson (`topic` set, next free ids) so its `practice` list has Sentences-tab items |
 | Optional | A tile-builder role-play mode (typing or building the line instead of picking it) for lessons from Unit 3 on, once learners know enough words |
