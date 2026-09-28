@@ -336,7 +336,8 @@ Contributed modes get SRS, filters, stats and "Practise in…" links from the en
   "verbs": [ … ], "nouns": [ … ], "adjectives": [ … ], "numbers": [ … ],
   "articles": [ … ], "prepositions": [ … ], "conjunctions": [ … ], "glossary": [ … ],
   "sentences": [ … ], "questions": [ … ], "readings": [ … ],
-  "lessonUnits": [ … ], "lessons": [ … ]
+  "lessonUnits": [ … ], "lessons": [ … ],
+  "progress": { "coverage": { "ready": 95, "comfortable": 98 }, "levels": [ … ] }   // per-language targets (Japanese could add kanji counts)
 }
 ```
 

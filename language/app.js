@@ -47,12 +47,13 @@
     return {
       srs: {}, correct: 0, total: 0, streak: 0, mode: 'lessons', table: 'verbs', tableTense: 'present', filters: {}, settings: {}, autoplay: false,
       lessons: {}, lesson: null, lessonAudio: false, lessonHandsFree: false, lessonHideEn: false,
+      log: [], time: { total: 0, days: {} },
     };
   }
   function load() {
     try {
       const s = JSON.parse(localStorage.getItem(STORE_KEY));
-      if (s && s.srs) return { ...defaults(), ...s };
+      if (s && s.srs) return { ...defaults(), ...s, time: { total: 0, days: {}, ...s.time }, log: Array.isArray(s.log) ? s.log : [] };
     } catch (e) { /* storage unavailable or corrupt */ }
     return defaults();
   }
@@ -60,9 +61,39 @@
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* ignore */ }
   }
 
+  // ---------- study time ----------
+  // Counts time while the page is visible and the learner did something (or speech was
+  // playing) in the last minute. Stored per local day in state.time.
+  const IDLE_AFTER = 60000;
+  const TICK = 15000;
+  let lastActive = Date.now();
+  let lastTick = Date.now();
+  const markActive = () => { lastActive = Date.now(); };
+  const dayKey = (t) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+  function tickTime() {
+    const now = Date.now();
+    const elapsed = Math.min(now - lastTick, TICK * 2);
+    lastTick = now;
+    if (document.visibilityState !== 'visible' || now - lastActive > IDLE_AFTER) return;
+    const day = dayKey(now);
+    state.time.total += elapsed;
+    state.time.days[day] = (state.time.days[day] || 0) + elapsed;
+    save();
+  }
+  function startTimeTracking() {
+    ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => document.addEventListener(ev, markActive, { passive: true }));
+    document.addEventListener('visibilitychange', () => { lastTick = Date.now(); markActive(); });
+    setInterval(tickTime, TICK);
+  }
+
   // ---------- spaced repetition (Leitner boxes) ----------
-  function record(id, ok) {
+  // Every graded answer is also logged as [time, itemId, ok 1/0, box before (-1 = first try), kind]
+  // for the Progress tab; kind is 'choice', 'typed' or 'tiles'.
+  const LOG_MAX = 5000;
+  function record(id, ok, kind) {
     const r = state.srs[id] || { box: 0, due: 0, seen: 0, right: 0 };
+    state.log.push([Date.now(), id, ok ? 1 : 0, r.seen ? r.box : -1, kind || 'choice']);
+    if (state.log.length > LOG_MAX) state.log.splice(0, state.log.length - LOG_MAX);
     r.seen++;
     if (ok) {
       r.right++;
@@ -208,7 +239,8 @@
       u.rate = seg.lang === 'en' ? 1 : 0.9;
       u.pitch = seg.pitch || 1;
       const timer = setTimeout(resolve, 3000 + seg.text.length * 120); // some engines never fire onend
-      u.onend = u.onerror = () => { clearTimeout(timer); resolve(); };
+      u.onend = u.onerror = () => { clearTimeout(timer); markActive(); resolve(); };
+      markActive();
       speechSynthesis.speak(u);
     });
   }
@@ -333,7 +365,7 @@
         accents.remove();
         res = gaveUp ? { ok: false } : checkVerb(guess, item);
       }
-      ctx.grade(res.ok);
+      ctx.grade(res.ok, choosing ? 'choice' : 'typed');
 
       const table = verb.tenses[tense];
       const example = verb.examples.find((x) => x.tense === tense);
@@ -515,7 +547,7 @@
         input.disabled = true;
         const exact = !gaveUp && norm(guess) === num.it;
         const ok = exact || (!gaveUp && stripAccents(norm(guess)) === stripAccents(num.it));
-        ctx.grade(ok);
+        ctx.grade(ok, 'typed');
         showFeedback(ok, ok && !exact);
       }
     } else {
@@ -534,7 +566,7 @@
         if (answered) return;
         answered = true;
         const ok = v === num.value;
-        ctx.grade(ok);
+        ctx.grade(ok, 'choice');
         buttons.forEach((b, i) => {
           b.disabled = true;
           if (options[i] === num.value) b.classList.add('correct');
@@ -546,64 +578,91 @@
   }
 
   // ---------- word glosses (sentence feedback) ----------
-  // Every known word form -> { en, note }. Hand-written glossary entries (incl. multi-word
+  // Every known word form -> { en, note, lemma }. Hand-written glossary entries (incl. multi-word
   // phrases) win over articles, prepositions and conjunctions, which win over generated forms.
+  // `lemma` is the word family the form belongs to (v:mangiare, n:casa, a:buono, #:20, w:di,
+  // g:mio …); multi-word glossary phrases get a p: family of their own.
   let lexicon = null;
   const articleAgreement = (a) => a.gender.split('/').map((g) => (g === 'm' ? 'masc.' : 'fem.')).join(' / ') + ' ' + (a.number === 'pl' ? 'pl.' : 'sing.');
+  // Compound numbers (ventitré) count toward their ten (venti)
+  const numberFamily = (v) => `#:${v <= 20 || v % 10 === 0 ? v : v - (v % 10)}`;
   function getLexicon() {
     if (lexicon) return lexicon;
     lexicon = new Map();
-    const add = (word, en, note) => { const k = norm(word); if (!lexicon.has(k)) lexicon.set(k, { en, note }); };
-    (data.glossary || []).forEach((w) => add(w.it, w.en, w.pos));
-    (data.articles || []).forEach((a) => add(a.it, a.en, `${a.type} article \u00B7 ${articleAgreement(a)}`));
-    (data.prepositions || []).filter((p) => !/\s/.test(p.it)).forEach((p) => add(p.it, p.en, p.type === 'articulated' ? p.note : 'preposition'));
-    (data.conjunctions || []).forEach((c) => add(c.it, c.en, 'conjunction'));
+    const add = (word, en, note, lemma) => { const k = norm(word); if (!lexicon.has(k)) lexicon.set(k, { en, note, lemma }); };
+    // A glossary word joins an existing family when one matches (euro → n:euro, vada → v:andare)
+    const families = new Map();
+    data.verbs.forEach((v) => families.set(norm(v.id), `v:${v.id}`));
+    data.nouns.forEach((n) => [n.id, n.plural].forEach((f) => families.has(norm(f)) || families.set(norm(f), `n:${n.id}`)));
+    data.adjectives.forEach((a) => Object.values(a.forms).forEach((f) => families.has(norm(f)) || families.set(norm(f), `a:${a.id}`)));
+    (data.glossary || []).forEach((w) => {
+      const base = norm(w.lemma || w.it);
+      const lemma = /\s/.test(w.it) && !w.lemma ? `p:${base}` : families.get(base) || `g:${base}`;
+      add(w.it, w.en, w.pos, lemma);
+    });
+    (data.articles || []).forEach((a) => add(a.it, a.en, `${a.type} article · ${articleAgreement(a)}`,
+      a.type === 'partitive' ? `w:${norm(a.note.split(' ')[0])}` : `art:${a.type}`));
+    (data.prepositions || []).filter((p) => !/\s/.test(p.it)).forEach((p) => add(p.it, p.en, p.type === 'articulated' ? p.note : 'preposition',
+      `w:${norm(p.type === 'articulated' ? p.note.split(' ')[0] : p.it === 'ad' ? 'a' : p.it)}`));
+    (data.conjunctions || []).forEach((c) => add(c.it, c.en, 'conjunction', `w:${norm(c.it)}`));
     const verbForms = new Map();
     data.verbs.forEach((v) => {
-      add(v.id, v.en, 'verb \u00B7 infinitive');
+      const lemma = `v:${v.id}`;
+      add(v.id, v.en, 'verb · infinitive', lemma);
       Object.entries(v.tenses).forEach(([tense, forms]) => data.persons.forEach((p) => {
         const words = forms[p].split(' ');
         const main = words[words.length - 1];
         const m = main.match(/^(.*)(.)\/(.)$/);
         const variants = m ? [m[1] + m[2], m[1] + m[3]] : [main];
         // Compound tenses: gloss the participle; the auxiliary is glossed as its own verb
-        if (words.length > 1) return variants.forEach((w) => add(w, v.en, `verb \u00B7 participle of ${v.id}`));
+        if (words.length > 1) return variants.forEach((w) => add(w, v.en, `verb · participle of ${v.id}`, lemma));
         const key = norm(main) + '|' + tense;
         if (!verbForms.has(key)) verbForms.set(key, { word: main, v, tense, persons: [] });
         if (verbForms.get(key).v === v) verbForms.get(key).persons.push(PERSON_LABEL[p]);
       }));
     });
     verbForms.forEach(({ word, v, tense, persons }) =>
-      add(word, v.en, `verb \u00B7 ${v.id}, ${labelOf(data.tenseOptions, tense).toLowerCase()}, ${persons.join(' / ')}`));
+      add(word, v.en, `verb · ${v.id}, ${labelOf(data.tenseOptions, tense).toLowerCase()}, ${persons.join(' / ')}`, `v:${v.id}`));
     data.nouns.forEach((n) => {
-      add(n.id, n.en, `noun \u00B7 ${n.gender === 'm' ? 'masc.' : 'fem.'}`);
-      add(n.plural, n.en, `noun \u00B7 plural of ${n.id}`);
+      add(n.id, n.en, `noun · ${n.gender === 'm' ? 'masc.' : 'fem.'}`, `n:${n.id}`);
+      add(n.plural, n.en, `noun · plural of ${n.id}`, `n:${n.id}`);
     });
-    data.adjectives.forEach((a) => Object.values(a.forms).forEach((f) => add(f, a.en, 'adjective')));
-    data.numbers.forEach((n) => add(n.it, String(n.value), 'number'));
+    data.adjectives.forEach((a) => Object.values(a.forms).forEach((f) => add(f, a.en, 'adjective', `a:${a.id}`)));
+    data.numbers.forEach((n) => add(n.it, String(n.value), 'number', numberFamily(n.value)));
     return lexicon;
   }
 
-  // Split a sentence into words (elided forms like l'acqua become l' + acqua), then gloss
-  // them, matching the longest glossary phrase (up to 4 words) first.
+  // Split text into words (elided forms like l'acqua become l' + acqua), then gloss them,
+  // matching the longest glossary phrase (up to 4 words) first. Each entry carries its word
+  // family (`lemma`), the families of a phrase's parts, and whether the app knows the word.
   function glossWords(sentence) {
     const lex = getLexicon();
     const tokens = [];
+    let start = true; // at the start of a sentence (capitals there aren't names)
     sentence.split(/\s+/).forEach((raw) => {
       const w = raw.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}'’]+$/gu, '');
-      if (!w) return;
-      const m = w.match(/^(\p{L}+['’])(\p{L}.*)$/u);
-      if (m) tokens.push(m[1], m[2]); else tokens.push(w);
+      const ends = /[.?!…]["»”)]*$/.test(raw);
+      if (w) {
+        const m = w.match(/^(\p{L}+['’])(\p{L}.*)$/u);
+        if (m) tokens.push({ t: m[1], start }, { t: m[2], start: false }); else tokens.push({ t: w, start });
+        start = false;
+      }
+      if (ends) start = true;
     });
-    const join = (list) => list.reduce((acc, t, i) => acc + (i && !/['’]$/.test(list[i - 1]) ? ' ' : '') + t, '');
+    const join = (list) => list.reduce((acc, t, i) => acc + (i && !/['’]$/.test(list[i - 1].t) ? ' ' : '') + t.t, '');
     const out = [];
     for (let i = 0; i < tokens.length;) {
       let n = Math.min(4, tokens.length - i);
       for (; n > 1 && !lex.has(norm(join(tokens.slice(i, i + n)))); n--);
       const text = join(tokens.slice(i, i + n));
       const hit = lex.get(norm(text));
-      const isName = !hit && i > 0 && /^\p{Lu}/u.test(text);
-      out.push({ it: text, en: hit ? hit.en : isName ? text : '\u2014', note: hit ? hit.note : isName ? 'name' : '' });
+      const isName = !hit && !tokens[i].start && /^\p{Lu}/u.test(text);
+      out.push({
+        it: text, en: hit ? hit.en : isName ? text : '—', note: hit ? hit.note : isName ? 'name' : '',
+        lemma: hit ? hit.lemma : null, isName, inApp: !!hit,
+        parts: n > 1 ? tokens.slice(i, i + n).map((tk) => (lex.get(norm(tk.t)) || {}).lemma || null) : null,
+        words: n,
+      });
       i += n;
     }
     return out;
@@ -654,7 +713,7 @@
       if (gaveUp) placed = tiles.slice().sort((a, b) => a.id - b.id);
       refresh();
       if (!gaveUp) zone.classList.add(ok ? 'correct' : 'wrong');
-      ctx.grade(ok);
+      ctx.grade(ok, 'tiles');
       const alt = (s.accepted || []);
       const fnInfo = s.function && data.functions.find((f) => f.id === s.function);
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
@@ -716,7 +775,7 @@
       if (gaveUp) placed = tiles.slice().sort((a, b) => a.id - b.id);
       refresh();
       if (!gaveUp) zone.classList.add(ok ? 'correct' : 'wrong');
-      ctx.grade(ok);
+      ctx.grade(ok, 'tiles');
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
         h('div', { class: 'answer' }, target),
         h('div', { class: 'example' }, speakBtn(s.it), h('span', {}, s.it + ' — ' + s.en)),
@@ -872,6 +931,192 @@
         h('thead', {}, h('tr', {}, spec.head.map((x) => h('th', {}, x)))), tbody)),
     ].filter(Boolean));
     fill();
+  }
+
+  // ---------- 7. progress (learning metrics) ----------
+  const PROGRESS_DESC = 'How much Italian you know, measured the way fluency research does: word families, how much of a real text you can read, how well reviews stick, and time spent.';
+  const KNOWN_BOX = 2; // an item counts as known once it has been answered right on a spaced review
+  const FAMILY_TYPES = [['v', 'Verbs'], ['n', 'Nouns'], ['a', 'Adjectives'], ['#', 'Numbers'], ['other', 'Other words']];
+  const familyType = (f) => { const p = f.split(':')[0]; return ['v', 'n', 'a', '#'].includes(p) ? p : 'other'; };
+  const isPhrase = (f) => f && f.startsWith('p:');
+
+  // Word families the learner has met (answered at least once) and knows (an item at box ≥ 2).
+  // Evidence: the family's own drill items (verbs, nouns, numbers) and every word in a sentence
+  // or question. Reading items don't count: their tiles are often the English words.
+  // `produced` = families typed correctly at least once (Verbs and Numbers in type mode).
+  function familyKnowledge() {
+    // Every family the app teaches: the vocabulary lists, plus function and glossary words
+    const all = new Set([...data.verbs.map((v) => `v:${v.id}`), ...data.nouns.map((n) => `n:${n.id}`),
+      ...data.adjectives.map((a) => `a:${a.id}`), ...data.numbers.map((n) => numberFamily(n.value))]);
+    for (const e of getLexicon().values()) if (e.lemma && !isPhrase(e.lemma)) all.add(e.lemma);
+    const sentences = new Map([...data.questions.map((q) => [`q:${q.id}`, q]), ...data.sentences.map((x) => [`s:${x.id}`, x])]);
+    const familiesOf = (id) => {
+      const [p, a] = id.split(':');
+      if (p === 'v') return [`v:${a}`];
+      if (p === 'n') return [`n:${a}`];
+      if (p === '#') return [numberFamily(Number(a))];
+      const sent = sentences.get(id);
+      return sent ? glossWords(sent.it).flatMap((g) => [g.lemma, ...(g.parts || [])]).filter(Boolean) : [];
+    };
+    const met = new Set();
+    const known = new Set();
+    const phrases = new Set();
+    const produced = new Set();
+    for (const [id, r] of Object.entries(state.srs)) {
+      if (!r.seen || id.startsWith('r:')) continue;
+      for (const f of familiesOf(id)) {
+        if (isPhrase(f)) { if (r.box >= KNOWN_BOX) phrases.add(f); continue; }
+        met.add(f);
+        if (r.box >= KNOWN_BOX) known.add(f);
+      }
+    }
+    for (const [, id, ok, , kind] of state.log) if (ok && kind === 'typed') familiesOf(id).forEach((f) => produced.add(f));
+    return { all, met, known, phrases, produced };
+  }
+
+  // Share of running words (names excluded) whose family is known. A phrase counts as known if
+  // it was learnt as a phrase or all of its words are known.
+  function coverage(text, fk) {
+    let total = 0;
+    let knownWords = 0;
+    const tokens = glossWords(text).map((g) => {
+      if (g.isName) return { ...g, status: 'name' };
+      const ok = !!g.lemma && (fk.known.has(g.lemma) || fk.phrases.has(g.lemma) || (!!g.parts && g.parts.every((f) => f && fk.known.has(f))));
+      total += g.words;
+      if (ok) knownWords += g.words;
+      return { ...g, status: ok ? 'known' : g.inApp ? 'learning' : 'new' };
+    });
+    return { pct: total ? (100 * knownWords) / total : 0, known: knownWords, total, tokens };
+  }
+
+  // Reviews = answers to items that had already reached box 1 (a spaced interval had passed)
+  function retention(since, match) {
+    let n = 0;
+    let ok = 0;
+    for (const [t, id, good, prevBox] of state.log) if (t >= since && prevBox >= 1 && (!match || match(id))) { n++; ok += good; }
+    return { n, ok, pct: n ? (100 * ok) / n : null };
+  }
+  function firstTries(prefix) {
+    const first = new Map();
+    for (const [, id, ok] of state.log) if (id.startsWith(prefix) && !first.has(id)) first.set(id, ok);
+    return first;
+  }
+
+  const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
+  const fmtPct = (x) => (x == null ? '—' : `${Math.floor(x)}%`);
+  function fmtDuration(ms) {
+    const min = Math.floor(ms / 60000);
+    if (min < 60) return `${min} min`;
+    return `${Math.floor(min / 60)} h ${String(min % 60).padStart(2, '0')} min`;
+  }
+  function pmeter(value, max, label, marks = []) {
+    const pct = Math.max(0, Math.min(100, max ? (100 * value) / max : 0));
+    return h('span', { class: 'pmeter', role: 'meter', 'aria-label': label, 'aria-valuemin': '0', 'aria-valuemax': String(max), 'aria-valuenow': String(Math.round(value)), title: label },
+      h('span', { class: 'pmeter-fill', style: `width:${pct}%` }),
+      marks.map((m) => h('span', { class: 'pmeter-mark', style: `left:${(100 * m) / max}%` })));
+  }
+  const tile = (label, value, sub) => h('div', { class: 'ptile' },
+    h('div', { class: 'ptile-label' }, label), h('div', { class: 'ptile-value' }, value), sub ? h('div', { class: 'ptile-sub' }, sub) : null);
+  const psection = (title, note, ...body) => h('section', { class: 'psec' },
+    h('h3', { class: 'psec-title' }, title), note ? h('p', { class: 'psec-note' }, note) : null, ...body);
+
+  function renderProgress() {
+    const fk = familyKnowledge();
+    const targets = data.progress || { coverage: { ready: 95, comfortable: 98 }, levels: [] };
+    const { ready, comfortable } = targets.coverage;
+    const levels = targets.levels || [];
+    const now = Date.now();
+    const days = state.time.days;
+    const dayMs = (offset) => days[dayKey(now - offset * DAY)] || 0;
+    const week = [0, 1, 2, 3, 4, 5, 6].reduce((sum, i) => sum + dayMs(i), 0);
+    const hours = state.time.total / 3600000;
+
+    // Headline: word families
+    const vocabLevel = levels.find((l) => l.families > fk.known.size) || levels[levels.length - 1];
+    const hoursLevel = levels.find((l) => l.hours > hours) || levels[levels.length - 1];
+    const hero = h('div', { class: 'phero' },
+      h('div', { class: 'ptile-label' }, 'Word families you know'),
+      h('div', { class: 'phero-value' }, fmtInt(fk.known.size)),
+      h('div', { class: 'ptile-sub' }, `${fmtInt(fk.met.size)} met · ${fmtInt(fk.produced.size)} typed correctly · ${fmtInt(fk.all.size)} in the app`),
+      vocabLevel ? h('div', { class: 'plevel' },
+        h('div', { class: 'plevel-row' }, h('span', {}, `Toward ${vocabLevel.label}`), h('span', { class: 'num' }, `${fmtInt(fk.known.size)} / ~${fmtInt(vocabLevel.families)}`)),
+        pmeter(fk.known.size, vocabLevel.families, `${fk.known.size} of about ${vocabLevel.families} word families for ${vocabLevel.id}`)) : null);
+
+    // Tiles: time, retention, answers
+    const ret30 = retention(now - 30 * DAY);
+    const answers = state.log.length;
+    const rightAll = state.log.reduce((sum, e) => sum + e[2], 0);
+    const tiles = h('div', { class: 'ptiles' },
+      tile('Study time', fmtDuration(state.time.total), `${fmtDuration(dayMs(0))} today · ${fmtDuration(week)} this week`),
+      tile('Retention', fmtPct(ret30.pct), ret30.n ? `${fmtInt(ret30.ok)} of ${fmtInt(ret30.n)} reviews remembered · 30 days` : 'No spaced reviews yet'),
+      tile('Answers', fmtInt(answers), answers ? `${fmtPct((100 * rightAll) / answers)} correct` : 'Answer a drill to start'));
+    const hoursBlock = hoursLevel ? h('div', { class: 'plevel' },
+      h('div', { class: 'plevel-row' }, h('span', {}, `Study hours toward ${hoursLevel.label}`), h('span', { class: 'num' }, `${hours.toFixed(1)} / ~${hoursLevel.hours} h`)),
+      pmeter(hours, hoursLevel.hours, `${hours.toFixed(1)} of about ${hoursLevel.hours} hours for ${hoursLevel.id}`)) : null;
+
+    // Families by type
+    const byType = FAMILY_TYPES.map(([key, label]) => {
+      const count = (set) => [...set].filter((f) => familyType(f) === key).length;
+      return h('tr', {}, h('td', {}, label), h('td', { class: 'num' }, fmtInt(count(fk.known))), h('td', { class: 'num' }, fmtInt(count(fk.met))), h('td', { class: 'num' }, fmtInt(count(fk.all))));
+    });
+    const familiesTable = h('table', { class: 'ptable' },
+      h('thead', {}, h('tr', {}, ['Type', 'Known', 'Met', 'In the app'].map((x, i) => h('th', { class: i ? 'num' : '' }, x)))),
+      h('tbody', {}, byType));
+
+    // Reading coverage, per passage
+    const readFirst = firstTries('r:');
+    const readingRows = data.readings.map((r) => {
+      const cov = coverage(r.sentences.map((x) => x.it).join(' '), fk);
+      const tried = r.sentences.filter((x) => readFirst.has(`r:${x.id}`));
+      const firstOk = tried.filter((x) => readFirst.get(`r:${x.id}`)).length;
+      const status = cov.pct >= comfortable ? 'Comfortable' : cov.pct >= ready ? 'Ready' : '';
+      return h('tr', {},
+        h('td', {}, r.title),
+        h('td', { class: 'pcov' }, pmeter(cov.pct, 100, `${Math.floor(cov.pct)}% of words known in ${r.title}`, [ready, comfortable])),
+        h('td', { class: 'num' }, fmtPct(cov.pct)),
+        h('td', {}, status ? h('span', { class: 'pill ' + (status === 'Comfortable' ? 'mastered' : 'learning') }, status) : ''),
+        h('td', { class: 'num' }, tried.length ? `${firstOk} / ${tried.length}` : '—'));
+    });
+    const readingTable = h('div', { class: 'table-wrap' }, h('table', { class: 'ptable' },
+      h('thead', {}, h('tr', {}, ['Reading', 'Words you know', '', 'Status', 'First try'].map((x, i) => h('th', { class: i >= 2 && i !== 3 ? 'num' : '' }, x)))),
+      h('tbody', {}, readingRows)));
+
+    // Retention by tab
+    const retRows = Object.entries(MODES).map(([key, m]) => {
+      const r = retention(0, (id) => PRACTICE_MODE[id.split(':')[0]] === key);
+      return h('tr', {}, h('td', {}, m.label), h('td', { class: 'num' }, fmtInt(r.n)), h('td', { class: 'num' }, fmtPct(r.pct)));
+    });
+    const retTable = h('table', { class: 'ptable' },
+      h('thead', {}, h('tr', {}, ['Tab', 'Reviews', 'Remembered'].map((x, i) => h('th', { class: i ? 'num' : '' }, x)))),
+      h('tbody', {}, retRows));
+
+    // Check any text
+    const area = h('textarea', { class: 'ptext', rows: '5', placeholder: 'Paste some Italian: a news paragraph, a song verse, a menu…', 'aria-label': 'Italian text to check', spellcheck: 'false' });
+    const result = h('div', { class: 'presult' });
+    const check = () => {
+      const text = area.value.trim();
+      if (!text) { result.replaceChildren(); return; }
+      const cov = coverage(text, fk);
+      const verdict = cov.pct >= comfortable ? 'comfortable reading' : cov.pct >= ready ? 'readable with some guessing' : 'too many unknown words to read comfortably yet';
+      result.replaceChildren(
+        h('div', { class: 'plevel-row' }, h('span', {}, `You know ${fmtInt(cov.known)} of ${fmtInt(cov.total)} words: ${verdict}.`), h('span', { class: 'num' }, fmtPct(cov.pct))),
+        pmeter(cov.pct, 100, `${Math.floor(cov.pct)}% of words known`, [ready, comfortable]),
+        h('p', { class: 'ptokens' }, cov.tokens.flatMap((t, i) => [i ? ' ' : '', h('span', { class: 'tok ' + t.status, title: t.status === 'new' ? 'Not in the app yet' : `${t.en}${t.note ? ' · ' + t.note : ''}` }, t.it)])),
+        h('div', { class: 'plegend' },
+          h('span', {}, h('span', { class: 'tok known' }, 'known')),
+          h('span', {}, h('span', { class: 'tok learning' }, 'in the app, not known yet')),
+          h('span', {}, h('span', { class: 'tok new' }, 'not in the app')),
+          h('span', {}, h('span', { class: 'tok name' }, 'name (not counted)'))));
+    };
+    const checker = h('div', {}, area, h('div', { class: 'actions' }, h('button', { class: 'btn', onclick: check }, 'Check coverage')), result);
+
+    pane.append(
+      hero, tiles, hoursBlock,
+      psection('Word families', 'A word family is a word with all its forms: mangiare, mangio and mangiato count once. Known means answered right on a spaced review (box 2 or higher), in its own drill or inside a sentence.', familiesTable),
+      psection('Reading coverage', `The share of words in each passage that you know. At ${ready}% you can follow a text and guess the rest; at ${comfortable}% reading is comfortable. First try is how many sentences you got right on the first attempt in the Reading tab.`, readingTable),
+      psection('Retention by tab', 'How often you remembered an item when it came back after a spaced interval. Around 85–90% means reviews are well paced.', retTable),
+      psection('Check any text', 'Paste Italian from anywhere to see how much of it you could read today.', checker),
+      targets.sourceNote ? h('p', { class: 'psec-note' }, targets.sourceNote) : null);
   }
 
   // ---------- 6. lessons (guided, step-by-step presentations) ----------
@@ -1246,7 +1491,7 @@
   }
   function renderStats() {
     const statsEl = document.getElementById('stats');
-    if (state.mode === 'tables' || state.mode === 'lessons') { statsEl.replaceChildren(); return; }
+    if (!MODES[state.mode]) { statsEl.replaceChildren(); return; }
     const now = Date.now();
     let fresh = 0, learning = 0, mastered = 0, due = 0;
     for (const i of poolFor(state.mode)) {
@@ -1259,7 +1504,7 @@
     statsEl.replaceChildren(stat('New', fresh), stat('Learning', learning), stat('Mastered', mastered), stat('Due', due));
   }
   function renderTabs() {
-    const tabs = [['lessons', 'Lessons'], ...Object.entries(MODES).map(([key, m]) => [key, m.label]), ['tables', 'Word tables']];
+    const tabs = [['lessons', 'Lessons'], ...Object.entries(MODES).map(([key, m]) => [key, m.label]), ['tables', 'Word tables'], ['progress', 'Progress']];
     document.getElementById('modeTabs').replaceChildren(...tabs.map(([key, label]) =>
       h('button', {
         class: 'mode-btn' + (key === state.mode ? ' active' : ''),
@@ -1270,7 +1515,7 @@
           show();
         },
       }, label)));
-    const desc = state.mode === 'tables' ? '' : state.mode === 'lessons' ? (state.lesson ? '' : LESSONS_DESC) : MODES[state.mode].desc;
+    const desc = state.mode === 'tables' ? '' : state.mode === 'progress' ? PROGRESS_DESC : state.mode === 'lessons' ? (state.lesson ? '' : LESSONS_DESC) : MODES[state.mode].desc;
     document.getElementById('modeDesc').textContent = desc;
     document.querySelector('main').classList.toggle('wide', state.mode === 'tables');
   }
@@ -1313,10 +1558,11 @@
     stopSpeech();
     renderTabs();
     renderFilters();
-    if (state.mode === 'tables' || state.mode === 'lessons') {
+    if (!MODES[state.mode]) {
       keyHandler = null;
       pane.replaceChildren();
       if (state.mode === 'tables') renderTables();
+      else if (state.mode === 'progress') renderProgress();
       else renderLessons();
       renderStats();
     } else {
@@ -1336,7 +1582,7 @@
     const item = pickNext(mode);
     let graded = false;
     MODES[mode].render(item, {
-      grade: (ok) => { if (!graded) { graded = true; record(item.id, ok); } },
+      grade: (ok, kind) => { if (!graded) { graded = true; record(item.id, ok, kind); } },
       next: ask,
     });
     renderStats();
@@ -1344,7 +1590,8 @@
 
   function init(json) {
     data = json;
-    if (!MODES[state.mode] && state.mode !== 'tables' && state.mode !== 'lessons') state.mode = 'lessons';
+    if (!MODES[state.mode] && !['tables', 'lessons', 'progress'].includes(state.mode)) state.mode = 'lessons';
+    startTimeTracking();
     document.addEventListener('keydown', (e) => {
       if (!keyHandler || e.ctrlKey || e.metaKey || e.altKey) return;
       if (e.key === 'Enter' && e.target.tagName === 'BUTTON') return; // let the focused button handle it

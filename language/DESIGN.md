@@ -37,7 +37,7 @@ On GitHub Pages it works as-is.
 
 ## 3. Feature inventory
 
-The top bar has seven tabs: **Lessons · Verbs · Nouns · Numbers · Sentences · Reading · Word tables**. New users land on Lessons. The header also shows a running score (`correct/total`, plus a streak once it exceeds 1), an **Auto-play audio** toggle (only shown when the browser supports speech synthesis) and a **reset progress** link.
+The top bar has eight tabs: **Lessons · Verbs · Nouns · Numbers · Sentences · Reading · Word tables · Progress**. New users land on Lessons. The header also shows a running score (`correct/total`, plus a streak once it exceeds 1), an **Auto-play audio** toggle (only shown when the browser supports speech synthesis) and a **reset progress** link.
 
 ### 3.0 Lessons (guided presentations)
 - An ordered list of lessons (suggested order, nothing locked), grouped under unit headings (`lessonUnits` + each lesson's `unit`). Each card shows number, title, subtitle, goals and status: Start / Continue (with a progress bar) / Review (✓ once finished).
@@ -99,6 +99,16 @@ Sub-tabs: **Verbs · Nouns · Adjectives · Articles · Prepositions · Conjunct
 - *Verbs* has a tense picker; irregular verbs are blue; a *Mastered* column shows progress (`n/6`) for the chosen tense.
 - Most tables show a per-row **status** pill (New / Learning / Mastered) drawn from the user's spaced-repetition data.
 - 🔊 buttons on Italian cells; wide horizontal scroll container for the 12-column verb table.
+
+### 3.6b Progress (learning metrics)
+Metrics modelled on fluency research, computed on the fly from the SRS records plus an answer log. Nothing is sent anywhere.
+- **Word families known** (the headline number): a family is a word with all its forms (*mangiare / mangio / mangiato*). Each lexicon entry carries a `lemma` (`v:mangiare`, `n:casa`, `a:buono`, `w:di`, `g:mio`, `#:20`; compound numbers count toward their ten). A family is **known** when any item giving evidence for it is at box ≥ 2: its own drill item (verbs, nouns, numbers) or any sentence or question containing it. **Met** = answered at least once. **Typed correctly** = produced in a typed answer. Reading items don't count as evidence, since their tiles are often English. Glossary entries can set `lemma` to join a family (*mia* → *mio*, *vada* → *andare*); otherwise they join the matching noun, verb or adjective, or form their own. A progress bar compares known families with the next level's rough target.
+- **Tiles:** study time (total, today, this week), retention (share of spaced reviews remembered in the last 30 days; a review = an answer to an item that had reached box 1) and answers (count and % correct). A second bar compares hours with the next level's guided-hours estimate.
+- **Families by type:** known / met / in the app, for verbs, nouns, adjectives, numbers and other words.
+- **Reading coverage:** for each reading passage, the share of running words (names excluded) whose family is known, with ticks at the 95% (readable) and 98% (comfortable) thresholds, plus first-try accuracy from the Reading tab. A phrase counts as known if learnt as a phrase or if all its words are known.
+- **Retention by tab**, and **Check any text**: paste Italian to get its coverage, with each word marked known / in the app but not known yet / not in the app / name.
+- **Study time** counts 15-second ticks while the page is visible and the learner clicked, typed or scrolled (or speech played) in the last minute.
+- Level targets, coverage thresholds and the source note come from `data.progress`, so each language can set its own.
 
 ### 3.7 Cross-cutting behaviour
 - **Progress** persists per item across sessions; **reset progress** keeps the user's chosen tab, filters and settings.

@@ -189,6 +189,39 @@
     .pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--border-primary); }
     .pill.learning { color: var(--accent); border-color: var(--accent-dim); }
     .pill.mastered { color: var(--good); border-color: var(--good); background: var(--good-bg); }
+    /* ---------- progress ---------- */
+    .phero { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 12px; padding: 22px 24px; }
+    .phero-value { font-size: 3.4rem; font-weight: 700; letter-spacing: -1px; line-height: 1.05; margin: 4px 0 6px; }
+    .ptiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+    .ptile { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+    .ptile-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); }
+    .ptile-value { font-size: 1.6rem; font-weight: 600; margin: 4px 0 2px; }
+    .ptile-sub { font-size: 0.8rem; color: var(--text-secondary); }
+    .plevel { margin-top: 14px; }
+    .plevel-row { display: flex; justify-content: space-between; gap: 12px; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }
+    .num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+    .pmeter { position: relative; display: block; height: 8px; border-radius: 4px; background: var(--accent-dim); overflow: visible; }
+    .pmeter-fill { display: block; height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.3s ease; }
+    .pmeter-mark { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--text-tertiary); border-radius: 1px; }
+    .psec { margin-top: 28px; }
+    .psec-title { font-size: 1rem; margin: 0 0 4px; }
+    .psec-note { font-size: 0.82rem; color: var(--text-tertiary); margin: 0 0 12px; line-height: 1.5; }
+    .ptable { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+    .ptable th { text-align: left; font-weight: 500; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); padding: 6px 8px; border-bottom: 1px solid var(--border-primary); }
+    .ptable th.num { text-align: right; }
+    .ptable td { padding: 8px; border-bottom: 1px solid var(--border-primary); color: var(--text-secondary); }
+    .ptable td:first-child { color: var(--text-primary); }
+    .ptable .pcov { width: 38%; min-width: 110px; }
+    .ptext { width: 100%; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-primary); border-radius: 8px; padding: 10px 12px; font: inherit; font-size: 0.95rem; resize: vertical; }
+    .ptext:focus { outline: none; border-color: var(--accent); }
+    .presult { margin-top: 14px; }
+    .ptokens { line-height: 2; margin: 14px 0 8px; }
+    .tok { border-radius: 4px; padding: 1px 3px; }
+    .tok.known { color: var(--text-primary); }
+    .tok.learning { background: var(--accent-dim); color: var(--text-primary); }
+    .tok.new { color: var(--text-primary); text-decoration: underline dashed var(--text-tertiary); text-underline-offset: 4px; }
+    .tok.name { color: var(--text-tertiary); }
+    .plegend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 28px; }
     /* ---------- lessons ---------- */
     .lesson-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
     .unit-head { margin: 14px 0 2px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); font-weight: 600; }
@@ -310,6 +343,8 @@
       .lesson-card .meter { width: 100%; }
       .lesson-head h2 { font-size: 1.8rem; }
       .bubble { max-width: 90%; }
+      .ptiles { grid-template-columns: 1fr; }
+      .phero-value { font-size: 3rem; }
     }
 </style>
 </head>

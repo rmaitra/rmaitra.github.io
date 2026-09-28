@@ -114,6 +114,7 @@ flowchart TB
 | **Word tables** | 731–875 | Declarative `TABLES` specs (`head`, `note`, `rows()`) and one generic renderer with search | `data.*`, `state.srs` for status pills | `state.table`, `state.tableTense` |
 | **Lesson player** | 877–1240 | Flattens a lesson into beats, reveals one per Next, narrates, runs role-play, resumes, and seeds SRS on completion | `data.lessons`, `data.lessonUnits`, `state.lessons` | `state.lessons`, `state.lesson`, `state.srs` (seeding) |
 | **Chrome** | 1242–1309 | Tab bar, mode description, filter and setting pills with counts, New/Learning/Mastered/Due stats, score | `state`, pools | DOM |
+| **Progress** | section 7 | Word families (from lexicon `lemma`s and SRS evidence), reading coverage, retention, study time, text checker; the answer log is written by `record()` and time by the study-time tracker | `state.srs`, `state.log`, `state.time`, `data.progress`, lexicon | — |
 | **Router** | 1311–1382 | `show()` draws a screen for `state.mode`. `ask()` runs one drill question. `init()` wires global listeners. The bottom `fetch()` starts the app | everything | everything |
 
 ---
@@ -145,6 +146,7 @@ Loaded once at startup into the module-level `data` variable, and never modified
 | `sentences` | 214 | `{id, rank, topic, type, function, it, en, accepted}` | Sentences drill, Sentences table |
 | `readings` | 14 (46 sentences) | `{id, title, source, license, sentences:[{id,it,en,rank}]}` | Reading drill, Readings table |
 | `lessonUnits` | 2 | `{id, title}` | Lesson list headings |
+| `progress` | — | `{coverage: {ready, comfortable}, levels: [{id, label, families, hours}], sourceNote}` | Progress tab targets |
 | `lessons` | 16 | `{id, order, unit, title, subtitle, goals, practice, steps}` | Lesson player |
 
 The schema, with examples, is in `DESIGN.md` §4.
@@ -179,11 +181,13 @@ One JSON object, rewritten in full by `save()` after every change.
   "autoplay": false,                                // drill auto-play audio
   "lessons": { "<lessonId>": { "pos": 17, "done": false } },
   "lesson": "al-bar" | null,                        // open lesson, or the list
-  "lessonAudio": false, "lessonHandsFree": false, "lessonHideEn": false
+  "lessonAudio": false, "lessonHandsFree": false, "lessonHideEn": false,
+  "log": [[1727400000000, "v:essere:present:io", 1, 2, "typed"]],   // [time, item, ok, box before (-1 = first), choice|typed|tiles], last 5,000
+  "time": { "total": 5400000, "days": { "2026-09-27": 1200000 } }      // active study ms
 }
 ```
 
-**Reset progress** clears `srs`, the score, `lessons` and `lesson`, and keeps the view and audio preferences.
+**Reset progress** clears `srs`, the score, `lessons`, `lesson`, the answer `log` and study `time`, and keeps the view and audio preferences.
 
 ### 3.4 In-memory state (lost on reload)
 
@@ -198,6 +202,7 @@ One JSON object, rewritten in full by `save()` after every change.
 | `keyHandler` | The current screen's keyboard handler | Every `show()` / `ask()` |
 | `speechRun` | Counter that cancels stale speech queues | Every `say()` / `stopSpeech()` |
 | `lessonTimer` | Hands-free auto-advance timeout | `show()`, `advance()`, toggles |
+| `lastActive`, `lastTick` | Study-time tracker: last interaction or speech, last 15 s tick | interaction, `visibilitychange` |
 
 ---
 
