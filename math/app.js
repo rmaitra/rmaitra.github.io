@@ -75,7 +75,13 @@ var SCRATCH_VARS = ['x', 'y', 'z', 'i'];
 var SCRATCH_SYMBOLS = ['+', '−', '×', '÷', '(', ')', '^', '√', 'π', '²', '³', '='];
 
 // ============ State ============
+// view: 'stories' shows the Stories tab (stories.js); 'subject' shows a subject's Learn/Practice
+const VIEW_KEY = 'mathStudio.view';
+function loadView() {
+  try { return localStorage.getItem(VIEW_KEY) === 'subject' ? 'subject' : 'stories'; } catch (e) { return 'stories'; }
+}
 var state = {
+  view: loadView(),
   subject: SUBJECT_ORDER[0],
   topic: SUBJECTS[SUBJECT_ORDER[0]].topicOrder[0],
   mode: 'learn',
@@ -186,19 +192,56 @@ function revealChartAnswer(p) {
 function renderSubjectTabs() {
   const nav = document.getElementById('subjectTabs');
   nav.innerHTML = '';
+  const stories = document.createElement('button');
+  stories.className = 'subject-btn' + (state.view === 'stories' ? ' active' : '');
+  stories.textContent = 'Stories';
+  stories.onclick = selectStories;
+  nav.appendChild(stories);
   SUBJECT_ORDER.forEach(key => {
     const btn = document.createElement('button');
-    btn.className = 'subject-btn' + (key === state.subject ? ' active' : '');
+    btn.className = 'subject-btn' + (state.view === 'subject' && key === state.subject ? ' active' : '');
     btn.textContent = SUBJECTS[key].label;
     btn.onclick = () => selectSubject(key);
     nav.appendChild(btn);
   });
-  const title = SUBJECTS[state.subject].title;
+  const title = state.view === 'stories' ? 'Math Stories' : SUBJECTS[state.subject].title;
   document.getElementById('subjectTitle').textContent = title;
   document.title = title;
 }
 
+// Shows either the Stories pane or the subject (Learn/Practice) view
+function applyView() {
+  const stories = state.view === 'stories';
+  document.getElementById('topicNav').hidden = stories;
+  document.getElementById('subjectView').hidden = stories;
+  document.getElementById('storiesPane').hidden = !stories;
+  document.getElementById('scoreboard').hidden = stories;
+  try { localStorage.setItem(VIEW_KEY, state.view); } catch (e) { /* ignore */ }
+  renderSubjectTabs();
+}
+
+function selectStories() {
+  if (state.view === 'stories') return;
+  state.view = 'stories';
+  applyView();
+  window.scrollTo(0, 0);
+}
+
+// Called from a Stories recap: open a subject's Practice tab on a given problem type
+function openPractice(subject, topic, typeIndex) {
+  selectSubject(subject);
+  selectTopic(topic);
+  setMode('practice');
+  state.typeIndex = typeIndex || 0;
+  renderPracticeShell();
+  window.scrollTo(0, 0);
+}
+
 function selectSubject(key) {
+  if (state.view === 'stories') {
+    state.view = 'subject';
+    applyView();
+  }
   if (key === state.subject) return;
   state.subject = key;
   state.topic = SUBJECTS[key].topicOrder[0];
@@ -425,6 +468,8 @@ async function init() {
   renderLearn();
   renderPracticeShell();
   renderScoreboard();
+  applyView();
+  if (window.Stories) Stories.init(document.getElementById('storiesPane'), { openPractice });
   document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.onclick = () => setMode(btn.dataset.mode);
   });

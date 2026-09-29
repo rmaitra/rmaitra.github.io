@@ -4804,7 +4804,7 @@
           { "it": "loro sono", "en": "they are" }
         ] },
         { "type": "note", "label": "Watch out", "text": "*Sono* means both “I am” and “they are”. The context tells you which. Also, *è* (is) has an accent, while *e* without one means “and”." },
-        { "type": "note", "label": "Tip", "text": "The polite *Lei* uses the same form as “he / she”: *Lei è italiana?* can mean “Is she Italian?” or “Are you Italian?”. Context, and the capital L in writing, tell you which." },
+        { "type": "note", "label": "Tip", "text": "The polite *Lei* uses the same form as “he / she”: *Lei è italiana?* can mean “Is she Italian?” or, to a woman, “Are you Italian?”. Context, and the capital L in writing, tell you which. The adjective still matches the person you’re talking to: a man is asked *Lei è italiano?*" },
         { "type": "check", "prompt": "Complete: *Noi ___ amici.* (We are friends.)", "options": ["*siamo*", "*sono*", "*siete*"], "answer": 0 },
         { "type": "check", "prompt": "Complete: *Tu ___ di Roma?* (Are you from Rome?)", "options": ["*è*", "*sei*", "*sono*"], "answer": 1 },
         { "type": "heading", "text": "Nationalities" },

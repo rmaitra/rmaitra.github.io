@@ -324,7 +324,7 @@ Data was validated with scripts that check: 42 reference conjugations, article �
 - **More number work:** 21–99 with the vowel-dropping rule (*ventuno, ventotto*), hundreds and thousands, prices, dates, telling time, ordinals.
 - **Example sentences for every tense**, generated per verb and checked.
 - **Function words:** prepositions and articulated prepositions (*a + il = al*), possessives, demonstratives, object and reflexive pronouns, *ci / ne*.
-- **More lessons:** the planned curriculum (lessons 26–45 in six units, A1 → A2, with review lessons and the data each lesson needs) is in [`LESSONS.md`](LESSONS.md).
+- **More lessons:** the planned curriculum (lessons 26–78 in eleven units, A1 → B1, with review lessons and the data and app work each lesson needs) is in [`LESSONS.md`](LESSONS.md).
 - **Lesson features:** a tile-builder role-play mode (recall instead of recognition), a slow-speed toggle for dialogues, and per-lesson practice filters in the drill tabs.
 
 ### New exercise types

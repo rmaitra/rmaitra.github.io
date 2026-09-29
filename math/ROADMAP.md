@@ -87,6 +87,12 @@ Framed as "the math of mechanics" — formula-driven problems that reuse the alg
    - Practice: solve \(v = f\lambda\) for a missing variable
 7. **Electricity Basics** *(stretch)* — Ohm's law, series/parallel circuits, electric power
    - Practice: solve for V/I/R via Ohm's law; find equivalent resistance in a simple series/parallel circuit
+8. **Optics** *(added for Stories)* — law of reflection, pinhole-camera similar triangles, Snell's law and critical angle
+   - Practice: find a reflection point or image size; find a refracted angle or critical angle from refractive indices
+9. **Relativity** *(added for Stories, stretch)* — time dilation factor γ, E = mc²
+   - Practice: compute γ for a given speed; convert a mass to energy
+
+The Stories tab (`STORIES.md`, `STORY_LESSONS.md`) has 18 physics lessons that link to these topics once they exist.
 
 ---
 

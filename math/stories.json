@@ -1,0 +1,458 @@
+{
+  "acts": [
+    {"id": "ancient", "title": "Ancient worlds", "span": "c. 1800 BCE – 415 CE"},
+    {"id": "wisdom", "title": "India, the House of Wisdom and beyond", "span": "499 – 1450"},
+    {"id": "renaissance", "title": "Secrets and duels", "span": "1500 – 1600"},
+    {"id": "revolution", "title": "The Scientific Revolution", "span": "1609 – 1760s"},
+    {"id": "energy", "title": "Energy, fields and machines", "span": "1800 – 1900"},
+    {"id": "modern", "title": "Relativity, information and space", "span": "1903 – 1962"}
+  ],
+  "strands": [
+    {"id": "number", "label": "Number"},
+    {"id": "geometry", "label": "Geometry"},
+    {"id": "algebra", "label": "Algebra"},
+    {"id": "trig", "label": "Trigonometry"},
+    {"id": "calculus", "label": "Calculus"},
+    {"id": "probability", "label": "Probability & Data"},
+    {"id": "computing", "label": "Computing & Networks"},
+    {"id": "physics", "label": "Physics"},
+    {"id": "review", "label": "Crossroads reviews"}
+  ],
+  "lessons": [
+    {"id": "sixties", "order": 1, "act": "ancient", "year": "c. 1800 BCE", "place": "Babylon", "title": "Counting in sixties", "people": ["Babylonian scribes"], "strands": ["number"]},
+    {"id": "ahmes", "order": 2, "act": "ancient", "year": "c. 1550 BCE", "place": "Thebes", "title": "The scribe Ahmes", "people": ["Ahmes"], "strands": ["number"]},
+    {"id": "shadow", "order": 3, "act": "ancient", "year": "c. 600 BCE", "place": "Miletus", "title": "A pyramid's shadow", "people": ["Thales"], "strands": ["geometry"]},
+    {"id": "pythagoras", "order": 4, "act": "ancient", "year": "c. 530 BCE", "place": "Croton", "title": "All is number", "people": ["Pythagoreans"], "strands": ["geometry", "number"]},
+    {"id": "elements", "order": 5, "act": "ancient", "year": "c. 300 BCE", "place": "Alexandria", "title": "The Elements", "people": ["Euclid"], "strands": ["geometry", "number"]},
+    {"id": "pi", "order": 6, "act": "ancient", "year": "c. 250 BCE", "place": "Syracuse", "title": "Squeezing π", "people": ["Archimedes"], "strands": ["geometry"]},
+    {"id": "lever", "order": 7, "act": "ancient", "year": "c. 250 BCE", "place": "Syracuse", "title": "The lever and the crown", "people": ["Archimedes"], "strands": ["physics", "number"]},
+    {"id": "earth", "order": 8, "act": "ancient", "year": "c. 240 BCE", "place": "Alexandria", "title": "Measuring the Earth", "people": ["Eratosthenes"], "strands": ["geometry"]},
+    {"id": "conics", "order": 9, "act": "ancient", "year": "c. 200 BCE", "place": "Perga", "title": "Cutting the cone", "people": ["Apollonius", "Hypatia"], "strands": ["geometry", "algebra"]},
+    {"id": "nine-chapters", "order": 10, "act": "ancient", "year": "c. 1st c. CE", "place": "Han China", "title": "The Nine Chapters", "people": ["Liu Hui"], "strands": ["algebra", "number"]},
+    {"id": "hero", "order": 11, "act": "ancient", "year": "c. 60 CE", "place": "Alexandria", "title": "The shortest path of light", "people": ["Hero"], "strands": ["physics", "geometry"]},
+    {"id": "diophantus", "order": 12, "act": "ancient", "year": "c. 250 CE", "place": "Alexandria", "title": "Diophantus' riddle", "people": ["Diophantus"], "strands": ["algebra"]},
+    {"id": "review-1", "order": 13, "act": "ancient", "year": "c. 100 CE", "place": "Alexandria → Ostia", "title": "Crossroads I: The grain ship", "people": [], "strands": ["review"], "review": true},
+    {"id": "sines", "order": 14, "act": "wisdom", "year": "499", "place": "Kusumapura", "title": "Chords become sines", "people": ["Āryabhaṭa"], "strands": ["trig"]},
+    {"id": "zero", "order": 15, "act": "wisdom", "year": "628", "place": "Bhinmal", "title": "Nothing becomes a number", "people": ["Brahmagupta"], "strands": ["number"]},
+    {
+      "id": "al-jabr",
+      "order": 16,
+      "act": "wisdom",
+      "year": "c. 820",
+      "place": "Baghdad",
+      "title": "Restoring and balancing",
+      "subtitle": "al-Khwarizmi and the quadratic",
+      "people": ["al-Khwarizmi"],
+      "strands": ["algebra"]
+    },
+    {"id": "optics", "order": 17, "act": "wisdom", "year": "c. 1015", "place": "Cairo", "title": "The Book of Optics", "people": ["Ibn al-Haytham"], "strands": ["physics", "geometry"]},
+    {"id": "khayyam", "order": 18, "act": "wisdom", "year": "1070s", "place": "Isfahan", "title": "Cubics from cones", "people": ["Omar Khayyam"], "strands": ["algebra", "geometry"]},
+    {"id": "lilavati", "order": 19, "act": "wisdom", "year": "1150", "place": "Ujjain", "title": "The beautiful Līlāvatī", "people": ["Bhāskara II"], "strands": ["number", "probability"]},
+    {"id": "liber-abaci", "order": 20, "act": "wisdom", "year": "1202", "place": "Pisa", "title": "The book of calculation", "people": ["Fibonacci"], "strands": ["number"]},
+    {"id": "mean-speed", "order": 21, "act": "wisdom", "year": "1330s", "place": "Oxford & Paris", "title": "Speed you can draw", "people": ["Oxford Calculators", "Oresme"], "strands": ["physics", "calculus"]},
+    {"id": "kerala", "order": 22, "act": "wisdom", "year": "c. 1400", "place": "Kerala", "title": "Infinity before calculus", "people": ["Mādhava"], "strands": ["calculus", "trig"]},
+    {"id": "review-2", "order": 23, "act": "wisdom", "year": "c. 1300", "place": "The Silk Road", "title": "Crossroads II: The caravan ledger", "people": [], "strands": ["review"], "review": true},
+    {"id": "cubic", "order": 24, "act": "renaissance", "year": "1535–1545", "place": "Venice & Milan", "title": "The secret of the cubic", "people": ["Tartaglia", "Cardano"], "strands": ["algebra"]},
+    {"id": "imaginary", "order": 25, "act": "renaissance", "year": "1572", "place": "Bologna", "title": "Impossible numbers", "people": ["Bombelli"], "strands": ["algebra", "number"]},
+    {"id": "symbols", "order": 26, "act": "renaissance", "year": "1557–1591", "place": "London & Paris", "title": "Symbols", "people": ["Recorde", "Stevin", "Viète"], "strands": ["algebra", "number"]},
+    {"id": "review-3", "order": 27, "act": "renaissance", "year": "1540s", "place": "Milan", "title": "Crossroads III: The challenge", "people": [], "strands": ["review"], "review": true},
+    {"id": "kepler", "order": 28, "act": "revolution", "year": "1609", "place": "Prague", "title": "Mars is an ellipse", "people": ["Kepler", "Tycho"], "strands": ["physics", "geometry"]},
+    {"id": "logarithms", "order": 29, "act": "revolution", "year": "1614", "place": "Edinburgh", "title": "Multiplication into addition", "people": ["Napier", "Briggs"], "strands": ["number", "algebra"]},
+    {"id": "coordinates", "order": 30, "act": "revolution", "year": "1637", "place": "Leiden", "title": "Pictures of equations", "people": ["Descartes", "Fermat"], "strands": ["algebra", "geometry"]},
+    {"id": "refraction", "order": 31, "act": "revolution", "year": "984–1662", "place": "Baghdad → Toulouse", "title": "Bending light", "people": ["Ibn Sahl", "Snell", "Fermat"], "strands": ["physics", "trig"]},
+    {"id": "galileo", "order": 32, "act": "revolution", "year": "1604–1638", "place": "Padua", "title": "Two new sciences", "people": ["Galileo"], "strands": ["physics", "algebra"]},
+    {"id": "points", "order": 33, "act": "revolution", "year": "1654", "place": "Paris", "title": "The unfinished game", "people": ["Pascal", "Fermat"], "strands": ["probability"]},
+    {"id": "pendulum", "order": 34, "act": "revolution", "year": "1656–1678", "place": "The Hague & London", "title": "Springs and swings", "people": ["Huygens", "Hooke"], "strands": ["physics", "algebra"]},
+    {"id": "calculus", "order": 35, "act": "revolution", "year": "1665–1712", "place": "Cambridge & Paris", "title": "The race for calculus", "people": ["Newton", "Leibniz"], "strands": ["calculus"]},
+    {"id": "principia", "order": 36, "act": "revolution", "year": "1687", "place": "Cambridge", "title": "The system of the world", "people": ["Newton", "Halley"], "strands": ["physics", "calculus"]},
+    {"id": "e", "order": 37, "act": "revolution", "year": "1683–1748", "place": "Basel", "title": "The number of growth", "people": ["J. Bernoulli", "Euler"], "strands": ["algebra", "calculus"]},
+    {"id": "bridges", "order": 38, "act": "revolution", "year": "1736", "place": "Königsberg", "title": "Seven bridges", "people": ["Euler"], "strands": ["computing"]},
+    {"id": "vis-viva", "order": 39, "act": "revolution", "year": "1740", "place": "Cirey", "title": "Why speed is squared", "people": ["du Châtelet"], "strands": ["physics", "algebra"]},
+    {"id": "review-4", "order": 40, "act": "revolution", "year": "1760s", "place": "At sea", "title": "Crossroads IV: The longitude voyage", "people": [], "strands": ["review"], "review": true},
+    {"id": "ceres", "order": 41, "act": "energy", "year": "1801", "place": "Göttingen", "title": "Finding Ceres", "people": ["Gauss"], "strands": ["probability", "algebra"]},
+    {"id": "fourier", "order": 42, "act": "energy", "year": "1807–1822", "place": "Grenoble", "title": "Everything is waves", "people": ["Fourier"], "strands": ["physics", "trig"]},
+    {"id": "circuits", "order": 43, "act": "energy", "year": "1800–1845", "place": "Cologne", "title": "Current and resistance", "people": ["Volta", "Ohm", "Kirchhoff"], "strands": ["physics", "algebra"]},
+    {"id": "note-g", "order": 44, "act": "energy", "year": "1843", "place": "London", "title": "Note G", "people": ["Ada Lovelace"], "strands": ["computing"]},
+    {"id": "joule", "order": 45, "act": "energy", "year": "1843–1850", "place": "Manchester", "title": "Heat is work", "people": ["Joule"], "strands": ["physics"]},
+    {"id": "nightingale", "order": 46, "act": "energy", "year": "1854–1858", "place": "Scutari & London", "title": "Diagrams that save lives", "people": ["Florence Nightingale"], "strands": ["probability"]},
+    {"id": "matrices", "order": 47, "act": "energy", "year": "1858", "place": "London", "title": "Tables that transform", "people": ["Cayley", "Sylvester"], "strands": ["algebra", "computing"]},
+    {"id": "maxwell", "order": 48, "act": "energy", "year": "1831–1887", "place": "London", "title": "Light is a wave of fields", "people": ["Faraday", "Maxwell"], "strands": ["physics", "trig"]},
+    {"id": "review-5", "order": 49, "act": "energy", "year": "1858–1866", "place": "The Atlantic", "title": "Crossroads V: The Atlantic cable", "people": [], "strands": ["review"], "review": true},
+    {"id": "rocket", "order": 50, "act": "modern", "year": "1903", "place": "Kaluga", "title": "Escaping the Earth", "people": ["Tsiolkovsky"], "strands": ["physics", "algebra"]},
+    {"id": "relativity", "order": 51, "act": "modern", "year": "1905", "place": "Bern", "title": "Time is relative", "people": ["Einstein"], "strands": ["physics", "geometry"]},
+    {"id": "noether", "order": 52, "act": "modern", "year": "1918", "place": "Göttingen", "title": "Symmetry and conservation", "people": ["Emmy Noether"], "strands": ["physics", "geometry"]},
+    {"id": "shannon", "order": 53, "act": "modern", "year": "1948", "place": "Bell Labs", "title": "Counting information", "people": ["Shannon"], "strands": ["computing", "probability"]},
+    {"id": "orbits", "order": 54, "act": "modern", "year": "1962", "place": "NASA Langley", "title": "Check the numbers", "people": ["Katherine Johnson"], "strands": ["physics", "geometry"]},
+    {"id": "review-6", "order": 55, "act": "modern", "year": "Today", "place": "Mission control", "title": "Crossroads VI: Mission control", "people": [], "strands": ["review"], "review": true}
+  ],
+  "content": {
+    "al-jabr": {
+      "role": "a young copyist at the House of Wisdom",
+      "goals": [
+        "Turn a problem written in words into an equation",
+        "Solve \\(x^2 + bx = c\\) by *completing the square*, and see why it works",
+        "Know what *al-jabr* and *al-muqābala* mean, and where the words *algebra* and *algorithm* come from"
+      ],
+      "practiceLinks": [{"subject": "algebra", "topic": "polynomialOperations", "type": 2, "label": "Algebra · Factor Trinomials"}],
+      "sources": [
+        {"title": "Rosen, F. (1831). The Algebra of Mohammed ben Musa (the full translation, scanned at the Internet Archive)", "url": "https://archive.org/details/algebraofmohamme00khuwuoft"},
+        {"title": "Wikipedia: The Compendious Book on Calculation by Completion and Balancing", "url": "https://en.wikipedia.org/wiki/The_Compendious_Book_on_Calculation_by_Completion_and_Balancing"},
+        {"title": "MacTutor: al-Khwarizmi", "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Al-Khwarizmi/"},
+        {"title": "Wikipedia: Muhammad ibn Musa al-Khwarizmi", "url": "https://en.wikipedia.org/wiki/Al-Khwarizmi"},
+        {"title": "Wikipedia: Completing the square", "url": "https://en.wikipedia.org/wiki/Completing_the_square"},
+        {"title": "Wikipedia: House of Wisdom", "url": "https://en.wikipedia.org/wiki/House_of_Wisdom"}
+      ],
+      "steps": [
+        {
+          "type": "scene",
+          "year": "c. 820 CE",
+          "place": "Baghdad",
+          "map": {
+            "center": [51, 38.3],
+            "span": 30,
+            "from": {"center": [30, 30], "span": 120},
+            "pins": [{"at": [44.39, 33.34], "label": "Baghdad"}],
+            "places": [{"at": [59.15, 42.3], "label": "Khwarazm", "side": "left"}],
+            "routes": [{"path": [[44.39, 33.34], [48.51, 34.8], [51.43, 35.6], [58.79, 36.21], [62.19, 37.66], [63.57, 39.08], [59.15, 42.3]]}],
+            "labels": [{"at": [43.1, 36.4], "text": "Tigris", "kind": "river"}, {"at": [39.9, 35.3], "text": "Euphrates", "kind": "river"}, {"at": [50.6, 41.6], "text": "Caspian Sea", "kind": "sea"}],
+            "caption": "The Round City of Baghdad was founded in 762 on the Tigris. The dashed line follows the Khurasan Road east through Rayy, Nishapur and Merv, then down the Amu Darya to Khwarazm, the oasis al-Khwarizmi's family name points to.",
+            "today": {"label": "Baghdad today on OpenStreetMap", "url": "https://www.openstreetmap.org/#map=11/33.3152/44.3661"}
+          },
+          "text": "The Round City is barely sixty years old. Barges crowd the Tigris, and the markets sell paper, a material still new here. You work as *a young copyist* for the caliph al-Ma'mūn, in the palace library people call the *House of Wisdom*.",
+          "picture": {
+            "sky": "morning",
+            "layers": [
+              {"kit": "sky", "h": 80},
+              {"kit": "birds", "flock": [[40, 20], [50, 16], [58, 22]]},
+              {"kit": "palm", "x": 22, "base": 78, "h": 30, "lean": -1},
+              {"kit": "palm", "x": 40, "base": 78, "h": 24, "lean": 1},
+              {"kit": "roundCity", "x0": 62, "x1": 238, "base": 78},
+              {"kit": "palm", "x": 250, "base": 78, "h": 28, "lean": 1},
+              {"kit": "palm", "x": 268, "base": 78, "h": 22, "lean": -1},
+              {"kit": "river", "y": 79, "y1": 108},
+              {"kit": "sailboat", "x": 60, "y": 98, "drift": 3},
+              {"kit": "kuphar", "x": 190, "y": 101, "drift": -1.5},
+              {"kit": "reeds", "y": 106}
+            ],
+            "caption": "Morning on the Tigris. Across the water are the brick walls of the Round City and, at its centre, the Green Dome of the caliph's palace: about 48 m high, with a statue of a horseman holding a lance on top. A round kuphar and a sailing barge work the river. (A reconstruction.)",
+            "sources": [{"title": "Palace of the Golden Gate", "url": "https://en.wikipedia.org/wiki/Palace_of_the_Golden_Gate"}, {"title": "Kuphar", "url": "https://en.wikipedia.org/wiki/Kuphar"}]
+          }
+        },
+        {
+          "type": "text",
+          "text": "All day, scholars around you translate books from Greek, Persian and Sanskrit into Arabic, and you copy their work neatly onto fresh sheets. This morning you are given a different job: copying a new book by one of the court's own scholars."
+        },
+        {
+          "type": "picture",
+          "sky": "morning",
+          "layers": [
+            {"kit": "wall", "y1": 60},
+            {"kit": "window", "x": 144, "y": 13, "w": 26, "h": 28},
+            {"kit": "shelves", "x": 6, "y": 6, "w": 50, "h": 52, "rows": 3},
+            {"kit": "floor", "y": 60},
+            {"kit": "rug", "x": 72, "y": 68, "w": 56, "h": 8},
+            {"kit": "lamp", "x": 64, "base": 70, "lit": false},
+            {"kit": "inkpot", "x": 112, "base": 76},
+            {"kit": "beam", "x": 138, "y": 41, "w": 28, "y1": 80, "slope": -1.1, "strength": 0.2, "over": true}
+          ],
+          "cast": [
+            {"who": "translator", "x": 36, "y": 76, "pose": "stand", "face": "left"},
+            {"who": "you", "x": 98, "y": 76, "pose": "sit", "face": "right", "write": true},
+            {"who": "reader", "x": 162, "y": 78, "pose": "sit", "face": "left"}
+          ],
+          "caption": "The palace library. Scholars read and translate; you copy, writing on a board on your knee. (A reconstruction: no picture of the House of Wisdom survives.)",
+          "size": [192, 80]
+        },
+        {
+          "type": "person",
+          "name": "Muḥammad ibn Mūsā al-Khwārizmī",
+          "dates": "c. 780 – c. 850",
+          "place": "Baghdad",
+          "bio": "Astronomer and mathematician at the court of al-Ma'mūn. His family name points to Khwarazm, a region south of the Aral Sea.",
+          "character": "khwarizmi"
+        },
+        {"type": "text", "text": "His book is not for scholars alone. He says so in its first pages: it is for the problems ordinary people meet every day."},
+        {
+          "type": "quote",
+          "text": "…what is easiest and most useful in arithmetic, such as men constantly require in cases of inheritance, legacies, partition, law-suits, and trade, and in all their dealings with one another, or where the measuring of lands, the digging of canals, geometrical computation, and other objects of various sorts and kinds are concerned.",
+          "cite": "al-Khwarizmi, preface, tr. F. Rosen (1831)"
+        },
+        {"type": "heading", "text": "A problem made of words"},
+        {
+          "type": "text",
+          "text": "There are no symbols in the book: no \\(x\\), no \\(=\\), no \\(+\\). Everything is written in words. He uses three kinds of quantity: the *root* (the unknown number), the *square* (the root times itself), and plain numbers, which he counts in *dirhams*, the silver coin in your purse."
+        },
+        {
+          "type": "quote",
+          "text": "One square, and ten roots of the same, amount to thirty-nine dirhems; that is to say, what must be the square which, when increased by ten of its own roots, amounts to thirty-nine?",
+          "cite": "al-Khwarizmi, tr. F. Rosen (1831)"
+        },
+        {"type": "thenNow", "then": "One square, and ten roots of the same, amount to thirty-nine dirhems.", "now": "\\(x^2 + 10x = 39\\)", "note": "\\(x\\) is the root, \\(x^2\\) the square, \\(10x\\) is ten roots."},
+        {
+          "type": "check",
+          "prompt": "How would you write *“a square and four roots are equal to twenty-one”* in modern symbols?",
+          "options": ["\\(x^2 + 4x = 21\\)", "\\(4x^2 = 21\\)", "\\(x^2 + 4 = 21x\\)"],
+          "answer": 0,
+          "why": "*A square* is \\(x^2\\), *four roots* is \\(4x\\), and the plain number 21 goes on the other side. (The answer is \\(x = 3\\): \\(9 + 12 = 21\\).)"
+        },
+        {
+          "type": "problem",
+          "id": "guess",
+          "prompt": "Before learning his method, try guessing. Which whole number \\(x\\) makes \\(x^2 + 10x = 39\\) true?",
+          "fields": [{"id": "x", "label": "x"}],
+          "check": "number",
+          "answer": {"x": 3},
+          "hints": ["Try \\(x = 2\\): \\(4 + 20 = 24\\). Too small.", "Try \\(x = 4\\): \\(16 + 40 = 56\\). Too big. So the answer is between 2 and 4."],
+          "mistakes": [{"value": 4, "say": "Check it: \\(16 + 40 = 56\\), which is more than 39."}, {"value": 2, "say": "Check it: \\(4 + 20 = 24\\), which is less than 39."}],
+          "solution": ["\\(3^2 + 10 \\times 3 = 9 + 30 = 39\\) ✓"]
+        },
+        {
+          "type": "text",
+          "text": "Guessing works when the answer is a small whole number. But the next problem might have an answer like \\(2.4\\), or \\(1\\tfrac{3}{8}\\) of a field. A merchant or a judge dividing an inheritance needs a method that works *every* time. That is what al-Khwarizmi gives."
+        },
+        {"type": "heading", "text": "Completing the square"},
+        {
+          "type": "text",
+          "text": "His trick is to stop thinking of \\(x^2 + 10x\\) as numbers and start thinking of it as *shapes*. A square is a square: \\(x\\) by \\(x\\). Ten roots is a rectangle, \\(10\\) by \\(x\\). Together their area is 39."
+        },
+        {"type": "widget", "name": "completeSquare", "params": {"b": 10, "c": 39}},
+        {"type": "text", "text": "Now the same steps as arithmetic. Each line follows from the one before."},
+        {
+          "type": "derive",
+          "lines": [
+            {"math": "x^2 + 10x = 39", "why": "the problem"},
+            {"math": "x^2 + 10x + 25 = 39 + 25", "why": "add the missing \\(5 \\times 5\\) corner to both sides"},
+            {"math": "(x + 5)^2 = 64", "why": "the left side is now a complete square, with side \\(x + 5\\)"},
+            {"math": "x + 5 = 8", "why": "the side of a square with area 64 is 8"},
+            {"math": "x = 3", "why": "take away the 5"}
+          ],
+          "notebook": {"title": "Completing the square", "text": "To solve \\(x^2 + bx = c\\): halve \\(b\\), square it, add it to both sides, take the square root, then subtract half of \\(b\\)."}
+        },
+        {"type": "text", "text": "Here is how he tells it in the book. This is the same recipe, in words:"},
+        {
+          "type": "quote",
+          "text": "The solution is this: you halve the number of the roots, which in the present instance yields five. This you multiply by itself; the product is twenty-five. Add this to thirty-nine; the sum is sixty-four. Now take the root of this, which is eight, and subtract from it half the number of the roots, which is five; the remainder is three. This is the root of the square which you sought for; the square itself is nine.",
+          "cite": "al-Khwarizmi, tr. F. Rosen (1831)"
+        },
+        {"type": "note", "label": "The recipe", "text": "*Halve* the roots → *square* it → *add* it to the number → take the *root* → *subtract* the half."},
+        {
+          "type": "problem",
+          "id": "six-roots",
+          "prompt": "Your turn. *A square and six roots are equal to sixteen*: \\(x^2 + 6x = 16\\). Use the recipe. What is the root \\(x\\)?",
+          "fields": [{"id": "x", "label": "x"}],
+          "check": "number",
+          "answer": {"x": 2},
+          "hints": ["Halve the roots: half of 6 is 3. Square it: 9.", "Add: \\(16 + 9 = 25\\). The root of 25 is 5. Now subtract the half."],
+          "mistakes": [
+            {"value": 5, "say": "5 is \\(x + 3\\), the side of the big square. Subtract the half (3) to get \\(x\\)."},
+            {"value": -8, "say": "\\(-8\\) does make the equation true, but al-Khwarizmi only accepts positive answers. More on that soon."},
+            {"value": 4, "say": "Check it: \\(16 + 24 = 40\\), not 16. Did you add 9 to 16 before taking the root?"}
+          ],
+          "solution": ["Half of 6 is 3, and \\(3^2 = 9\\).", "\\(16 + 9 = 25\\), and \\(\\sqrt{25} = 5\\).", "\\(x = 5 - 3 = 2\\). Check: \\(4 + 12 = 16\\) ✓"]
+        },
+        {"type": "heading", "text": "Restoring and balancing"},
+        {
+          "type": "text",
+          "text": "The book's title names two moves that tidy an equation before the recipe can start. *Al-jabr* means *restoring*: when something is subtracted on one side, you add it back to both sides so nothing is missing. *Al-muqābala* means *balancing*: when the same kind of thing appears on both sides, you take away the smaller amount from both."
+        },
+        {
+          "type": "widget",
+          "name": "balance",
+          "params": {
+            "stages": [
+              {"left": ["\\(x^2\\)"], "right": ["\\(40x\\)", "\\(-\\,4x^2\\)"], "caption": "One square equals forty roots minus four squares. Something is missing on the right."},
+              {"left": ["\\(x^2\\)", "\\(4x^2\\)"], "right": ["\\(40x\\)"], "action": "Restore (al-jabr): add \\(4x^2\\) to both sides", "caption": "Now nothing is subtracted."},
+              {"left": ["\\(5x^2\\)"], "right": ["\\(40x\\)"], "action": "Combine the squares", "caption": "Five squares equal forty roots, so one square equals eight roots and the root is 8."}
+            ]
+          }
+        },
+        {
+          "type": "widget",
+          "name": "balance",
+          "params": {
+            "stages": [
+              {"left": ["\\(50\\)", "\\(x^2\\)"], "right": ["\\(29\\)", "\\(10x\\)"], "caption": "Fifty and a square equal twenty-nine and ten roots. There are plain numbers on both sides."},
+              {"left": ["\\(21\\)", "\\(x^2\\)"], "right": ["\\(10x\\)"], "action": "Balance (al-muqābala): take 29 from both sides", "caption": "A square and twenty-one equal ten roots."}
+            ]
+          }
+        },
+        {
+          "type": "note",
+          "label": "From the book",
+          "text": "Both examples come from worked problems in al-Khwarizmi's book. (Rosen's 1831 translation calls the two moves *completion* and *reduction*.) The Arabic word *al-jabr* was also used for setting a broken bone. Latin translators kept it, and it became our word *algebra*."
+        },
+        {
+          "type": "check",
+          "prompt": "Which move is *al-jabr* (restoring)?",
+          "options": ["Turning \\(x^2 = 12 - 2x\\) into \\(x^2 + 2x = 12\\)", "Turning \\(x^2 + 20 = 5x + 8\\) into \\(x^2 + 12 = 5x\\)", "Turning \\(2x^2 = 18\\) into \\(x^2 = 9\\)"],
+          "answer": 0,
+          "why": "Restoring adds back what was subtracted: the \\(-2x\\) becomes \\(+2x\\) on the other side. Taking 8 from both sides is balancing (*al-muqābala*). Dividing by 2 is a third move he calls reducing."
+        },
+        {"type": "heading", "text": "Two answers"},
+        {
+          "type": "text",
+          "text": "The equation from the second balance, *a square and twenty-one equal ten roots*, is a different shape of problem: \\(x^2 + 21 = 10x\\). Here al-Khwarizmi notices something new. The recipe can end in two ways: you may subtract the root from the half, or add it."
+        },
+        {
+          "type": "quote",
+          "text": "Or you may add the root to the moiety of the roots; the sum is seven; this is the root of the square which you sought for, and the square itself is forty-nine. When you meet with an instance which refers you to this case, try its solution by addition, and if that do not serve, then subtraction certainly will.",
+          "cite": "al-Khwarizmi, tr. F. Rosen (1831). (“Moiety” means half.)"
+        },
+        {
+          "type": "problem",
+          "id": "two-roots",
+          "prompt": "Solve \\(x^2 + 21 = 10x\\) with his steps: halve the roots (5), square it (25), *subtract* 21, take the root, then subtract it from 5, or add it to 5. Enter both answers, separated by a comma.",
+          "fields": [{"id": "roots", "label": "x (both answers)"}],
+          "check": "set",
+          "answer": {"roots": [3, 7]},
+          "hints": ["\\(25 - 21 = 4\\), and the root of 4 is 2.", "\\(5 - 2\\) and \\(5 + 2\\)."],
+          "mistakes": [{"value": [3], "say": "3 works. There is a second answer: add the 2 to 5 as well."}, {"value": [7], "say": "7 works. There is a second answer: subtract the 2 from 5 as well."}],
+          "solution": ["\\(5^2 - 21 = 4\\) and \\(\\sqrt{4} = 2\\).", "\\(x = 5 - 2 = 3\\) or \\(x = 5 + 2 = 7\\).", "Check: \\(9 + 21 = 30 = 10 \\times 3\\) ✓ and \\(49 + 21 = 70 = 10 \\times 7\\) ✓"]
+        },
+        {
+          "type": "note",
+          "label": "Why only positive answers?",
+          "text": "Al-Khwarizmi works without negative numbers. A root is a length or an amount of money, so it can't be less than nothing. That is also why he needs *six* separate kinds of equation instead of one: he can't write \\(x^2 - 10x + 21 = 0\\), because nothing may be subtracted. When the numbers make the root impossible (if 21 were bigger than 25), he says plainly that the question is impossible."
+        },
+        {
+          "type": "list",
+          "title": "His six kinds of equation",
+          "items": [
+            {"then": "squares equal roots", "now": "\\(ax^2 = bx\\)"},
+            {"then": "squares equal numbers", "now": "\\(ax^2 = c\\)"},
+            {"then": "roots equal numbers", "now": "\\(bx = c\\)"},
+            {"then": "squares and roots equal numbers", "now": "\\(x^2 + bx = c\\)"},
+            {"then": "squares and numbers equal roots", "now": "\\(x^2 + c = bx\\)"},
+            {"then": "roots and numbers equal squares", "now": "\\(bx + c = x^2\\)"}
+          ]
+        },
+        {
+          "type": "picture",
+          "sky": "afternoon",
+          "layers": [
+            {"kit": "wall", "y1": 60},
+            {"kit": "window", "x": 144, "y": 13, "w": 26, "h": 28},
+            {"kit": "shelves", "x": 6, "y": 6, "w": 50, "h": 52, "rows": 3},
+            {"kit": "floor", "y": 60},
+            {"kit": "rug", "x": 72, "y": 68, "w": 56, "h": 8},
+            {"kit": "lamp", "x": 64, "base": 70, "lit": true},
+            {"kit": "inkpot", "x": 112, "base": 76},
+            {"kit": "beam", "x": 138, "y": 41, "w": 28, "y1": 80, "slope": -1.6, "strength": 0.14, "over": true},
+            {"kit": "glow", "x": 64, "y": 46, "r": 26, "strength": 0.2}
+          ],
+          "cast": [{"who": "you", "x": 92, "y": 76, "pose": "sit", "face": "right"}, {"who": "khwarizmi", "x": 126, "y": 77, "pose": "stand", "face": "left"}],
+          "caption": "Late afternoon in the library, with the lamp lit. (A reconstruction.)",
+          "size": [192, 80]
+        },
+        {
+          "type": "dialogue",
+          "title": "In the library (dramatised)",
+          "speakers": {"k": {"name": "al-Khwarizmi", "character": "khwarizmi"}, "y": {"name": "You", "character": "you"}},
+          "practice": "y",
+          "lines": [
+            {"narration": "Late in the afternoon, al-Khwarizmi stops beside you to check the copy."},
+            {"s": "k", "text": "You have copied the rule. Can you use it? A square and eight roots are equal to thirty-three. Where do you begin?"},
+            {"s": "y", "text": "I halve the roots. Half of eight is four.", "wrong": ["I take the root of thirty-three.", "I add eight to thirty-three."]},
+            {"s": "k", "text": "Good. And then?"},
+            {
+              "s": "y",
+              "text": "Four times itself is sixteen. I add it to thirty-three and get forty-nine.",
+              "wrong": ["Four times itself is sixteen. I take it from thirty-three and get seventeen.", "Four and thirty-three make thirty-seven."]
+            },
+            {"s": "k", "text": "What is the root of forty-nine?"},
+            {"s": "y", "text": "Seven. I take away the half, four, and the root is three.", "wrong": ["Seven, and that is the root we want.", "Seven. I add the four, and the root is eleven."]},
+            {"s": "k", "text": "And the square itself?"},
+            {"s": "y", "text": "Nine. Nine and eight roots, twenty-four, make thirty-three.", "wrong": ["Three. The square and the root are the same.", "Forty-nine, the square we made."]},
+            {"narration": "He nods and moves on to the next copyist."}
+          ]
+        },
+        {"type": "heading", "text": "What happened next"},
+        {
+          "type": "text",
+          "text": "The book spread across the Islamic world, and in 1145 Robert of Chester translated it into Latin in Spain as *Liber algebrae et almucabola*. Europe took the word *al-jabr* as the name of the whole subject: *algebra*. Another of al-Khwarizmi's books, on calculating with the Indian digits 0 to 9, was translated as *Algoritmi de numero Indorum*, “al-Khwarizmi on the Indian numbers”. His name became the word *algorithm*."
+        },
+        {
+          "type": "meanwhile",
+          "place": "India, 628 CE",
+          "text": "Two centuries earlier, Brahmagupta had written a rule for solving the same kind of equation, and he was willing to work with negative numbers (“debts”). Al-Khwarizmi's contribution was to make the method systematic, explain it with geometry, and write it for everyday use."
+        },
+        {
+          "type": "note",
+          "label": "Legend or history?",
+          "text": "The House of Wisdom is often pictured as a grand university. Historians such as Dimitri Gutas argue it was mainly a palace library and translation office; the translation movement was much wider than one building. And the title “father of algebra” is shared: many historians give it to Diophantus, whose *Arithmetica* came five centuries earlier."
+        },
+        {
+          "type": "text",
+          "text": "One kind of problem still resisted him: equations with a *cube* in them, such as \\(x^3 + 2x = 12\\). A cube is a solid, and completing a square won't finish it. Two and a half centuries later, a poet-astronomer in Isfahan took up that challenge (*Cubics from cones*)."
+        },
+        {"type": "heading", "text": "Echoes today"},
+        {
+          "type": "application",
+          "field": "Everyday",
+          "title": "A frame with an even border",
+          "text": "You have a 20 cm × 30 cm print and a frame whose total area is 1,200 cm². How wide is the border, if it is the same width \\(w\\) all round? The framed size is \\((20 + 2w)(30 + 2w) = 1200\\). Multiplying out and dividing by 4 gives \\(w^2 + 25w = 150\\): a square and twenty-five roots equal a hundred and fifty.",
+          "problem": {
+            "id": "frame",
+            "prompt": "Solve \\(w^2 + 25w = 150\\) with the recipe. How wide is the border, in cm?",
+            "fields": [{"id": "w", "label": "w", "unit": "cm"}],
+            "check": "number",
+            "answer": {"w": 5},
+            "hints": ["Half of 25 is 12.5, and \\(12.5^2 = 156.25\\).", "\\(150 + 156.25 = 306.25\\), whose root is 17.5."],
+            "mistakes": [{"value": 17.5, "say": "17.5 is \\(w + 12.5\\). Subtract the half."}],
+            "solution": ["\\(12.5^2 = 156.25\\), and \\(150 + 156.25 = 306.25\\).", "\\(\\sqrt{306.25} = 17.5\\), so \\(w = 17.5 - 12.5 = 5\\) cm.", "Check: \\(30 \\times 40 = 1200\\) ✓"]
+          }
+        },
+        {
+          "type": "application",
+          "field": "Physics",
+          "title": "When does the fountain's water reach 15 m?",
+          "text": "A fountain shoots water straight up at 20 m/s. Taking gravity as 10 m/s² to keep the numbers simple, its height after \\(t\\) seconds is \\(h = 20t - 5t^2\\). Setting \\(h = 15\\) and dividing by 5 gives \\(t^2 + 3 = 4t\\): al-Khwarizmi's fifth kind, squares and numbers equal roots. Like his \\(x^2 + 21 = 10x\\), it has two answers.",
+          "problem": {
+            "id": "fountain",
+            "prompt": "Solve \\(t^2 + 3 = 4t\\). Enter both times, in seconds, separated by a comma.",
+            "fields": [{"id": "t", "label": "t (both answers)", "unit": "s"}],
+            "check": "set",
+            "answer": {"t": [1, 3]},
+            "hints": ["Halve the roots: 2. Square it: 4. Subtract 3: 1.", "The root of 1 is 1. Now \\(2 - 1\\) and \\(2 + 1\\)."],
+            "mistakes": [{"value": [1], "say": "1 s is on the way up. The water passes 15 m again on the way down."}, {"value": [3], "say": "3 s is on the way down. It also passes 15 m on the way up."}],
+            "solution": ["\\(2^2 - 3 = 1\\), and \\(\\sqrt{1} = 1\\).", "\\(t = 2 - 1 = 1\\) s (going up) or \\(t = 2 + 1 = 3\\) s (coming down)."]
+          }
+        },
+        {
+          "type": "application",
+          "field": "Computing",
+          "title": "Every app runs on algorithms",
+          "text": "An *algorithm* is a recipe of exact steps that always works, which is exactly what al-Khwarizmi wrote. The steps you've learned (halve, square, add, root, subtract) could be typed into a spreadsheet or a program without changing a word. Your phone's calculator, a map app's route and a bank's interest calculation are all algorithms.",
+          "problem": {
+            "id": "algorithm",
+            "prompt": "Run the algorithm on \\(x^2 + 4x = 60\\). What is \\(x\\)?",
+            "fields": [{"id": "x", "label": "x"}],
+            "check": "number",
+            "answer": {"x": 6},
+            "hints": ["Half of 4 is 2, squared is 4. \\(60 + 4 = 64\\)."],
+            "mistakes": [{"value": 8, "say": "8 is \\(x + 2\\). Subtract the half."}],
+            "solution": ["\\(2^2 = 4\\); \\(60 + 4 = 64\\); \\(\\sqrt{64} = 8\\); \\(8 - 2 = 6\\).", "Check: \\(36 + 24 = 60\\) ✓"]
+          }
+        }
+      ],
+      "characters": {
+        "you": {"skin": "medium", "hair": "black", "beard": "none", "headwear": "cap", "headwearColor": "white", "robe": "undyed", "sash": "brown", "prop": "none", "seed": 4},
+        "khwarizmi": {
+          "skin": "medium",
+          "hair": "black",
+          "beard": "full",
+          "beardColor": "salt",
+          "headwear": "turban",
+          "headwearColor": "white",
+          "robe": "white",
+          "outer": "black",
+          "prop": "book",
+          "seed": 3,
+          "note": "A pixel figure, not a likeness: no portrait of him survives. He is drawn in a turban and a dark outer robe, since black was the colour of the Abbasid dynasty he served."
+        },
+        "translator": {"skin": "light", "hair": "brown", "beard": "long", "beardColor": "brown", "headwear": "turban", "headwearColor": "indigo", "robe": "cream", "outer": "indigo", "prop": "scroll", "seed": 5},
+        "reader": {"skin": "deep", "hair": "grey", "beard": "short", "beardColor": "grey", "headwear": "turban", "headwearColor": "saffron", "robe": "green", "prop": "book", "seed": 2}
+      }
+    }
+  }
+}
