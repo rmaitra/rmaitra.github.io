@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Kosmos: A Mathematical Voyage</title>
+<meta name="description" content="Why Kosmos exists, its debt to Cosmos, open sources, the human–AI collaboration that built it, and how it works.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Silkscreen&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #0d0d0d;
+    --bg-card: #111213;
+    --text-primary: #e0e0e0;
+    --text-secondary: #aaaaaa;
+    --text-tertiary: #888888;
+    --border-primary: #1e1e1e;
+    --accent: #4a9eff;
+    --accent-dim: #1f3a5c;
+    --good: #35c97f;
+    --gold: #ffd27a;
+    --parchment: #e8dcc4;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--bg-primary); color: var(--text-primary); margin: 0; line-height: 1.65; }
+  a { color: var(--accent); }
+  .topbar { padding: 18px 24px; border-bottom: 1px solid var(--border-primary); }
+  .topbar h1 { font-size: 1.25rem; margin: 0; font-weight: 700; letter-spacing: -0.3px; }
+  .brand-sub { font-weight: 400; font-size: 0.85rem; color: var(--text-tertiary); margin-left: 10px; }
+  .top-links { display: flex; gap: 16px; margin-top: 4px; }
+  .top-links a { color: var(--text-tertiary); text-decoration: none; font-size: 0.85rem; }
+  .top-links a:hover { color: var(--accent); }
+  main { max-width: 820px; margin: 0 auto; padding: 24px 24px 64px; }
+  .hero { margin: 8px 0 28px; }
+  .hero-frame { border: 2px solid #2a2214; border-radius: 4px; overflow: hidden; line-height: 0; background: #07121d; min-height: 60px; }
+  .hero-frame canvas { width: 100%; height: auto; image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+  .hero-frame figcaption, .hero-frame .px-caption { display: none; }
+  .hero-frame .px-frame, .sprites .px-frame { border: none; line-height: 0; }
+  .tagline { font-family: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif; font-style: italic; font-size: 2.1rem; line-height: 1.25; color: var(--parchment); margin: 22px 0 6px; font-weight: 400; }
+  .lede { color: var(--text-secondary); font-size: 1.08rem; margin: 0; }
+  h2 { font-size: 1.5rem; margin: 48px 0 12px; letter-spacing: -0.3px; }
+  h2 .eyebrow { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--gold); font-weight: 600; margin-bottom: 4px; }
+  h3 { font-size: 1.05rem; margin: 22px 0 6px; }
+  p, li { color: var(--text-primary); }
+  .muted { color: var(--text-tertiary); font-size: 0.9rem; }
+  ul.clean { padding-left: 20px; }
+  ul.clean li { margin: 4px 0; }
+  .card { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 12px; padding: 16px 20px; margin: 14px 0; }
+  .note { border-left: 3px solid var(--gold); }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .links a { display: inline-block; padding: 6px 12px; border: 1px solid var(--border-primary); border-radius: 20px; background: var(--bg-secondary); color: var(--text-primary); text-decoration: none; font-size: 0.9rem; }
+  .links a:hover { border-color: var(--accent); color: var(--accent); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.86em; background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 4px; padding: 1px 5px; }
+  pre { background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; margin: 0; }
+  pre code { background: none; border: none; padding: 0; }
+
+  /* the two collaborators */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  .duo .card { margin: 0; }
+  .who { font-weight: 700; font-size: 1.05rem; }
+  .who .muted { font-weight: 400; }
+  .role { color: var(--gold); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .duo ul { margin: 6px 0 0; padding-left: 18px; }
+  .duo li { color: var(--text-secondary); font-size: 0.93rem; margin: 3px 0; }
+
+  /* cast strip */
+  .cast { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0; }
+  .cast figure { margin: 0; text-align: center; width: 84px; }
+  .cast .portrait { line-height: 0; border: 1px solid #6b5a2e; border-radius: 6px; overflow: hidden; display: inline-block; }
+  .cast canvas { width: 72px; height: auto; image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+  .cast figcaption { font-family: 'Silkscreen', monospace; font-size: 10px; color: var(--text-secondary); margin-top: 6px; line-height: 1.3; }
+
+  /* diagrams, built from boxes so they reflow on phones */
+  .diagram { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 12px; padding: 18px; margin: 16px 0 6px; }
+  .diagram-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-tertiary); margin-bottom: 12px; font-weight: 600; }
+  .tier { display: grid; gap: 10px; }
+  .tier-label { font-size: 0.72rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 6px; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .box { border: 1px solid var(--border-primary); border-radius: 8px; padding: 10px 12px; background: var(--bg-secondary); }
+  .box b { display: block; font-size: 0.92rem; }
+  .box code { font-size: 0.78rem; }
+  .box span { display: block; color: var(--text-tertiary); font-size: 0.8rem; line-height: 1.4; margin-top: 3px; }
+  .box.data { border-color: #6b5a2e; }
+  .box.engine { border-color: #2e4f6b; }
+  .box.draw { border-color: #4a3a6e; }
+  .box.page { border-color: #2e5a4a; }
+  .box.tool { border-style: dashed; }
+  .down { text-align: center; color: var(--text-tertiary); font-size: 1.2rem; line-height: 1; margin: 6px 0; }
+  .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; }
+  .step { flex: 1 1 140px; border: 1px solid var(--border-primary); border-radius: 8px; padding: 10px; background: var(--bg-secondary); position: relative; }
+  .step .n { font-family: 'Silkscreen', monospace; color: var(--gold); font-size: 11px; }
+  .step b { display: block; font-size: 0.92rem; margin: 2px 0; }
+  .step span { color: var(--text-tertiary); font-size: 0.8rem; line-height: 1.4; display: block; }
+  .arrow { align-self: center; color: var(--text-tertiary); }
+  .pipe { display: grid; grid-template-columns: 1.1fr auto 1fr auto 0.9fr; gap: 12px; align-items: center; }
+  .pipe .arrow { font-size: 1.4rem; }
+  .sprites { display: flex; gap: 14px; align-items: flex-end; justify-content: center; flex-wrap: wrap; }
+  .sprites canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+  .sprites .lbl { text-align: center; font-size: 0.75rem; color: var(--text-tertiary); margin-top: 4px; }
+  .gen { list-style: none; margin: 0; padding: 0; }
+  .gen li { font-size: 0.85rem; color: var(--text-secondary); padding: 3px 0; border-bottom: 1px dashed var(--border-primary); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 14px 0; }
+  .stat { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 10px; padding: 12px; }
+  .stat b { display: block; font-size: 1.5rem; }
+  .stat span { color: var(--text-tertiary); font-size: 0.82rem; }
+  footer { max-width: 820px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--border-primary); color: var(--text-tertiary); font-size: 0.85rem; }
+
+  @media (max-width: 640px) {
+    main { padding: 16px 16px 48px; }
+    .tagline { font-size: 1.6rem; }
+    .duo { grid-template-columns: 1fr; }
+    .pipe { grid-template-columns: 1fr; }
+    .pipe .arrow { transform: rotate(90deg); justify-self: center; }
+    .brand-sub { display: block; margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Kosmos<span class="brand-sub">A Mathematical Voyage</span></h1>
+    <div class="top-links"><a href="./">&larr; Back to Kosmos</a><a href="/">rmaitra.github.io</a></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <figure class="hero-frame" id="hero" aria-label="Pixel-art scene of the harbour of Alexandria with its lighthouse"></figure>
+      <p class="tagline">A finite journey through infinite ideas.</p>
+      <p class="lede">Kosmos teaches mathematics and physics through the people who worked them out: a scribe in Babylon, a librarian in Alexandria measuring the Earth with a shadow, a scholar in Baghdad writing algebra for inheritance cases, a mathematician at NASA checking an orbit by hand.</p>
+    </section>
+
+    <h2><span class="eyebrow">Why</span>Mathematics is a human story</h2>
+    <p>Mathematics is usually taught as finished results with names attached: Pythagoras' theorem, Euclid's algorithm, Newton's laws. But every one of those was once a person, somewhere real, stuck on a real problem. How do you share seven loaves fairly among ten workers? How big is the world? Where will this planet be next month?</p>
+    <p>Kosmos puts you in that moment. Each lesson opens in a time and place, gives you a role in the scene, and lets you try the problem before showing the insight that solved it. You work through it with the original numbers, see why it works, and then see where the same idea is used today, in engineering, in navigation, in your phone. Lesson by lesson you move through four thousand years of history, across Babylon, Egypt, Greece, China, India, the Islamic world, Europe and the modern world, and the mathematics and science build on each other as they did in history.</p>
+    <p>The aim is simple: that you finish a lesson knowing not just <em>how</em> to do something, but <em>who</em> figured it out, <em>why</em> they needed it, and <em>what</em> it still does for us.</p>
+
+    <h2><span class="eyebrow">Homage</span>With thanks to <em>Cosmos</em></h2>
+    <p>The name and the spirit come from <em>Cosmos</em>. Carl Sagan's <em>Cosmos: A Personal Voyage</em> (1980), written by Sagan, Ann Druyan and Steven Soter, made the history of science feel like an adventure that belongs to everyone. <em>Cosmos: A Spacetime Odyssey</em> (2014), created by Ann Druyan and hosted by Neil deGrasse Tyson, carried that voyage to a new generation, followed by <em>Cosmos: Possible Worlds</em>. The idea of travelling through time to meet the people behind the ideas, and to feel the wonder they felt, is theirs. <em>Kosmos</em> is the ancient Greek word for an ordered world, and the root of "cosmos".</p>
+    <div class="links">
+      <a href="https://en.wikipedia.org/wiki/Cosmos:_A_Personal_Voyage" target="_blank" rel="noopener">Cosmos: A Personal Voyage (1980) ↗</a>
+      <a href="https://en.wikipedia.org/wiki/Cosmos:_A_Spacetime_Odyssey" target="_blank" rel="noopener">Cosmos: A Spacetime Odyssey (2014) ↗</a>
+      <a href="https://en.wikipedia.org/wiki/Cosmos:_Possible_Worlds" target="_blank" rel="noopener">Cosmos: Possible Worlds (2020) ↗</a>
+      <a href="https://en.wikipedia.org/wiki/Carl_Sagan" target="_blank" rel="noopener">Carl Sagan ↗</a>
+      <a href="https://en.wikipedia.org/wiki/Ann_Druyan" target="_blank" rel="noopener">Ann Druyan ↗</a>
+      <a href="https://en.wikipedia.org/wiki/Neil_deGrasse_Tyson" target="_blank" rel="noopener">Neil deGrasse Tyson ↗</a>
+      <a href="https://en.wikipedia.org/wiki/Steven_Soter" target="_blank" rel="noopener">Steven Soter ↗</a>
+    </div>
+    <p class="muted">Kosmos is an independent, non-commercial learning project. It has no connection with the <em>Cosmos</em> series or the people who made them.</p>
+
+    <h2><span class="eyebrow">Open</span>Built on open knowledge, and open itself</h2>
+    <p>History is only worth teaching if it's true, so everything in Kosmos can be checked.</p>
+    <ul class="clean">
+      <li><b>Every lesson lists its sources</b>, shown at the end of the lesson: the original publication, plus Wikipedia and the <a href="https://mathshistory.st-andrews.ac.uk/" target="_blank" rel="noopener">MacTutor History of Mathematics archive</a>.</li>
+      <li><b>Quotations come from public-domain translations</b>, checked word for word against scans at the <a href="https://archive.org/" target="_blank" rel="noopener">Internet Archive</a>: for example Rosen's 1831 translation of al-Khwarizmi and Heath's histories of Greek mathematics (1913, 1921).</li>
+      <li><b>Legends are labelled.</b> Stories told centuries after the fact (the Eureka bath, the Leaning Tower drop, Newton's apple) appear in "Legend or history?" notes that say who first told them.</li>
+      <li><b>Pictures are reconstructions and say so.</b> Characters are pixel figures, never claimed as likenesses. Period details, such as the Green Dome over Baghdad, the round <em>kuphar</em> boats on the Tigris and the three tiers of Alexandria's lighthouse, are sourced in the captions.</li>
+      <li><b>Maps are drawn from <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a></b> (public domain), with "see it today" links to <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a> (© OpenStreetMap contributors).</li>
+      <li><b>Open tools:</b> maths is typeset with <a href="https://katex.org/" target="_blank" rel="noopener">KaTeX</a> (MIT licence); the fonts are Space Grotesk and Silkscreen (SIL Open Font Licence). The practice charts use <a href="https://www.highcharts.com/" target="_blank" rel="noopener">Highcharts</a>, which is free for non-commercial use but not open source.</li>
+      <li><b>The app itself is open source</b> under the MIT licence: plain HTML, CSS and JavaScript, no build step, no accounts and no tracking. Your progress stays in your own browser.</li>
+    </ul>
+    <div class="card note">Found a mistake, a better source, or a story that deserves a lesson? Corrections are welcome: open an issue or a pull request on <a href="https://github.com/rmaitra/rmaitra.github.io" target="_blank" rel="noopener">GitHub</a>.</div>
+
+    <h2><span class="eyebrow">Made together</span>A human and an AI, building in the open</h2>
+    <p>Kosmos is a collaboration between a person and an AI model, and it's worth being plain about who did what.</p>
+    <div class="duo">
+      <div class="card">
+        <div class="role">Idea, direction, judgement</div>
+        <div class="who">Raj Maitra</div>
+        <ul>
+          <li>Had the idea: teach maths as the history of the people who made it.</li>
+          <li>Set the direction and made the calls: adding physics, the DOS-era pixel-art style, maps of where it happened, the calculator, the name <em>Kosmos</em>.</li>
+          <li>Tries every lesson and asks for changes, from reading comfort to which diagrams a problem needs.</li>
+          <li>Reviews and publishes the work.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="role">Research, writing, code</div>
+        <div class="who">Claude <span class="muted">(an AI model by Anthropic, working in Claude Code)</span></div>
+        <ul>
+          <li>Researched the history and checked it against primary sources and scans, fixing its own misquotations when the originals disagreed.</li>
+          <li>Wrote the lessons, problems, hints and worked solutions.</li>
+          <li>Designed and wrote the software: the lesson player, the pixel-art scene and character engine, the maps, the interactive diagrams, the calculator, and the automated checks.</li>
+          <li>Wrote the documentation, including this page.</li>
+        </ul>
+      </div>
+    </div>
+    <p>The way of working is a conversation. Raj proposes a direction; Claude researches, drafts and builds, and runs its own checks: every answer through a validator, every lesson played end to end in a real browser, and every picture reviewed from screenshots. Raj then tries it and asks for changes. AI can be confidently wrong, which is exactly why every fact here comes with a source you can follow.</p>
+
+    <h2><span class="eyebrow">Inside</span>How Kosmos is built</h2>
+    <div class="stats" id="stats">
+      <div class="stat"><b id="stat-lessons">55</b><span>lessons on the timeline</span></div>
+      <div class="stat"><b id="stat-built">–</b><span>lessons ready so far</span></div>
+      <div class="stat"><b>~5,200</b><span>lines of JavaScript</span></div>
+      <div class="stat"><b>0</b><span>image files: all art is drawn in code</span></div>
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-title">The pieces, from data to your screen</div>
+      <div class="tier-label">1 · Data (plain JSON; no code in the lessons)</div>
+      <div class="row">
+        <div class="box data"><b>Lessons</b><code>stories.json</code><span>The 55-lesson timeline, plus each built lesson's steps, characters, pictures, maps and sources</span></div>
+        <div class="box data"><b>Map outlines</b><code>map-data.json</code><span>Natural Earth coastlines and rivers, simplified and compressed</span></div>
+        <div class="box data"><b>Practice topics</b><code>arithmetic.json</code> · <code>advanced_algebra.json</code><span>Concepts and worked examples</span></div>
+      </div>
+      <div class="down">↓</div>
+      <div class="tier-label">2 · Engines</div>
+      <div class="row">
+        <div class="box engine"><b>Lesson player</b><code>stories.js</code><span>Turns a lesson into steps, one per Next; checks answers; saves your place; runs the calculator</span></div>
+        <div class="box engine"><b>Practice</b><code>app.js</code> · generators<span>Endless generated problems with automatic checking</span></div>
+      </div>
+      <div class="down">↓</div>
+      <div class="tier-label">3 · Drawing</div>
+      <div class="row">
+        <div class="box draw"><b>Scenes &amp; characters</b><code>pixelart.js</code><span>Pixel art from a kit of parts, dithered like VGA games</span></div>
+        <div class="box draw"><b>Maps</b><code>pixelmap.js</code><span>Chunky pixel coastlines, pins and routes</span></div>
+        <div class="box draw"><b>Diagrams</b><code>widgets.js</code><span>Step-by-step interactive figures</span></div>
+        <div class="box draw"><b>Maths</b><span>KaTeX typesetting</span></div>
+      </div>
+      <div class="down">↓</div>
+      <div class="row">
+        <div class="box page"><b>One web page</b><code>index.html</code><span>Runs entirely in your browser; progress is kept in local storage</span></div>
+        <div class="box tool"><b>Checks (not shipped to learners)</b><code>tools/</code><span>Validator, browser walk-through, map builder</span></div>
+      </div>
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-title">Every lesson follows the same arc</div>
+      <div class="flow">
+        <div class="step"><span class="n">1</span><b>Cold open</b><span>A year, a place, and your role in the scene</span></div>
+        <div class="step"><span class="n">2</span><b>The problem as they saw it</b><span>Original wording beside modern notation</span></div>
+        <div class="step"><span class="n">3</span><b>Try it first</b><span>Guess or measure before the method</span></div>
+        <div class="step"><span class="n">4</span><b>The insight</b><span>Diagrams, derivations and proofs</span></div>
+        <div class="step"><span class="n">5</span><b>Your turn</b><span>Checked problems and a dialogue</span></div>
+        <div class="step"><span class="n">6</span><b>What happened next</b><span>Rivals, legends, parallel discoveries</span></div>
+        <div class="step"><span class="n">7</span><b>Echoes today</b><span>Engineering, everyday life, computing</span></div>
+      </div>
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-title">From one line of data to a character</div>
+      <div class="pipe">
+        <pre><code id="spec-code"></code></pre>
+        <div class="arrow">→</div>
+        <ul class="gen">
+          <li>colours looked up by name</li>
+          <li>robe or chiton, with outer cloak</li>
+          <li>head, beard, headwear</li>
+          <li>arm and what it holds</li>
+          <li>dark outline pass</li>
+        </ul>
+        <div class="arrow">→</div>
+        <div>
+          <div class="sprites" id="sprites"></div>
+        </div>
+      </div>
+      <p class="muted" style="margin:12px 0 0">The same description always produces the same person, as a standing sprite for scenes and a close-up portrait for speech bubbles. It blinks and breathes at 8 frames a second.</p>
+    </div>
+
+    <h3>The cast so far</h3>
+    <div class="cast" id="cast"><span class="muted">Loading…</span></div>
+
+    <h2><span class="eyebrow">Use it</span>Take it, change it, teach with it</h2>
+    <p>The whole thing is on GitHub under the MIT licence. Use it in a classroom, translate it, add a lesson, or build something new from the engine.</p>
+    <div class="links">
+      <a href="https://github.com/rmaitra/rmaitra.github.io/tree/main/math" target="_blank" rel="noopener">Kosmos source on GitHub ↗</a>
+      <a href="https://github.com/rmaitra/rmaitra.github.io/blob/main/math/STORIES.md" target="_blank" rel="noopener">Design notes (STORIES.md) ↗</a>
+      <a href="https://github.com/rmaitra/rmaitra.github.io/blob/main/math/STORY_LESSONS.md" target="_blank" rel="noopener">All 55 lessons, with sources ↗</a>
+    </div>
+    <p>To run it yourself, serve the repository folder with any static web server, because the lessons are loaded as data files:</p>
+    <pre><code>git clone https://github.com/rmaitra/rmaitra.github.io.git
+cd rmaitra.github.io
+python3 -m http.server 8000      # then open http://localhost:8000/math/
+node math/tools/check-stories.mjs  # validate the lessons after editing</code></pre>
+    <p class="muted">A new lesson is mostly data: add its steps, characters and pictures to <code>stories.json</code> and the timeline picks it up. The design notes explain every step type, picture part and rule for writing a lesson.</p>
+  </main>
+
+  <footer>Kosmos: A Mathematical Voyage · by Raj Maitra, built with Claude · MIT licence · <a href="./">Back to the voyage</a></footer>
+
+<script src="pixelart.js"></script>
+<script>
+(async function () {
+  let data;
+  try { data = await (await fetch('stories.json')).json(); } catch (e) { document.getElementById('cast').textContent = ''; return; }
+  const built = Object.keys(data.content || {});
+  document.getElementById('stat-lessons').textContent = data.lessons.length;
+  document.getElementById('stat-built').textContent = built.length;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Hero: the opening scene of the first lesson that has a picture (drawn live)
+  const firstPic = built.map((id) => data.content[id]).map((c) => ({ c, s: (c.steps || []).find((s) => s.type === 'scene' && s.picture) })).find((x) => x.s);
+  if (firstPic) PixelArt.picture(document.getElementById('hero'), { ...firstPic.s.picture, caption: null, sources: null }, firstPic.c.characters, { live: !reduced });
+
+  // The cast: every character in every built lesson, as portraits
+  const cast = document.getElementById('cast');
+  cast.textContent = '';
+  const names = { you: 'You' };
+  for (const id of built) {
+    const c = data.content[id];
+    const lesson = data.lessons.find((l) => l.id === id);
+    for (const [key, spec] of Object.entries(c.characters || {})) {
+      const fig = document.createElement('figure');
+      const box = document.createElement('div');
+      box.className = 'portrait';
+      PixelArt.portrait(box, spec, 72);
+      const cap = document.createElement('figcaption');
+      const label = names[key] || key.replace(/^./, (m) => m.toUpperCase()).replace('Khwarizmi', 'al-Khwarizmi');
+      cap.textContent = `${label} · ${lesson.year}`;
+      fig.append(box, cap);
+      cast.append(fig);
+    }
+  }
+
+  // Diagram: one real character spec, and what it becomes
+  const pick = data.content.earth && data.content.earth.characters.eratosthenes;
+  if (pick) {
+    const shown = { ...pick }; delete shown.note;
+    document.getElementById('spec-code').textContent = '"eratosthenes": ' + JSON.stringify(shown, null, 1).replace(/\n\s*/g, ' ').replace(/, "/g, ',\n  "').replace('{ "', '{\n  "').replace(/ }$/, '\n}');
+    const sprites = document.getElementById('sprites');
+    const scene = document.createElement('div');
+    PixelArt.picture(scene, { size: [34, 44], sky: 'noon', layers: [{ kit: 'sky', h: 44 }], cast: [{ who: 'e', x: 17, y: 42, pose: 'stand', face: 'right' }] }, { e: pick }, { live: !reduced });
+    const c1 = scene.querySelector('canvas'); c1.style.width = '102px';
+    const w1 = document.createElement('div'); w1.append(scene); const l1 = document.createElement('div'); l1.className = 'lbl'; l1.textContent = 'scene sprite'; w1.append(l1);
+    scene.querySelectorAll('figcaption').forEach((f) => f.remove());
+    const w2 = document.createElement('div'); PixelArt.portrait(w2, pick, 96); const l2 = document.createElement('div'); l2.className = 'lbl'; l2.textContent = 'portrait'; w2.append(l2);
+    sprites.append(w1, w2);
+  }
+})();
+</script>
+</body>
+</html>

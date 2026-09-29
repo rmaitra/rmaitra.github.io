@@ -8,6 +8,7 @@
 //   turn has 2 hand-written wrong options
 // - widgets exist in widgets.js; practice links point at real subjects/topics
 // - KaTeX \( \) delimiters and *term* markers are balanced in every string
+// - calculator problems have a `calc` line that the real calculator evaluates to the answer
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,7 +22,7 @@ const err = (where, msg) => errors.push(`${where}: ${msg}`);
 // Load the real checker from stories.js (it touches no DOM at load time)
 const sandbox = { window: {}, console };
 vm.runInNewContext(readFileSync(join(dir, 'stories.js'), 'utf8'), sandbox);
-const { checkAnswer } = sandbox.window.Stories;
+const { checkAnswer, calcEval } = sandbox.window.Stories;
 
 // Kit part names from pixelart.js (also DOM-free at load time)
 const artBox = { window: {} };
@@ -79,6 +80,18 @@ function checkProblem(where, p) {
     else if (rm.message !== m.say) err(where, `mistake value ${JSON.stringify(m.value)} doesn't trigger its feedback`);
   }
   if (!(p.solution || []).length) err(where, 'problem without a worked solution');
+  // Calculator problems: the worked `calc` line must evaluate to the answer
+  if (p.calculator) {
+    if (!p.calc) err(where, 'calculator problem without a "calc" line');
+    else if (p.check !== 'number') err(where, 'calculator is only supported on number problems');
+    else {
+      try {
+        const v = calcEval(p.calc, null);
+        const want = p.answer[field], tol = p.tol != null ? p.tol : 1e-6;
+        if (Math.abs(v - want) > tol * Math.max(1, Math.abs(want))) err(where, `calc "${p.calc}" gives ${v}, not ${want}`);
+      } catch (e) { err(where, `calc "${p.calc}" doesn't parse: ${e.message}`); }
+    }
+  } else if (p.calc) err(where, '"calc" given but calculator is not switched on');
 }
 
 // ---- built lessons ----

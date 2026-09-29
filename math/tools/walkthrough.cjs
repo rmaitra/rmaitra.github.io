@@ -39,7 +39,7 @@ const asInput = (v) => (Array.isArray(v) ? v.join(', ') : String(v));
 
 async function solveProblem(page, card, p) {
   for (const m of p.mistakes || []) {
-    await card.locator('input').first().fill(asInput(m.value));
+    await card.locator('.answer-fields input').first().fill(asInput(m.value));
     await card.getByRole('button', { name: 'Check' }).click();
     const fb = await card.locator('.feedback').innerText();
     expect(!/Correct/.test(fb), `${p.id}: mistake ${JSON.stringify(m.value)} was accepted`);
@@ -48,9 +48,20 @@ async function solveProblem(page, card, p) {
     await card.getByRole('button', { name: /^Hint/ }).click();
     expect(await card.locator('.st-hints li').count() === 1, `${p.id}: hint did not appear`);
   }
-  const inputs = card.locator('input');
-  for (let i = 0; i < p.fields.length; i++) await inputs.nth(i).fill(asInput(p.answer[p.fields[i].id]));
-  await inputs.first().press('Enter');
+  const inputs = card.locator('.answer-fields input');
+  if (p.calculator) {
+    // Use the calculator the way a learner would: open it, type, Enter, Use, then Check
+    await inputs.first().fill('');
+    await card.locator('.calc-toggle').click();
+    await card.locator('.calc-input').fill(p.calc);
+    await card.locator('.calc-input').press('Enter');
+    expect(await card.locator('.calc-tape li').count() === 1, `${p.id}: calculator tape did not record the line`);
+    await card.locator('.calc-use').click();
+    await card.getByRole('button', { name: 'Check' }).click();
+  } else {
+    for (let i = 0; i < p.fields.length; i++) await inputs.nth(i).fill(asInput(p.answer[p.fields[i].id]));
+    await inputs.first().press('Enter');
+  }
   expect(/Correct/.test(await card.locator('.feedback').innerText()), `${p.id}: right answer not accepted`);
 }
 

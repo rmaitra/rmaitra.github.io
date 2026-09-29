@@ -26,7 +26,17 @@
     {"id": "elements", "order": 5, "act": "ancient", "year": "c. 300 BCE", "place": "Alexandria", "title": "The Elements", "people": ["Euclid"], "strands": ["geometry", "number"]},
     {"id": "pi", "order": 6, "act": "ancient", "year": "c. 250 BCE", "place": "Syracuse", "title": "Squeezing π", "people": ["Archimedes"], "strands": ["geometry"]},
     {"id": "lever", "order": 7, "act": "ancient", "year": "c. 250 BCE", "place": "Syracuse", "title": "The lever and the crown", "people": ["Archimedes"], "strands": ["physics", "number"]},
-    {"id": "earth", "order": 8, "act": "ancient", "year": "c. 240 BCE", "place": "Alexandria", "title": "Measuring the Earth", "people": ["Eratosthenes"], "strands": ["geometry"]},
+    {
+      "id": "earth",
+      "order": 8,
+      "act": "ancient",
+      "year": "c. 240 BCE",
+      "place": "Alexandria",
+      "title": "Measuring the Earth",
+      "people": ["Eratosthenes"],
+      "strands": ["geometry"],
+      "subtitle": "Eratosthenes and the size of the world"
+    },
     {"id": "conics", "order": 9, "act": "ancient", "year": "c. 200 BCE", "place": "Perga", "title": "Cutting the cone", "people": ["Apollonius", "Hypatia"], "strands": ["geometry", "algebra"]},
     {"id": "nine-chapters", "order": 10, "act": "ancient", "year": "c. 1st c. CE", "place": "Han China", "title": "The Nine Chapters", "people": ["Liu Hui"], "strands": ["algebra", "number"]},
     {"id": "hero", "order": 11, "act": "ancient", "year": "c. 60 CE", "place": "Alexandria", "title": "The shortest path of light", "people": ["Hero"], "strands": ["physics", "geometry"]},
@@ -399,7 +409,9 @@
             "answer": {"w": 5},
             "hints": ["Half of 25 is 12.5, and \\(12.5^2 = 156.25\\).", "\\(150 + 156.25 = 306.25\\), whose root is 17.5."],
             "mistakes": [{"value": 17.5, "say": "17.5 is \\(w + 12.5\\). Subtract the half."}],
-            "solution": ["\\(12.5^2 = 156.25\\), and \\(150 + 156.25 = 306.25\\).", "\\(\\sqrt{306.25} = 17.5\\), so \\(w = 17.5 - 12.5 = 5\\) cm.", "Check: \\(30 \\times 40 = 1200\\) ✓"]
+            "solution": ["\\(12.5^2 = 156.25\\), and \\(150 + 156.25 = 306.25\\).", "\\(\\sqrt{306.25} = 17.5\\), so \\(w = 17.5 - 12.5 = 5\\) cm.", "Check: \\(30 \\times 40 = 1200\\) ✓"],
+            "calculator": true,
+            "calc": "√(150 + 12.5²) − 12.5"
           }
         },
         {
@@ -453,6 +465,326 @@
         "translator": {"skin": "light", "hair": "brown", "beard": "long", "beardColor": "brown", "headwear": "turban", "headwearColor": "indigo", "robe": "cream", "outer": "indigo", "prop": "scroll", "seed": 5},
         "reader": {"skin": "deep", "hair": "grey", "beard": "short", "beardColor": "grey", "headwear": "turban", "headwearColor": "saffron", "robe": "green", "prop": "book", "seed": 2}
       }
+    },
+    "earth": {
+      "role": "a young assistant at the Library of Alexandria",
+      "goals": [
+        "Treat an angle as a fraction of a full turn",
+        "Use parallel lines and *alternate angles* to carry an angle from a shadow to the Earth's centre",
+        "Scale a small arc up to a whole circle, and judge how accurate the answer is"
+      ],
+      "practiceLinks": [{"subject": "arithmetic", "topic": "ratiosProportions", "type": 1, "label": "Arithmetic · Solve a Proportion"}, {"subject": "arithmetic", "topic": "percentages", "type": 1, "label": "Arithmetic · Percent Change"}],
+      "sources": [
+        {"title": "Heath, T. L. (1921). A History of Greek Mathematics, vol. II, pp. 106–108 (public domain, Internet Archive)", "url": "https://archive.org/details/historyofgreekm02heat"},
+        {"title": "Heath, T. L. (1913). Aristarchus of Samos, pp. 147–148 (public domain, Internet Archive)", "url": "https://archive.org/details/aristarchusofsam00heatuoft"},
+        {"title": "Wikipedia: Eratosthenes", "url": "https://en.wikipedia.org/wiki/Eratosthenes"},
+        {"title": "Wikipedia: Earth's circumference", "url": "https://en.wikipedia.org/wiki/Earth%27s_circumference"},
+        {"title": "Wikipedia: Stadion (unit)", "url": "https://en.wikipedia.org/wiki/Stadion_(unit)"},
+        {"title": "MacTutor: Eratosthenes", "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Eratosthenes/"}
+      ],
+      "characters": {
+        "eratosthenes": {
+          "skin": "light",
+          "hair": "black",
+          "hairStyle": "curly",
+          "beard": "short",
+          "beardColor": "black",
+          "headwear": "none",
+          "dress": "chiton",
+          "robe": "white",
+          "outer": "madder",
+          "drape": "himation",
+          "prop": "scroll",
+          "seed": 6,
+          "note": "A pixel figure, not a likeness: no reliable portrait of him survives. He is drawn in a knee-length chiton with a himation cloak over the left shoulder, as Greek men of his time wore them."
+        },
+        "you": {"skin": "medium", "hair": "brown", "hairStyle": "curly", "beard": "none", "headwear": "none", "dress": "chiton", "robe": "undyed", "sash": "brown", "prop": "none", "seed": 1},
+        "villager": {"skin": "deep", "hair": "black", "beard": "none", "headwear": "none", "robe": "white", "prop": "none", "seed": 8}
+      },
+      "steps": [
+        {
+          "type": "scene",
+          "year": "c. 240 BCE",
+          "place": "Alexandria",
+          "picture": {
+            "sky": "morning",
+            "layers": [
+              {"kit": "sky", "h": 80},
+              {"kit": "birds", "flock": [[120, 18], [130, 14], [138, 20], [150, 24]]},
+              {"kit": "pharos", "x": 62, "base": 78},
+              {"kit": "houses", "x0": 150, "x1": 288, "base": 78},
+              {"kit": "temple", "x": 196, "base": 78, "w": 40, "cols": 6},
+              {"kit": "river", "tone": "sea", "y": 79, "y1": 104},
+              {"kit": "ship", "x": 104, "y": 97, "drift": 2.5},
+              {"kit": "ship", "x": 250, "y": 92, "drift": -1.2, "flip": true},
+              {"kit": "quay", "y": 104, "amphorae": [14, 20, 26, 236, 242]}
+            ],
+            "caption": "Morning in the harbour of Alexandria. Across the water, the Lighthouse on Pharos island: three tiers of pale stone (square, eight-sided, round) with a fire at the top. It had been finished only a few decades earlier, under Ptolemy II. (A reconstruction.)",
+            "sources": [{"title": "Lighthouse of Alexandria", "url": "https://en.wikipedia.org/wiki/Lighthouse_of_Alexandria"}]
+          },
+          "map": {
+            "center": [30.3, 28.0],
+            "span": 21,
+            "from": {"center": [25, 33], "span": 90},
+            "pins": [{"at": [29.92, 31.2], "label": "Alexandria"}],
+            "places": [{"at": [32.9, 24.09], "label": "Syene (Aswan)", "side": "left"}, {"at": [21.86, 32.82], "label": "Cyrene"}],
+            "routes": [{"path": [[29.92, 31.2], [30.5, 30.9], [31.24, 30.04], [31.1, 29.07], [30.75, 28.1], [31.18, 27.18], [31.69, 26.56], [32.72, 26.16], [32.64, 25.69], [32.9, 24.09]]}],
+            "labels": [{"at": [32.3, 28.2], "text": "Nile", "kind": "river"}, {"at": [26.2, 32.1], "text": "Mediterranean", "kind": "sea"}, {"at": [35.6, 25.6], "text": "Red Sea", "kind": "sea"}],
+            "caption": "Syene, today's Aswan, lies far up the Nile, 5,000 stades south of Alexandria by the reckoning of the day (about 800 km). Eratosthenes grew up in Cyrene, to the west.",
+            "today": {"label": "Alexandria today on OpenStreetMap", "url": "https://www.openstreetmap.org/#map=12/31.2001/29.9187"}
+          },
+          "text": "Alexandria is not yet a hundred years old, and ships from all over the Mediterranean crowd its harbour. You work as *a young assistant* at the *Library*, part of the royal Museum, where the king pays scholars to read, write and argue."
+        },
+        {
+          "type": "text",
+          "text": "The Library has a new head. King Ptolemy III has summoned him from Athens, and he is also to tutor the king's son. He writes poetry, history and maps. And he wants to know something nobody has measured well: how big is the Earth?"
+        },
+        {
+          "type": "person",
+          "name": "Eratosthenes of Cyrene",
+          "dates": "c. 276 – c. 194 BCE",
+          "place": "Alexandria",
+          "character": "eratosthenes",
+          "bio": "Born in Cyrene, in today's Libya. Chief librarian at Alexandria, mathematician, astronomer and poet. He coined the words *geography* and *geographer*."
+        },
+        {
+          "type": "text",
+          "text": "Educated Greeks have known for a century that the Earth is a ball: in an eclipse, its shadow on the Moon is always round (Aristotle's argument). Archimedes mentions an estimate of 300,000 stades around, but nobody trusts it. A *stade* (stadion) is a Greek unit of distance, roughly 150 to 200 m."
+        },
+        {"type": "heading", "text": "A shadow that isn't there"},
+        {
+          "type": "text",
+          "text": "Travellers bring a strange report from Syene, far up the Nile. At noon on the longest day of the year, upright sticks there cast no shadow at all, and the sun shines straight down a deep well, lighting the water at the bottom."
+        },
+        {
+          "type": "picture",
+          "size": [192, 80],
+          "sky": "noon",
+          "layers": [
+            {"kit": "sky", "h": 46},
+            {"kit": "sun", "x": 96, "y": 8, "r": 4},
+            {"kit": "sand", "y": 37, "y1": 42},
+            {"kit": "palm", "x": 22, "base": 41, "h": 16, "lean": 1},
+            {"kit": "palm", "x": 40, "base": 41, "h": 12, "lean": -1},
+            {"kit": "palm", "x": 166, "base": 41, "h": 15, "lean": -1},
+            {"kit": "river", "y": 42, "y1": 48},
+            {"kit": "sand", "y": 48, "y1": 57},
+            {"kit": "strata", "y": 57},
+            {"kit": "gnomon", "x": 62, "base": 54, "h": 14, "shadow": 0},
+            {"kit": "well", "x": 104, "ground": 56, "depth": 20, "w": 10}
+          ],
+          "cast": [{"who": "villager", "x": 126, "y": 55, "pose": "stand", "face": "left"}],
+          "caption": "Syene at noon on the longest day (shown cut away). The sun stands almost straight overhead, so the stick casts no shadow and light reaches the water at the bottom of the well. (A reconstruction.)",
+          "sources": [{"title": "Heath (1921), p. 106", "url": "https://archive.org/details/historyofgreekm02heat"}]
+        },
+        {
+          "type": "quote",
+          "text": "He observed (1) that at Syene, at noon, at the summer solstice, the sun cast no shadow from an upright gnomon (this was confirmed by the observation that a well dug at the same place was entirely lighted up at the same time), while (2) at the same moment the gnomon fixed upright at Alexandria (taken to be on the same meridian with Syene) cast a shadow corresponding to an angle between the gnomon and the sun's rays of 1/50th of a complete circle or four right angles.",
+          "cite": "T. L. Heath, A History of Greek Mathematics (1921), retelling the account in Cleomedes"
+        },
+        {
+          "type": "text",
+          "text": "In Alexandria, at that same noon, a stick *does* cast a short shadow. Eratosthenes measures it in a *skaphe*: a stone bowl carved as a sundial, with a pointer (a *gnomon*) standing up from the bottom, so the shadow's angle can be read straight off the bowl."
+        },
+        {
+          "type": "picture",
+          "size": [192, 80],
+          "sky": "noon",
+          "layers": [
+            {"kit": "sky", "h": 60},
+            {"kit": "palm", "x": 30, "base": 14, "h": 10, "lean": 1},
+            {"kit": "palm", "x": 150, "base": 14, "h": 12, "lean": -1},
+            {"kit": "colonnade", "top": 12, "base": 58, "gap": 24},
+            {"kit": "paving", "y": 59},
+            {"kit": "skaphe", "x": 96, "base": 76, "shadow": 3}
+          ],
+          "cast": [{"who": "you", "x": 70, "y": 77, "pose": "stand", "face": "right", "shadow": 4}, {"who": "eratosthenes", "x": 124, "y": 77, "pose": "stand", "face": "left", "shadow": 4}],
+          "caption": "Noon in a courtyard of the Museum. The skaphe's pointer throws a short shadow across the bowl, and people cast only small shadows because the sun is nearly overhead. (A reconstruction: no picture of the Library survives.)",
+          "sources": [{"title": "Heath, T. L. (1913). Aristarchus of Samos, pp. 147–148 (public domain, Internet Archive)", "url": "https://archive.org/details/aristarchusofsam00heatuoft"}]
+        },
+        {
+          "type": "check",
+          "prompt": "At the same moment, a stick at Syene casts no shadow but a stick at Alexandria does. Why?",
+          "options": [
+            "The ground is curved, so the two sticks point in slightly different directions",
+            "The sun is closer to Syene than to Alexandria",
+            "The sun's rays spread out, so they hit Syene straight on and Alexandria at a slant"
+          ],
+          "answer": 0,
+          "why": "The sun is so far away that its rays arrive parallel. What differs is the ground: on a round Earth, \"straight up\" at Alexandria is tilted compared with \"straight up\" at Syene. (The third option is the most common wrong idea: the rays really are parallel.)"
+        },
+        {"type": "heading", "text": "From a shadow to the whole Earth"},
+        {"type": "widget", "name": "sunRays", "params": {"drawAngle": 22}},
+        {
+          "type": "problem",
+          "id": "degrees",
+          "prompt": "Eratosthenes gave the angle as \\(\\tfrac{1}{50}\\) of a full circle. A full circle is 360°. How many degrees is that?",
+          "fields": [{"id": "x", "label": "angle", "unit": "°"}],
+          "check": "number",
+          "answer": {"x": 7.2},
+          "tol": 0.001,
+          "hints": ["Divide the whole circle by 50.", "\\(360 \\div 50\\): 50 goes into 350 seven times, and 10 is left over."],
+          "mistakes": [{"value": 50, "say": "50 is how many times the angle fits in a circle. Divide 360 by 50."}, {"value": 18000, "say": "That's \\(360 \\times 50\\). You want one fiftieth of 360, so divide."}],
+          "solution": ["\\(360° \\div 50 = 7.2°\\)"]
+        },
+        {
+          "type": "derive",
+          "lines": [
+            {"math": "\\text{angle at centre} = \\tfrac{1}{50} \\text{ turn}", "why": "the same as the shadow angle (alternate angles)"},
+            {"math": "\\text{arc} = \\tfrac{1}{50} \\times C", "why": "the arc from Syene to Alexandria is the same fraction of the circumference \\(C\\) as its angle is of a full turn"},
+            {"math": "5000 = \\tfrac{1}{50} \\times C", "why": "the arc is 5,000 stades"},
+            {"math": "C = 50 \\times 5000 = 250\\,000 \\text{ stades}", "why": "multiply both sides by 50"}
+          ],
+          "notebook": {"title": "Measuring a circle from one arc", "text": "If an arc of length \\(d\\) makes an angle \\(\\theta\\) at the centre, the whole circle is \\(C = d \\times \\dfrac{360°}{\\theta}\\)."}
+        },
+        {
+          "type": "problem",
+          "id": "circumference",
+          "prompt": "Check the last step yourself: if \\(\\tfrac{1}{50}\\) of the Earth's circumference is 5,000 stades, how many stades is the whole circumference?",
+          "fields": [{"id": "c", "label": "circumference", "unit": "stades"}],
+          "check": "number",
+          "answer": {"c": 250000},
+          "hints": ["One fiftieth of it is 5,000, so the whole is 50 of those."],
+          "mistakes": [{"value": 100, "say": "That's \\(5000 \\div 50\\). The arc is the small part; the whole circle is 50 times bigger."}, {"value": 5050, "say": "Adding doesn't scale it up. You need 50 lots of 5,000."}],
+          "solution": ["\\(50 \\times 5000 = 250\\,000\\) stades."]
+        },
+        {
+          "type": "dialogue",
+          "title": "In the courtyard (dramatised)",
+          "speakers": {"e": {"name": "Eratosthenes", "character": "eratosthenes"}, "y": {"name": "You", "character": "you"}},
+          "practice": "y",
+          "lines": [
+            {"narration": "Noon on the longest day. Eratosthenes crouches by the skaphe and marks the tip of the shadow."},
+            {"s": "e", "text": "There. One fiftieth of the circle of the bowl. And at Syene, right now, there is no shadow at all. What does that tell us?"},
+            {
+              "s": "y",
+              "text": "That the ground here and the ground at Syene point different ways, because the Earth is curved.",
+              "wrong": ["That the sun is nearer to Syene than to us.", "That the sun's rays spread out, so they reach Syene straight and us at a slant."]
+            },
+            {"s": "e", "text": "Good. Now imagine the two sticks pushed straight down into the Earth. Where do they go?"},
+            {
+              "s": "y",
+              "text": "They meet at the centre, at the same angle: one fiftieth of a circle.",
+              "wrong": ["Nowhere; they are parallel, so they never meet.", "They meet at the centre, at an angle of one fifth of a circle."]
+            },
+            {"s": "e", "text": "And the road from Syene to here is 5,000 stades. So the whole Earth is…?"},
+            {"s": "y", "text": "Fifty times 5,000: 250,000 stades.", "wrong": ["5,000 divided by 50: 100 stades.", "5,000 and 50 more: 5,050 stades."]},
+            {"s": "e", "text": "Write it down. The king will want to know how big his world is."}
+          ]
+        },
+        {"type": "heading", "text": "Was he right?"},
+        {"type": "text", "text": "It depends on the *stade*, and we don't know exactly which one he used: Greek stades ranged from about 155 m to 185 m. Heath, working from Pliny, suggested 157.5 m."},
+        {
+          "type": "problem",
+          "id": "km",
+          "prompt": "Using Heath's stade of 157.5 m, how many kilometres is 250,000 stades?",
+          "fields": [{"id": "k", "label": "distance", "unit": "km"}],
+          "check": "number",
+          "answer": {"k": 39375},
+          "tol": 0.002,
+          "hints": ["First find metres: \\(250\\,000 \\times 157.5\\). The calculator can do the multiplying.", "Then divide by 1,000 to get kilometres. (Type Ans ÷ 1000 to reuse your last result.)"],
+          "mistakes": [{"value": 39375000, "say": "That's in metres. Divide by 1,000 for kilometres."}, {"value": 1587.3, "say": "That divides by 157.5. Each stade is 157.5 m, so multiply."}],
+          "solution": ["\\(250\\,000 \\times 157.5 = 39\\,375\\,000\\) m \\(= 39\\,375\\) km."],
+          "calculator": true,
+          "calc": "250000 × 157.5 ÷ 1000"
+        },
+        {
+          "type": "problem",
+          "id": "error",
+          "prompt": "The Earth measured over the poles is 40,008 km around. If his stade was the longer 185 m, he would have got \\(250\\,000 \\times 0.185 = 46\\,250\\) km. By what percentage is that too big?",
+          "fields": [{"id": "e", "label": "error", "unit": "%"}],
+          "check": "number",
+          "answer": {"e": 15.6},
+          "tol": 0.02,
+          "hints": ["How much too big is it, in km? \\(46\\,250 - 40\\,008\\).", "Divide that by the true value, 40,008, and multiply by 100."],
+          "mistakes": [{"value": 6242, "say": "That's the error in km. Turn it into a percentage of 40,008."}, {"value": 13.5, "say": "That divides by 46,250. Percentage error compares with the true value, 40,008."}],
+          "solution": ["\\(46\\,250 - 40\\,008 = 6\\,242\\) km too big.", "\\(6\\,242 \\div 40\\,008 \\approx 0.156\\), so about 15.6% too big.", "With Heath's 157.5 m stade, the answer is only about 1.6% too small."],
+          "calculator": true,
+          "calc": "(46250 − 40008) ÷ 40008 × 100"
+        },
+        {"type": "quote", "text": "…a surprisingly close approximation, however much it owes to happy accidents in the calculation.", "cite": "T. L. Heath, A History of Greek Mathematics (1921)"},
+        {
+          "type": "note",
+          "label": "Legend or history?",
+          "text": "Eratosthenes' own book, *On the Measurement of the Earth*, is lost. We know his method from a simplified retelling by Cleomedes, written centuries later, which gives 250,000 stades; Strabo and others give 252,000. Syene actually lies a little north of the Tropic and about 3° east of Alexandria, not due south. The story that royal surveyors (*bematists*) paced the 5,000 stades comes from Martianus Capella, writing about 700 years later; Heath called the distance \"doubtless taken as a round figure\". Some of these errors cancel out."
+        },
+        {"type": "heading", "text": "What happened next"},
+        {
+          "type": "text",
+          "text": "About 150 years later, Posidonius of Rhodes tried again with a star instead of the sun. The bright star Canopus just grazed the horizon at Rhodes but stood higher at Alexandria, by 1/48 of a circle, and he took the distance between them as 5,000 stades."
+        },
+        {
+          "type": "problem",
+          "id": "posidonius",
+          "prompt": "Use Posidonius's numbers: an angle of \\(\\tfrac{1}{48}\\) of a circle over 5,000 stades. What circumference does that give?",
+          "fields": [{"id": "c", "label": "circumference", "unit": "stades"}],
+          "check": "number",
+          "answer": {"c": 240000},
+          "hints": ["Same method as before: the whole circle is 48 of those arcs."],
+          "mistakes": [{"value": 250000, "say": "That's Eratosthenes' answer with 1/50. Posidonius's angle was 1/48."}],
+          "solution": ["\\(48 \\times 5000 = 240\\,000\\) stades."]
+        },
+        {
+          "type": "text",
+          "text": "Both of Posidonius's inputs were off, and Strabo says he also favoured a much smaller figure, about 180,000 stades. Small estimates stuck. In 1492 Columbus used al-Farghani's figure for the Earth, but read al-Farghani's Arabic miles as shorter Roman miles. He thought the world was only about three-quarters of Eratosthenes' size, which put Asia within sailing reach. It wasn't."
+        },
+        {
+          "type": "meanwhile",
+          "place": "Alexandria, a few years later",
+          "text": "A young mathematician from Perga, Apollonius, comes to Alexandria to study. He will become famous for the curves you get by slicing a cone (*Cutting the cone*)."
+        },
+        {"type": "heading", "text": "Echoes today"},
+        {
+          "type": "application",
+          "field": "Science",
+          "title": "The metre is a piece of the Earth",
+          "text": "In the 1790s the metre was defined as one ten-millionth of the distance from the North Pole to the equator, along a meridian: a quarter of the circle Eratosthenes measured. The nautical mile was defined as one minute of latitude (1/60 of a degree).",
+          "problem": {
+            "id": "metre",
+            "prompt": "If pole to equator is exactly 10,000,000 m, how many kilometres is the whole circle through both poles?",
+            "fields": [{"id": "c", "label": "circumference", "unit": "km"}],
+            "check": "number",
+            "answer": {"c": 40000},
+            "hints": ["Pole to equator is a quarter of the circle. Convert 10,000,000 m to km first."],
+            "mistakes": [{"value": 10000, "say": "That's one quarter (pole to equator). The whole circle is four quarters."}, {"value": 40000000, "say": "That's metres. Divide by 1,000 for kilometres."}],
+            "solution": ["\\(10\\,000\\,000\\) m \\(= 10\\,000\\) km for a quarter circle.", "\\(4 \\times 10\\,000 = 40\\,000\\) km, very close to today's measured 40,008 km."]
+          }
+        },
+        {
+          "type": "application",
+          "field": "Navigation",
+          "title": "Find your latitude from the noon sun",
+          "text": "On an equinox (around 20 March or 23 September) sunlight arrives parallel to the equator, and the noon sun stands at \\(90° -\\) your latitude above the horizon. It's Eratosthenes' idea in reverse: the angle of the sunlight tells you where you are on the curve of the Earth. Sailors used this for centuries. Move yourself around the globe to see why.",
+          "problem": {
+            "id": "latitude",
+            "prompt": "On the equinox, the noon sun in Alexandria stands about 59° above the horizon. What is Alexandria's latitude?",
+            "fields": [{"id": "lat", "label": "latitude", "unit": "° N"}],
+            "check": "number",
+            "answer": {"lat": 31},
+            "hints": ["latitude \\(= 90° -\\) the sun's height at noon."],
+            "mistakes": [{"value": 59, "say": "That's the sun's height. Latitude is 90° minus it."}, {"value": 149, "say": "Subtract the sun's height from 90°; don't add."}],
+            "solution": ["\\(90° - 59° = 31°\\) N. (Alexandria is at about 31.2° N.)"]
+          },
+          "widget": {"name": "noonSun", "params": {"start": 45}}
+        },
+        {
+          "type": "application",
+          "field": "Computing",
+          "title": "The Sieve of Eratosthenes",
+          "text": "Eratosthenes is also credited with a quick way to list prime numbers: circle the next number still standing, cross out all its multiples, and repeat. Computers still use versions of it, and primes are the basis of the encryption that protects online payments. (The earliest mention is by Nicomachus, about 350 years later.)",
+          "widget": {"name": "sieve", "params": {"max": 50}},
+          "problem": {
+            "id": "primes",
+            "prompt": "How many prime numbers are there up to 50?",
+            "fields": [{"id": "n", "label": "count"}],
+            "check": "number",
+            "answer": {"n": 15},
+            "hints": ["Count the numbers left standing in the sieve above."],
+            "mistakes": [{"value": 16, "say": "Did you count 1? 1 is not a prime."}],
+            "solution": ["2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47: fifteen primes."]
+          }
+        }
+      ]
     }
   }
 }

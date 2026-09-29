@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Math Studio</title>
+<title>Kosmos: A Mathematical Voyage</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Silkscreen&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.18.6/katex.min.css">
 <style>
@@ -46,6 +46,10 @@
       letter-spacing: -0.3px;
       font-weight: 700;
     }
+    .brand-sub { font-weight: 400; font-size: 0.85rem; color: var(--text-tertiary); margin-left: 10px; letter-spacing: 0; }
+    @media (max-width: 600px) { .brand-sub { display: block; margin-left: 0; margin-top: 2px; } }
+    .st-tagline { font-family: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif; font-style: italic; font-weight: 400; color: #e8dcc4; }
+    .top-links { display: flex; gap: 16px; margin-top: 4px; }
     .home-link {
       color: var(--text-tertiary);
       text-decoration: none;
@@ -365,7 +369,9 @@
     .goals-label { font-size: 0.8rem; color: var(--text-tertiary); margin-bottom: 6px; }
     .goals { margin: 0; padding-left: 20px; color: var(--text-secondary); line-height: 1.6; }
 
-    .lesson-flow { padding-bottom: 12px; }
+    /* Spacer so the newest step can scroll up to reading height; dropped once the lesson is finished */
+    .lesson-flow { padding-bottom: 55vh; }
+    .lesson-flow.finished { padding-bottom: 24px; }
     .blk, .bubble, .narr, .turn, .turn-miss, .derive-row { scroll-margin-bottom: 110px; scroll-margin-top: 20px; animation: rise 0.35s ease both; }
     .blk { margin: 0 0 18px 0; }
     .no-anim { animation: none !important; }
@@ -419,7 +425,7 @@
     .px-frame { border: 2px solid #2a2214; border-radius: 4px; overflow: hidden; background: #07121d; line-height: 0; }
     .px-canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; image-rendering: crisp-edges; }
     .px-caption { margin-top: 8px; font-size: 0.82rem; color: var(--text-tertiary); line-height: 1.5; }
-    .px-caption a { color: var(--accent); white-space: nowrap; }
+    .px-caption a { color: var(--accent); overflow-wrap: anywhere; }
     .st-scene .st-map { margin: 14px 0 0 0; }
     .person-portrait { flex-shrink: 0; line-height: 0; border: 1px solid #6b5a2e; border-radius: 6px; overflow: hidden; }
     .px-portrait { display: block; height: auto; image-rendering: pixelated; image-rendering: crisp-edges; }
@@ -477,6 +483,32 @@
     .st-input { display: flex; align-items: center; gap: 8px; }
     .st-input input { flex: 1; min-width: 0; }
     .st-unit { color: var(--text-tertiary); font-size: 0.9rem; }
+    /* in-problem calculator */
+    .calc-toggle.active { border-color: var(--accent); color: var(--text-primary); }
+    .calc { margin: 4px 0 12px; background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 10px; padding: 12px; }
+    .calc-tape { list-style: none; margin: 0 0 8px; padding: 0; font-variant-numeric: tabular-nums; color: var(--text-secondary); font-size: 0.9rem; }
+    .calc-tape:empty { display: none; }
+    .calc-tape li { padding: 3px 0; border-bottom: 1px dashed var(--border-primary); overflow-wrap: anywhere; }
+    .calc-eq { color: var(--text-primary); font-weight: 600; }
+    .calc-row { display: flex; align-items: center; gap: 10px; }
+    .calc-input {
+      flex: 1; min-width: 0; background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 6px;
+      color: var(--text-primary); font-family: inherit; font-size: 1rem; padding: 8px 10px; font-variant-numeric: tabular-nums;
+    }
+    .calc-input:focus { outline: none; border-color: var(--accent); }
+    .calc-preview { flex-shrink: 0; color: var(--good); font-weight: 600; font-variant-numeric: tabular-nums; max-width: 45%; overflow-wrap: anywhere; }
+    .calc-keys { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .calc-key {
+      min-width: 40px; padding: 7px 10px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 1rem;
+      background: var(--bg-card); border: 1px solid var(--border-primary); color: var(--text-primary);
+    }
+    .calc-key:hover { border-color: var(--accent); color: var(--accent); }
+    .calc-enter { color: var(--good); }
+    .calc-use { margin-left: auto; }
+    .calc-use:disabled { opacity: 0.5; cursor: default; }
+    .calc-line { margin: 6px 0 0; color: var(--text-secondary); font-size: 0.9rem; }
+    .calc-line code { color: var(--text-primary); font-family: inherit; font-weight: 600; }
+    @media (max-width: 600px) { .calc-use { margin-left: 0; flex-basis: 100%; } }
     .st-hints { margin: 8px 0 0 0; padding-left: 20px; color: var(--text-secondary); line-height: 1.6; }
     .feedback.neutral { background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-primary); }
     .st-problem .solution-box { margin-top: 10px; }
@@ -531,6 +563,58 @@
     .w-caption { color: var(--text-secondary); line-height: 1.6; margin-top: 12px; min-height: 3.2em; }
     .w-controls { margin-top: 12px; }
     /* A level beam on a central post, with a pan hanging from each end */
+    .w-note { color: var(--text-tertiary); font-size: 0.8rem; margin-top: 8px; }
+    /* sun rays (Eratosthenes) */
+    .sr { max-width: 400px; }
+    .sr-earth { fill: #5a4a30; stroke: #b0986a; stroke-width: 2; }
+    .sr-ray { stroke: #ffd27a; stroke-width: 1.2; opacity: 0.55; }
+    .sr-ray-a { opacity: 0.9; }
+    .sr-gnomon { stroke: #e8dcc4; stroke-width: 3; stroke-linecap: round; }
+    .sr-shade { stroke: #0a0806; stroke-width: 5; stroke-linecap: round; }
+    .sr-radius { stroke: #8cc4ff; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .sr-angle { fill: none; stroke: #ff9fb8; stroke-width: 2; }
+    .sr-alpha { fill: #ff9fb8; font-size: 15px; font-style: italic; }
+    .sr-arcpath { fill: none; stroke: #7fd6b0; stroke-width: 4; }
+    .sr-arclabel { fill: #7fd6b0; font-size: 12px; }
+    .sr-ring { fill: none; stroke: #7fd6b0; stroke-width: 2; }
+    .sr-dot { fill: #8cc4ff; }
+    .sr-label { fill: var(--text-primary); font-size: 13px; font-weight: 600; }
+    .sr-text { fill: var(--text-tertiary); font-size: 11px; }
+    /* noon sun and latitude */
+    .ns { max-width: 420px; }
+    .ns-earth { fill: #2f5a74; stroke: #8cc4ff; stroke-width: 1.5; }
+    .ns-night { fill: #0a1624; opacity: 0.55; }
+    .ns-equator { stroke: #e8dcc4; stroke-width: 1; stroke-dasharray: 4 4; opacity: 0.7; }
+    .ns-axis { stroke: #e8dcc4; stroke-width: 1; opacity: 0.35; }
+    .ns-ray { stroke: #ffd27a; stroke-width: 1.2; opacity: 0.55; }
+    .ns-sundisc { fill: #ffd27a; }
+    .ns-radius { stroke: #e8dcc4; stroke-width: 1.2; stroke-dasharray: 3 3; }
+    .ns-horizon { stroke: #7fd6b0; stroke-width: 2.5; }
+    .ns-right { fill: none; stroke: #7fd6b0; stroke-width: 1.2; }
+    .ns-toSun { stroke: #ffd27a; stroke-width: 2.5; }
+    .ns-phiarc { fill: none; stroke: #c3a6ff; stroke-width: 2.5; }
+    .ns-harc { fill: none; stroke: #ffb27a; stroke-width: 2.5; }
+    .ns-phi { fill: #c3a6ff; font-size: 15px; font-style: italic; font-weight: 600; }
+    .ns-h { fill: #ffb27a; font-size: 15px; font-style: italic; font-weight: 600; }
+    .ns-you { fill: #fff; stroke: #000; stroke-width: 1; }
+    .ns-youlabel { fill: #fff; font-size: 12px; font-weight: 600; }
+    .ns-small { fill: var(--text-tertiary); font-size: 11px; }
+    .ns-hlabel { fill: #7fd6b0; }
+    .ns-readout { margin-top: 10px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+    .ns-phi-t { color: #c3a6ff; }
+    .ns-h-t { color: #ffb27a; }
+    .ns-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .ns-label { color: var(--text-tertiary); font-size: 0.85rem; }
+    .ns-slider { flex: 1 1 160px; accent-color: #c3a6ff; }
+    /* sieve of Eratosthenes */
+    .sv-grid { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; max-width: 420px; }
+    .sv-cell {
+      display: grid; place-items: center; aspect-ratio: 1; border-radius: 6px; font-size: 0.85rem; font-variant-numeric: tabular-nums;
+      background: var(--bg-secondary); border: 1px solid var(--border-primary); color: var(--text-primary); transition: all 0.25s ease;
+    }
+    .sv-one, .sv-out { color: var(--text-tertiary); opacity: 0.35; text-decoration: line-through; }
+    .sv-new { background: var(--bad-bg); border-color: var(--bad); opacity: 0.8; }
+    .sv-prime { background: var(--good-bg); border-color: var(--good); color: var(--good); font-weight: 700; border-radius: 50%; }
     .w-beam { position: relative; height: 34px; }
     .w-beam::before { content: ''; position: absolute; left: 22%; right: 22%; top: 6px; height: 3px; border-radius: 2px; background: var(--text-tertiary); }
     .w-beam::after {
@@ -574,7 +658,7 @@
       .scene-year { font-size: 2rem; }
       .st-thennow { grid-template-columns: 1fr; }
       .tn-arrow { transform: rotate(90deg); justify-self: start; }
-      .derive-row { grid-template-columns: 1fr; gap: 2px; }
+      .derive-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
       .st-list-row { grid-template-columns: 1fr; gap: 2px; }
       .bubble { max-width: 90%; }
       .w-pans { grid-template-columns: 1fr; }
@@ -601,8 +685,8 @@
 <body>
   <header class="topbar">
     <div>
-      <a class="home-link" href="/">&larr; rmaitra.github.io</a>
-      <h1 id="subjectTitle">Math Studio</h1>
+      <h1 id="subjectTitle">Kosmos<span class="brand-sub">A Mathematical Voyage</span></h1>
+      <div class="top-links"><a class="home-link" href="/">&larr; rmaitra.github.io</a><a class="home-link" href="about.html">About Kosmos</a></div>
     </div>
     <div class="scoreboard" id="scoreboard">
       <span id="scoreText">0/0 correct</span>

@@ -1,4 +1,4 @@
-# Math Studio — Roadmap
+# Kosmos — Practice roadmap
 
 Planning doc for the next subjects to add, following the existing pattern: each **subject** (Algebra, Arithmetic, ...) has several **topics**, each topic has a Learn tab (concepts + worked examples) and a Practice tab (2-4 generated problem types, graded automatically).
 
@@ -6,7 +6,39 @@ Suggested build order: **Geometry → Trigonometry → Calculus → Physics** (P
 
 ---
 
-## Geometry
+## Stories: women in mathematics and science
+
+**Rule** (also in `STORIES.md` §1.3 and §6): include female characters as much as we can.
+- Real women get lessons and scenes wherever the historical record includes them.
+- Where it doesn't, the fictional learner ("you") can be a woman.
+- Background characters can include women where plausible.
+- Never invent historical claims about real people.
+
+**Already on the timeline** (`STORY_LESSONS.md`):
+- 9 Hypatia (currently an epilogue; could become a fuller part of the lesson)
+- 39 Émilie du Châtelet
+- 44 Ada Lovelace
+- 46 Florence Nightingale
+- 52 Emmy Noether
+- 54 Katherine Johnson
+
+**To do:**
+- **Research (Raj):** find more female mathematicians and scientists and suggest lessons or scenes for them. Starting points to look into (names only, not yet checked):
+  - Sutayta al-Mahamali (10th-century Baghdad)
+  - Lubna of Córdoba (10th century)
+  - Wang Zhenyi (18th-century China)
+  - Maria Gaetana Agnesi
+  - Sophie Germain
+  - Mary Somerville
+  - Sofia Kovalevskaya
+  - Henrietta Swan Leavitt
+  - Grace Hopper
+  - Dorothy Vaughan and Mary Jackson (with Katherine Johnson)
+  - Maryam Mirzakhani
+- **Character generator:** add women's clothing, hairstyles and head coverings researched per period and place. Examples: the Greek chiton and himation as women wore them; Abbasid-era dress; Renaissance, 18th- and 19th-century European dress; 1960s office clothes at NASA. Then the learner and background casts can be female in any lesson.
+- **Existing lessons:** consider making the learner female in one of the two built lessons (8 Eratosthenes, 16 al-Khwarizmi) once the generator supports it. Both currently have only male characters.
+
+
 
 Shapes, angles, and measurement in the plane and in 3D.
 

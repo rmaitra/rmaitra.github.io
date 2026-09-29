@@ -109,6 +109,92 @@
     const m = (problem.mistakes || []).find((mk) => near(first, mk.value, tol));
     return { ok: false, message: m ? m.say : 'Not quite. Try again, or take a hint.' };
   }
+  // ---------- calculator (pure; also used by tools/check-stories.mjs) ----------
+  // A small recursive-descent evaluator for the in-problem calculator. It understands
+  // numbers (commas allowed as thousands separators), + − × ÷ (or * /), brackets,
+  // ^ and ² for powers, √ (or sqrt) and Ans. Nothing typed is ever run as code.
+  // Returns a finite number, or throws an Error with a short reason.
+  function calcEval(src, ans) {
+    const s = String(src || '')
+      .replace(/[−–]/g, '-').replace(/×/g, '*').replace(/÷/g, '/')
+      .replace(/sqrt/gi, '√').replace(/\s+/g, '');
+    let i = 0;
+    const peek = () => s[i];
+    const fail = (msg) => { throw new Error(msg); };
+    function number() {
+      const m = s.slice(i).match(/^(\d{1,3}(,\d{3})+|\d+)(\.\d+)?|^\.\d+/);
+      if (!m) return null;
+      i += m[0].length;
+      return parseFloat(m[0].replace(/,/g, ''));
+    }
+    // primary: number | Ans | ( expr ) | √ primary
+    function primary() {
+      const c = peek();
+      if (c === '(') {
+        i++;
+        const v = expr();
+        if (peek() !== ')') fail('missing )');
+        i++;
+        return v;
+      }
+      if (c === '√') { i++; const v = postfix(); if (v < 0) fail('√ of a negative'); return Math.sqrt(v); }
+      if (/^ans/i.test(s.slice(i, i + 3))) {
+        i += 3;
+        if (ans == null) fail('no answer yet');
+        return ans;
+      }
+      const n = number();
+      if (n == null) fail(c ? `unexpected “${c}”` : 'incomplete');
+      return n;
+    }
+    function postfix() {
+      let v = primary();
+      while (peek() === '²') { i++; v = v * v; }
+      return v;
+    }
+    // power is right-associative and binds tighter than a leading minus: -2^2 = -4
+    function power() {
+      const base = postfix();
+      if (peek() === '^') { i++; return Math.pow(base, unary()); }
+      return base;
+    }
+    function unary() {
+      if (peek() === '-') { i++; return -unary(); }
+      if (peek() === '+') { i++; return unary(); }
+      return power();
+    }
+    // term: products and quotients, with implicit multiplication like 2(3) or 2√9
+    function term() {
+      let v = unary();
+      for (;;) {
+        const c = peek();
+        if (c === '*') { i++; v *= unary(); }
+        else if (c === '/') { i++; const d = unary(); if (d === 0) fail('division by zero'); v /= d; }
+        else if (c === '(' || c === '√' || (c && /^ans/i.test(s.slice(i, i + 3)))) v *= unary();
+        else return v;
+      }
+    }
+    function expr() {
+      let v = term();
+      for (;;) {
+        const c = peek();
+        if (c === '+') { i++; v += term(); }
+        else if (c === '-') { i++; v -= term(); }
+        else return v;
+      }
+    }
+    if (!s) fail('empty');
+    const v = expr();
+    if (i < s.length) fail(`unexpected “${s[i]}”`);
+    if (!isFinite(v)) fail('too big');
+    return v;
+  }
+  // Drop floating-point noise (0.1 + 0.2) and show thousands separators
+  const calcClean = (v) => parseFloat(v.toPrecision(12));
+  const calcShow = (v) => calcClean(v).toLocaleString('en-US', { maximumFractionDigits: 10 });
+  // Show an expression the way it's typed on the keys: × ÷ − with spaces
+  const prettyCalc = (s) => String(s).replace(/\*/g, ' × ').replace(/\//g, ' ÷ ').replace(/([\d)²])\s*-/g, '$1 − ').replace(/\+/g, ' + ').replace(/\s+/g, ' ').trim();
+
   function answerText(problem) {
     return problem.fields.map((f) => {
       const a = problem.answer[f.id];
@@ -175,7 +261,7 @@
 
     root.append(
       h('header', { class: 'st-home-head' },
-        h('h2', {}, 'Stories'),
+        h('h2', { class: 'st-tagline' }, 'A finite journey through infinite ideas.'),
         h('p', { class: 'st-intro' }, 'Mathematics and physics, told through the people who worked them out. Each lesson puts you in a real time and place, has you solve the problem they faced, then shows where the same idea is used today.'),
         h('div', { class: 'st-home-bar' },
           h('div', { class: 'pills' }, pill('time', 'By time'), pill('strand', 'By strand')),
@@ -248,7 +334,9 @@
     const beats = lessonBeats(lesson);
     const last = beats.length - 1;
     let pos = -1;
-    let blocked = null; // why Next is held, or null
+    // Next is held while anything on screen is still waiting (a problem, a question, a
+    // diagram). Each hold returns a token; Next frees up once every token is released.
+    let holds = [];
     let choose = null; // answers the open multiple-choice question by index (keys 1–9)
     let deriveBox = null;
     let thread = null;
@@ -285,12 +373,12 @@
     };
 
     function advance() {
-      if (blocked || pos >= last) return;
+      if (holds.length || pos >= last) return;
       reveal(pos + 1, true);
     }
     function reveal(i, live) {
       pos = i;
-      blocked = null;
+      holds = [];
       choose = null;
       const el = renderBeat(beats[i], live);
       // A dialogue thread or derivation grows across beats, so render math in the whole block
@@ -300,28 +388,107 @@
       if (!live && block !== flow) [block, ...block.querySelectorAll('*')].forEach((n) => n.classList.add('no-anim'));
       setProgress(lesson.id, i === last ? { pos, done: true } : { pos });
       updateBar();
-      if (live && el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (live && el) bringIntoView(el, true);
       return el;
     }
     function hold(reason) {
-      blocked = reason;
+      const token = { reason };
+      holds.push(token);
       updateBar();
+      return token;
     }
-    function release() {
-      blocked = null;
-      choose = null;
+    function release(token) {
+      holds = holds.filter((x) => x !== token);
       updateBar();
+      if (holds.length) return;
+      choose = null;
       nextBtn.focus({ preventScroll: true });
     }
     function updateBar() {
       fill.style.width = `${Math.round(100 * (pos + 1) / beats.length)}%`;
       counter.textContent = `${pos + 1} / ${beats.length}`;
-      nextBtn.disabled = !!blocked;
-      nextBtn.textContent = blocked || 'Next';
+      nextBtn.disabled = holds.length > 0;
+      nextBtn.textContent = holds.length ? holds[0].reason : 'Next';
       bar.hidden = pos >= last;
+      flow.classList.toggle('finished', pos >= last);
     }
 
     const add = (node) => flow.appendChild(node);
+
+    // Put a newly revealed step at reading height, about a third of the way down the
+    // screen, instead of at the bottom edge. A step too tall to fit there (a picture,
+    // a diagram, a problem) gets its top near the top of the screen instead, so it's
+    // never cut off at the start. The spacer below the lesson (.lesson-flow) makes room
+    // to scroll the last step up this far.
+    function bringIntoView(el, smooth) {
+      const r = el.getBoundingClientRect();
+      const view = window.innerHeight;
+      const room = view - bar.offsetHeight - view * 0.33;
+      const anchor = r.height <= room ? 0.33 : 0.08;
+      const top = window.scrollY + r.top - view * anchor;
+      const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: Math.max(0, top), behavior: smooth && !still ? 'smooth' : 'auto' });
+    }
+
+    // ----- calculator strip (problems with `calculator: true`) -----
+    // Type an expression; the result shows as you type. Enter adds it to the tape
+    // above (so the working stays visible) and sets Ans. "Use" copies the result into
+    // the answer field; the learner still presses Check.
+    function calculator(inputs, isSet) {
+      let ans = null;
+      const tape = h('ol', { class: 'calc-tape' });
+      const input = h('input', { type: 'text', class: 'calc-input', inputmode: 'decimal', autocomplete: 'off', spellcheck: 'false', 'aria-label': 'Calculator expression', placeholder: 'e.g. 250000 × 157.5' });
+      const preview = h('span', { class: 'calc-preview', 'aria-live': 'polite' });
+      const useBtn = h('button', { class: 'primary calc-use', type: 'button', disabled: true, onclick: () => use() }, 'Use');
+      const current = () => { try { return calcEval(input.value, ans); } catch (e) { return null; } };
+      function update() {
+        const v = input.value.trim() ? current() : null;
+        preview.textContent = v == null ? (input.value.trim() ? '…' : '') : `= ${calcShow(v)}`;
+        const shown = v != null ? v : ans;
+        useBtn.disabled = shown == null;
+        useBtn.textContent = shown == null ? 'Use' : `Use ${calcShow(shown)} ↑`;
+      }
+      function commit() {
+        let v;
+        try { v = calcEval(input.value, ans); } catch (e) { preview.textContent = `(${e.message})`; return; }
+        tape.append(h('li', {}, h('span', { class: 'calc-expr' }, prettyCalc(input.value)), h('span', { class: 'calc-eq' }, ` = ${calcShow(v)}`)));
+        ans = calcClean(v);
+        input.value = '';
+        update();
+      }
+      function use() {
+        const v = input.value.trim() ? current() : ans;
+        if (v == null) return;
+        const target = inputs[0];
+        const text = String(calcClean(v));
+        target.value = isSet && target.value.trim() ? `${target.value.replace(/[\s,]+$/, '')}, ${text}` : text;
+        target.focus({ preventScroll: true });
+      }
+      input.addEventListener('input', update);
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); commit(); } });
+      const insert = (txt) => {
+        const a = input.selectionStart ?? input.value.length, z = input.selectionEnd ?? input.value.length;
+        input.value = input.value.slice(0, a) + txt + input.value.slice(z);
+        input.focus({ preventScroll: true });
+        input.setSelectionRange(a + txt.length, a + txt.length);
+        update();
+      };
+      const keys = [['+'], ['−'], ['×'], ['÷'], ['('], [')'], ['√'], ['²', 'x²'], ['Ans']]
+        .map(([k, label]) => h('button', { class: 'calc-key', type: 'button', 'aria-label': k === '²' ? 'squared' : null, onclick: () => insert(k) }, label || k));
+      const el = h('div', { class: 'calc', hidden: true },
+        tape,
+        h('div', { class: 'calc-row' }, input, preview),
+        h('div', { class: 'calc-keys' }, keys, h('button', { class: 'calc-key calc-enter', type: 'button', onclick: () => commit() }, '='), useBtn));
+      return {
+        el,
+        toggle(btn) {
+          el.hidden = !el.hidden;
+          btn.setAttribute('aria-expanded', String(!el.hidden));
+          btn.classList.toggle('active', !el.hidden);
+          if (!el.hidden) input.focus({ preventScroll: true });
+        }
+      };
+    }
 
     // ----- problem card (used by `problem` steps and inside applications) -----
     function problemCard(problem, live) {
@@ -335,17 +502,20 @@
       const fb = h('div', { class: 'feedback', hidden: true });
       const hintBox = h('ol', { class: 'st-hints', hidden: true });
       const solution = h('div', { class: 'solution-box', hidden: true },
-        h('h4', {}, 'Worked solution'), h('ol', {}, (problem.solution || []).map((s) => h('li', {}, rich(s)))));
+        h('h4', {}, 'Worked solution'), h('ol', {}, (problem.solution || []).map((s) => h('li', {}, rich(s)))),
+        problem.calc ? h('p', { class: 'calc-line' }, 'On the calculator: ', h('code', {}, prettyCalc(problem.calc))) : null);
       let hintsShown = 0;
       const hints = problem.hints || [];
       const checkBtn = h('button', { class: 'primary', type: 'button', onclick: () => check() }, 'Check');
       const hintBtn = h('button', { class: 'secondary', type: 'button', onclick: () => hint() }, hints.length ? `Hint (1 of ${hints.length})` : 'Hint');
       const showBtn = h('button', { class: 'secondary', type: 'button', onclick: () => finish(false) }, 'Show me');
-      const actions = h('div', { class: 'action-row' }, checkBtn, hints.length ? hintBtn : null, showBtn);
+      const calc = problem.calculator ? calculator(inputs, problem.check === 'set') : null;
+      const calcBtn = calc ? h('button', { class: 'secondary calc-toggle', type: 'button', 'aria-expanded': 'false', onclick: () => calc.toggle(calcBtn) }, 'Calculator') : null;
+      const actions = h('div', { class: 'action-row' }, checkBtn, hints.length ? hintBtn : null, showBtn, calcBtn);
       const card = h('div', { class: 'blk st-problem' + (live ? ' pending' : ''), 'data-problem': problem.id },
         h('div', { class: 'eyebrow' }, 'Your turn'),
         h('div', { class: 'problem-prompt' }, rich(problem.prompt)),
-        fields, actions, hintBox, fb, solution);
+        fields, actions, calc ? calc.el : null, hintBox, fb, solution);
 
       function hint() {
         if (hintsShown >= hints.length) return;
@@ -374,15 +544,17 @@
         const answers = answerText(problem);
         inputs.forEach((inp, i) => { if (!solved) inp.value = answers[i]; inp.disabled = true; });
         actions.hidden = true;
+        if (calc) calc.el.hidden = true;
         fb.hidden = false;
         fb.className = 'feedback ' + (solved ? 'ok' : 'neutral');
         fb.textContent = solved ? 'Correct!' : 'Here’s how it works out.';
         solution.hidden = !(problem.solution && problem.solution.length);
         math(solution);
-        if (live) release();
+        if (live) release(token);
       }
+      let token = null;
       if (live) {
-        hold('Solve the problem to continue');
+        token = hold('Solve the problem to continue');
         requestAnimationFrame(() => inputs[0].focus({ preventScroll: true }));
       } else {
         const answers = answerText(problem);
@@ -391,6 +563,20 @@
         solution.hidden = !(problem.solution && problem.solution.length);
       }
       return card;
+    }
+
+    // ----- interactive diagrams (widgets.js); Next waits until the diagram is finished -----
+    function mountWidget(box, name, params, live) {
+      const make = typeof WIDGETS !== 'undefined' && WIDGETS[name];
+      if (!make) { box.textContent = `(missing widget: ${name})`; return box; }
+      let finished = false;
+      const token = live ? hold('Work through the diagram') : null;
+      make(box, params || {}, {
+        live,
+        math,
+        done: () => { if (finished) return; finished = true; if (live) release(token); }
+      });
+      return box;
     }
 
     // ----- multiple choice (quick checks and dialogue turns) -----
@@ -493,19 +679,8 @@
           }
           return beat.last && step.notebook ? deriveBox.lastChild : row;
         }
-        case 'widget': {
-          const box = add(h('div', { class: 'blk st-widget' }));
-          const make = typeof WIDGETS !== 'undefined' && WIDGETS[step.name];
-          if (!make) { box.textContent = `(missing widget: ${step.name})`; return box; }
-          let finished = false;
-          if (live) hold('Work through the diagram');
-          make(box, step.params || {}, {
-            live,
-            math,
-            done: () => { if (finished) return; finished = true; if (live) release(); }
-          });
-          return box;
-        }
+        case 'widget':
+          return add(mountWidget(h('div', { class: 'blk st-widget' }), step.name, step.params, live));
         case 'problem':
           return add(problemCard(step, live));
         case 'application': {
@@ -513,6 +688,7 @@
             h('div', { class: 'app-field' }, step.field),
             h('h4', { class: 'app-title' }, step.title),
             h('p', {}, rich(step.text))));
+          if (step.widget) card.append(mountWidget(h('div', { class: 'st-widget' }), step.widget.name, step.widget.params, live));
           if (step.problem) card.append(problemCard(step.problem, live));
           return card;
         }
@@ -534,12 +710,13 @@
             const ok = k === answerAt;
             fb.replaceChildren(h('span', { class: 'verdict ' + (ok ? 'good' : 'bad') }, ok ? 'Yes! ' : 'Not quite. '), ...rich(step.why || ''));
             math(fb);
-            release();
+            release(token);
           };
+          let token = null;
           const buttons = order.map((j, k) => choiceBtn(rich(step.options[j]), k, pick, j));
           const el = add(h('div', { class: 'blk check' }, h('div', { class: 'eyebrow' }, 'Quick check'),
             h('div', { class: 'check-q' }, rich(step.prompt)), h('div', { class: 'choices' }, buttons), fb));
-          if (live) { hold('Choose an answer'); choose = pick; }
+          if (live) { token = hold('Choose an answer'); choose = pick; }
           else { mark(answerAt); if (step.why) fb.append(...rich(step.why)); }
           return el;
         }
@@ -559,11 +736,11 @@
             if (ok) (r.classList.contains('bubble') ? r : r.querySelector('.bubble')).classList.add('got');
             turnEl.replaceWith(...(ok ? [] : [h('div', { class: 'turn-miss' }, `Not quite: “${options[k].text}” A better step:`)]), r);
             math(box);
-            release();
+            release(token);
           };
           const turnEl = box.appendChild(h('div', { class: 'turn' }, h('div', { class: 'who' }, who === 'You' ? 'Your turn' : `You (${who})`),
             options.map((o, k) => choiceBtn(rich(o.text), k, pick, o.ok ? 'ok' : 'no'))));
-          hold('Choose an answer');
+          const token = hold('Choose an answer');
           choose = pick;
           return turnEl;
         }
@@ -585,7 +762,7 @@
     const start = Math.min(progress(lesson.id).pos, last);
     let lastEl = null;
     for (let i = 0; i <= start; i++) lastEl = reveal(i, i === start && i !== last);
-    if (start > 0 && lastEl) requestAnimationFrame(() => lastEl.scrollIntoView({ block: 'center' }));
+    if (start > 0 && lastEl) requestAnimationFrame(() => bringIntoView(lastEl, false));
   }
 
   function renderRecap(lesson) {
@@ -643,5 +820,5 @@
     render();
   }
 
-  window.Stories = { init, render, checkAnswer, parseNum, parseList, lessonBeats };
+  window.Stories = { init, render, checkAnswer, parseNum, parseList, lessonBeats, calcEval };
 })();

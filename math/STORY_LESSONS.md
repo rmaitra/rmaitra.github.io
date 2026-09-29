@@ -1,4 +1,4 @@
-# Math Studio — Story Lessons (proposed curriculum)
+# Kosmos: A Mathematical Voyage — story lessons (curriculum)
 
 The proposed lessons for the **Stories** tab. The format (story arc, block types, data model) is in [`STORIES.md`](STORIES.md). This file covers *what* each lesson teaches and *where the history comes from*.
 
@@ -17,7 +17,7 @@ Every lesson is built on real, checkable sources:
 - **Dates** use "c." where uncertain. Where scholars disagree (the stadion's length, the Bakhshali manuscript's age), the lesson gives the range and does not pick a side.
 - **Links** in this file were checked to resolve on 2026-09-28.
 
-**Format of each entry.** *People* · *Topics* (what the lesson teaches) · *In-story problem* · *Echoes today* (applications) · *Legend check* (where needed) · *Practice* (existing Math Studio topic, or *roadmap*) · *Sources*.
+**Format of each entry.** *People* · *Topics* (what the lesson teaches) · *In-story problem* · *Echoes today* (applications) · *Legend check* (where needed) · *Practice* (existing Algebra or Arithmetic practice topic, or *roadmap*) · *Sources*.
 
 Lessons are in chronological order within six Acts. Physics lessons are marked *(physics)*: each one pairs a physical law with the maths it needs, and links back to the lesson where that maths was taught. Each Act ends with a **Crossroads** review lesson. Crossroads stories are fictional scenarios, clearly labelled as such, set against real historical settings.
 
@@ -137,13 +137,13 @@ Lessons are in chronological order within six Acts. Physics lessons are marked *
   - Wikipedia: [Lever](https://en.wikipedia.org/wiki/Lever) · [Archimedes' principle](https://en.wikipedia.org/wiki/Archimedes%27_principle) · [On Floating Bodies](https://en.wikipedia.org/wiki/On_Floating_Bodies) · [Mechanical advantage](https://en.wikipedia.org/wiki/Mechanical_advantage) · [Hydrostatic weighing](https://en.wikipedia.org/wiki/Hydrostatic_weighing)
   - MacTutor: [Archimedes](https://mathshistory.st-andrews.ac.uk/Biographies/Archimedes/)
 
-### 8. Measuring the Earth — Alexandria and Syene, c. 240 BCE
+### 8. Measuring the Earth — Alexandria and Syene, c. 240 BCE ✅ *(built)*
 - **People:** Eratosthenes of Cyrene (c. 276 – c. 194 BCE), head of the Library of Alexandria.
 - **Topics:**
   - Angles as fractions of a full turn.
   - Parallel sun rays and alternate angles.
   - Proportion: 7.2° is 1/50 of a circle, so the Earth's circumference is 50 × 5,000 stadia = 250,000 stadia.
-  - Error and uncertainty: the length of a stadion is not known, so modern estimates of his accuracy range from about 2% to about 16%.
+  - Error and uncertainty: the length of a stadion is not known. With a 155–160 m stade his 252,000 stades is within about 2.4% of the true value; with the Olympic or Italian stade (176–185 m) it is 10–15% too big.
   - The Sieve of Eratosthenes for listing primes.
 - **In-story problem:** from the noon shadow angle and the distance, compute the circumference. Then repeat it with modern figures (Alexandria to Aswan ≈ 800 km) and compare with 40,075 km.
 - **Echoes today:** GPS and geodesy; finding your latitude from the Sun's angle (celestial navigation); prime sieves in computing.
@@ -261,7 +261,7 @@ Lessons are in chronological order within six Acts. Physics lessons are marked *
   - Wikipedia: [Brahmagupta](https://en.wikipedia.org/wiki/Brahmagupta) · [Brāhmasphuṭasiddhānta](https://en.wikipedia.org/wiki/Br%C4%81hmasphu%E1%B9%ADasiddh%C4%81nta) · [0 (number)](https://en.wikipedia.org/wiki/0) · [Negative number](https://en.wikipedia.org/wiki/Negative_number) · [Maya numerals](https://en.wikipedia.org/wiki/Maya_numerals) · [Bakhshali manuscript](https://en.wikipedia.org/wiki/Bakhshali_manuscript)
   - MacTutor: [Brahmagupta](https://mathshistory.st-andrews.ac.uk/Biographies/Brahmagupta/)
 
-### 16. Restoring and balancing — Baghdad, c. 820 CE
+### 16. Restoring and balancing — Baghdad, c. 820 CE ✅ *(built)*
 - **People:** Muḥammad ibn Mūsā al-Khwārizmī (c. 780 – c. 850), at the House of Wisdom.
 - **Topics:**
   - *The Compendious Book on Calculation by Completion and Balancing*: *al-jabr* (moving a subtracted term to the other side) and *al-muqābala* (cancelling like terms). The word *algebra* comes from *al-jabr*.

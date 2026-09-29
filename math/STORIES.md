@@ -1,4 +1,8 @@
-# Math Studio — Stories (design proposal)
+# Kosmos: A Mathematical Voyage — design
+
+*A finite journey through infinite ideas.*
+
+The math app at `/math/` is called **Kosmos: A Mathematical Voyage**, in homage to Carl Sagan's *Cosmos: A Personal Voyage* and Neil deGrasse Tyson's *Cosmos: A Spacetime Odyssey*. *Kosmos* is the ancient Greek word for an ordered world. It has a **Stories** tab (the lessons below) and **Algebra** and **Arithmetic** practice tabs. Internal names such as storage keys (`mathStudio.*`) are unchanged, so saved progress survives the rename. The **About** page (`about.html`, linked under the title) explains the motivation, the *Cosmos* homage, the open sources and tools, the human–AI collaboration, and how the app is built, with diagrams and the repository link.
 
 A new **Stories** tab: guided lessons that teach each topic by following the people who worked it out. The learner moves through history from Babylonian clay tablets to NASA. At each stop they meet the problem people actually faced, solve it with the original numbers, see the idea proved, and then see where the same maths is used today, in engineering and in daily life.
 
@@ -6,7 +10,7 @@ A new **Stories** tab: guided lessons that teach each topic by following the peo
 
 It reuses the lesson engine from Italiano Studio (`language/`): one beat per **Next**, the page building downward, quick checks, dialogue with a "Your turn" pass, resume, a recap, and lessons that feed the drills. It adds what maths needs: problems that are actually checked, step-by-step derivations and proofs, interactive figures, and a timeline.
 
-Status: **in progress.** Lesson 16, *Restoring and balancing* (al-Khwarizmi), is built and is the Stories tab's first lesson. The other 54 lessons show on the timeline, greyed out as planned. Decided so far: Stories is the default tab; nothing in Stories is scored; the learner is an adult self-learner; the role changes each lesson; diagrams are drawn in code; there is no read-aloud yet; units in a story are the ones used at the time (dirhams, cubits), and modern units in *Echoes today*.
+Status: **in progress.** Two lessons are built: 8, *Measuring the Earth* (Eratosthenes), and 16, *Restoring and balancing* (al-Khwarizmi). The other 53 lessons show on the timeline, greyed out as planned. Decided so far: Stories is the default tab; nothing in Stories is scored; the learner is an adult self-learner; the role changes each lesson; diagrams are drawn in code; there is no read-aloud yet; units in a story are the ones used at the time (dirhams, cubits), and modern units in *Echoes today*.
 
 ---
 
@@ -67,6 +71,12 @@ There is no fantasy time-travel frame. Each lesson gives the learner a plausible
 - a "human computer" at NASA Langley.
 
 The role is what makes the role-play dialogues work. You are the one who has to give the mathematician the next step.
+
+**Women in the story.** Include female characters as much as the history allows:
+- **Real women** get their own lessons and scenes wherever the historical record includes them (see the list in `ROADMAP.md`).
+- **The learner can be female.** "You" is a fictional character, so where the record has no women in the scene, the learner's role can still be a young woman: a copyist, an assistant, a clerk, a computer. Aim for a mix across the timeline, not one fixed choice.
+- **Background characters** (scholars, merchants, workers, villagers) can include women wherever that's plausible for the time and place.
+- **Stay honest.** Don't invent historical women or claim that a real woman did something the sources don't support. A fictional learner needs no source; a named historical figure always does.
 
 ### 1.4 The Notebook (replaces the word recap)
 
@@ -130,8 +140,8 @@ Widgets are plain SVG with no libraries, in a registry `WIDGETS[name](el, params
 
 | Widget | Shows | Reused by |
 |---|---|---|
-| `completeSquare` | Drag to split the 10x strip into two 5x strips and fill the missing corner. | al-Khwarizmi, quadratic formula, conics |
-| `balance` | A two-pan scale: al-jabr moves a term across, al-muqābala cancels like terms. | al-Khwarizmi, Diophantus, systems |
+| `completeSquare` ✅ | Drag to split the 10x strip into two 5x strips and fill the missing corner. | al-Khwarizmi, quadratic formula, conics |
+| `balance` ✅ | A two-pan scale: al-jabr moves a term across, al-muqābala cancels like terms. | al-Khwarizmi, Diophantus, systems |
 | `polygonPi` | Inscribed and circumscribed n-gons, n doubling 6 → 96, perimeter bounds squeezing π. | Archimedes, Madhava (compare speeds) |
 | `shadowAngle` | Sun rays over a curved Earth; a slider sets the shadow angle at Alexandria. | Eratosthenes, Thales, trigonometry |
 | `similarTriangles` | A stick, a pyramid and two shadows; drag to scale. | Thales, map scales |
@@ -139,6 +149,9 @@ Widgets are plain SVG with no libraries, in a registry `WIDGETS[name](el, params
 | `numberLine` | Fortunes and debts on a line; animated addition and subtraction. | Brahmagupta, integers |
 | `growth` | Compounding n times per year; the curve approaches *e*. | Bernoulli/Euler, logs, finance |
 | `plot` | A Highcharts function plot with sliders (existing chart setup). | Descartes, Kepler, Fourier, calculus |
+| `sunRays` ✅ | Parallel sunlight on a curved Earth: no shadow at Syene, the shadow angle at Alexandria, the same angle at the centre, the arc as 1/50 of the circle. | Eratosthenes, latitude, trigonometry |
+| `noonSun` ✅ | Earth in cross-section at an equinox with parallel sunlight: a latitude slider and presets move "you"; latitude φ at the centre and the sun's height h above your horizon, with the right angle that makes h + φ = 90°. | Eratosthenes (finding latitude), navigation, seasons |
+| `sieve` ✅ | Sieve of Eratosthenes: circle the next prime, cross out its multiples, stop once p² passes the limit. | Eratosthenes, Euclid's primes |
 | `lever` | A beam on a pivot; drag weights along it. | Archimedes, torque, centre of mass |
 | `rays` | A ray to drag across mirrors and between materials; angles are shown live. | Hero, Ibn al-Haytham, Snell, Fermat |
 | `ramp` | A ball on an adjustable ramp with a water-clock timer; also launches off the table edge. | Galileo, the Oxford Calculators, projectiles |
@@ -179,9 +192,12 @@ The visual style is chunky pixel art in the app's dark palette. Everything is dr
   - Scenes are composed from a **kit** of parts listed in `layers`, e.g. `{ "kit": "palm", "x": 22, "base": 78, "h": 30 }`:
     - Outdoor: `sky` (morning/afternoon/dusk/night), `stars`, `birds`, `roundCity` (brick wall, towers, gate, rooftops, and the Green Dome with its horseman statue), `palm`, `river` (reflects everything above it, with ripples), `sailboat`, `kuphar`, `reeds`.
     - Indoor: `wall` (baked brick), `window` (pointed arch showing sky and skyline), `beam` (sunlight), `floor`, `shelves` (codices in flat stacks), `rug`, `lamp` (flickers when lit), `glow`, `inkpot`.
+  - Alexandria and Egypt (lesson 8): `sun`, `pharos` (the Lighthouse's three tiers with a fire), `houses`, `temple`, `ship` (Greek merchant ship), `quay` (with amphorae), `river` with `tone: "sea"` (wave crests), `colonnade`, `paving`, `skaphe` (bowl sundial with its shadow), `sand`, `strata` (a cut-away of the ground), `well` (lit to the bottom when the sun is overhead), `gnomon`; and a `noon` sky.
     - New settings mean adding kit parts, not painting pictures.
 - **Characters** are generated from a spec in the lesson's `characters`:
-  - `{ skin, hair, beard: none|short|full|long, beardColor, headwear: turban|cap|none, headwearColor, robe, outer, sash, prop: book|scroll|none, seed }`.
+  - `{ skin, hair, hairStyle: curly, beard: none|short|full|long, beardColor, headwear: turban|cap|none, headwearColor, dress: robe|chiton, robe, outer, drape: himation, sash, prop: book|scroll|none, seed }`.
+  - `dress: "chiton"` is the Greek knee-length tunic with bare arms and legs and sandals. `drape: "himation"` hangs the `outer` cloak from the left shoulder, as Greek men wore it.
+  - A cast entry's `shadow` adds a small shadow at the feet.
   - In scenes, a `cast` entry places them `stand`ing or `sit`ting cross-legged (optionally `write`ing on a board on the knee), facing left or right, with blinking and a breathing bob.
   - A separate front-facing 24×26 **bust** is drawn for person cards (`person.character`) and speech bubbles (`speakers[x].character`).
   - The same spec always produces the same person.
@@ -256,7 +272,15 @@ Notebook contents are derived from finished lessons, not stored separately.
 
 A lesson counts as built, and becomes clickable on the timeline, as soon as it has a `content` entry.
 
-**Block types built:** `scene`, `heading`, `text`, `person`, `quote`, `thenNow`, `check`, `problem` (checks `number` and `set`, where `set` means several answers in any order; optional `unit` label), `widget` (`completeSquare`, `balance`), `derive` (with an optional `notebook` page), `note`, `list` (then/now rows), `dialogue` (the `practice` speaker's lines become choices), `meanwhile`, `application` (with a nested problem) and the generated `recap`.
+**Block types built:** `scene`, `heading`, `text`, `person`, `quote`, `thenNow`, `check`, `problem` (checks `number` and `set`, where `set` means several answers in any order; optional `unit` label), `widget` (`completeSquare`, `balance`, `sunRays`, `noonSun`, `sieve`), `derive` (with an optional `notebook` page), `note`, `list` (then/now rows), `dialogue` (the `practice` speaker's lines become choices), `meanwhile`, `application` (with a nested `widget` and/or `problem`; Next waits for both) and the generated `recap`.
+
+**Calculator** ✅: a problem with `"calculator": true` gets a **Calculator** button that opens a strip inside the card:
+- You type an expression, and the result updates as you type. The keys × ÷ − ( ) √ x² Ans are there for phones.
+- Enter adds the line to a tape above, so the working stays visible and `Ans` can reuse it.
+- **Use** copies the result into the answer field; you still press Check.
+- The evaluator is a small parser (`calcEval`), not `eval`, so typed text never runs as code.
+- Such a problem also has a `calc` line, written with × ÷ −, e.g. `"250000 × 157.5 ÷ 1000"`. It is shown in the worked solution, and `check-stories.mjs` checks it gives the answer.
+- **Opt-in per problem.** Switch it on when the insight is setting up the calculation and the numbers are heavy (unit conversions, percentage errors, square roots of decimals). Leave it off when the arithmetic is the lesson (al-Khwarizmi's recipe with small numbers, 360 ÷ 50).
 
 **Not built yet:** `proof`, `practice` (a live generator), `experiment`, the `quantity` check, the Notebook tab and read-aloud.
 
@@ -312,6 +336,7 @@ The equivalent of the "How to write a lesson" rules in `language/LESSONS.md`:
 - **Let the learner try before the insight.** At least one problem or widget comes before the method is revealed.
 - **Show why it works, not only the steps.** At least one `derive` or `proof` per lesson. Proofs ask for the *reason* for 1–2 steps, and the distractors are common misconceptions.
 - **Honest history.** Anything anecdotal (Thales' shadow, Hippasus drowned, the Eureka bath, Descartes' fly, young Gauss's sum, Galois' last night) goes in a `note` labelled **Legend or history?**, which says who first told the story and when. Use "c." for uncertain dates. Don't invent dialogue for real people and present it as fact. Dialogue lines are marked as dramatised, and any quotation must be sourced.
+- **Women in every lesson where possible.** Feature real women where the sources include them. Otherwise, consider making the fictional learner ("you") a woman, and include women among background characters where plausible (see §1.3). Across the timeline, the learner should be female in a good share of lessons.
 - **Credit parallel discoveries.** If the result was known earlier or independently elsewhere (Babylon and India for Pythagoras, China for elimination, Kerala for series, the Maya for zero), add a `meanwhile` block.
 - **Three Echoes:** one engineering or science, one everyday skill, one wildcard. Each should have a small problem, and the numbers must be realistic (real mortgage rates, real dish sizes).
 - **Wrong-answer feedback:** each checked problem has at least one `mistakes` entry for the most likely error.
@@ -327,7 +352,7 @@ The equivalent of the "How to write a lesson" rules in `language/LESSONS.md`:
 ## 7. Build plan
 
 1. **Engine + pilot (3 lessons):** the port of the player, the new block types (including `experiment` and `quantity` checks), 5 widgets (`completeSquare`, `balance`, `shadowAngle`, `rodArray`, `ramp`), the timeline home and the Notebook tab. Pilot lessons, chosen to cover different strands, test the physics format, and link to existing Practice topics:
-   - **8 Eratosthenes**: geometry and ratio, the strongest single visual.
+   - **8 Eratosthenes** ✅ built second: geometry and ratio, the `sunRays` and `sieve` diagrams, and Greek dress for the characters.
    - **16 al-Khwarizmi** ✅ built first: algebra, balance and completing-the-square widgets.
    - **32 Galileo**: the first physics lesson; the ramp experiment, the odd-number rule and the parabola (it links to Algebra · Conic Sections).
    - Next after the pilot: **24 Cardano**, the most dramatic story, which leads into complex numbers.

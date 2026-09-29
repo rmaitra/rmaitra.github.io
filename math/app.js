@@ -5,7 +5,7 @@ var DATA = null;
 var SUBJECTS = {
   algebra: {
     label: 'Algebra',
-    title: 'Advanced Algebra Studio',
+    title: 'Algebra practice',
     dataKey: 'advancedAlgebra',
     dataFile: 'advanced_algebra.json',
     topicOrder: ['complexNumbers', 'polynomialOperations', 'rationalExpressions', 'exponentialLogarithmic', 'conicSections', 'matrixAlgebra', 'systemsOfEquations'],
@@ -38,7 +38,7 @@ var SUBJECTS = {
   },
   arithmetic: {
     label: 'Arithmetic',
-    title: 'Arithmetic Studio',
+    title: 'Arithmetic practice',
     dataKey: 'arithmetic',
     dataFile: 'arithmetic.json',
     topicOrder: ['orderOfOperations', 'fractions', 'decimals', 'percentages', 'ratiosProportions', 'integers', 'exponentsRoots'],
@@ -204,9 +204,8 @@ function renderSubjectTabs() {
     btn.onclick = () => selectSubject(key);
     nav.appendChild(btn);
   });
-  const title = state.view === 'stories' ? 'Math Stories' : SUBJECTS[state.subject].title;
-  document.getElementById('subjectTitle').textContent = title;
-  document.title = title;
+  // The header always reads "Kosmos · A Mathematical Voyage"; the browser tab names the view
+  document.title = state.view === 'stories' ? 'Kosmos: A Mathematical Voyage' : `${SUBJECTS[state.subject].title} · Kosmos`;
 }
 
 // Shows either the Stories pane or the subject (Learn/Practice) view

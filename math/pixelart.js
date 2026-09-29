@@ -26,7 +26,8 @@ var PixelArt = (function () {
     morning: ['#3c5c8c', '#5a7cae', '#8aa4c4', '#c8c0a4', '#e6cc96'],
     afternoon: ['#35558a', '#5078b0', '#86a2c2', '#d4bc8a', '#e8b872'],
     dusk: ['#1b1030', '#3b1d4a', '#7a3350', '#c8643a', '#e8a24a'],
-    night: ['#060a1a', '#0c1430', '#141e40', '#1c2848', '#243054']
+    night: ['#060a1a', '#0c1430', '#141e40', '#1c2848', '#243054'],
+    noon: ['#1c4686', '#2a5ea4', '#4a80c0', '#7aa8d6', '#b4d0e6']
   };
   const P = {
     outline: hx('#120c10'),
@@ -47,7 +48,18 @@ var PixelArt = (function () {
     brass: hx('#b08a3a'), brassDark: hx('#6a5020'),
     flame: hx('#ffd27a'), flameCore: hx('#fff4d6'), flameOuter: hx('#ff9a3a'),
     glow: hx('#ffc070'), beam: hx('#f4e0b0'),
-    star: hx('#e8dcc4'), bird: hx('#2a2030')
+    star: hx('#e8dcc4'), bird: hx('#2a2030'),
+    sea: hx('#23557a'), seaDark: hx('#153650'), crest: hx('#e4eef0'),
+    stone: hx('#dccfb2'), stoneShade: hx('#b0a284'), stoneDark: hx('#7e7058'), stoneLine: hx('#9a8c70'),
+    rock: hx('#5e5244'), rockDark: hx('#3a322a'),
+    tile: hx('#9a4a32'), tileShade: hx('#6e3222'),
+    sand: hx('#d4b47a'), sandShade: hx('#b8965c'), sandLight: hx('#e6cc96'),
+    soil: hx('#8a6a44'), soilDark: hx('#5e4630'), soilDeep: hx('#3e2e20'),
+    sun: hx('#fff6d8'), sunHalo: hx('#ffe9a8'),
+    portico: hx('#3e3428'), porticoDark: hx('#2a2219'),
+    clay: hx('#b0643a'), clayShade: hx('#7e4426'),
+    bronze: hx('#8a6a3a'), bronzeDark: hx('#4e3a1e'),
+    shadow: hx('#1a140e')
   };
 
   // ---------- frame buffer ----------
@@ -156,6 +168,35 @@ var PixelArt = (function () {
     '.a....cc....a.'
   ];
   const BIRD = [['a.a', '.a.'], ['...', 'aaa']];
+  // Greek merchant ship: square striped sail, curved stern post, steering oar
+  const MERCHANT = [
+    '..........m..........',
+    '...ssssssssssssss....',
+    '...sSsSsSsSsSsSss....',
+    '...ssssssssssssss....',
+    '...sSsSsSsSsSsSss....',
+    '...ssssssssssssss....',
+    '...sSsSsSsSsSsSss....',
+    '..........m..........',
+    '..........m........hh',
+    'h.........m........h.',
+    'hhhhhhhhhhhhhhhhhhhh.',
+    '.HhhhhhhhhhhhhhhhhH..',
+    '..HHHHHHHHHHHHHHHH...',
+    '..................o..',
+    '.................o...'
+  ];
+  const AMPHORA = [
+    '.aa.',
+    'a..a',
+    '.cc.',
+    'cccc',
+    'cCcc',
+    'cCcc',
+    '.cc.',
+    '.cc.',
+    '..c.'
+  ];
 
   // x position of something drifting across the picture (either direction), wrapping at the edges
   function drift(p, ctx, margin, w) {
@@ -247,7 +288,7 @@ var PixelArt = (function () {
         for (let x = 0; x < b.w; x++) {
           const off = Math.round(Math.sin(y * 0.9 + ctx.t * 2.2) * (1 + depth * 1.5));
           const src = b.get(x + off, 2 * y0 - y - 1);
-          const base = mixRGB(P.water, P.waterDark, depth);
+          const base = p.tone === 'sea' ? mixRGB(P.sea, P.seaDark, depth) : mixRGB(P.water, P.waterDark, depth);
           const refl = src ? mixRGB(src, base, 0.55) : base;
           b.dither(x, y, base, refl, 0.75 - depth * 0.5);
         }
@@ -257,7 +298,13 @@ var PixelArt = (function () {
         const y = y0 + 2 + Math.floor(hash(i, 21) * (y1 - y0 - 3));
         const x = Math.floor((hash(i, 22) * b.w + ctx.t * (4 + hash(i, 23) * 6)) % b.w);
         const len = 2 + Math.floor(hash(i, 24) * 4);
-        if ((ctx.frame + i) % 5) for (let k = 0; k < len; k++) b.set(x + k, y, mixRGB(P.shimmer, P.water, 0.4));
+        if ((ctx.frame + i) % 5) for (let k = 0; k < len; k++) b.set(x + k, y, mixRGB(P.shimmer, p.tone === 'sea' ? P.sea : P.water, 0.4));
+      }
+      // small white wave crests on open sea
+      if (p.tone === 'sea') for (let i = 0; i < 14; i++) {
+        const y = y0 + 4 + Math.floor(hash(i, 51) * (y1 - y0 - 5));
+        const x = Math.floor((hash(i, 52) * b.w - ctx.t * 3) % b.w + b.w) % b.w;
+        if ((ctx.frame + i * 2) % 7 < 4) { b.set(x, y, P.crest); b.set(x + 1, y - 1, P.crest); b.set(x + 2, y, P.crest); }
       }
     },
     sailboat(b, p, ctx) {
@@ -395,12 +442,187 @@ var PixelArt = (function () {
       b.rect(p.x, p.base - 3, 4, 3, hx('#1a1a22'));
       b.rect(p.x + 1, p.base - 4, 2, 1, hx('#2a2a34'));
       b.set(p.x + 2, p.base - 6, P.paper); b.set(p.x + 3, p.base - 7, P.paper);
+    },
+    // ----- sun, sea and harbour -----
+    sun(b, p) {
+      const { x, y, r = 5 } = p;
+      for (let j = -r * 3; j <= r * 3; j++) for (let i = -r * 3; i <= r * 3; i++) {
+        const d = Math.hypot(i, j);
+        if (d <= r) b.set(x + i, y + j, P.sun);
+        else if (d < r * 3) b.tint(x + i, y + j, P.sunHalo, 1 - (d - r) / (r * 2), 0.45);
+      }
+    },
+    // The Lighthouse of Alexandria on its island: square, octagonal and round tiers
+    // of light stone with a fire at the top
+    pharos(b, p, ctx) {
+      const { x, base } = p;
+      b.ellipse(x, base, 26, 5, P.rockDark, true);
+      b.ellipse(x - 2, base - 1, 22, 4, P.rock, true);
+      const tier = (w, h, y1, oct) => {
+        const y0 = y1 - h;
+        b.rect(x - w, y0, 2 * w + 1, h, P.stone);
+        b.rect(x + w - 2, y0, 3, h, P.stoneShade);
+        if (oct) { b.rect(x - w, y0, 1, h, P.stoneShade); b.rect(x + w - 4, y0, 1, h, P.stoneLine); }
+        b.rect(x - w - 1, y0, 2 * w + 3, 1, P.stoneShade);
+        for (let j = y0 + 3; j < y1 - 2; j += 5) for (let i = x - w + 3; i < x + w - 2; i += 4) b.rect(i, j, 1, 2, P.stoneDark);
+        return y0;
+      };
+      let y = base - 3;
+      y = tier(10, 30, y, false);
+      y = tier(7, 17, y, true);
+      y = tier(4, 10, y, false);
+      b.rect(x - 5, y - 1, 11, 1, P.stoneShade);
+      const f = ctx.frame % 3;
+      const flame = [['..o..', '.oyo.', 'oyWyo'], ['...o.', '.oyo.', 'oyWyo'], ['.o...', '.oyo.', 'oyWyo']][f];
+      b.sprite(flame, { o: P.flameOuter, y: P.flame, W: P.flameCore }, x - 2, y - 4);
+      for (let j = -8; j <= 8; j++) for (let i = -8; i <= 8; i++) { const d = Math.hypot(i, j) / 8; if (d < 1) b.tint(x + i, y - 2 + j, P.glow, 1 - d, 0.25); }
+    },
+    // Limestone town buildings along the shore, flat roofs, a few tiled
+    houses(b, p) {
+      const { x0, x1, base } = p;
+      for (let x = x0; x < x1; x += 7) {
+        const hgt = 8 + Math.floor(hash(x, 61) * 14);
+        const top = base - hgt;
+        b.rect(x, top, 7, hgt, hash(x, 62) > 0.5 ? P.stone : P.stoneShade);
+        b.rect(x + 6, top, 1, hgt, P.stoneLine);
+        if (hash(x, 63) > 0.6) { b.rect(x - 1, top - 2, 9, 2, P.tile); b.rect(x - 1, top - 1, 9, 1, P.tileShade); }
+        for (let j = top + 3; j < base - 2; j += 5) if (hash(x, j) > 0.4) b.rect(x + 2, j, 2, 2, P.stoneDark);
+      }
+    },
+    // A Greek temple front: steps, columns, entablature and pediment
+    temple(b, p) {
+      const { x, base, w = 40, cols = 6 } = p;
+      const colH = Math.round(w * 0.45);
+      b.rect(x - 2, base - 3, w + 4, 3, P.stoneShade);
+      b.rect(x, base - 5, w, 2, P.stone);
+      const gap = (w - 4) / (cols - 1);
+      b.rect(x + 1, base - 5 - colH, w - 2, colH, P.portico);
+      for (let c = 0; c < cols; c++) {
+        const cx = Math.round(x + 1 + c * gap);
+        b.rect(cx, base - 5 - colH, 3, colH, P.stone);
+        b.rect(cx + 2, base - 5 - colH, 1, colH, P.stoneShade);
+      }
+      const eTop = base - 5 - colH - 4;
+      b.rect(x - 1, eTop, w + 2, 4, P.stone);
+      b.rect(x - 1, eTop + 3, w + 2, 1, P.stoneShade);
+      const ph = Math.round(w / 6);
+      for (let j = 0; j < ph; j++) { const half = Math.round((w / 2 + 1) * (j + 1) / ph); b.rect(x + w / 2 - half, eTop - ph + j, 2 * half, 1, j === ph - 1 ? P.stoneShade : P.stone); }
+    },
+    ship(b, p, ctx) {
+      const x = drift(p, ctx, 40, b.w);
+      const bob = ctx.frame % 8 < 4 ? 0 : 1;
+      b.sprite(MERCHANT, { s: P.sail, S: P.tile, m: P.mast, h: P.hull, H: P.hullDark, o: P.woodDark }, x, p.y - 12 + bob, p.flip);
+    },
+    // Stone quay along the bottom, with amphorae waiting to be loaded
+    quay(b, p) {
+      const y = p.y;
+      for (let j = y; j < b.h; j++) for (let i = 0; i < b.w; i++) {
+        const row = Math.floor((j - y) / 5), off = row % 2 ? 6 : 0;
+        const line = (j - y) % 5 === 4 || (i + off) % 12 === 11;
+        b.set(i, j, line ? P.stoneLine : hash(Math.floor((i + off) / 12), row) > 0.7 ? P.stoneShade : P.stone);
+      }
+      b.rect(0, y, b.w, 1, P.stoneShade);
+      for (const ax of p.amphorae || []) b.sprite(AMPHORA, { a: P.clayShade, c: P.clay, C: P.clayShade }, ax, y - 9);
+    },
+    // ----- courtyard and desert -----
+    // A colonnade (stoa) across the back of a courtyard: roof, architrave, columns, shaded walkway
+    colonnade(b, p) {
+      const { top, base, gap = 22, x0 = 0, x1 = b.w } = p;
+      b.rect(x0, top, x1 - x0, 3, P.tile);
+      b.rect(x0, top + 3, x1 - x0, 1, P.tileShade);
+      b.rect(x0, top + 4, x1 - x0, 5, P.stone);
+      b.rect(x0, top + 8, x1 - x0, 1, P.stoneShade);
+      b.rect(x0, top + 9, x1 - x0, base - top - 9, P.portico);
+      for (let i = x0 + 8; i < x1 - 6; i += 30) b.rect(i, base - 16, 8, 16, P.porticoDark);
+      for (let x = x0 + 4; x < x1 - 2; x += gap) {
+        b.rect(x - 1, top + 9, 7, 2, P.stone);
+        b.rect(x, top + 11, 5, base - top - 13, P.stone);
+        b.rect(x + 3, top + 11, 2, base - top - 13, P.stoneShade);
+        b.rect(x + 1, top + 11, 1, base - top - 13, P.stoneLine);
+        b.rect(x - 1, base - 2, 7, 2, P.stoneShade);
+      }
+      b.rect(x0, base, x1 - x0, 1, P.stoneShade);
+    },
+    paving(b, p) {
+      const y = p.y;
+      for (let j = y; j < b.h; j++) for (let i = 0; i < b.w; i++) {
+        const row = Math.floor((j - y) / 6), off = row % 2 ? 8 : 0;
+        const line = (j - y) % 6 === 5 || (i + off) % 16 === 15;
+        b.set(i, j, line ? P.stoneLine : hash(Math.floor((i + off) / 16), row + 90) > 0.75 ? P.stoneShade : P.stone);
+      }
+    },
+    // A skaphe: a stone bowl sundial on a pedestal, with a pointer (gnomon) at the
+    // bottom of the bowl and the noon shadow it casts
+    skaphe(b, p) {
+      const { x, base, shadow = 3 } = p;
+      // pedestal
+      b.rect(x - 5, base - 13, 11, 13, P.stoneDark);
+      b.rect(x - 4, base - 13, 8, 13, P.stoneShade);
+      b.rect(x - 3, base - 13, 3, 13, P.stone);
+      b.rect(x - 7, base - 1, 15, 1, P.shadow);
+      // bowl: outside, then the dark hollow seen over the rim
+      const rimY = base - 22;
+      for (let j = 0; j <= 9; j++) {
+        const half = Math.round(12 * Math.sqrt(1 - (j * j) / 100));
+        b.rect(x - half, rimY + j, 2 * half + 1, 1, j < 2 ? P.stone : j < 6 ? P.stoneShade : P.stoneDark);
+      }
+      for (let j = 0; j <= 3; j++) {
+        const half = Math.round(11 * Math.sqrt(1 - (j * j) / 16));
+        b.rect(x - half, rimY - 3 + j, 2 * half + 1, 1, j === 0 ? P.stoneLine : P.portico);
+      }
+      b.rect(x - 12, rimY, 25, 1, P.stone);
+      for (let i = -9; i <= 9; i += 3) b.set(x + i, rimY - 1, P.stoneLine); // hour lines
+      // bronze pointer and its shadow across the hollow
+      b.rect(x, rimY - 7, 1, 6, P.bronze);
+      b.set(x, rimY - 8, P.flame);
+      for (let k = 1; k <= shadow; k++) { b.set(x - k, rimY - 1, P.shadow); b.set(x - k, rimY - 2, P.shadow); }
+    },
+    sand(b, p) {
+      const { y, y1 = b.h } = p;
+      for (let j = y; j < y1; j++) for (let i = 0; i < b.w; i++) {
+        const v = hash(i, j + 300);
+        b.set(i, j, v > 0.93 ? P.sandShade : v < 0.06 ? P.sandLight : P.sand);
+      }
+      b.rect(0, y, b.w, 1, P.sandLight);
+    },
+    // Cut-away of the ground, to show what's below the surface
+    strata(b, p) {
+      const { y, y1 = b.h } = p;
+      for (let j = y; j < y1; j++) {
+        const u = (j - y) / (y1 - y);
+        for (let i = 0; i < b.w; i++) b.dither(i, j, u < 0.5 ? P.soil : P.soilDark, u < 0.5 ? P.soilDark : P.soilDeep, (u % 0.5) * 2);
+      }
+      for (let i = 0; i < b.w; i += 3) if (hash(i, 71) > 0.6) b.set(i, y + 2 + Math.floor(hash(i, 72) * (y1 - y - 4)), P.rock);
+      b.rect(0, y, b.w, 1, P.sandShade);
+    },
+    // A well, shown cut away: sunlight straight overhead lights it down to the water
+    well(b, p, ctx) {
+      const { x, ground, depth = 22, w = 10, lit = true } = p;
+      const bottom = ground + depth;
+      for (let j = ground - 4; j < ground; j++) for (let i = x - w / 2 - 2; i <= x + w / 2 + 2; i++) b.set(i, j, (i + j) % 4 === 0 ? P.stoneLine : P.stoneShade);
+      b.rect(x - w / 2 - 2, ground - 5, w + 5, 1, P.stone);
+      for (let j = ground; j < bottom; j++) {
+        b.set(x - w / 2 - 1, j, P.stoneDark); b.set(x + w / 2 + 1, j, P.stoneDark);
+        for (let i = x - w / 2; i <= x + w / 2; i++) b.set(i, j, lit ? mixRGB(P.sunHalo, P.soil, (j - ground) / depth * 0.35) : P.soilDeep);
+      }
+      for (let i = x - w / 2; i <= x + w / 2; i++) {
+        b.set(i, bottom, (i + ctx.frame) % 3 ? hx('#bfe0ff') : P.sun);
+        b.set(i, bottom + 1, hx('#6a9ac8'));
+      }
+    },
+    // An upright stick; `shadow` is its shadow's length along the ground (0 = none)
+    gnomon(b, p) {
+      const { x, base, h = 12, shadow = 0 } = p;
+      b.rect(x - 1, base - 1, 3, 1, P.stoneDark);
+      b.rect(x, base - h, 1, h, P.woodDark);
+      for (let k = 1; k <= shadow; k++) b.set(x + k, base - 1, P.shadow);
     }
   };
 
   // ---------- characters ----------
-  // A character spec: { skin, hair, beard: 'none'|'short'|'full'|'long', beardColor,
-  //   headwear: 'turban'|'cap'|'none', headwearColor, robe, outer, sash, prop: 'book'|'scroll'|'none', seed }
+  // A character spec: { skin, hair, hairStyle: 'curly', beard: 'none'|'short'|'full'|'long', beardColor,
+  //   headwear: 'turban'|'cap'|'none', headwearColor, dress: 'robe'|'chiton', robe, outer,
+  //   drape: 'himation', sash, prop: 'book'|'scroll'|'none', seed }
   const SKIN = { light: ['#d8a882', '#a87a5a'], medium: ['#b98260', '#8a5a3e'], deep: ['#8a5a3a', '#5e3a24'] };
   const HAIR = { black: '#1a1412', brown: '#3a2618', grey: '#8a8480', salt: '#5e5856', white: '#d0ccc4' };
   const CLOTH = {
@@ -449,6 +671,7 @@ var PixelArt = (function () {
     } else {
       for (let x = 6; x <= 10; x++) set(x, 3, hair);
       for (let x = 5; x <= 10; x++) set(x, 4, hair);
+      if (spec.hairStyle === 'curly') { const hl = mixRGB(hair, [200, 180, 150], 0.25); set(7, 3, hl); set(9, 4, hl); set(5, 6, hl); set(6, 8, hl); set(10, 3, hair); set(11, 4, hair); }
     }
   }
 
@@ -462,7 +685,11 @@ var PixelArt = (function () {
     return out;
   }
 
-  // Standing, facing right, 18×38 with feet on the bottom row
+  // Standing, facing right, 18×38 with feet on the bottom row.
+  // dress 'robe' (default): ankle-length robe, optionally with an open outer robe.
+  // dress 'chiton': Greek knee-length tunic with bare arms and legs and sandals;
+  //   with drape 'himation' the `outer` colour is a cloak hung from the (far) left
+  //   shoulder down the back and wrapped diagonally round the lower body.
   function standing(spec, frame) {
     const g = new Buf(18, 38);
     const seed = spec.seed || 0;
@@ -470,29 +697,49 @@ var PixelArt = (function () {
     const breath = Math.floor((frame + seed * 3) / 8) % 2;
     const [robe, robeShade, robeLit] = cl(spec.robe || 'undyed');
     const outer = spec.outer ? cl(spec.outer) : null;
-    const [skin] = (SKIN[spec.skin] || SKIN.medium).map(hx);
+    const [skin, skinShade] = (SKIN[spec.skin] || SKIN.medium).map(hx);
+    const chiton = spec.dress === 'chiton';
+    const sandal = hx('#5a3a22');
     const left = (y) => (y <= 13 ? 6 : y <= 21 ? 5 : 5 - Math.floor((y - 21) / 5));
     const right = (y) => (y <= 13 ? 11 : y <= 21 ? 12 : 12 + Math.floor((y - 21) / 6));
-    for (let y = 13; y <= 35; y++) {
+    const hem = chiton ? 28 : 35;
+    for (let y = 13; y <= hem; y++) {
       for (let x = left(y); x <= right(y); x++) {
         let c = x === left(y) ? robeShade : x === right(y) ? robeLit : robe;
-        if (outer && !(x >= right(y) - 2 && y >= 15)) c = x === left(y) ? outer[1] : x === right(y) - 3 ? outer[2] : outer[0];
-        if (y === 35) c = outer && x < right(y) - 2 ? outer[1] : robeShade;
+        if (!chiton && outer && !(x >= right(y) - 2 && y >= 15)) c = x === left(y) ? outer[1] : x === right(y) - 3 ? outer[2] : outer[0];
+        if (y === hem) c = !chiton && outer && x < right(y) - 2 ? outer[1] : robeShade;
+        if (chiton && (x + y) % 4 === 0 && y > 22) c = robeShade; // folds
         g.set(x, y, c);
       }
     }
+    if (chiton) {
+      // bare legs and sandals
+      for (let y = hem + 1; y <= 35; y++) { g.set(7, y, skinShade); g.set(8, y, skin); g.set(10, y, skinShade); g.set(11, y, skin); }
+      g.set(6, 36, sandal); g.set(7, 36, sandal); g.set(8, 36, sandal); g.set(10, 36, sandal); g.set(11, 36, sandal); g.set(12, 36, sandal);
+      g.set(8, 34, sandal); g.set(11, 34, sandal); // straps
+      if (outer && spec.drape === 'himation') {
+        for (let y = 13; y <= 31; y++) for (let x = left(Math.min(y, 30)) - (y > 28 ? 1 : 0); x <= right(Math.min(y, 30)); x++) {
+          const back = x <= left(y) + 2;
+          const wrapped = y >= 26 - Math.round((x - left(y)) * 0.8);
+          if (!(back || wrapped)) continue;
+          g.set(x, y, (x + 2 * y) % 5 === 0 ? outer[1] : x === left(y) ? outer[1] : outer[0]);
+        }
+      }
+    } else {
+      g.set(7, 36, hx('#3a2616')); g.set(8, 36, hx('#3a2616')); g.set(11, 36, hx('#3a2616')); g.set(12, 36, hx('#3a2616'));
+    }
     if (spec.sash) { const [s, ss] = cl(spec.sash); for (let x = left(22); x <= right(22); x++) { g.set(x, 22, s); g.set(x, 23, ss); } }
-    // feet
-    g.set(7, 36, hx('#3a2616')); g.set(8, 36, hx('#3a2616')); g.set(11, 36, hx('#3a2616')); g.set(12, 36, hx('#3a2616'));
-    // front arm and what it holds
-    const sleeve = outer || [robe, robeShade, robeLit];
+    // front arm and what it holds (bare below a short sleeve with a chiton)
+    const sleeve = !chiton && outer ? outer : [robe, robeShade, robeLit];
+    const armC = (y) => (chiton && y >= 17 ? [skin, skinShade] : [sleeve[0], sleeve[1]]);
     const prop = spec.prop || 'none';
     if (prop === 'none') {
-      for (let y = 15; y <= 25; y++) { g.set(10, y, sleeve[0]); g.set(11, y, sleeve[1]); }
+      for (let y = 15; y <= 25; y++) { const [a, b2] = armC(y); g.set(10, y, a); g.set(11, y, b2); }
       g.set(11, 26, skin);
     } else {
-      for (let y = 15; y <= 20; y++) { g.set(10, y, sleeve[0]); g.set(11, y, sleeve[1]); }
-      g.set(12, 20, sleeve[0]); g.set(12, 21, sleeve[0]); g.set(13, 21, sleeve[0]);
+      for (let y = 15; y <= 20; y++) { const [a, b2] = armC(y); g.set(10, y, a); g.set(11, y, b2); }
+      const fore = chiton ? skin : sleeve[0];
+      g.set(12, 20, fore); g.set(12, 21, fore); g.set(13, 21, fore);
       if (prop === 'book') {
         g.rect(12, 16, 4, 4, hx('#6a2e22')); g.rect(12, 16, 4, 1, P.paper); g.set(15, 17, P.paper);
         g.set(14, 20, skin); g.set(15, 20, skin);
@@ -554,6 +801,7 @@ var PixelArt = (function () {
       const cs = chars && chars[c.who];
       if (!cs) continue;
       const sprite = c.pose === 'sit' ? sitting(cs, frame, c.write) : standing(cs, frame);
+      if (c.shadow) for (let i = -c.shadow; i <= c.shadow; i++) { b.tint(Math.round(c.x) + i, (c.y || 110), P.shadow, 1, 0.5); b.tint(Math.round(c.x) + i - 1, (c.y || 110) + 1, P.shadow, 1, 0.35); }
       b.blit(sprite, Math.round(c.x - sprite.w / 2), (c.y || 110) - sprite.h + 1, c.face === 'left');
     }
     for (const layer of after) KIT[layer.kit](b, layer, ctx);
@@ -632,6 +880,17 @@ var PixelArt = (function () {
         g.set(x, y, c);
       }
     }
+    if (spec.dress === 'chiton') {
+      // round neckline, and a himation over the (viewer's right) shoulder, wrapped across the chest
+      for (let y = 19; y <= 25; y++) {
+        const a = Math.max(0, 3 - (y - 19)), z = Math.min(23, 20 + (y - 19));
+        for (let x = a; x <= z; x++) {
+          let c = x < 8 ? robeShade : x > 15 ? robe : robeLit;
+          if (outer && spec.drape === 'himation' && y >= 19 + (22 - x) * 0.3) c = (x + 2 * y) % 6 === 0 ? outer[1] : x > 17 ? outer[2] : outer[0];
+          g.set(x, y, c);
+        }
+      }
+    }
     if (spec.sash && !outer) { const [s] = cl(spec.sash); span(24, 4, 19, s); }
     // neck and face
     span(17, 10, 13, skinShade); span(18, 10, 13, skinShade);
@@ -673,6 +932,11 @@ var PixelArt = (function () {
       g.set(7, 8, hair); g.set(16, 8, hair); g.set(7, 9, hair); g.set(16, 9, hair);
     } else {
       span(5, 9, 14, hair); span(6, 8, 15, hair); span(7, 8, 15, hair); g.set(7, 8, hair); g.set(16, 8, hair); g.set(7, 9, hair); g.set(16, 9, hair);
+      if (spec.hairStyle === 'curly') {
+        span(4, 10, 13, hair);
+        const hl = mixRGB(hair, [200, 180, 150], 0.25);
+        [[10, 4], [13, 5], [9, 6], [12, 6], [15, 7], [8, 7], [11, 5]].forEach(([x, y]) => g.set(x, y, hl));
+      }
     }
     return outline(g);
   }
