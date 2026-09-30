@@ -278,6 +278,18 @@
   .choice-btn.correct { background: var(--good-bg); border-color: var(--good); color: #cdf7e0; }
   .choice-btn.incorrect { background: var(--bad-bg); border-color: var(--bad); color: #ffd6d6; }
 
+  .answer-reveal { background: var(--bg-secondary); border: 1px solid var(--border-primary); border-left: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; margin-bottom: 18px; }
+  .answer-reveal.correct { border-left-color: var(--good); }
+  .answer-reveal.incorrect { border-left-color: var(--bad); }
+  .reveal-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 12px; }
+  .reveal-word { font-size: 1.2rem; font-weight: 700; color: #fff; }
+  .reveal-ipa { color: var(--text-tertiary); font-size: 0.85rem; }
+  .reveal-verdict { margin-left: auto; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .answer-reveal.correct .reveal-verdict { color: var(--good); }
+  .answer-reveal.incorrect .reveal-verdict { color: var(--bad); }
+  .answer-reveal .modal-section { margin-bottom: 12px; }
+  .answer-reveal .modal-meaning { font-size: 0.95rem; }
+
   .credit { margin: 32px 0 8px; font-size: 0.75rem; color: var(--text-tertiary); text-align: center; }
   .credit a { color: inherit; }
   .quiz-footer { display: flex; justify-content: space-between; align-items: center; }
@@ -410,6 +422,7 @@
         <div class="quiz-prompt-label" id="promptLabel"></div>
         <div id="quizPrompt" class="quiz-prompt"></div>
         <div id="quizChoices" class="choices"></div>
+        <div id="answerReveal" class="answer-reveal" style="display:none;"></div>
         <div class="quiz-footer">
           <button class="quiz-quit" id="quitQuizBtn">Quit quiz</button>
           <button class="primary-btn" id="nextQuestionBtn" style="display:none;">Next &rarr;</button>
@@ -746,6 +759,9 @@ function renderQuestion() {
   document.getElementById('qIndex').textContent = quizIndex + 1;
   document.getElementById('qScore').textContent = quizScore;
   document.getElementById('nextQuestionBtn').style.display = 'none';
+  const revealEl = document.getElementById('answerReveal');
+  revealEl.style.display = 'none';
+  revealEl.innerHTML = '';
 
   const promptEl = document.getElementById('quizPrompt');
   const labelEl = document.getElementById('promptLabel');
@@ -817,6 +833,7 @@ function finishChoiceQuestion(correct, btnEl, isCorrectPredicate) {
     quizMissed.push(q.item);
   }
   document.getElementById('qScore').textContent = quizScore;
+  showAnswerReveal(q.item, correct);
   document.getElementById('nextQuestionBtn').style.display = 'inline-block';
 }
 
@@ -879,6 +896,7 @@ function buildTextAnswerUI(container, isCorrectFn, correctAnswerDisplay) {
       feedback.className = 'answer-feedback incorrect';
     }
     document.getElementById('qScore').textContent = quizScore;
+    showAnswerReveal(q.item, correct);
     document.getElementById('nextQuestionBtn').style.display = 'inline-block';
   }
   submitBtn.addEventListener('click', submit);
@@ -935,6 +953,7 @@ function renderHangman(q, promptEl, labelEl, choicesEl) {
       missesEl.style.color = 'var(--bad)';
     }
     document.getElementById('qScore').textContent = quizScore;
+    showAnswerReveal(qNow.item, won);
     document.getElementById('nextQuestionBtn').style.display = 'inline-block';
   }
   function guess(letter, btn) {
@@ -975,6 +994,52 @@ document.addEventListener('keydown', (e) => {
     if (btn && !btn.disabled) btn.click();
   }
 });
+
+// ---- Answer reveal ----
+// Shown after every answer, right or wrong: the full (unmasked) definition,
+// the etymology, and the word used in a sentence.
+function exampleSentences(item) {
+  const pattern = new RegExp('\\b(' + Array.from(inflections(item.word))
+    .map(f => f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b', 'i');
+  const examples = (item.examples || []).filter(ex => ex.length <= 240);
+  // prefer sentences that actually contain the word, shortest first
+  const withWord = examples.filter(ex => pattern.test(ex)).sort((a, b) => a.length - b.length);
+  if (withWord.length) return withWord.slice(0, 2);
+  if (examples.length) return examples.slice(0, 1);
+  // fall back to the "Ex. ..." usage notes inside the meaning, un-blanked
+  return (item.meaning || '').split(/;\s+/)
+    .filter(c => /^Ex[.:]/.test(c.trim()))
+    .map(c => c.trim().replace(/^Ex[.:]\s*/, '').replace(/___/g, item.word))
+    .slice(0, 2);
+}
+function meaningWithoutExamples(item) {
+  const clauses = (item.meaning || '').split(/;\s+/).filter(c => !/^Ex[.:]/.test(c.trim()));
+  return clauses.length ? clauses.join('; ') : item.meaning;
+}
+function showAnswerReveal(item, correct) {
+  const el = document.getElementById('answerReveal');
+  let html = `<div class="reveal-head"><span class="reveal-word">${escapeHtml(item.word)}</span>` +
+    (item.ipa ? `<span class="reveal-ipa">${escapeHtml(item.ipa)}</span>` : '') +
+    `<span class="reveal-verdict">${correct ? 'Correct' : 'Incorrect'}</span></div>`;
+  if (item.meaning) {
+    html += `<div class="modal-section"><div class="modal-section-label">Definition</div><div class="modal-meaning">${escapeHtml(meaningWithoutExamples(item))}</div>` +
+      (item.definitions || []).slice(0, 2).map(d =>
+        `<div class="modal-def-item">${d.pos ? `<span class="pos">${escapeHtml(d.pos)}</span>` : ''}${escapeHtml(d.gloss || d)}</div>`
+      ).join('') + `</div>`;
+  }
+  const sentences = exampleSentences(item);
+  if (sentences.length) {
+    html += `<div class="modal-section"><div class="modal-section-label">In a sentence</div>` +
+      sentences.map(ex => `<div class="modal-example-item">${escapeHtml(ex)}</div>`).join('') + `</div>`;
+  }
+  if (item.etymology) {
+    html += `<div class="modal-section"><div class="modal-section-label">Etymology</div><div class="modal-etymology">${escapeHtml(item.etymology)}</div></div>`;
+  }
+  el.innerHTML = html;
+  el.className = 'answer-reveal ' + (correct ? 'correct' : 'incorrect');
+  el.style.display = 'block';
+  el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
 
 document.getElementById('nextQuestionBtn').addEventListener('click', () => {
   quizIndex++;
