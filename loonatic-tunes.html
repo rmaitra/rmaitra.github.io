@@ -150,6 +150,12 @@
         color: var(--text-primary);
         margin: 0 0 1.5rem 0;
     }
+    .library-count {
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: var(--text-tertiary);
+        margin-left: 0.6rem;
+    }
 
     .albums-grid {
         display: grid;
@@ -692,7 +698,7 @@
     </div>
 
     <div id="browseView" class="view">
-        <h2 class="section-title">Albums</h2>
+        <h2 class="section-title">Albums<span class="library-count" id="libraryCount"></span></h2>
         <div id="albumsGrid" class="albums-grid"></div>
     </div>
 
@@ -983,6 +989,9 @@
     }
 
     function renderBrowse() {
+        const songCount = albums.reduce((n, a) => n + (a.songs || []).length, 0);
+        const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+        document.getElementById('libraryCount').textContent = `${plural(albums.length, 'album')} · ${plural(songCount, 'song')}`;
         const grid = document.getElementById('albumsGrid');
         grid.innerHTML = '';
         albums.forEach((album, idx) => grid.appendChild(buildAlbumCard(album, idx)));
