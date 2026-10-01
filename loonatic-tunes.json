@@ -3,6 +3,13 @@
         "name": "Msichana’s Dance with the Gods",
         "artist": "Raj Maitra",
         "image": "",
+        "description": [
+            "*An eight part musical story of a young girl tricking the gods.*",
+            "",
+            "Earth bubbles and cracks with lava and lightning — an earth left behind by the gods. In a town of rock walls, dust and chains, **Msichana** believes there is more beyond the walls, and climbs over them into the dark.",
+            "",
+            "> This story and music was written by Raj Maitra for *seangarrison's* live painting performance at the University of Minnesota's Layers of Joy https://cla.umn.edu/art/news-events/news/layers-joy-community-celebration-black-art-and-artists-minneapolis"
+        ],
         "songs": [
             {
                 "name": "Msichana’s Dance with the Gods",
@@ -243,6 +250,70 @@
         ]
     },
     {
+        "name": "If I Had the Words",
+        "artist": "Jesse (Jessica Franklin)",
+        "image": "https://www.loonaticproductions.com/img/article2.jpeg",
+        "songs": [
+            {
+                "name": "Damaged",
+                "link": "https://www.dropbox.com/scl/fi/ckdbvnvk1f21imz5d93pk/Damaged-v5.wav?rlkey=xalcqsrj6r9n9agwcosyxg8y4&st=k7h1xnrp&dl=0",
+                "image": ""
+            },
+            {
+                "name":"Wish I Never Met You",
+                "link":"https://www.dropbox.com/scl/fi/4hftvoms49rvxee2cd8x5/I-Wish-I-Never-Met-You-v5.wav?rlkey=w8cs038fj2f0vl8eopknsw1p8&st=hipr7qg1&dl=0",
+                "image":""
+            },
+            {
+                "name":"Hang Over My Head",
+                "link":"https://www.dropbox.com/scl/fi/vnhgmwkngzndyy89hp9vu/Hang-Over-My-Head-V3.wav?rlkey=wiw0s3onos2jnrscycp48c2lu&st=01497suu&dl=0",
+                "image":""
+            },
+            {
+                "name":"When I Get to You",
+                "link":"https://www.dropbox.com/scl/fi/7m9jxcb03syi32n4bdtld/When-I-Get-To-You-v3.wav?rlkey=i50bbv0vxg39gf1rjtkgs5h9q&st=b1yfss2k&dl=0",
+                "image":""
+            },
+            {
+                "name":"Shelter",
+                "link":"https://www.dropbox.com/scl/fi/kdjv6hado355cmjpt4p97/Shelter-v3-w-punch-ins.wav?rlkey=v4dsqfoo33gimboertcclm604&st=f6ewg56n&dl=0",
+                "image":""
+            },
+            {
+                "name":"I Don't Have the Words",
+                "link":"https://www.dropbox.com/scl/fi/0jbazjrgr3rvq01l8hmmp/I-Dont-Have-Words-V3.wav?rlkey=83xv9fu2k5kzw7p1e425y5g47&st=qm81aaoe&dl=0",
+                "image":""
+            }
+        ]
+    },
+    {
+        "name": "The Number You Have Dialed...",
+        "artist": "Esber and The Raj!",
+        "image": "https://www.loonaticproductions.com/img/portfolio/number-you-have-dialed-cover.webp",
+        "songs": [
+            {
+                "name": "Queens (feat. Nelson Devereaux)",
+                "link": "https://www.dropbox.com/scl/fi/tzmsqcx9ixf2wq9dbzomp/Queens-Master-v2.wav?rlkey=fyfa4wthkz3bz4iuxijgq0wsv&st=8juzd5h6&dl=0",
+                "image": ""
+            },
+            {
+                "name":"Something's Gotta Give (feat. David Glen)",
+                "link":"https://www.dropbox.com/scl/fi/4cp5l5ra4v5ul0gb92fz5/Somethings-Gotta-Give-Master-v1.wav?rlkey=ycugynyo85mbwvwjs6n926hnf&st=4zbht2yn&dl=0",
+                "image":""
+            },
+            {
+                "name":"Only Call Me (feat. David Glen)",
+                "link":"https://www.dropbox.com/scl/fi/utgiejtvr4pl2l22bibdf/Only-Call-Me-Master-v2.wav?rlkey=q7d8r5h0d4ph75u3hio09i5fm&st=3otofbru&dl=0",
+                "image":""
+            },
+            {
+                "name":"Your Screen",
+                "link":"https://www.dropbox.com/scl/fi/kkxtl18nu3tfiedjjlyub/Your-Screen-Master-v1.wav?rlkey=z9uuxbqrlyi4pqjexvi0e544o&st=6dioxsp5&dl=0",
+                "image":""
+            }
+        ]
+    },
+    {
         "name": "Yellow Son",
         "artist": "Joe Moran",
         "image": "https://www.dropbox.com/scl/fi/z2h6w1lv58rpj21qsbv06/yello-son.jpg?rlkey=ynnckrn1koo19lkurrmjrbbin&st=myr27nk9&dl=0",
@@ -316,6 +387,109 @@
                 "name": "Let Me Down Easy (feat. Eamonn McLain)",
                 "link": "https://www.dropbox.com/scl/fi/kx4nkevmyxwu56plz8urd/14.-Let-Me-Down-Easy.wav?rlkey=zqpvioo0j2b46bcne8whsnrei&st=y8mect07&dl=0",
                 "image": ""
+            }
+        ]
+    },
+    {
+        "name": "Love with Your Phone",
+        "artist": "Jono and the Raj!",
+        "image": "https://www.loonaticproductions.com/img/love-with-your-phone.webp",
+        "songs": [
+            {
+                "name": "It's Like We're Together",
+                "link": "https://www.dropbox.com/scl/fi/1chfhpfk78vh7p6y53wat/It-s-Like-We-re-Together-mix-v1.wav?rlkey=4rakvvlbgwjgye9n8cw26qa6e&st=rt62w6ru&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Cream Puffs",
+                "link": "https://www.dropbox.com/scl/fi/0tm12cdyl38fmb1sty6pt/Cream-Puffs-mix-v1.wav?rlkey=16de6hdjx4aicnxvw7dnrydh4&st=priyt4qs&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Love with Your Phone",
+                "link": "https://www.dropbox.com/scl/fi/nd9y5v8nj44mgnd5eungq/Love-with-Your-Phone-Pre-Master-V1.wav?rlkey=7bm8zsouarzr950cuu1ym8ruq&st=w7gjkn8k&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Just the Two of Us",
+                "link": "https://www.dropbox.com/scl/fi/cebv2samo60tbtzlqy04x/Just-The-Two-of-Us-mix-v1.wav?rlkey=bam4riu2ktmdwsha7vsrf5fev&st=0sthgtqc&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Other Man",
+                "link": "https://www.dropbox.com/scl/fi/wfqgi1pnin0nyyf5yl8af/Other-Man-mix-v1.wav?rlkey=bcbwczer5e5nljysmxsrdqg6t&st=adpl90f3&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Ovals",
+                "link": "https://www.dropbox.com/scl/fi/0mhm8h46i09b614u155lj/Ovals-mix-v1.wav?rlkey=axwze319yxc41xsb4id5i5gn9&st=2okbrt0q&dl=0&raw=1",
+                "image": ""
+            },
+            {
+                "name": "Politics",
+                "link": "https://www.dropbox.com/scl/fi/rkaeagkvpcuylaxx7onlh/Politics-mix-v1.wav?rlkey=8k17mzwevicv52jabgt5we4rt&st=sfzh6u6f&dl=0&raw=1",
+                "image": ""
+            }       
+        ]
+    },
+    {
+        "name": "John Swardson Sessions",
+        "artist": "John Swardson",
+        "image": "https://f4.bcbits.com/img/a3199116593_16.jpg",
+        "songs": [
+            {
+                "name": "The Storm",
+                "link": "https://www.dropbox.com/scl/fi/l1tmdcba8ax0vwwu662ai/John-Swardson-The-Storm-Mv1.wav?rlkey=q56ekvoo4oequb99jscgay5xs&st=x7z5vnmt&dl=0",
+                "image": "https://f4.bcbits.com/img/a3199116593_16.jpg"
+            },
+            {
+                "name":"Leaves",
+                "link":"https://www.dropbox.com/scl/fi/7990ex6gjdz5k7liazf76/Leaves-Live-Music-Video-Version-Master-v2.wav?rlkey=3csinct0fonav5t9t2oq5eyds&st=mne72o9g&dl=0",
+                "image":""
+            },
+            {
+                "name":"When the Demons Call",
+                "link":"https://www.dropbox.com/scl/fi/w08gl5g8d5dd4mpuaxu6r/When-the-Demons-Call-Master-v1.wav?rlkey=xuwpcozsxdko8meert7zj96og&st=xn57jq1n&dl=0",
+                "image":"https://www.dropbox.com/scl/fi/10wg5doja9bx9sb1eo960/IMG_20230808_184452.jpg?rlkey=8pnedrme9i904p05y3n0pzxlh&st=5t8jtywi&dl=0"
+            },
+            {
+                "name":"Grand Marais (Rough)",
+                "link":"https://www.dropbox.com/scl/fi/thtqm50kkl4yg3ank9o6r/Grand-Marais-Mix-v1.wav?rlkey=flc2atyu12azqn7ywac0xmds7&st=fvs7sp68&dl=0",
+                "image":""
+            },
+            {
+                "name":"Island and the Eagle Tree (Rough)",
+                "link":"https://www.dropbox.com/scl/fi/55wdxqbs18cf08xwll714/Island-and-the-Eagle-Tree-comp-v1.wav?rlkey=84zxtf7k478178iip5n8cyoya&st=tythnxag&dl=0",
+                "image":""
+            },
+            {
+                "name":"Ohio (Rough)",
+                "link":"https://www.dropbox.com/scl/fi/zi8tshhfcmiwyjdt9z1li/Ohio-Take-6-Comp-v1.wav?rlkey=aozvbts3ocb1b5irorwxzw011&st=9rjj00xn&dl=0",
+                "image":""
+            },
+            {
+                "name":"Song For Lulu (Rough)",
+                "link":"https://www.dropbox.com/scl/fi/rnc64mbwp0e8du5pw25af/Song-for-Lulu-comp-v1.wav?rlkey=q15waelabo1s2tdfaovvf4dl8&st=tc0yq6zz&dl=0",
+                "image":""
+            },
+            {
+                "name":"The Night (Rough)",
+                "link":"https://www.dropbox.com/scl/fi/xrbo8vpchiig8a5yrpdro/The-Night-take-2.wav?rlkey=49xlwz70ynzvjq1gt9vtzkbo0&st=7nzwsxul&dl=0",
+                "image":""
+            },
+            {
+                "name":"There's No One Left (Rough)",
+                "link":"https://www.dropbox.com/scl/fi/hx5b40mpbskqqex96kpm9/There-s-No-One-Left-rough-v1.wav?rlkey=6gu2l05sigzp6307u1rf1ovgg&st=684d6rdy&dl=0",
+                "image":""
+            },
+            {
+                "name":"This Sea (Rough)",
+                "link":"https://www.dropbox.com/scl/fi/dmgotq8kx1ebnsup1pj35/This-Sea-comp-v1.wav?rlkey=5g682t0k93qveghyjs3uqkza4&st=y128iimw&dl=0",
+                "image":""
+            },
+            {
+                "name":"Be More (Rough)",
+                "link":"https://www.dropbox.com/scl/fi/os6oeg8iji1eq7h9o4pui/Be-More-Take-2.wav?rlkey=6rufkvwy1e8mwhys2g2ae15ta&st=f3s25av4&dl=0"
             }
         ]
     },
@@ -558,48 +732,6 @@
                 "link": "https://www.dropbox.com/scl/fi/1crgd0s1kou978vp8ky9a/Manchild-Master-V2.wav?rlkey=d604z7k93oql9ro5l8qksgh95&st=obxdxdto&dl=0&raw=1",
                 "image": ""
             }    
-        ]
-    },
-    {
-        "name": "Love with Your Phone",
-        "artist": "Jono and the Raj!",
-        "image": "https://www.loonaticproductions.com/img/love-with-your-phone.webp",
-        "songs": [
-            {
-                "name": "It's Like We're Together",
-                "link": "https://www.dropbox.com/scl/fi/1chfhpfk78vh7p6y53wat/It-s-Like-We-re-Together-mix-v1.wav?rlkey=4rakvvlbgwjgye9n8cw26qa6e&st=rt62w6ru&dl=0&raw=1",
-                "image": ""
-            },
-            {
-                "name": "Cream Puffs",
-                "link": "https://www.dropbox.com/scl/fi/0tm12cdyl38fmb1sty6pt/Cream-Puffs-mix-v1.wav?rlkey=16de6hdjx4aicnxvw7dnrydh4&st=priyt4qs&dl=0&raw=1",
-                "image": ""
-            },
-            {
-                "name": "Love with Your Phone",
-                "link": "https://www.dropbox.com/scl/fi/nd9y5v8nj44mgnd5eungq/Love-with-Your-Phone-Pre-Master-V1.wav?rlkey=7bm8zsouarzr950cuu1ym8ruq&st=w7gjkn8k&dl=0&raw=1",
-                "image": ""
-            },
-            {
-                "name": "Just the Two of Us",
-                "link": "https://www.dropbox.com/scl/fi/cebv2samo60tbtzlqy04x/Just-The-Two-of-Us-mix-v1.wav?rlkey=bam4riu2ktmdwsha7vsrf5fev&st=0sthgtqc&dl=0&raw=1",
-                "image": ""
-            },
-            {
-                "name": "Other Man",
-                "link": "https://www.dropbox.com/scl/fi/wfqgi1pnin0nyyf5yl8af/Other-Man-mix-v1.wav?rlkey=bcbwczer5e5nljysmxsrdqg6t&st=adpl90f3&dl=0&raw=1",
-                "image": ""
-            },
-            {
-                "name": "Ovals",
-                "link": "https://www.dropbox.com/scl/fi/0mhm8h46i09b614u155lj/Ovals-mix-v1.wav?rlkey=axwze319yxc41xsb4id5i5gn9&st=2okbrt0q&dl=0&raw=1",
-                "image": ""
-            },
-            {
-                "name": "Politics",
-                "link": "https://www.dropbox.com/scl/fi/rkaeagkvpcuylaxx7onlh/Politics-mix-v1.wav?rlkey=8k17mzwevicv52jabgt5we4rt&st=sfzh6u6f&dl=0&raw=1",
-                "image": ""
-            }       
         ]
     },
     {

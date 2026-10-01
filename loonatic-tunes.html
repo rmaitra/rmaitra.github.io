@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loonatic Tunes</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <style>
     :root {
         --bg-primary: #000000;
@@ -338,6 +339,44 @@
     }
     .back-link:hover { color: var(--text-primary); }
 
+    .album-description {
+        max-width: 760px;
+        margin: 0 0 2rem 0;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+    .album-description:empty { display: none; }
+    .album-description h1, .album-description h2, .album-description h3, .album-description h4 {
+        color: #fff;
+        font-weight: 600;
+        line-height: 1.3;
+        margin: 1.6em 0 0.5em;
+    }
+    .album-description h1 { font-size: 1.4rem; }
+    .album-description h2 { font-size: 1.2rem; }
+    .album-description h3, .album-description h4 { font-size: 1rem; }
+    .album-description > :first-child { margin-top: 0; }
+    .album-description p { margin: 0 0 1em; }
+    .album-description a { color: var(--accent-primary); }
+    .album-description strong { color: var(--text-primary); }
+    .album-description blockquote {
+        margin: 1em 0;
+        padding: 0.2em 1em;
+        border-left: 3px solid var(--accent-dim);
+        color: var(--text-tertiary);
+        font-style: italic;
+    }
+    .album-description ul, .album-description ol { padding-left: 1.4em; margin: 0 0 1em; }
+    .album-description img { max-width: 100%; border-radius: 8px; }
+    .album-description hr { border: none; border-top: 1px solid var(--border-primary); margin: 1.5em 0; }
+    .album-description code {
+        background: var(--bg-elevated);
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+        font-size: 0.88em;
+    }
+
     .track-list {
         border-top: 1px solid var(--border-primary);
     }
@@ -429,6 +468,9 @@
         transition: background 0.15s;
     }
     .marker:hover { background: var(--bg-elevated); }
+    .marker.active { background: rgba(182,88,255,0.12); }
+    .marker.active .marker-time { background: var(--accent-primary); color: #fff; }
+    .marker.active .marker-text { color: var(--text-primary); }
     .marker-time {
         flex-shrink: 0;
         font-size: 0.75rem;
@@ -672,6 +714,7 @@
                 </div>
             </div>
         </div>
+        <div class="album-description" id="albumDescription"></div>
         <div class="track-list" id="trackList"></div>
     </div>
 
@@ -718,6 +761,8 @@
     let albums = [];
     let currentAlbumIndex = -1;
     let currentSongIndex = -1;
+    const expandedTracks = new Map(); // "album:song" -> expanded, overrides the default
+    let lastActiveMarkerKey = null;
 
     let radioMode = false;
     let radioQueue = [];
@@ -950,6 +995,7 @@
         document.getElementById('albumHeaderTitle').textContent = album.name || 'Untitled Album';
         document.getElementById('albumHeaderArtist').textContent = album.artist || '';
         document.getElementById('albumHeaderMeta').textContent = `${(album.songs || []).length} track${(album.songs || []).length === 1 ? '' : 's'}`;
+        document.getElementById('albumDescription').innerHTML = renderMarkdown(album.description);
         const headerArt = document.getElementById('albumHeaderArt');
         applyAlbumArt(headerArt, album);
 
@@ -974,6 +1020,11 @@
 
             const item = document.createElement('div');
             item.className = 'track-item';
+            const expandKey = `${albumIndex}:${sIdx}`;
+            const hasTimestamps = !!(song.timestamps && song.timestamps.length);
+            if (hasDetails && (expandedTracks.get(expandKey) ?? hasTimestamps)) {
+                item.classList.add('expanded');
+            }
 
             const row = document.createElement('div');
             row.className = 'track-row';
@@ -1007,7 +1058,7 @@
                 const expandBtn = row.querySelector('.track-expand');
                 expandBtn.onclick = (e) => {
                     e.stopPropagation();
-                    item.classList.toggle('expanded');
+                    expandedTracks.set(expandKey, item.classList.toggle('expanded'));
                 };
 
                 details.querySelectorAll('.marker').forEach(markerEl => {
@@ -1017,6 +1068,49 @@
 
             list.appendChild(item);
         });
+        lastActiveMarkerKey = null;
+        updateActiveMarker();
+    }
+
+    // Album descriptions are markdown; a string or an array of lines (joined with newlines).
+    function renderMarkdown(md) {
+        if (!md) return '';
+        const text = Array.isArray(md) ? md.join('\n') : String(md);
+        if (window.marked) return marked.parse(text);
+        return text.split(/\n{2,}/).map(p => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`).join('');
+    }
+
+    function getActiveTimestampIndex(song, t) {
+        const stamps = song && song.timestamps;
+        if (!stamps || !stamps.length) return -1;
+        let idx = -1;
+        stamps.forEach((ts, i) => { if (t >= ts.time) idx = i; });
+        return idx;
+    }
+
+    // Highlights the playing section in the track list and shows it in the player bar.
+    function updateActiveMarker() {
+        const album = albums[currentAlbumIndex];
+        const song = album && (album.songs || [])[currentSongIndex];
+        const idx = song ? getActiveTimestampIndex(song, audioEl.currentTime) : -1;
+        const key = `${currentAlbumIndex}:${currentSongIndex}:${idx}`;
+        if (key === lastActiveMarkerKey) return;
+        lastActiveMarkerKey = key;
+
+        document.querySelectorAll('#trackList .marker.active').forEach(el => el.classList.remove('active'));
+        const playerAlbumEl = document.getElementById('playerAlbumName');
+        if (idx < 0) {
+            if (album) playerAlbumEl.textContent = album.name || '';
+            return;
+        }
+        const ts = song.timestamps[idx];
+        playerAlbumEl.textContent = [ts.movement, ts.label].filter(Boolean).join(' · ') || album.name || '';
+
+        if (albumView.classList.contains('active')) {
+            const item = document.querySelectorAll('#trackList .track-item')[currentSongIndex];
+            const marker = item && item.querySelectorAll('.marker')[idx];
+            if (marker) marker.classList.add('active');
+        }
     }
 
     function buildTrackDetailsHtml(song) {
@@ -1095,6 +1189,7 @@
 
         document.getElementById('playerSongName').textContent = song.name || 'Untitled Track';
         document.getElementById('playerAlbumName').textContent = album.name || '';
+        lastActiveMarkerKey = null;
         const thumbUrl = song.image ? normalizeMediaUrl(song.image) : getAlbumArt(album);
         const playerThumb = document.getElementById('playerThumb');
         playerThumb.classList.toggle('generated-art', !song.image && !album.image);
@@ -1386,6 +1481,7 @@
         seekBar.value = pct;
         seekBar.style.background = `linear-gradient(to right, var(--accent-primary) ${pct}%, var(--border-primary) ${pct}%)`;
         currentTimeEl.textContent = formatTime(audioEl.currentTime);
+        updateActiveMarker();
     });
 
     seekBar.addEventListener('input', () => {
