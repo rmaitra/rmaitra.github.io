@@ -215,6 +215,7 @@ function applyView() {
   document.getElementById('subjectView').hidden = stories;
   document.getElementById('storiesPane').hidden = !stories;
   document.getElementById('scoreboard').hidden = stories;
+  if (!stories && typeof Narration !== 'undefined') Narration.stop();
   try { localStorage.setItem(VIEW_KEY, state.view); } catch (e) { /* ignore */ }
   renderSubjectTabs();
 }

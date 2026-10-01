@@ -10,7 +10,7 @@ A new **Stories** tab: guided lessons that teach each topic by following the peo
 
 It reuses the lesson engine from Italiano Studio (`language/`): one beat per **Next**, the page building downward, quick checks, dialogue with a "Your turn" pass, resume, a recap, and lessons that feed the drills. It adds what maths needs: problems that are actually checked, step-by-step derivations and proofs, interactive figures, and a timeline.
 
-Status: **in progress.** Two lessons are built: 8, *Measuring the Earth* (Eratosthenes), and 16, *Restoring and balancing* (al-Khwarizmi). The other 53 lessons show on the timeline, greyed out as planned. Decided so far: Stories is the default tab; nothing in Stories is scored; the learner is an adult self-learner; the role changes each lesson; diagrams are drawn in code; there is no read-aloud yet; units in a story are the ones used at the time (dirhams, cubits), and modern units in *Echoes today*.
+Status: **in progress.** Two lessons are built: 8, *Measuring the Earth* (Eratosthenes), and 16, *Restoring and balancing* (al-Khwarizmi). The other 53 lessons show on the timeline, greyed out as planned. Decided so far: Stories is the default tab; nothing in Stories is scored; the learner is an adult self-learner; the role changes each lesson; diagrams are drawn in code; read-aloud uses the browser's own voices (§4); units in a story are the ones used at the time (dirhams, cubits), and modern units in *Echoes today*.
 
 ---
 
@@ -282,7 +282,7 @@ A lesson counts as built, and becomes clickable on the timeline, as soon as it h
 - Such a problem also has a `calc` line, written with × ÷ −, e.g. `"250000 × 157.5 ÷ 1000"`. It is shown in the worked solution, and `check-stories.mjs` checks it gives the answer.
 - **Opt-in per problem.** Switch it on when the insight is setting up the calculation and the numbers are heavy (unit conversions, percentage errors, square roots of decimals). Leave it off when the arithmetic is the lesson (al-Khwarizmi's recipe with small numbers, 360 ÷ 50).
 
-**Not built yet:** `proof`, `practice` (a live generator), `experiment`, the `quantity` check, the Notebook tab and read-aloud.
+**Not built yet:** `proof`, `practice` (a live generator), `experiment`, the `quantity` check, and the Notebook tab. Read-aloud uses browser voices only (see §4).
 
 ---
 
@@ -299,7 +299,10 @@ The math app is currently `index.html` + `core.js` + `generators.js` + `arithmet
 
 **Port or share the player?** Port it (copy and adapt). The beat and resume logic is the same, but most block types differ, and the two apps have different state shapes. If a third app appears, extract `/shared/lesson-player.js` then, with block types added as plugins. That matches the "generic engine" idea in `language/MULTILANGUAGE.md`.
 
-**Read aloud:** optional, as in Italiano. KaTeX doesn't speak well, so math blocks take an optional `say` ("x squared plus ten x equals thirty-nine"). Without it, narration skips the formula.
+**Read aloud (browser voices only):** a narrator menu in the lesson's top bar lists the device's English `speechSynthesis` voices. It's hidden if the device has none. With a voice chosen, each beat that Next reveals is read aloud, **▶ Listen / ■ Stop** in the bottom bar replays or stops the current beat, and the step being read gets an accent bar. The accents available depend on the browser; Edge has the most.
+
+- **`narration.js`** turns a beat into spoken text (`beatText`). It strips `*term*` markers and turns TeX into words (`\tfrac{1}{50}` becomes "one fiftieth", `\times` becomes "times"). It reads "c. 240 BCE" as "around 240 B.C.E." and applies `LEXICON` respellings for hard names (Syene → "sigh-eenie"). Any step, derivation line or dialogue line can set `say` to replace the generated text.
+- **Recorded narration was prototyped and dropped (2026-09-29).** Clips were made with the free Kokoro and Piper models, stored as `audio/<voice>/<hash of text>.mp3` and served from the repo, about 3 MB per lesson per voice. It worked, but it isn't wanted for now. If it comes back: recording ran at about 1.7× real time on a CPU; kokoro-onnx needs `phonemizer-fork`; and espeak-ng ignores data paths longer than about 160 characters. Don't use Git LFS for hosting, because GitHub Pages doesn't serve LFS files.
 
 ---
 

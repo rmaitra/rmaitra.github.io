@@ -328,6 +328,7 @@
 
   const checkOrder = new WeakMap();
   const hasArt = typeof PixelArt !== 'undefined';
+  const narr = typeof Narration !== 'undefined' ? Narration : null;
 
   function renderLesson(meta) {
     const lesson = fullLesson(meta);
@@ -345,12 +346,30 @@
     const nextBtn = h('button', { class: 'primary st-next', onclick: () => advance() }, 'Next');
     const fill = h('span');
     const counter = h('span', { class: 'st-counter' });
-    const bar = h('div', { class: 'st-bar' }, h('span', { class: 'meter' }, fill), counter, nextBtn);
+    // Narration: with a narrator chosen, each newly revealed beat is read aloud, and
+    // the listen button replays (or stops) the current one.
+    let posEl = null;
+    const listenBtn = h('button', { class: 'secondary st-listen', type: 'button', 'aria-label': 'Read this step aloud', onclick: () => listen() });
+    function listen() {
+      if (narr.isPlaying()) narr.stop();
+      else speak(posEl);
+    }
+    function speak(el) {
+      narr.play(narr.beatText(beats[pos]), el, updateListen);
+      updateListen();
+    }
+    function updateListen() {
+      listenBtn.hidden = !narr || !narr.enabled();
+      listenBtn.textContent = narr && narr.isPlaying() ? '■ Stop' : '▶ Listen';
+    }
+    const bar = h('div', { class: 'st-bar' }, h('span', { class: 'meter' }, fill), counter, narr ? listenBtn : null, nextBtn);
 
     root.append(
       h('div', { class: 'st-top' },
         h('button', { class: 'link-btn', onclick: closeLesson }, '← All stories'),
-        h('button', { class: 'link-btn', onclick: () => { setProgress(lesson.id, { pos: 0 }); render(); window.scrollTo(0, 0); } }, 'restart')),
+        h('div', { class: 'st-top-right' },
+          narr ? narr.control(() => { updateListen(); if (narr.enabled() && posEl) speak(posEl); }) : null,
+          h('button', { class: 'link-btn', onclick: () => { setProgress(lesson.id, { pos: 0 }); render(); window.scrollTo(0, 0); } }, 'restart'))),
       h('header', { class: 'st-head' },
         h('div', { class: 'eyebrow' }, `Act ${actNumber(lesson)} · Lesson ${lesson.order} · ${lesson.year} · ${lesson.place}`),
         h('h2', {}, lesson.title),
@@ -374,9 +393,11 @@
 
     function advance() {
       if (holds.length || pos >= last) return;
-      reveal(pos + 1, true);
+      reveal(pos + 1, true, true);
     }
-    function reveal(i, live) {
+    // `fresh` is a beat revealed by Next (read aloud if narrating), not one restored
+    // on reopening the lesson.
+    function reveal(i, live, fresh) {
       pos = i;
       holds = [];
       choose = null;
@@ -389,6 +410,11 @@
       setProgress(lesson.id, i === last ? { pos, done: true } : { pos });
       updateBar();
       if (live && el) bringIntoView(el, true);
+      posEl = el;
+      if (narr) {
+        if (fresh && narr.enabled()) speak(el);
+        else narr.stop();
+      }
       return el;
     }
     function hold(reason) {
@@ -763,6 +789,7 @@
     let lastEl = null;
     for (let i = 0; i <= start; i++) lastEl = reveal(i, i === start && i !== last);
     if (start > 0 && lastEl) requestAnimationFrame(() => bringIntoView(lastEl, false));
+    updateListen();
   }
 
   function renderRecap(lesson) {
@@ -793,6 +820,7 @@
   // ---------- mounting ----------
   function render() {
     if (!root) return;
+    if (narr) narr.stop();
     keyHandler = null;
     root.replaceChildren();
     if (!data) { root.append(h('p', { class: 'l-p muted' }, 'Loading stories…')); return; }

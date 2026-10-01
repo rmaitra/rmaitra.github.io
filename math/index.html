@@ -361,6 +361,16 @@
     .chip-physics { border-color: #6b4a2e; color: #ffb27a; }
 
     .st-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .st-top { gap: 12px; }
+    .st-top .link-btn { white-space: nowrap; }
+    .st-top-right { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .narrator-select {
+      max-width: 220px; min-width: 0; padding: 5px 8px; font: inherit; font-size: 0.85rem;
+      color: var(--text-secondary); background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: 6px;
+    }
+    .narrator-select:focus { outline: none; border-color: var(--accent); }
+    .st-listen { padding-left: 14px; padding-right: 14px; white-space: nowrap; }
+    .lesson-flow .speaking { box-shadow: -9px 0 0 -6px var(--accent); }
     .st-head { margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px solid var(--border-primary); }
     .st-head h2 { font-size: 2.2rem; margin: 6px 0 4px 0; letter-spacing: -0.5px; }
     .st-subtitle { color: var(--text-secondary); margin: 0 0 12px 0; font-size: 1.05rem; }
@@ -719,6 +729,7 @@
 <script src="widgets.js"></script>
 <script src="pixelmap.js"></script>
 <script src="pixelart.js"></script>
+<script src="narration.js"></script>
 <script src="stories.js"></script>
 <script src="app.js"></script>
 </body>
