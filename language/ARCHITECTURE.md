@@ -131,11 +131,11 @@ Loaded once at startup into the module-level `data` variable, and never modified
 | `persons` | 6 | `["io","tu","lui","noi","voi","loro"]` | Verbs, tables, lexicon |
 | `personOptions` | 6 | `{id, label, en}` | Person filter, verb prompt gloss |
 | `tenseOptions` | 5 | `{id, label, title, description}` | Tense filter, verb feedback, tables, lexicon notes |
-| `topics` | 6 | `{id, label}` (everyday, food, directions, bathroom, social, time) | Topic filter (nouns, sentences), tables |
+| `topics` | 9 | `{id, label}` (everyday, food, directions, bathroom, social, time, naples, amalfi, rome) | Topic filter (nouns, sentences), tables |
 | `sentenceTypes` | 4 | `{id, label}` | Type filter, sentence eyebrow |
 | `functions` | 7 | `{id, label, description}` | Function filter, sentence feedback note |
 | `verbs` | 30 | `{id, en, rank, auxiliary, participle, irregular, tenses:{tense:{person:form}}, examples}` | Verbs drill (900 items), tables, lexicon |
-| `nouns` | 115 | `{id, en, rank, topic, gender, art, plural}` | Nouns drill, tables, lexicon |
+| `nouns` | 309 | `{id, en, rank, topic, gender, art, plural}` | Nouns drill, tables, lexicon |
 | `adjectives` | 20 | `{id, en, rank, forms:{ms,fs,mp,fp}}` | Tables, lexicon (no drill yet) |
 | `numbers` | 100 | `{value, it, rank}` | Numbers drill, tables, lexicon |
 | `articles` | 14 | `{it, en, type, gender, number, note}` | Articles table, lexicon |
@@ -158,7 +158,7 @@ Every drillable thing becomes an **item** with a string id. The same id is used 
 | Prefix | Built from | Example | Drill | Items |
 |---|---|---|---|---|
 | `v:` | `verbs × tenses × persons` | `v:essere:present:io` | Verbs | 900 |
-| `n:` | `nouns` | `n:zaino` | Nouns | 115 |
+| `n:` | `nouns` | `n:zaino` | Nouns | 309 |
 | `#:` | `numbers` | `#:23` | Numbers | 100 |
 | `q:` | `questions` | `q:q5` | Sentences | 16 |
 | `s:` | `sentences` | `s:s185` | Sentences | 214 |

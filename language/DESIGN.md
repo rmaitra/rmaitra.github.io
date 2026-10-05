@@ -63,11 +63,11 @@ The top bar has eight tabs: **Lessons · Verbs · Nouns · Numbers · Sentences 
 - Irregular verbs (15 of 30) are flagged in the prompt.
 
 ### 3.2 Nouns (articles & meaning)
-- 85 nouns: 67 everyday + 18 bathroom (*bagno, doccia, lavandino, asciugamano, carta igienica, asciugacapelli …*).
+- 309 nouns: 71 everyday, 18 bathroom (*bagno, doccia, lavandino, asciugamano, carta igienica, asciugacapelli …*), 114 food, 14 time, and three regional food topics — 36 Naples (*sfogliatella, babà, ragù …*), 22 Amalfi Coast (*scialatiello, delizia al limone, colatura di alici …*) and 34 Rome (*carbonara, supplì, carciofo alla giudia …*). Dishes normally named in the plural are stored in the singular like every other noun (*lo gnocco alla sorrentina · gli gnocchi alla sorrentina*).
 - Multiple choice, randomly **definite** (il / lo / la / l') or **indefinite** (un / uno / una / un'). Keys 1–4 select.
 - Feedback shows the singular and plural with articles (`il libro · i libri`), the gender and the rule that applies (e.g. "Masculine nouns starting with z, s + consonant, gn, ps or pn take *lo*").
 - **Meaning drill:** shows the English definition; pick the matching noun (shown with its article) from four, distractors drawn from the same topic first. Feedback gives singular · plural, the gender, and what the wrong pick means.
-- Filter: *Topic* (Everyday / Bathroom). Setting: *Drill* — Mixed (default, 50/50) / Article / Meaning. Both drills share one SRS item per noun.
+- Filter: *Topic* (Everyday / Ordering food / Bathroom / Time & dates / Naples food / Amalfi Coast food / Roman food). Setting: *Drill* — Mixed (default, 50/50) / Article / Meaning. Both drills share one SRS item per noun.
 
 ### 3.3 Numbers
 - 100 numbers: 1–100.
@@ -195,7 +195,7 @@ Top-level keys:
 | Type | Count | Notes |
 |---|---|---|
 | Verbs | 35 | 15 irregular; 1,050 conjugated forms |
-| Nouns | 115 | 71 everyday, 18 bathroom, 12 food (café and market), 14 time (days, week, month …) |
+| Nouns | 309 | 71 everyday, 18 bathroom, 114 food (café, market, ingredients, pasta shapes, meat, seafood, tableware), 14 time (days, week, month …), 36 Naples food, 22 Amalfi Coast food, 34 Roman food |
 | Adjectives | 20 | four forms each (not yet exercised) |
 | Numbers | 100 | 1–100 |
 | Articles | 14 | definite, indefinite, partitive |
