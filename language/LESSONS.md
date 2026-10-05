@@ -1,6 +1,6 @@
 # Italiano Studio — Lesson Plan
 
-The planned curriculum for the **Lessons** tab. Lessons 1–25 (Units 1–3) are built and live in `data/italian.json` → `lessons`, grouped by `unit` under the `lessonUnits` headings. The lesson format (step types, dialogues, role-play, `practice` ids) is documented in `DESIGN.md` §3.0 and §4. This file covers *what* to teach, and in what order.
+The planned curriculum for the **Lessons** tab. Lessons 1–26 (Units 1–3 and the first lesson of Unit 4) are built and live in `data/italian.json` → `lessons`, grouped by `unit` under the `lessonUnits` headings. The lesson format (step types, dialogues, role-play, `practice` ids) is documented in `DESIGN.md` §3.0 and §4. This file covers *what* to teach, and in what order.
 
 Levels follow the CEFR scale: lessons 1–33 (Units 1–4) are roughly **A1** (the basics), 34–45 (Units 5–6) roughly **A2** (everyday independence) and 46–78 (Units 7–11) **B1** (independent user).
 
@@ -8,7 +8,7 @@ Levels follow the CEFR scale: lessons 1–33 (Units 1–4) are roughly **A1** (t
 
 ## How to write a lesson
 
-Keep the conventions set by lessons 1–25:
+Keep the conventions set by lessons 1–26:
 
 - **Size:** 6–10 new words or phrases, 20–30 steps, about 35–45 Next presses. Split a lesson that grows past that.
 - **Shape:** 2–4 sections, each with a heading, then words, examples and a quick check. End with an "In conversation" section: one dialogue with a `practice` role-play, and optionally a second one, often the polite/*Lei* version of the first.
@@ -75,7 +75,7 @@ Data added for Unit 3: verbs *studiare, dormire, partire, aprire, preferire* (al
 
 ## Unit 4 — Wants, needs and everyday life
 
-### 26. *Voglio, posso, devo* — Modal verbs
+### 26. *Voglio, posso, devo* — Modal verbs ✅ (built)
 - **Goals:** Say what you want, can and must do.
 - **Teach:** *volere, potere, dovere* in the present + infinitive; *avere bisogno di*.
 - **Checks:** *posso andare* vs *posso vado*; *devo* vs *ho bisogno di* + noun.

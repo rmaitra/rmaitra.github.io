@@ -103,7 +103,7 @@ flowchart TB
 |---|---|---|---|---|
 | **Constants** | 4–10 | Storage key, Leitner box intervals `[0,1,3,7,14,30]` days, mastery threshold (box 3), recent-item window (3) | — | — |
 | **Helpers** | 19–43 | `h()` DOM builder (text via `append`, never `innerHTML`), text normalisation, shuffling, article joining | — | DOM nodes |
-| **Persistence** | 45–61 | Load, merge with `defaults()` and save one JSON blob | `localStorage['italiano.v1']` | same |
+| **Persistence** | 45–61 | Load, merge with `defaults()` (`hydrate`) and save one JSON blob. `exportProgress` / `importProgress` (Progress tab) write and read the same blob as a backup file | `localStorage['italiano.v1']` | same |
 | **Spaced repetition** | 63–81, 110–141 | `record(id, ok)` moves an item between Leitner boxes. `pickNext(mode)` chooses the next item: weak due items first, otherwise a random new item, otherwise one of the three soonest due | `state.srs`, the filtered pool, `recent` | `state.srs`, score and streak |
 | **Filters & settings** | 83–108 | Per-mode filter axes (tense, person, topic, type, function) and non-filtering settings (verb format, noun drill, reading direction) | `state.filters`, `state.settings`, data label lists | — |
 | **Item pools** | 142–186 | `MODES` registry: each mode has `label`, `desc`, `build()` (turns data into items with SRS ids) and `render()`. `getItems` caches built pools in `itemCache` | `data.*` | `itemCache` |
@@ -145,9 +145,9 @@ Loaded once at startup into the module-level `data` variable, and never modified
 | `questions` | 16 | sentence fields plus `word`, `answers:[{it,en}]` | Sentences drill, Questions table |
 | `sentences` | 214 | `{id, rank, topic, type, function, it, en, accepted}` | Sentences drill, Sentences table |
 | `readings` | 14 (46 sentences) | `{id, title, source, license, sentences:[{id,it,en,rank}]}` | Reading drill, Readings table |
-| `lessonUnits` | 2 | `{id, title}` | Lesson list headings |
+| `lessonUnits` | 4 | `{id, title}` | Lesson list headings |
 | `progress` | — | `{coverage: {ready, comfortable}, levels: [{id, label, families, hours}], sourceNote}` | Progress tab targets |
-| `lessons` | 16 | `{id, order, unit, title, subtitle, goals, practice, steps}` | Lesson player |
+| `lessons` | 26 | `{id, order, unit, title, subtitle, goals, practice, steps}` | Lesson player |
 
 The schema, with examples, is in `DESIGN.md` §4.
 
@@ -163,6 +163,7 @@ Every drillable thing becomes an **item** with a string id. The same id is used 
 | `q:` | `questions` | `q:q5` | Sentences | 16 |
 | `s:` | `sentences` | `s:s185` | Sentences | 214 |
 | `r:` | `readings[].sentences` | `r:colosseo-0` | Reading | 46 |
+| `l:` | nouns, verb infinitives, numbers, sentences, questions | `l:n:zaino`, `l:s:s185` | Listening | 703 |
 
 `PRACTICE_MODE` (line ~881) maps a prefix back to the tab that drills it, which the lesson recap uses for its "Practise in …" buttons. Ids must stay stable: renaming one orphans saved progress.
 
@@ -289,6 +290,7 @@ sequenceDiagram
 | Numbers | `renderNumber` | Type the word for a digit, or pick the digit for a word | Normalised; accent-only mistakes accepted with a note |
 | Sentences | `renderSentence` | Tap shuffled Italian tiles into order | Normalised join, compared with `it` and `accepted` variants |
 | Reading | `renderReading` | Tiles, in either direction (*Direction* setting) | Normalised join against the one target |
+| Listening | `renderListening` | Hear a word or sentence (Play / Slow), type it | `checkDictation`: capitals and punctuation ignored, accent-only mistakes accepted with a note; article optional for nouns, digits accepted for numbers |
 
 Sentence feedback adds `glossList(s.it)`, the word-by-word gloss from the lexicon (§4.6).
 

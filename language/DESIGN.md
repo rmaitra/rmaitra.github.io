@@ -37,7 +37,7 @@ On GitHub Pages it works as-is.
 
 ## 3. Feature inventory
 
-The top bar has eight tabs: **Lessons · Verbs · Nouns · Numbers · Sentences · Reading · Word tables · Progress**. New users land on Lessons. The header also shows a running score (`correct/total`, plus a streak once it exceeds 1), an **Auto-play audio** toggle (only shown when the browser supports speech synthesis) and a **reset progress** link.
+The top bar has nine tabs: **Lessons · Verbs · Nouns · Numbers · Sentences · Reading · Listening · Word tables · Progress**. New users land on Lessons. The header also shows a running score (`correct/total`, plus a streak once it exceeds 1), an **Auto-play audio** toggle (only shown when the browser supports speech synthesis) and a **reset progress** link.
 
 ### 3.0 Lessons (guided presentations)
 - An ordered list of lessons (suggested order, nothing locked), grouped under unit headings (`lessonUnits` + each lesson's `unit`). Each card shows number, title, subtitle, goals and status: Start / Continue (with a progress bar) / Review (✓ once finished).
@@ -48,7 +48,7 @@ The top bar has eight tabs: **Lessons · Verbs · Nouns · Numbers · Sentences 
 - *Hide chat translations* blurs the English under bubbles (hover or press to reveal). *Restart* replays a lesson from the top.
 - **Resume:** the current beat is saved per lesson, so reopening continues where the learner left off. Earlier questions are shown already answered.
 - **Recap and spaced repetition:** the last beat lists every word card (and lists marked `recap`), marks the lesson done and **queues the lesson's `practice` items for review** (SRS record in box 0, due now, only if never seen). Buttons: *Next lesson*, *Practise in Sentences / Verbs / Numbers* (resets that tab's filters so the items show) and *All lessons*.
-- **Current lessons:** 1 *Ciao!* (greetings/goodbyes, tu vs Lei), 2 *Mi chiamo…* (introductions, where you're from), 3 *Come stai?* (how are you, stare vs essere), 4 *Per favore, grazie* (politeness, not understanding), 5 *Io sono…* (essere, nationalities and agreement, *non*, questions), 6 *Numeri e anni* (0–20, age with avere), 7 *Ripasso 1* (review). Unit 2: 8 *Al bar* (ordering, *vorrei*, paying), 9 *Il, la, lo* (gender and articles), 10 *Tanti!* (plurals), 11 *La mia famiglia* (family, all of *avere*, *mio/tuo*), 12 *Com’è?* (adjective agreement and position), 13 *Fino a cento* (21–100, prices), 14 *Che ore sono?* (time), 15 *Oggi, domani* (days, months, dates), 16 *Ripasso 2* (review). Unit 3: 17 *Parlo italiano* (-are), 18 *Leggo e scrivo* (-ere, *prendere*), 19 *Dormo e capisco* (-ire and -isc-), 20 *Faccio, vado, vengo* (irregulars, *fare* phrases), 21 *Domande* (question words), 22 *Dov’è…?* (directions, *c’è / ci sono*), 23 *Al ristorante* (eating out), 24 *Mi piace!* (likes), 25 *Ripasso 3* (review).
+- **Current lessons:** 1 *Ciao!* (greetings/goodbyes, tu vs Lei), 2 *Mi chiamo…* (introductions, where you're from), 3 *Come stai?* (how are you, stare vs essere), 4 *Per favore, grazie* (politeness, not understanding), 5 *Io sono…* (essere, nationalities and agreement, *non*, questions), 6 *Numeri e anni* (0–20, age with avere), 7 *Ripasso 1* (review). Unit 2: 8 *Al bar* (ordering, *vorrei*, paying), 9 *Il, la, lo* (gender and articles), 10 *Tanti!* (plurals), 11 *La mia famiglia* (family, all of *avere*, *mio/tuo*), 12 *Com’è?* (adjective agreement and position), 13 *Fino a cento* (21–100, prices), 14 *Che ore sono?* (time), 15 *Oggi, domani* (days, months, dates), 16 *Ripasso 2* (review). Unit 3: 17 *Parlo italiano* (-are), 18 *Leggo e scrivo* (-ere, *prendere*), 19 *Dormo e capisco* (-ire and -isc-), 20 *Faccio, vado, vengo* (irregulars, *fare* phrases), 21 *Domande* (question words), 22 *Dov’è…?* (directions, *c’è / ci sono*), 23 *Al ristorante* (eating out), 24 *Mi piace!* (likes), 25 *Ripasso 3* (review). Unit 4: 26 *Voglio, posso, devo* (modal verbs + infinitive, *vorrei* vs *voglio*, *avere bisogno di*).
 
 ### 3.1 Verbs (conjugation)
 - 35 verbs × 5 tenses × 6 persons = **1,050 forms**.
@@ -92,6 +92,14 @@ The top bar has eight tabs: **Lessons · Verbs · Nouns · Numbers · Sentences 
 - SRS ids: `r:<readingId>-<sentenceIndex>` (e.g. `r:colosseo-0`). No filters yet (topic/type tagging could be added later, same pattern as Sentences).
 - There is **no "Simple Italian" Wikipedia** (unlike Simple English); readings are pulled from the regular `it.wikipedia.org` and curated down to short, complete, tile-able sentences.
 
+### 3.5b Listening (dictation)
+- Hear a word or a sentence and type it. The text is never shown before answering; **🔊 Play** replays it and **🐢 Slow** replays it at 0.6× speed. It plays once automatically when the question appears (browsers may block that until the first click on the page).
+- **Pool (703 items):** every noun (spoken with its article), every verb infinitive, every number, and every sentence and question. Filters: *Hear* (Words / Sentences) and *Topic*.
+- **Grading** (`checkDictation`): capitals and punctuation are ignored; accent-only mistakes are accepted with a "Mind the accents" note. Nouns are accepted with or without the article, numbers as the word or the digits. Only the spoken sentence is accepted, not its `accepted` word-order variants.
+- **Show meaning** reveals the English as a hint without affecting the grade. Feedback shows the answer (for a wrong sentence, the words that were missed are underlined, from a longest-common-subsequence diff), what was typed, the English and, for sentences, the word-by-word gloss.
+- **SRS ids:** the source id behind an `l:` prefix (`l:n:casa`, `l:v:andare`, `l:#:23`, `l:s:s12`, `l:q:q3`), so hearing an item is scheduled separately from reading it. In the Progress tab a listening answer counts as evidence for the same word families, and as "typed correctly".
+- Needs `speechSynthesis`; without it the tab shows a message instead of a question.
+
 ### 3.6 Word tables (reference)
 Sub-tabs: **Verbs · Nouns · Adjectives · Articles · Prepositions · Conjunctions · Numbers · Questions · Sentences · Readings**.
 - *Articles*: definite, indefinite and partitive, with agreement and when to use each. *Prepositions*: simple, all 35 articulated forms (di/a/da/in/su × article) and common phrases (*vicino a*, *di fronte a* …). *Conjunctions*: coordinating and subordinating, each with an example.
@@ -109,6 +117,7 @@ Metrics modelled on fluency research, computed on the fly from the SRS records p
 - **Retention by tab**, and **Check any text**: paste Italian to get its coverage, with each word marked known / in the app but not known yet / not in the app / name.
 - **Study time** counts 15-second ticks while the page is visible and the learner clicked, typed or scrolled (or speech played) in the last minute.
 - Level targets, coverage thresholds and the source note come from `data.progress`, so each language can set its own.
+- **Back up your progress:** *Export progress* downloads the whole saved state as `italiano-studio-progress-YYYY-MM-DD.json` (`{app, version, language, exported, state}`). *Import progress…* reads such a file, validates it (right app and language, an `srs` map; malformed SRS records and log rows are dropped), asks for confirmation with a before/after summary, then replaces the state in this browser. Nothing leaves the device.
 
 ### 3.7 Cross-cutting behaviour
 - **Progress** persists per item across sessions; **reset progress** keeps the user's chosen tab, filters and settings.
@@ -204,7 +213,7 @@ Top-level keys:
 | Glossary | 226 | words and phrases for sentence glosses |
 | Questions | 16 | with sample replies |
 | Sentences | 243 | 121 everyday, 58 ordering food, 32 directions, 18 meeting people, 14 time & dates (s134–s151, s185–s214 and s215–s243 added for lessons; s152–s184 added for the Prepositions function, which also tags 14 older items) |
-| Lessons | 25 | Units 1–3; 14–28 steps each |
+| Lessons | 26 | Units 1–3 and the first lesson of Unit 4; 14–28 steps each |
 | Readings | 14 (46 sentences) | Wikipedia lead-paragraph excerpts, curated; CC BY-SA 4.0, attributed in-app |
 
 ---
@@ -220,7 +229,7 @@ Top-level keys:
 5. **Item pools** — the `MODES` registry: each mode has `label`, `desc`, `build()` (items from data) and `render(item, ctx)`.
 6. **Audio** — `say(segments)` queues target-language and English segments and resolves `true` only if nothing interrupted it (this drives hands-free); `stopSpeech`, `speak`, `speakBtn`, `autoSpeak`.
 7. **Shared UI** — `feedbackBox`, `nextButton`, `afterAnswer`.
-8. **Exercises** — `renderVerb`, `renderNoun`, `renderNumber`, `renderSentence`.
+8. **Exercises** — `renderVerb`, `renderNoun`, `renderNumber`, `renderSentence`, `renderReading`, `renderListening`.
 9. **Lessons** — `lessonBeats` flattens steps into beats (one per Next; dialogues expand to one per line plus role-play turns); `renderLessonList`; `renderLesson` (resume, keyboard, toggles, narration/hands-free) with `renderBeat` for each block type; `seedPractice`.
 10. **Word tables** — declarative `TABLES` specs (`head`, `note`, `rows()`) and one generic `renderTables`.
 11. **Chrome** — `renderScore`, `renderStats`, `renderTabs`, `renderFilters`, `show`, `ask`, `init`.
@@ -230,7 +239,7 @@ Top-level keys:
 **Render flow:** `show()` stops any speech or hands-free timer, draws tabs and filters, then calls `renderLessons()`, `renderTables()` or `ask()`. `ask()` picks an item with `pickNext`, then calls the mode's `render(item, ctx)`, where `ctx.grade(ok)` records the result (once) and `ctx.next` asks again.
 
 ### Item ids (the SRS keys)
-`v:<verb>:<tense>:<person>` · `n:<noun>` · `#:<value>` · `q:<id>` · `s:<id>`.
+`v:<verb>:<tense>:<person>` · `n:<noun>` · `#:<value>` · `q:<id>` · `s:<id>` · `r:<reading>-<n>` · `l:<n:… | v:<verb> | #:… | s:… | q:…>` (listening).
 The answer format (Choose vs Type) is deliberately not part of the id.
 
 ### Persisted state (`localStorage["italiano.v1"]`)
@@ -309,7 +318,7 @@ Data was validated with scripts that check: 42 reference conjugations, article �
 - **Adjectives** are in the data and tables but have no exercise yet.
 - The passato prossimo of *essere* verbs uses the `o/a`, `i/e` shorthand rather than separate masculine/feminine rows.
 - Speech quality depends on the user's OS/browser voices; some systems have no Italian voice.
-- Progress lives only in one browser (no export, sync or accounts).
+- Progress lives only in one browser. It can be exported to a file and imported again (Progress tab), but there is no sync or account.
 - The data-generation script and test pages were not kept in the repo; the JSON is now edited by hand.
 - **Reading is a small pilot** (14 readings / 46 sentences, hand-curated and hand-translated from Wikipedia, not build-generated). No filters, no word-order `accepted` variants, and no topic tagging yet. If it's worth keeping, growing it (more articles, per-reading topic tags, an LLM-assisted curate+translate pipeline) is future work rather than done.
 - No subjunctive, imperative, reflexive verbs, object pronouns or prepositions yet — so "I wish I were…" style sentences can't be taught.
@@ -324,14 +333,14 @@ Data was validated with scripts that check: 42 reference conjugations, article �
 - **More number work:** 21–99 with the vowel-dropping rule (*ventuno, ventotto*), hundreds and thousands, prices, dates, telling time, ordinals.
 - **Example sentences for every tense**, generated per verb and checked.
 - **Function words:** prepositions and articulated prepositions (*a + il = al*), possessives, demonstratives, object and reflexive pronouns, *ci / ne*.
-- **More lessons:** the planned curriculum (lessons 26–78 in eleven units, A1 → B1, with review lessons and the data and app work each lesson needs) is in [`LESSONS.md`](LESSONS.md).
+- **More lessons:** the planned curriculum (lessons 27–78 in eleven units, A1 → B1, with review lessons and the data and app work each lesson needs) is in [`LESSONS.md`](LESSONS.md).
 - **Lesson features:** a tile-builder role-play mode (recall instead of recognition), a slow-speed toggle for dialogues, and per-lesson practice filters in the drill tabs.
 
 ### New exercise types
 - **Adjective agreement** (data already exists): pick/type the right form for a noun, plus adjective position.
 - **Plural formation** (type the plural) and **gender guessing** with ending-based hints.
 - **Cloze / fill-in-the-blank** sentences using the verb tables; **spot the error**; **sentence transformation** (present → past, statement → question).
-- **Listening:** dictation (hear → type) and listen-and-choose the meaning.
+- **Listening:** listen-and-choose the meaning (dictation is built: §3.5b).
 - **Speaking:** pronunciation checking with the browser `SpeechRecognition` API, comparing the transcript to the target.
 - **Matching game** (Italian ↔ English) and a timed **speed round**.
 - **Translation typing** with accepted-variant lists (also ignoring dropped subject pronouns), plus **distractor tiles** in the sentence builder for extra difficulty.
@@ -352,7 +361,7 @@ Data was validated with scripts that check: 42 reference conjugations, article �
 - **Confusable-pair drilling** (*essere/stare*, *avere/essere* auxiliaries, *piace/piacciono*).
 
 ### UX and product
-- **Progress export / import** (JSON download) and optional sync (e.g. a small backend or a gist) so progress survives clearing the browser and moves between devices.
+- **Progress sync** (e.g. a small backend or a gist) so progress moves between devices without the manual export / import.
 - **Multi-select filters** (e.g. io + tu only) and remembering filters per mode; a "custom deck" builder from the tables (star words to study).
 - **Tables:** column sorting, a topic/function filter, print/CSV export, and flashcard mode straight from a table row.
 - **Installable PWA:** service worker for offline use, an app icon and a manifest.

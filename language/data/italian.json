@@ -4773,7 +4773,8 @@
   "lessonUnits": [
     { "id": 1, "title": "First conversations" },
     { "id": 2, "title": "Things, places and numbers" },
-    { "id": 3, "title": "Doing things: the present tense" }
+    { "id": 3, "title": "Doing things: the present tense" },
+    { "id": 4, "title": "Wants, needs and everyday life" }
   ],
   "lessons": [
     {
@@ -6244,6 +6245,63 @@
           { "s": "l", "it": "Sì, vengo! A che ora esci?", "en": "Yes, I’ll come! What time are you going out?" },
           { "s": "t", "it": "Esco alle nove.", "en": "I’m going out at nine.", "wrong": ["Usco alle nove.", "Esce alle nove."] },
           { "s": "l", "it": "Perfetto. Ci vediamo alle nove!", "en": "Perfect. See you at nine!" }
+        ] }
+      ]
+    },
+    {
+      "id": "modal-verbs",
+      "order": 26,
+      "unit": 4,
+      "title": "Voglio, posso, devo",
+      "subtitle": "Modal verbs",
+      "goals": ["Say what you want, can and have to do", "Put a second verb after *volere*, *potere* and *dovere*", "Say what you need with *avere bisogno di*"],
+      "practice": ["v:volere:present:io", "v:volere:present:tu", "v:volere:present:lui", "v:volere:present:noi", "v:volere:present:voi", "v:volere:present:loro", "v:potere:present:io", "v:potere:present:tu", "v:potere:present:lui", "v:potere:present:noi", "v:potere:present:voi", "v:potere:present:loro", "v:dovere:present:io", "v:dovere:present:tu", "v:dovere:present:lui", "v:dovere:present:noi", "v:dovere:present:voi", "v:dovere:present:loro", "s:s8", "s:s13", "s:s25", "s:s77", "s:s82", "s:s86", "s:s88", "s:s89", "s:s90", "s:s98", "s:s101"],
+      "steps": [
+        { "type": "heading", "text": "Wanting: volere" },
+        { "type": "text", "text": "Three small verbs do a huge amount of work: *volere* (to want), *potere* (can, to be able to) and *dovere* (must, to have to). All three are irregular, and all three are usually followed by a second verb." },
+        { "type": "list", "title": "*Volere*: to want", "recap": true, "items": [{"it": "io voglio", "en": "I want"}, {"it": "tu vuoi", "en": "you want"}, {"it": "lui / lei vuole", "en": "he / she wants"}, {"it": "noi vogliamo", "en": "we want"}, {"it": "voi volete", "en": "you all want"}, {"it": "loro vogliono", "en": "they want"}] },
+        { "type": "note", "label": "The pattern", "text": "The second verb stays in the infinitive, the dictionary form: *Voglio mangiare* (I want to eat), *Vuoi venire?* (Do you want to come?). Only the first verb changes with the person." },
+        { "type": "example", "it": "Vogliamo andare al cinema.", "en": "We want to go to the cinema." },
+        { "type": "check", "prompt": "“I want to go.”", "options": ["*Voglio andare.*", "*Voglio vado.*", "*Voglio andiamo.*"], "answer": 0, "why": "Only *volere* is conjugated. The second verb stays in the infinitive: *andare*." },
+        { "type": "note", "label": "Remember?", "text": "*Vorrei* from lesson 8 is also *volere*: it means “I would like”. *Voglio un caffè* can sound blunt to a waiter, so keep ordering with *Vorrei un caffè*. With friends, *voglio* is fine." },
+        { "type": "heading", "text": "Being able: potere" },
+        { "type": "list", "title": "*Potere*: can, to be able to", "recap": true, "items": [{"it": "io posso", "en": "I can"}, {"it": "tu puoi", "en": "you can"}, {"it": "lui / lei può", "en": "he / she can"}, {"it": "noi possiamo", "en": "we can"}, {"it": "voi potete", "en": "you all can"}, {"it": "loro possono", "en": "they can"}] },
+        { "type": "text", "text": "You have met this verb already: *Può ripetere, per favore?* in lesson 4 and *Possiamo pagare con la carta?* in lesson 23. *Posso…?* is also how you ask permission." },
+        { "type": "example", "it": "Posso entrare?", "en": "May I come in?" },
+        { "type": "note", "label": "Saying no", "text": "*Non* goes in front of the first verb: *Non posso venire* (I can’t come), *Non voglio uscire* (I don’t want to go out)." },
+        { "type": "check", "prompt": "To a friend: “Can you come tomorrow?”", "options": ["*Puoi venire domani?*", "*Puoi vieni domani?*", "*Posso venire domani?*"], "answer": 0, "why": "*Tu* takes *puoi*, and *venire* stays in the infinitive. *Posso venire domani?* asks whether you yourself can come." },
+        { "type": "heading", "text": "Having to: dovere" },
+        { "type": "list", "title": "*Dovere*: must, to have to", "recap": true, "items": [{"it": "io devo", "en": "I have to"}, {"it": "tu devi", "en": "you have to"}, {"it": "lui / lei deve", "en": "he / she has to"}, {"it": "noi dobbiamo", "en": "we have to"}, {"it": "voi dovete", "en": "you all have to"}, {"it": "loro devono", "en": "they have to"}] },
+        { "type": "example", "it": "Domani devo lavorare.", "en": "Tomorrow I have to work." },
+        { "type": "note", "label": "Watch out", "text": "*Noi dobbiamo* changes its vowel and doubles the *b*. With *Lei* use the *lui / lei* forms, as always: *Vuole un caffè?* *Può ripetere?* *Deve girare a destra.*" },
+        { "type": "check", "prompt": "“We have to leave early.”", "options": ["*Dobbiamo partire presto.*", "*Doviamo partire presto.*", "*Dobbiamo partiamo presto.*"], "answer": 0, "why": "*Dobbiamo* is irregular, and *partire* stays in the infinitive." },
+        { "type": "heading", "text": "Needing: avere bisogno di" },
+        { "type": "word", "it": "Ho bisogno di…", "en": "I need…", "note": "Word for word, “I have need of”. It uses *avere*, so it changes like *avere*: *hai bisogno di*, *ha bisogno di*, *abbiamo bisogno di*. Follow it with a noun or an infinitive." },
+        { "type": "example", "it": "Ho bisogno di un caffè.", "en": "I need a coffee." },
+        { "type": "example", "it": "Hai bisogno di aiuto?", "en": "Do you need help?" },
+        { "type": "check", "prompt": "“I need a coffee.”", "options": ["*Ho bisogno di un caffè.*", "*Devo un caffè.*", "*Sono bisogno di un caffè.*"], "answer": 0, "why": "*Dovere* wants a verb after it: *Devo bere un caffè*. For a thing you need, use *avere bisogno di*." },
+        { "type": "heading", "text": "In conversation" },
+        { "type": "text", "text": "Sara is organising an evening out and calls Tom. New words: *purtroppo* (unfortunately) and *che peccato!* (what a pity!)." },
+        { "type": "dialogue", "title": "Plans for tonight", "speakers": {"s": {"name": "Sara"}, "t": {"name": "Tom"}}, "practice": "t", "lines": [
+          { "s": "s", "it": "Ciao Tom! Stasera andiamo al cinema. Vuoi venire?", "en": "Hi Tom! We’re going to the cinema tonight. Do you want to come?" },
+          { "s": "t", "it": "Vorrei, ma purtroppo non posso. Devo lavorare.", "en": "I’d like to, but unfortunately I can’t. I have to work.", "wrong": ["Vorrei, ma purtroppo non posso. Devo lavoro.", "Vorrei, ma purtroppo non devo. Posso lavorare."] },
+          { "s": "s", "it": "Che peccato! E domani? Puoi venire domani?", "en": "What a pity! And tomorrow? Can you come tomorrow?" },
+          { "s": "t", "it": "Domani sì, posso! A che ora?", "en": "Tomorrow yes, I can! What time?", "wrong": ["Domani sì, puoi! A che ora?", "Domani sì, devo! Che ore sono?"] },
+          { "s": "s", "it": "Alle otto. E dopo vogliamo mangiare una pizza.", "en": "At eight. And afterwards we want to eat a pizza." },
+          { "s": "t", "it": "Benissimo! Posso venire con mia sorella?", "en": "Great! Can I come with my sister?", "wrong": ["Benissimo! Posso vengo con mia sorella?", "Benissimo! Devi venire con mia sorella?"] },
+          { "s": "s", "it": "Certo! Allora ci vediamo domani alle otto.", "en": "Of course! So see you tomorrow at eight." },
+          { "s": "t", "it": "Sì, a domani!", "en": "Yes, see you tomorrow!", "wrong": ["Sì, buonanotte, signora!", "Sì, piacere!"] }
+        ] },
+        { "type": "text", "text": "Now a polite version. A couple arrive at a restaurant without a booking. Listen for the *Lei* form (*deve*) and the *voi* form (*volete*). New word: *prenotare* (to book)." },
+        { "type": "dialogue", "title": "A table without a booking", "speakers": {"c": {"name": "Cameriere"}, "s": {"name": "Signora Bianchi"}}, "practice": "s", "lines": [
+          { "s": "s", "it": "Buonasera. Possiamo avere un tavolo per due?", "en": "Good evening. Can we have a table for two?", "wrong": ["Buonasera. Possiamo abbiamo un tavolo per due?", "Buonanotte. Possiamo avere un tavolo per due?"] },
+          { "s": "c", "it": "Buonasera, signora. Ha prenotato?", "en": "Good evening, madam. Have you booked?" },
+          { "s": "s", "it": "No, mi dispiace. Dobbiamo prenotare?", "en": "No, I’m sorry. Do we have to book?", "wrong": ["No, mi dispiace. Dobbiamo prenotiamo?", "No, mi dispiace. Doviamo prenotare?"] },
+          { "s": "c", "it": "No, stasera non deve prenotare. Prego! Volete il menù?", "en": "No, tonight you don’t have to book. This way! Would you like the menu?" },
+          { "s": "s", "it": "Sì, grazie. E posso avere un’acqua, per favore?", "en": "Yes, thank you. And can I have a water, please?", "wrong": ["Sì, grazie. E posso ho un’acqua, per favore?", "Sì, grazie. E puoi avere un’acqua, per favore?"] },
+          { "s": "c", "it": "Certo, signora. Subito!", "en": "Of course, madam. Right away!" },
+          { "s": "s", "it": "Grazie. Possiamo pagare con la carta?", "en": "Thank you. Can we pay by card?", "wrong": ["Grazie. Possiamo paghiamo con la carta?", "Grazie. Possiamo pagare con il menù?"] },
+          { "s": "c", "it": "Sì, certo!", "en": "Yes, of course!" }
         ] }
       ]
     }

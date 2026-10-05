@@ -50,10 +50,12 @@
       log: [], time: { total: 0, days: {} },
     };
   }
+  // Fill a stored (or imported) state with defaults for anything missing
+  const hydrate = (s) => ({ ...defaults(), ...s, time: { total: 0, days: {}, ...s.time }, log: Array.isArray(s.log) ? s.log : [] });
   function load() {
     try {
       const s = JSON.parse(localStorage.getItem(STORE_KEY));
-      if (s && s.srs) return { ...defaults(), ...s, time: { total: 0, days: {}, ...s.time }, log: Array.isArray(s.log) ? s.log : [] };
+      if (s && s.srs) return hydrate(s);
     } catch (e) { /* storage unavailable or corrupt */ }
     return defaults();
   }
@@ -112,10 +114,10 @@
   }
 
   // ---------- topic / type filters ----------
-  const FILTER_KEYS = { verbs: ['tense', 'person'], nouns: ['topic'], sentences: ['topic', 'type', 'function'] };
-  const FILTER_LABEL = { tense: 'Tense', person: 'Person', topic: 'Topic', type: 'Type', function: 'Function' };
+  const FILTER_KEYS = { verbs: ['tense', 'person'], nouns: ['topic'], sentences: ['topic', 'type', 'function'], listening: ['kind', 'topic'] };
+  const FILTER_LABEL = { tense: 'Tense', person: 'Person', topic: 'Topic', type: 'Type', function: 'Function', kind: 'Hear' };
   const DEFAULT_FILTERS = { verbs: { tense: 'present' } };
-  const filterList = (key) => ({ topic: data.topics, type: data.sentenceTypes, tense: data.tenseOptions, person: data.personOptions, function: data.functions })[key];
+  const filterList = (key) => ({ topic: data.topics, type: data.sentenceTypes, tense: data.tenseOptions, person: data.personOptions, function: data.functions, kind: LISTEN_KINDS })[key];
   // Non-filtering options shown as extra pill rows (persisted in state.settings)
   const SETTINGS = {
     verbs: [{
@@ -211,13 +213,19 @@
       }))),
       render: renderReading,
     },
+    listening: {
+      label: 'Listening',
+      desc: 'Dictation: listen to a word or a sentence and type what you hear. Replay as often as you like, at normal or slow speed.',
+      build: listeningItems,
+      render: renderListening,
+    },
   };
   function getItems(mode) {
     return itemCache[mode] || (itemCache[mode] = MODES[mode].build());
   }
 
   // ---------- audio (browser speech synthesis) ----------
-  // A segment is { text, lang: 'target' | 'en', voice?, pitch? }; 'target' is the
+  // A segment is { text, lang: 'target' | 'en', voice?, pitch?, rate? }; 'target' is the
   // language being learned (data.speechLang), 'en' is used for lesson narration.
   const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
   let speechRun = 0;
@@ -236,7 +244,7 @@
       u.lang = speechLang(seg);
       const voice = pickVoice(u.lang, seg.voice || 0);
       if (voice) u.voice = voice;
-      u.rate = seg.lang === 'en' ? 1 : 0.9;
+      u.rate = seg.rate || (seg.lang === 'en' ? 1 : 0.9);
       u.pitch = seg.pitch || 1;
       const timer = setTimeout(resolve, 3000 + seg.text.length * 120); // some engines never fire onend
       u.onend = u.onerror = () => { clearTimeout(timer); markActive(); resolve(); };
@@ -787,6 +795,105 @@
     }
   }
 
+  // ---------- 5. listening (dictation) ----------
+  // Hear a word or a sentence and type it. Items have their own SRS ids (l:n:casa, l:s:s12 …),
+  // so hearing a word is tracked apart from reading it. Capitals and punctuation are ignored.
+  const LISTEN_KINDS = [{ id: 'word', label: 'Words' }, { id: 'sentence', label: 'Sentences' }];
+  const SLOW_RATE = 0.6;
+  function listeningItems() {
+    const word = (id, rank, extra) => ({ id: `l:${id}`, rank, kind: 'word', ...extra });
+    const sentence = (p, s) => ({
+      id: `l:${p}:${s.id}`, rank: s.rank, kind: 'sentence', topic: s.topic, say: s.it, answers: [s.it], show: s.it, en: s.en, gloss: true,
+    });
+    return [
+      ...data.nouns.map((n) => word(`n:${n.id}`, n.rank, {
+        topic: n.topic, say: withArticle(n.art, n.id), answers: [withArticle(n.art, n.id), n.id], show: withArticle(n.art, n.id), en: n.en,
+        hint: 'A noun. The article is optional.',
+      })),
+      ...data.verbs.map((v) => word(`v:${v.id}`, v.rank, { say: v.id, answers: [v.id], show: v.id, en: v.en, hint: 'A verb in the infinitive.' })),
+      ...data.numbers.map((n) => word(`#:${n.value}`, n.rank, {
+        say: n.it, answers: [n.it, String(n.value)], show: `${n.it} = ${n.value}`, en: String(n.value), hint: 'A number. Type the word or the digits.',
+      })),
+      ...data.questions.map((s) => sentence('q', s)),
+      ...data.sentences.map((s) => sentence('s', s)),
+    ];
+  }
+  const dictationWords = (s) => norm(s.replace(/[^\p{L}\p{N}'’‘`´\s]/gu, ' ')).split(' ').filter(Boolean);
+  function checkDictation(guess, answers) {
+    const g = dictationWords(guess).join(' ');
+    const targets = answers.map((a) => dictationWords(a).join(' '));
+    if (targets.includes(g)) return { ok: true };
+    if (targets.map(stripAccents).includes(stripAccents(g))) return { ok: true, accentNote: true };
+    return { ok: false };
+  }
+  // The target's words, each flagged if the guess has it in order (longest common subsequence)
+  function dictationDiff(guess, target) {
+    const a = dictationWords(target);
+    const b = dictationWords(guess);
+    const lcs = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+    for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--) {
+      lcs[i][j] = a[i] === b[j] ? lcs[i + 1][j + 1] + 1 : Math.max(lcs[i + 1][j], lcs[i][j + 1]);
+    }
+    const ok = new Array(a.length).fill(false);
+    for (let i = 0, j = 0; i < a.length && j < b.length;) {
+      if (a[i] === b[j]) { ok[i] = true; i++; j++; } else if (lcs[i + 1][j] >= lcs[i][j + 1]) i++; else j++;
+    }
+    const shown = stripEnd(target).split(/\s+/);
+    return (shown.length === a.length ? shown : a).map((text, i) => ({ text, ok: ok[i] }));
+  }
+
+  function renderListening(item, ctx) {
+    if (!canSpeak) {
+      pane.append(h('div', { class: 'empty' }, 'Listening needs speech synthesis, which this browser does not offer.'));
+      return;
+    }
+    let answered = false;
+    const play = (rate) => { say([{ text: item.say, lang: 'target', rate }]); if (!answered) input.focus(); };
+    const input = h('input', { type: 'text', class: 'dictation', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false', 'aria-label': 'What you heard', placeholder: 'Type what you hear…' });
+    const accents = h('div', { class: 'accents' }, ACCENTS.map((ch) =>
+      h('button', {
+        class: 'accent-btn', type: 'button', tabindex: '-1',
+        onclick: () => { input.setRangeText(ch, input.selectionStart, input.selectionEnd, 'end'); input.focus(); },
+      }, ch)));
+    const hint = h('div', { class: 'gloss' }, item.hint || 'A sentence. Capitals and punctuation don’t matter.');
+    const feedback = h('div');
+    const actions = h('div', { class: 'actions' },
+      h('button', { class: 'btn', onclick: check }, 'Check'),
+      h('button', { class: 'btn secondary', onclick: () => { hint.textContent = 'It means: ' + item.en; input.focus(); } }, 'Show meaning'),
+      h('button', { class: 'btn secondary', onclick: () => finish('', true) }, "I don't know"));
+
+    pane.append(h('div', { class: 'card' },
+      h('div', { class: 'eyebrow' }, ['Listen and type', labelOf(LISTEN_KINDS, item.kind).replace(/s$/, ''), item.topic && labelOf(data.topics, item.topic)].filter(Boolean).join(' \u00B7 ')),
+      h('div', { class: 'listen-row' },
+        h('button', { class: 'btn listen-play', onclick: () => play() }, '🔊 Play'),
+        h('button', { class: 'btn secondary', onclick: () => play(SLOW_RATE) }, '🐢 Slow')),
+      hint,
+      h('div', { class: 'prompt-row' }, input), accents, actions, feedback));
+    input.focus();
+    keyHandler = (e) => { if (e.key === 'Enter') check(); };
+    play();
+
+    function check() {
+      if (!answered && input.value.trim()) finish(input.value, false);
+    }
+    function finish(guess, gaveUp) {
+      if (answered) return;
+      answered = true;
+      input.disabled = true;
+      accents.remove();
+      const res = gaveUp ? { ok: false } : checkDictation(guess, item.answers);
+      ctx.grade(res.ok, 'typed');
+      const diff = !res.ok && !gaveUp && item.kind === 'sentence' ? dictationDiff(guess, item.show) : null;
+      feedback.replaceChildren(feedbackBox(res.ok, res.ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
+        h('div', { class: 'answer' }, diff ? diff.flatMap((w, i) => [i ? ' ' : '', h('span', { class: w.ok ? '' : 'missed' }, w.text)]) : item.show),
+        res.accentNote ? h('div', { class: 'note' }, 'Mind the accents: ' + item.show) : null,
+        !res.ok && !gaveUp ? h('div', { class: 'note' }, 'You typed: ' + guess.trim()) : null,
+        h('div', { class: 'example' }, speakBtn(item.say), h('span', {}, item.en)),
+        item.gloss ? glossList(item.say) : null));
+      afterAnswer(ctx, actions, nextButton(ctx));
+    }
+  }
+
   // ---------- 4. word tables (reference browser) ----------
   function statusOf(id) {
     const r = state.srs[id];
@@ -942,15 +1049,17 @@
 
   // Word families the learner has met (answered at least once) and knows (an item at box ≥ 2).
   // Evidence: the family's own drill items (verbs, nouns, numbers) and every word in a sentence
-  // or question. Reading items don't count: their tiles are often the English words.
-  // `produced` = families typed correctly at least once (Verbs and Numbers in type mode).
+  // or question, read or heard (Listening ids are the same ids behind an l: prefix). Reading
+  // items don't count: their tiles are often the English words.
+  // `produced` = families typed correctly at least once (Verbs, Numbers and Listening).
   function familyKnowledge() {
     // Every family the app teaches: the vocabulary lists, plus function and glossary words
     const all = new Set([...data.verbs.map((v) => `v:${v.id}`), ...data.nouns.map((n) => `n:${n.id}`),
       ...data.adjectives.map((a) => `a:${a.id}`), ...data.numbers.map((n) => numberFamily(n.value))]);
     for (const e of getLexicon().values()) if (e.lemma && !isPhrase(e.lemma)) all.add(e.lemma);
     const sentences = new Map([...data.questions.map((q) => [`q:${q.id}`, q]), ...data.sentences.map((x) => [`s:${x.id}`, x])]);
-    const familiesOf = (id) => {
+    const familiesOf = (fullId) => {
+      const id = fullId.replace(/^l:/, '');
       const [p, a] = id.split(':');
       if (p === 'v') return [`v:${a}`];
       if (p === 'n') return [`n:${a}`];
@@ -1116,14 +1225,87 @@
       psection('Reading coverage', `The share of words in each passage that you know. At ${ready}% you can follow a text and guess the rest; at ${comfortable}% reading is comfortable. First try is how many sentences you got right on the first attempt in the Reading tab.`, readingTable),
       psection('Retention by tab', 'How often you remembered an item when it came back after a spaced interval. Around 85–90% means reviews are well paced.', retTable),
       psection('Check any text', 'Paste Italian from anywhere to see how much of it you could read today.', checker),
+      backupSection(),
       targets.sourceNote ? h('p', { class: 'psec-note' }, targets.sourceNote) : null);
+  }
+
+  // ---------- progress backup (export / import a file) ----------
+  const BACKUP_APP = 'italiano-studio';
+  let backupNotice = ''; // shown under the buttons; survives the re-render after an import
+  function exportProgress() {
+    save();
+    const blob = new Blob([JSON.stringify({ app: BACKUP_APP, version: 1, language: data.language, exported: new Date().toISOString(), state }, null, 1)], { type: 'application/json' });
+    const a = h('a', { href: URL.createObjectURL(blob), download: `${BACKUP_APP}-progress-${dayKey(Date.now())}.json` });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  // Accepts a file written by exportProgress (or a bare state object); throws with a readable message
+  function parseBackup(text) {
+    let file;
+    try { file = JSON.parse(text); } catch (e) { throw new Error('This file is not valid JSON.'); }
+    const s = file && file.app === BACKUP_APP ? file.state : file;
+    const plain = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
+    if (file && file.app && file.app !== BACKUP_APP) throw new Error('This file is from a different app.');
+    if (!plain(s) || !plain(s.srs)) throw new Error('This file does not contain Italiano Studio progress.');
+    if (file.language && file.language !== data.language) throw new Error(`This backup is for another language (${file.language}).`);
+    const srs = {};
+    for (const [id, r] of Object.entries(s.srs)) {
+      if (plain(r) && [r.box, r.due, r.seen, r.right].every(Number.isFinite)) {
+        srs[id] = { box: Math.max(0, Math.min(BOX_DAYS.length - 1, Math.round(r.box))), due: r.due, seen: r.seen, right: r.right };
+      }
+    }
+    const log = (Array.isArray(s.log) ? s.log : []).filter((e) => Array.isArray(e) && Number.isFinite(e[0]) && typeof e[1] === 'string');
+    return { state: hydrate({ ...s, srs, log, lesson: null }), exported: file.exported || null };
+  }
+  function importProgress(file, onDone) {
+    const reader = new FileReader();
+    reader.onerror = () => onDone('Could not read that file.');
+    reader.onload = () => {
+      let backup;
+      try { backup = parseBackup(String(reader.result)); } catch (e) { onDone(e.message); return; }
+      const count = (st) => {
+        const done = Object.values(st.lessons || {}).filter((l) => l.done).length;
+        return `${fmtInt(Object.keys(st.srs).length)} items, ${fmtInt(st.total)} answers, ${done} lesson${done === 1 ? '' : 's'} done`;
+      };
+      const when = backup.exported ? ` from ${new Date(backup.exported).toLocaleString()}` : '';
+      if (!confirm(`Replace the progress in this browser (${count(state)}) with the backup${when} (${count(backup.state)})?`)) { onDone(null); return; }
+      state = { ...backup.state, mode: 'progress' };
+      save();
+      renderScore();
+      const box = document.getElementById('autoplay');
+      if (box) box.checked = !!state.autoplay;
+      show();
+      onDone(null, `Progress restored${when}.`);
+    };
+    reader.readAsText(file);
+  }
+  function backupSection() {
+    const status = h('p', { class: 'psec-note', role: 'status' });
+    const picker = h('input', {
+      type: 'file', accept: '.json,application/json', hidden: true,
+      onchange: () => {
+        const file = picker.files[0];
+        picker.value = '';
+        if (file) importProgress(file, (err, done) => { backupNotice = err ? 'Import failed: ' + err : done || ''; const el = document.getElementById('backupStatus'); if (el) el.textContent = backupNotice; });
+      },
+    });
+    status.id = 'backupStatus';
+    status.textContent = backupNotice;
+    backupNotice = '';
+    return psection('Back up your progress', 'Progress is stored only in this browser, so clearing site data or switching device loses it. Export saves everything (reviews, lessons, study time, settings) to a file; import loads such a file and replaces what is here.',
+      h('div', { class: 'actions' },
+        h('button', { class: 'btn', onclick: () => { exportProgress(); status.textContent = 'Saved a backup file to your downloads.'; } }, 'Export progress'),
+        h('button', { class: 'btn secondary', onclick: () => picker.click() }, 'Import progress…'), picker),
+      status);
   }
 
   // ---------- 6. lessons (guided, step-by-step presentations) ----------
   // Lesson text marks target-language phrases with *asterisks*: they are highlighted,
   // tappable to hear, and read with the target-language voice when narrating.
   const LESSONS_DESC = 'Short guided lessons in a suggested order: new words, examples and quick checks, then a real conversation. Read along, or turn on Read aloud and listen.';
-  const PRACTICE_MODE = { v: 'verbs', n: 'nouns', '#': 'numbers', q: 'sentences', s: 'sentences', r: 'reading' };
+  const PRACTICE_MODE = { v: 'verbs', n: 'nouns', '#': 'numbers', q: 'sentences', s: 'sentences', r: 'reading', l: 'listening' };
   const T = (text, extra) => ({ text, lang: 'target', ...extra });
   const E = (text) => ({ text, lang: 'en' });
   const speechOf = (text) => (text || '').split(/\*([^*]+)\*/)
@@ -1595,6 +1777,8 @@
     document.addEventListener('keydown', (e) => {
       if (!keyHandler || e.ctrlKey || e.metaKey || e.altKey) return;
       if (e.key === 'Enter' && e.target.tagName === 'BUTTON') return; // let the focused button handle it
+      // Checking a typed answer moves focus to Next; without this the same Enter would also press it
+      if (e.key === 'Enter' && e.target.tagName === 'INPUT') e.preventDefault();
       keyHandler(e);
     });
     if (canSpeak) {
