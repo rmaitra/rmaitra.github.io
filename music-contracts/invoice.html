@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loonatic Studios Invoices</title>
+<meta name="description" content="Create a Loonatic Studios invoice and download it as a PDF.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #09090b;
+        --bg-card: #121216;
+        --bg-input: #0b0b0e;
+        --line: #24242b;
+        --line-strong: #34343d;
+        --text: #ebe8f2;
+        --text-2: #a9a6b3;
+        --text-3: #75727f;
+        --accent: #b658ff;
+        --accent-strong: #9d3cf0;
+        --accent-dim: rgba(182, 88, 255, 0.14);
+        --warn: #fbbf24;
+        --paper: #fbf9f4;
+        --paper-line: #e4dfd3;
+        --ink: #1c1a20;
+        --ink-2: #5d5864;
+        --radius: 14px;
+        --sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+        margin: 0; background: var(--bg); color: var(--text);
+        font: 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased;
+    }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    a { color: var(--accent); }
+
+    /* ── Header ───────────────────────────────────────────── */
+    .top {
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        padding: 18px 24px; border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: var(--text); }
+    .brand b { font-weight: 700; letter-spacing: 0.14em; font-size: 17px; }
+    .brand span { color: var(--accent); letter-spacing: 0.3em; font-size: 11px; font-weight: 600; }
+    .top small { color: var(--text-3); font-size: 13px; }
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .hero { padding: 44px 0 24px; }
+    .hero h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.1; margin: 0 0 10px; letter-spacing: -0.02em; }
+    .hero p { color: var(--text-2); margin: 0; max-width: 640px; }
+
+    /* ── Layout ───────────────────────────────────────────── */
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-bottom: 120px; }
+    @media (min-width: 1100px) {
+        .layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; padding-bottom: 60px; }
+        .preview { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow-y: auto; }
+    }
+    .card {
+        background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 26px; margin-bottom: 24px;
+    }
+    .card h2 { font-size: 20px; margin: 0 0 4px; letter-spacing: -0.01em; }
+    .card > p.sub { color: var(--text-2); margin: 0 0 20px; font-size: 14.5px; }
+
+    /* ── Forms ────────────────────────────────────────────── */
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px 18px; }
+    @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } .wide { grid-column: 1 / -1; } }
+    label.f { display: block; }
+    label.f > span { display: block; font-size: 13.5px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+    label.f > span i { color: var(--accent); font-style: normal; }
+    label.f small { display: block; color: var(--text-3); font-size: 12.5px; margin-top: 5px; }
+    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=number], select, textarea {
+        width: 100%; background: var(--bg-input); border: 1px solid var(--line-strong); border-radius: 9px;
+        padding: 10px 12px; font-size: 15px; outline: none; transition: border-color .15s, box-shadow .15s;
+        color-scheme: dark;
+    }
+    textarea { min-height: 84px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+    .invalid { border-color: #f87171 !important; }
+
+    .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 10px;
+        padding: 11px 18px; font-weight: 600; font-size: 15px; cursor: pointer; border: 1px solid var(--line-strong);
+        background: transparent; color: var(--text); transition: background .15s, border-color .15s, opacity .15s;
+        text-decoration: none;
+    }
+    .btn:hover { border-color: var(--text-3); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn.primary:hover { background: var(--accent-strong); }
+    .btn.small { padding: 6px 12px; font-size: 13px; border-radius: 8px; }
+    .btn.link { border: none; padding: 6px 0; color: var(--text-2); font-weight: 500; }
+    .btn.link:hover { color: var(--text); }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+    /* line items */
+    .items { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .items th { text-align: left; font-weight: 500; font-size: 12px; color: var(--text-3); padding: 0 6px 6px 0; }
+    .items td { padding: 0 6px 8px 0; vertical-align: middle; }
+    .items td input { padding: 8px 9px; font-size: 14px; }
+    .items .num { width: 84px; }
+    .items .amt { width: 96px; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--text-2); }
+    .items th.amt { text-align: right; }
+    .items .x { background: none; border: none; color: var(--text-3); cursor: pointer; font-size: 18px; padding: 6px; }
+    .items .x:hover { color: var(--text); }
+    .items-wrap { overflow-x: auto; }
+    .items-wrap table { min-width: 460px; }
+
+    /* ── Paper preview ────────────────────────────────────── */
+    .doc-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 0 12px; flex-wrap: wrap; }
+    .doc-head h2 { font-size: 20px; margin: 0; }
+    .paper {
+        background: var(--paper); color: var(--ink); border-radius: 6px; padding: 44px 44px 40px;
+        font: 14px/1.5 var(--sans); box-shadow: 0 30px 80px -30px rgba(0,0,0,.8);
+    }
+    @media (max-width: 640px) { .paper { padding: 28px 20px; } }
+    .paper .kicker { font: 600 11px/1.3 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: #7a2fc0; margin-bottom: 8px; }
+    .paper h1 { font: 600 30px/1 var(--serif); margin: 0 0 12px; letter-spacing: -0.01em; }
+    .paper .lbl { font: 600 11px/1.3 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 4px; }
+    .paper .muted { color: var(--ink-2); }
+    .paper .blank { color: #9a93a4; font-style: italic; }
+    .inv-top { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding-bottom: 22px; border-bottom: 1px solid var(--paper-line); margin-bottom: 22px; }
+    .inv-top > div { min-width: 0; overflow-wrap: anywhere; }
+    .inv-meta { display: grid; grid-template-columns: auto auto; gap: 2px 16px; margin: 0; font-size: 13.5px; }
+    .inv-meta dt { color: var(--ink-2); }
+    .inv-meta dd { margin: 0; text-align: right; font-weight: 500; }
+    .inv-parties { display: flex; gap: 24px 40px; flex-wrap: wrap; margin-bottom: 26px; }
+    .inv-parties > div { min-width: 0; overflow-wrap: anywhere; }
+    .paper .tw { overflow-x: auto; }
+    .paper table.wt { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .paper table.wt th { text-align: left; border-bottom: 1.5px solid var(--ink); padding: 6px 8px 6px 0; font-weight: 600; }
+    .paper table.wt td { border-bottom: 1px solid var(--paper-line); padding: 8px 8px 8px 0; vertical-align: top; }
+    .paper table.wt .r { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; padding-right: 0; padding-left: 12px; }
+    .inv-totals { margin: 16px 0 0 auto; width: min(100%, 280px); font-size: 14px; font-variant-numeric: tabular-nums; }
+    .inv-totals div { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; }
+    .inv-totals .muted span:first-child { color: var(--ink-2); }
+    .inv-totals .due { border-top: 1.5px solid var(--ink); margin-top: 8px; padding-top: 10px; font-weight: 700; font-size: 17px; }
+    .inv-notes { margin-top: 30px; display: grid; gap: 18px; overflow-wrap: anywhere; }
+
+    /* ── Mobile action bar ────────────────────────────────── */
+    .bar {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: rgba(12,12,15,.92);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); font-size: 14px;
+    }
+    .bar b { font-size: 17px; font-variant-numeric: tabular-nums; }
+    .bar small { display: block; color: var(--text-3); font-size: 12px; }
+    @media (min-width: 1100px) { .bar { display: none; } }
+
+    .toast {
+        position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px); opacity: 0;
+        background: #1d1d23; border: 1px solid var(--line-strong); padding: 10px 16px; border-radius: 10px; font-size: 14px;
+        transition: opacity .2s, transform .2s; pointer-events: none; z-index: 20; max-width: calc(100% - 32px);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    footer.foot { color: var(--text-3); font-size: 12.5px; padding: 0 0 40px; }
+
+    @media (max-width: 640px) {
+        .wrap { padding: 0 16px; }
+        .top { padding: 14px 16px; }
+        .card { padding: 20px 18px; }
+    }
+</style>
+</head>
+<body>
+<header class="top">
+    <a class="brand" href="./invoice.html"><b>LOONATIC</b><span>STUDIOS</span></a>
+    <small>Invoices</small>
+</header>
+
+<div class="wrap">
+    <section class="hero">
+        <h1>Create an invoice</h1>
+        <p>Fill in the client and line items, check the preview, then download the PDF. Your draft is saved in this browser only.</p>
+    </section>
+
+    <div class="layout">
+        <main>
+            <section class="card">
+                <h2>Invoice details</h2>
+                <p class="sub">The number goes up by one each time you start a new invoice.</p>
+                <div class="grid">
+                    <label class="f"><span>Invoice number <i>*</i></span><input type="text" data-k="number" autocomplete="off"></label>
+                    <label class="f"><span>Project / reference</span><input type="text" data-k="project" placeholder="e.g. Debut EP sessions"></label>
+                    <label class="f"><span>Invoice date</span><input type="date" data-k="date"></label>
+                    <label class="f"><span>Payment terms</span>
+                        <select data-k="terms">
+                            <option value="0">Due on receipt</option>
+                            <option value="7">Net 7</option>
+                            <option value="14">Net 14</option>
+                            <option value="30">Net 30</option>
+                            <option value="custom">Custom due date</option>
+                        </select>
+                    </label>
+                    <label class="f"><span>Due date</span><input type="date" data-k="due"></label>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Bill to</h2>
+                <p class="sub">Who is paying this invoice.</p>
+                <div class="grid">
+                    <label class="f"><span>Client name <i>*</i></span><input type="text" data-k="to.name" autocomplete="off"></label>
+                    <label class="f"><span>Company / band</span><input type="text" data-k="to.company" autocomplete="off"></label>
+                    <label class="f wide"><span>Email</span><input type="email" data-k="to.email" autocomplete="off"><small>Used by the Email to client button.</small></label>
+                    <label class="f wide"><span>Address</span><textarea data-k="to.address" rows="2"></textarea></label>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Line items</h2>
+                <p class="sub">For hourly work, put the hours in Qty and the hourly rate in Rate.</p>
+                <div class="items-wrap">
+                    <table class="items">
+                        <thead><tr><th>Description</th><th>Qty</th><th>Rate ($)</th><th class="amt">Amount</th><th></th></tr></thead>
+                        <tbody id="itemRows"></tbody>
+                    </table>
+                </div>
+                <datalist id="itemPresets">
+                    <option value="Studio time (recording)">
+                    <option value="Engineering">
+                    <option value="Production">
+                    <option value="Mixing">
+                    <option value="Mastering">
+                    <option value="Vocal tuning / editing">
+                    <option value="Session musician">
+                    <option value="Equipment rental">
+                    <option value="Deposit">
+                </datalist>
+                <div class="row" style="margin-top:8px"><button class="btn small" type="button" id="addItem">+ Add line</button></div>
+            </section>
+
+            <section class="card">
+                <h2>Adjustments &amp; notes</h2>
+                <p class="sub">Leave any of these blank and they won't appear on the invoice.</p>
+                <div class="grid">
+                    <label class="f"><span>Discount ($)</span><input type="number" min="0" step="0.01" inputmode="decimal" data-k="discount"></label>
+                    <label class="f"><span>Sales tax (%)</span><input type="number" min="0" step="0.001" inputmode="decimal" data-k="taxRate"><small>Applied after the discount.</small></label>
+                    <label class="f"><span>Already paid ($)</span><input type="number" min="0" step="0.01" inputmode="decimal" data-k="paid"><small>For example a deposit.</small></label>
+                    <label class="f wide"><span>How to pay</span><textarea data-k="payInfo" rows="3" placeholder="e.g. Venmo @loonatic-studios, Zelle to studio@example.com, or check payable to Loonatic Studios LLC"></textarea></label>
+                    <label class="f wide"><span>Notes</span><textarea data-k="notes" rows="2"></textarea></label>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>From</h2>
+                <p class="sub">Your studio details. These carry over to every new invoice.</p>
+                <div class="grid">
+                    <label class="f"><span>Business name</span><input type="text" data-k="from.name"></label>
+                    <label class="f"><span>Phone</span><input type="tel" data-k="from.phone"></label>
+                    <label class="f wide"><span>Email</span><input type="email" data-k="from.email"></label>
+                    <label class="f wide"><span>Address</span><textarea data-k="from.address" rows="2"></textarea></label>
+                </div>
+            </section>
+        </main>
+
+        <aside class="preview" aria-label="Invoice preview">
+            <div class="doc-head">
+                <h2>Preview</h2>
+                <div class="row">
+                    <button class="btn primary" type="button" id="dlBtn">Download PDF</button>
+                    <button class="btn" type="button" id="mailBtn">Email to client</button>
+                    <button class="btn" type="button" id="shareBtn" hidden>Share PDF…</button>
+                </div>
+            </div>
+            <article class="paper" id="paper"></article>
+            <div class="row" style="margin-top:16px">
+                <button class="btn link" type="button" id="newBtn">Start the next invoice</button>
+            </div>
+        </aside>
+    </div>
+    <footer class="foot">Invoices are generated in your browser. Nothing is uploaded.</footer>
+</div>
+
+<div class="bar">
+    <div><small>Balance due</small><b id="barTotal">$0.00</b></div>
+    <button class="btn primary small" type="button" id="barDl">Download PDF</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="contracts.js"></script>
+<script src="invoice.js"></script>
+</body>
+</html>
