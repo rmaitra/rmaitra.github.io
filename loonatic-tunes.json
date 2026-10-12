@@ -512,6 +512,18 @@
         ]
     },
     {
+        "name": "Joe Moran Singles",
+        "artist": "Joe Moran",
+        "image": "",
+        "songs": [
+            {
+                "name": "Don't You Know",
+                "link": "https://www.dropbox.com/scl/fi/9cksn7pzefxo1n1hkrar2/Dont-You-Know-Master-V2.wav?rlkey=71ofrafusb8bydz6p02ytp4h7&st=6d9sq3k0&dl=0",
+                "image": ""
+            }
+        ]
+    },
+    {
         "name": "Caleb and Kelsey Sessions",
         "artist": "Caleb and Kelsey",
         "image": "",
