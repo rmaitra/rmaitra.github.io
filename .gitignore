@@ -5,3 +5,4 @@ package-lock*
 words/kaikki-dictionary-English-words.jsonl
 .claude
 .well-known
+textbooks/.cache/
