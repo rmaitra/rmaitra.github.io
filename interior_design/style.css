@@ -204,3 +204,7 @@ dialog::backdrop { background: rgba(15,23,42,.35); }
   #print-sheet .md { font-size: 10.5pt; margin-top: 6mm; }
   #print-sheet .md h1, #print-sheet .md h2, #print-sheet .md h3 { break-after: avoid; }
 }
+
+/* selected shapes */
+.hl .shp { stroke: var(--accent) !important; }
+.hl .shp.filled { fill: var(--accent) !important; fill-opacity: .35; }

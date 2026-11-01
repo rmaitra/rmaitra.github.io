@@ -9,9 +9,9 @@ const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').re
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 const UNITS = {
-  ft: { name: 'Feet & inches', major: 1, sub: 4, wall: 0.5, door: 3, window: 3, opening: 3, text: 0.6, dim: 0.45, zoom: 40, toM: 0.3048,
+  ft: { name: 'Feet & inches', major: 1, sub: 4, wall: 0.5, door: 3, window: 3, opening: 3, text: 0.6, dim: 0.45, post: 0.5, zoom: 40, toM: 0.3048,
         bars: [1, 2, 5, 10, 20, 50, 100] },
-  m:  { name: 'Meters', major: 1, sub: 10, wall: 0.15, door: 0.9, window: 1, opening: 0.9, text: 0.2, dim: 0.14, zoom: 130, toM: 1,
+  m:  { name: 'Meters', major: 1, sub: 10, wall: 0.15, door: 0.9, window: 1, opening: 0.9, text: 0.2, dim: 0.14, post: 0.15, zoom: 130, toM: 1,
         bars: [0.5, 1, 2, 5, 10, 20, 50] },
 };
 const COLORS = { wall: '#1f2937', line: '#374151', text: '#111827', door: '#1f2937', dim: '#374151' };
@@ -179,6 +179,7 @@ function sampleProject() {
     { id: uid(), type: 'door', kind: 'window', p: { x: 6, y: 0 }, angle: 0, width: 5, wall: W, flip: 1, hinge: 1, color: COLORS.door },
     { id: uid(), type: 'door', kind: 'window', p: { x: 20, y: 10.5 }, angle: Math.PI / 2, width: 3, wall: W, flip: 1, hinge: 1, color: COLORS.door },
     { id: uid(), type: 'curve', a: { x: 1.5, y: 11 }, b: { x: 8.5, y: 11 }, c: { x: 5, y: 7.5 }, width: 0, color: COLORS.line, dash: true },
+    { id: uid(), type: 'shape', kind: 'ellipse', p: { x: 3, y: 3.5 }, w: 3, h: 3, rot: 0, width: 0, color: COLORS.line, filled: true, fill: '#f3f4f6', lock: true },
     { id: uid(), type: 'text', p: { x: 5, y: 10.2 }, text: 'rug', size: 0.45, rot: 0, color: '#6b7280', italic: true },
     { id: uid(), type: 'text', p: { x: 6, y: 6 }, text: 'Living / Kitchen', size: 0.7, rot: 0, color: COLORS.text, bold: true },
     { id: uid(), type: 'text', p: { x: 16, y: 3.5 }, text: 'Bath', size: 0.6, rot: 0, color: COLORS.text },
@@ -293,6 +294,14 @@ function dimGeom(e) {
   const A = V.add(e.a, V.mul(n, e.off)), B = V.add(e.b, V.mul(n, e.off));
   return { len, u, n, A, B };
 }
+// world-space point from a shape's local (unrotated, centered) coords; rot is degrees counter-clockwise on screen
+function shapeToWorld(e, l) { const a = -(e.rot || 0) * Math.PI / 180, c = Math.cos(a), s = Math.sin(a); return { x: e.p.x + l.x * c - l.y * s, y: e.p.y + l.x * s + l.y * c }; }
+function worldToShape(e, w) { const a = (e.rot || 0) * Math.PI / 180, c = Math.cos(a), s = Math.sin(a), d = V.sub(w, e.p); return { x: d.x * c - d.y * s, y: d.x * s + d.y * c }; }
+function shapePts(e) {
+  const hw = e.w / 2, hh = e.h / 2;
+  if (e.kind === 'ellipse') { const pts = []; for (let i = 0; i < 24; i++) { const t = i / 24 * 2 * Math.PI; pts.push(shapeToWorld(e, { x: hw * Math.cos(t), y: hh * Math.sin(t) })); } return pts; }
+  return [{ x: -hw, y: -hh }, { x: hw, y: -hh }, { x: hw, y: hh }, { x: -hw, y: hh }].map(l => shapeToWorld(e, l));
+}
 function elPoints(e) {
   switch (e.type) {
     case 'line': return [e.a, e.b];
@@ -303,6 +312,7 @@ function elPoints(e) {
     }
     case 'door': { const g = doorGeom(e); return e.kind === 'door' ? [g.a, g.b, g.L] : [g.a, g.b]; }
     case 'dim': { const g = dimGeom(e); return [e.a, e.b, g.A, g.B]; }
+    case 'shape': return shapePts(e);
   }
   return [];
 }
@@ -315,7 +325,7 @@ function bboxAll(els) {
   }
   return b;
 }
-function pointKeys(e) { return { line: ['a', 'b'], curve: ['a', 'b', 'c'], text: ['p'], door: ['p'], dim: ['a', 'b'] }[e.type] || []; }
+function pointKeys(e) { return { line: ['a', 'b'], curve: ['a', 'b', 'c'], text: ['p'], door: ['p'], dim: ['a', 'b'], shape: ['p'] }[e.type] || []; }
 function translate(e, d) { for (const k of pointKeys(e)) e[k] = V.r(V.add(e[k], d)); }
 
 /* ---------- snapping ---------- */
@@ -347,6 +357,11 @@ function snapPoint(w, exclude = new Set()) {
 function pointFor(ev, anchor, exclude) {
   const w = toWorld(ev);
   curRaw = w;
+  if (ev.shiftKey && anchor && tool === 'square') { // perfect square on the grid
+    const p = snapPoint(w, exclude).pt, dx = p.x - anchor.x, dy = p.y - anchor.y;
+    const side = Math.max(Math.abs(dx), Math.abs(dy));
+    return { pt: { x: anchor.x + (Math.sign(dx) || 1) * side, y: anchor.y + (Math.sign(dy) || 1) * side }, kind: 'angle' };
+  }
   if (ev.shiftKey && anchor) {
     const ang = Math.round(Math.atan2(w.y - anchor.y, w.x - anchor.x) / (Math.PI / 4)) * (Math.PI / 4);
     const u = V.dir(ang);
@@ -424,6 +439,17 @@ function elMarkup(e, o = {}) {
       const dash = e.dash ? (thick ? ` stroke-dasharray="${f4(e.width * 1.6)} ${f4(e.width * 1.2)}"` : ' stroke-dasharray="7 5"') : '';
       return `<g${id}><path d="${d}" fill="none" stroke="${color}" ${st}${dash}/>${o.hl || o.ghost ? '' : HIT(d)}</g>`;
     }
+    case 'shape': {
+      const x = f4(e.p.x), y = f4(e.p.y), thick = e.width > 0;
+      const tr = e.rot ? ` transform="rotate(${f4(-e.rot)} ${x} ${y})"` : '';
+      const geo = e.kind === 'ellipse' ? `<ellipse cx="${x}" cy="${y}" rx="${f4(e.w / 2)}" ry="${f4(e.h / 2)}"`
+        : `<rect x="${f4(e.p.x - e.w / 2)}" y="${f4(e.p.y - e.h / 2)}" width="${f4(e.w)}" height="${f4(e.h)}"`;
+      const st = thick ? `stroke-width="${f4(e.width)}"` : HAIR(e.weight || 1.5);
+      const dash = e.dash ? (thick ? ` stroke-dasharray="${f4(e.width * 1.6)} ${f4(e.width * 1.2)}"` : ' stroke-dasharray="7 5"') : '';
+      const fill = e.filled ? esc(e.fill || e.color) : 'none';
+      const hit = o.hl || o.ghost ? '' : `${geo} class="hit" fill="${e.filled ? 'transparent' : 'none'}" stroke="transparent" stroke-width="14" vector-effect="non-scaling-stroke" pointer-events="${e.filled ? 'all' : 'stroke'}"${tr}/>`;
+      return `<g${id}>${geo} class="shp${e.filled ? ' filled' : ''}" fill="${fill}" stroke="${color}" ${st}${dash}${tr}/>${hit}</g>`;
+    }
     case 'text': {
       const lines = String(e.text || '').split('\n'), n = lines.length, x = f4(e.p.x);
       const ts = lines.map((l, i) => `<tspan x="${x}" dy="${i ? '1.2em' : f4(-(n - 1) * 0.6) + 'em'}">${esc(l) || ' '}</tspan>`).join('');
@@ -484,7 +510,7 @@ function sceneMarkup(els, pfx, o = {}) {
     mask = ` mask="url(#${pfx}gaps)"`;
   }
   const L = arr => arr.map(e => elMarkup(e, o)).join('');
-  return `${defs}<g${mask}>${L(walls)}</g>${L(hair)}${L(ops)}${L(els.filter(e => e.type === 'dim'))}${L(els.filter(e => e.type === 'text'))}`;
+  return `${defs}<g${mask}>${L(walls)}</g>${L(hair)}${L(els.filter(e => e.type === 'shape'))}${L(ops)}${L(els.filter(e => e.type === 'dim'))}${L(els.filter(e => e.type === 'text'))}`;
 }
 
 function render() {
@@ -514,6 +540,7 @@ function overlayMarkup(sels) {
     if (e.type === 'curve') o += hd(e.c, 'c', 'ctrl');
     if (e.type === 'dim') { const g = dimGeom(e); o += hd(V.mid(g.A, g.B), 'off', 'ctrl'); }
     if (e.type === 'door') { const g = doorGeom(e); o += hd(g.a, 'wa') + hd(g.b, 'wb'); }
+    if (e.type === 'shape') o += hd(shapeToWorld(e, { x: e.w / 2, y: e.h / 2 }), 'sz');
   }
   if (draft && (draft.tool === 'wall' || draft.tool === 'line') && draft.made > 1)
     o += `<circle cx="${f4(draft.first.x)}" cy="${f4(draft.first.y)}" r="${f4(r * 1.4)}" fill="none" stroke="#16a34a" ${HAIR(1.5)} pointer-events="none"/>`;
@@ -540,12 +567,16 @@ const ICON = {
   window: '<path d="M2 8h4M14 8h4M2 12h4M14 12h4" stroke="currentColor" stroke-width="2"/><path d="M6 7v6M14 7v6M6 8.5h8M6 11.5h8" stroke="currentColor" stroke-width="1.2"/>',
   opening: '<path d="M2 10h4M14 10h4" stroke="currentColor" stroke-width="4"/><path d="M6 7v6M14 7v6" stroke="currentColor" stroke-width="1.3"/><path d="M7 10h6" stroke="currentColor" stroke-width="1" stroke-dasharray="1.5 1.5"/>',
   text: '<path d="M4 4h12M10 4v13M7 17h6" stroke="currentColor" stroke-width="2" fill="none"/>',
+  post: '<path d="M3 10h4M13 10h4" stroke="currentColor" stroke-width="1.2"/><rect x="7" y="7" width="6" height="6" fill="currentColor"/>',
+  square: '<rect x="3.5" y="3.5" width="13" height="13" rx="0.5" stroke="currentColor" stroke-width="1.8" fill="none"/>',
+  circle: '<circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/>',
   dim: '<path d="M3 6v8M17 6v8M3 10h14" stroke="currentColor" stroke-width="1.5"/><path d="M1.5 11.5 4.5 8.5M15.5 11.5l3-3" stroke="currentColor" stroke-width="1.5"/>',
 };
 const TOOLS = [
   ['select', 'Select', 'V'], ['pan', 'Pan', 'H'], '-',
   ['wall', 'Wall', 'W'], ['rect', 'Room', 'R'], ['line', 'Line', 'L'], ['curve', 'Curve', 'C'], '-',
   ['door', 'Door', 'D'], ['window', 'Window', 'N'], ['opening', 'Opening', 'O'], '-',
+  ['post', 'Post', 'P'], ['square', 'Square', 'S'], ['circle', 'Circle', 'E'], '-',
   ['text', 'Text', 'T'], ['dim', 'Measure', 'M'],
 ];
 const HINTS = {
@@ -560,6 +591,9 @@ const HINTS = {
   opening: 'Click on a wall to place an opening (gap with no door)',
   text: 'Click to place a label, then type in the Properties panel',
   dim: 'Click two points to measure, then move to offset the dimension line and click',
+  post: 'Click to place a post / column — it snaps to wall corners and the grid',
+  square: 'Click (or drag) two opposite corners · Shift = perfect square',
+  circle: 'Click the center, then click (or drag) to set the radius',
 };
 function buildToolbar() {
   $('#tools').innerHTML = TOOLS.map(t => t === '-' ? '<div class="tsep"></div>' :
@@ -596,6 +630,22 @@ function curveFrom(a, b, m) { return { type: 'curve', a: V.r(a), b: V.r(b), c: V
 function dimFrom(a, b, m) {
   const n = V.perp(V.norm(V.sub(b, a)));
   return { type: 'dim', a: V.r(a), b: V.r(b), off: f4(V.dot(V.sub(m, a), n)), size: U().dim, color: COLORS.dim };
+}
+function postAt(pt) {
+  const s = U().post;
+  return { type: 'shape', kind: 'rect', post: true, p: V.r(pt), w: s, h: s, rot: 0, width: 0, color: COLORS.wall, filled: true, fill: COLORS.wall, lock: true };
+}
+function shapeFrom(t, a, b) {
+  if (t === 'circle') {
+    const d = 2 * V.dist(a, b); if (d < 1e-6) return null;
+    return { type: 'shape', kind: 'ellipse', p: V.r(a), w: f4(d), h: f4(d), rot: 0, width: 0, color: COLORS.line, filled: false, fill: '#e5e7eb', lock: true };
+  }
+  const w = Math.abs(b.x - a.x), h = Math.abs(b.y - a.y); if (w < 1e-6 || h < 1e-6) return null;
+  return { type: 'shape', kind: 'rect', p: V.r(V.mid(a, b)), w: f4(w), h: f4(h), rot: 0, width: 0, color: COLORS.line, filled: false, fill: '#e5e7eb', lock: false };
+}
+function finishShape(pt) {
+  const e = shapeFrom(draft.tool, draft.start, pt); if (!e) return;
+  pushUndo(); addEl(e); sel = new Set([e.id]); draft = null; ghost = []; hideTip(); changed();
 }
 function openingAt(kind, w) {
   const o = { type: 'door', kind, p: V.r(snapPoint(w).pt), angle: 0, width: U()[kind], wall: P.wallWidth, flip: 1, hinge: 1, color: COLORS.door };
@@ -640,6 +690,13 @@ svg.addEventListener('pointerdown', ev => {
       if (!draft) { draft = { tool, a: pt, stage: 1 }; down.started = true; }
       else if (draft.stage === 1) { if (V.dist(pt, draft.a) > 1e-6) { draft.b = pt; draft.stage = 2; } }
       else finishBend(pt);
+      break;
+    case 'post': {
+      pushUndo(); const o = addEl(postAt(pt)); sel = new Set([o.id]); changed(); break;
+    }
+    case 'square': case 'circle':
+      if (!draft) { draft = { tool, start: pt }; down.started = true; }
+      else finishShape(pt);
       break;
     case 'door': case 'window': case 'opening': {
       pushUndo(); const o = addEl(openingAt(tool, toWorld(ev)));
@@ -690,6 +747,7 @@ svg.addEventListener('pointerup', ev => {
   if (down?.started && draft && Math.hypot(ev.clientX - down.sx, ev.clientY - down.sy) > 6 && cur) {
     if (draft.tool === 'wall' || draft.tool === 'line') addChainSegment(cur.pt);
     else if (draft.tool === 'rect') finishRect(cur.pt);
+    else if (draft.tool === 'square' || draft.tool === 'circle') finishShape(cur.pt);
     else if (draft.stage === 1 && V.dist(cur.pt, draft.a) > 1e-6) { draft.b = cur.pt; draft.stage = 2; }
     updateGhost(); render();
   }
@@ -714,6 +772,7 @@ function updateGhost() {
   const pt = cur.pt;
   if (!draft) {
     if (['door', 'window', 'opening'].includes(tool)) ghost = [openingAt(tool, curRaw)];
+    if (tool === 'post') ghost = [postAt(pt)];
     hideTip(); return;
   }
   if (draft.tool === 'wall' || draft.tool === 'line') {
@@ -722,6 +781,12 @@ function updateGhost() {
   } else if (draft.tool === 'rect') {
     ghost = makeRect(draft.start, pt) || [];
     showTip(`${fmtLen(Math.abs(pt.x - draft.start.x))} × ${fmtLen(Math.abs(pt.y - draft.start.y))}`);
+  } else if (draft.tool === 'square') {
+    const e = shapeFrom('square', draft.start, pt); ghost = e ? [e] : [];
+    showTip(`${fmtLen(Math.abs(pt.x - draft.start.x))} × ${fmtLen(Math.abs(pt.y - draft.start.y))}`);
+  } else if (draft.tool === 'circle') {
+    const e = shapeFrom('circle', draft.start, pt); ghost = e ? [e] : [];
+    showTip(`⌀ ${fmtLen(2 * V.dist(draft.start, pt))}  ·  r ${fmtLen(V.dist(draft.start, pt))}`);
   } else if (draft.stage === 1) {
     ghost = draft.tool === 'dim' ? [dimFrom(draft.a, pt, draft.a)] : [{ type: 'line', a: draft.a, b: pt, width: 0, color: COLORS.line }];
     tipLen(draft.a, pt);
@@ -752,7 +817,7 @@ function selectDown(ev) {
       for (const o of P.elements) if (o !== e && (o.type === 'line' || o.type === 'curve'))
         for (const k of ['a', 'b']) if (V.dist(o[k], e[key]) < 1e-6) linked.push([o, k]);
     }
-    drag = { kind: 'handle', e, key, linked, before: snap(), moved: false };
+    drag = { kind: 'handle', e, key, linked, before: snap(), moved: false, w0: e.w, h0: e.h };
     return;
   }
   const g = ev.target.closest('[data-id]');
@@ -798,6 +863,16 @@ function selectMove(ev) {
       let off = V.dot(V.sub(w, e.a), n);
       if (P.grid.snap) off = Math.round(off / step()) * step();
       e.off = f4(off);
+    } else if (key === 'sz') {
+      const l = worldToShape(e, w), st = step();
+      let nw = Math.max(2 * Math.abs(l.x), st / 2), nh = Math.max(2 * Math.abs(l.y), st / 2);
+      if (e.lock || ev.shiftKey) {
+        const k = Math.max(nw / drag.w0, nh / drag.h0);
+        nw = drag.w0 * k; if (P.grid.snap) nw = Math.max(Math.round(nw / st) * st, st / 2);
+        nh = nw * drag.h0 / drag.w0;
+      } else if (P.grid.snap) { nw = Math.max(Math.round(nw / st) * st, st / 2); nh = Math.max(Math.round(nh / st) * st, st / 2); }
+      e.w = f4(nw); e.h = f4(nh);
+      showTip(e.kind === 'ellipse' && Math.abs(e.w - e.h) < 1e-6 ? `⌀ ${fmtLen(e.w)}` : `${fmtLen(e.w)} × ${fmtLen(e.h)}`);
     } else if (key === 'wa' || key === 'wb') {
       const g = doorGeom(e), fixed = key === 'wa' ? g.b : g.a;
       let L = Math.abs(V.dot(V.sub(w, fixed), g.u));
@@ -882,7 +957,13 @@ function reorder(front) {
 
 /* ---------- properties panel ---------- */
 const TYPE_LABEL = e => e.type === 'line' ? (e.width > 0 ? 'Wall' : 'Line') : e.type === 'curve' ? (e.width > 0 ? 'Curved wall' : 'Curve') :
-  e.type === 'door' ? { door: 'Door', window: 'Window', opening: 'Opening' }[e.kind] : e.type === 'dim' ? 'Measurement' : 'Text';
+  e.type === 'door' ? { door: 'Door', window: 'Window', opening: 'Opening' }[e.kind] : e.type === 'dim' ? 'Measurement' : e.type === 'shape' ? shapeLabel(e) : 'Text';
+function shapeLabel(e) {
+  const eq = Math.abs(e.w - e.h) < 1e-6;
+  if (e.post) return e.kind === 'ellipse' ? 'Round post' : 'Post';
+  return e.kind === 'ellipse' ? (eq ? 'Circle' : 'Ellipse') : (eq ? 'Square' : 'Rectangle');
+}
+const fmtArea = a => P.units === 'm' ? `${a.toFixed(2)} m²` : `${a.toFixed(a < 10 ? 2 : 1)} ft²`;
 
 function fld(label, inner) { return `<div class="field"><label>${label}</label>${inner}</div>`; }
 const inLen = (p, v) => `<input type="text" data-p="${p}" data-t="len" value="${esc(fmtLen(v))}">`;
@@ -901,6 +982,7 @@ function renderProps() {
       <div class="kbd">
         <kbd>V</kbd><span>Select</span><kbd>W</kbd><span>Wall</span><kbd>R</kbd><span>Room (4 walls)</span>
         <kbd>L</kbd><span>Line</span><kbd>C</kbd><span>Curve</span><kbd>D N O</kbd><span>Door · Window · Opening</span>
+        <kbd>P S E</kbd><span>Post · Square · Circle</span>
         <kbd>T</kbd><span>Text</span><kbd>M</kbd><span>Measure</span><kbd>Space</kbd><span>Hold to pan</span>
         <kbd>Wheel</kbd><span>Zoom</span><kbd>F</kbd><span>Fit drawing</span><kbd>G</kbd><span>Toggle grid snap</span>
         <kbd>Shift</kbd><span>Lock to 45° while drawing</span><kbd>Alt</kbd><span>Drag a corner without moving joined walls</span>
@@ -947,6 +1029,19 @@ function renderProps() {
     h += fld('Color', inColor('color', e.color || COLORS.door));
     h += `<div class="row">${e.kind === 'door' ? '<button data-act="flip">Flip swing side</button><button data-act="hinge">Swap hinge</button>' : '<button data-act="flip">Flip side</button>'}<button data-act="rot">Rotate 90°</button></div>`;
     h += `<p class="note">Drag it along a wall to reposition; drag the end handles to resize.</p>`;
+  } else if (e.type === 'shape') {
+    const round = e.kind === 'ellipse';
+    h += fld('Shape', `<select data-p="kind" data-t="text"><option value="rect"${round ? '' : ' selected'}>${e.post ? 'Square' : 'Square / rectangle'}</option><option value="ellipse"${round ? ' selected' : ''}>${e.post ? 'Round' : 'Circle / ellipse'}</option></select>`);
+    if (round && e.lock && Math.abs(e.w - e.h) < 1e-6) h += fld('Diameter', inLen('_diam', e.w));
+    else { h += fld('Width', inLen('w', e.w)); h += fld('Height', inLen('h', e.h)); }
+    h += fld('Area', `<span class="ro">${fmtArea(round ? Math.PI * e.w * e.h / 4 : e.w * e.h)}</span>`);
+    h += fld('Rotation (°)', inNum('rot', e.rot || 0, 'any'));
+    h += fld('Outline', inLen('width', e.width || 0));
+    h += `<p class="note" style="margin-top:-4px;margin-bottom:8px">0 = thin outline; larger = thick, like a wall.</p>`;
+    h += fld('Outline color', inColor('color', e.color || '#000000'));
+    h += fld('Fill', inChk('filled', e.filled, 'Filled') + ' &nbsp; ' + inColor('fill', e.fill || '#e5e7eb'));
+    h += fld('Options', inChk('dash', e.dash, 'Dashed') + '<br>' + inChk('lock', e.lock, 'Lock proportions'));
+    h += fld('Center', `<span class="ro">${fmtLen(e.p.x)}, ${fmtLen(e.p.y)}</span>`);
   } else if (e.type === 'dim') {
     h += fld('Measured', `<span class="ro">${fmtLen(V.dist(e.a, e.b))}</span>`);
     h += fld('Label', `<input type="text" data-p="label" data-t="text" value="${esc(e.label || '')}" placeholder="(automatic)">`);
@@ -991,6 +1086,12 @@ function bindProps(e) {
       if (p === '_len') { const u = V.norm(V.sub(e.b, e.a)); e.b = V.r(V.add(e.a, V.mul(u, Math.max(val, 0)))); }
       else if (p === '_ang') { const L = V.dist(e.a, e.b), r = -val * Math.PI / 180; e.b = V.r(V.add(e.a, V.mul(V.dir(r), L))); }
       else if (p === '_dang') e.angle = f4(-val * Math.PI / 180);
+      else if (p === '_diam') { e.w = e.h = f4(Math.max(val, 1e-3)); }
+      else if ((p === 'w' || p === 'h') && e.type === 'shape') {
+        const v = f4(Math.max(val, 1e-3)), o = p === 'w' ? 'h' : 'w';
+        if (e.lock && e[p] > 0) e[o] = f4(e[o] * v / e[p]);
+        e[p] = v;
+      }
       else if (p === 'width' || p === 'size' || p === 'wall') e[p] = f4(Math.max(0, val));
       else e[p] = val;
       changed({ keepProps: inp.type === 'color' });
@@ -1036,7 +1137,7 @@ function convertUnits(nu) {
   const sc = p => ({ x: f4(p.x * k), y: f4(p.y * k) });
   for (const e of P.elements) {
     for (const key of pointKeys(e)) e[key] = sc(e[key]);
-    for (const key of ['width', 'size', 'wall', 'off']) if (typeof e[key] === 'number') e[key] = f4(e[key] * k);
+    for (const key of ['width', 'size', 'wall', 'off', 'w', 'h']) if (typeof e[key] === 'number') e[key] = f4(e[key] * k);
   }
   P.units = nu; P.grid.major = UNITS[nu].major; P.grid.sub = UNITS[nu].sub; P.wallWidth = f4(P.wallWidth * k);
   if (P.view) P.view.s /= k;
