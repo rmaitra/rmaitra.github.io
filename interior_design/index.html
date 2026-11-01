@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floor Plan Studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 3h18v18H3zM3 12h7M14 12h7M12 3v6M12 15v6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      <span>Floor Plan Studio</span>
+    </div>
+    <input id="projName" class="name" type="text" spellcheck="false" title="Project name">
+    <div class="btns">
+      <button id="btnProjects" title="Projects saved in this browser">Projects</button>
+      <button id="btnNew" title="New project">New</button>
+      <span class="sep"></span>
+      <button id="btnOpen" title="Load a project from a .json file">Open JSON</button>
+      <button id="btnSave" title="Download project as .json (Ctrl+S)">Save JSON</button>
+      <button id="btnPrint" class="primary" title="Print or save as PDF (Ctrl+P)">Print / PDF</button>
+      <span class="sep"></span>
+      <button id="btnUndo" title="Undo (Ctrl+Z)">↶</button>
+      <button id="btnRedo" title="Redo (Ctrl+Shift+Z)">↷</button>
+    </div>
+    <div id="saveState" class="savestate"></div>
+  </header>
+
+  <div class="main">
+    <nav class="tools" id="tools"></nav>
+
+    <div class="stage" id="stage">
+      <svg id="canvas" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div id="tip" class="tip"></div>
+      <div class="zoomctl">
+        <button id="zoomOut" title="Zoom out">−</button>
+        <span id="zoomLbl">100%</span>
+        <button id="zoomIn" title="Zoom in">+</button>
+        <button id="zoomFit" title="Fit drawing (F)">Fit</button>
+        <label class="snapchk" title="Snap to grid (G)"><input type="checkbox" id="snapTgl"> Snap</label>
+      </div>
+      <div class="status"><span id="stCoords"></span><span id="stHint"></span></div>
+    </div>
+
+    <aside class="side">
+      <div class="tabs">
+        <button data-tab="props" class="on">Properties</button>
+        <button data-tab="desc">Description</button>
+        <button data-tab="settings">Settings</button>
+      </div>
+      <section id="tab-props" class="panel on"><div id="props"></div></section>
+      <section id="tab-desc" class="panel">
+        <div class="mdbar">
+          <button data-md="write" class="on">Write</button>
+          <button data-md="preview">Preview</button>
+          <span class="muted small">Markdown</span>
+        </div>
+        <textarea id="descInput" spellcheck="true" placeholder="# Design notes&#10;&#10;Describe rooms, materials, finishes…"></textarea>
+        <div id="descPreview" class="md hidden"></div>
+      </section>
+      <section id="tab-settings" class="panel"><div id="settings"></div></section>
+    </aside>
+  </div>
+</div>
+
+<div id="print-sheet"></div>
+
+<dialog id="projDlg">
+  <div class="dlghead">
+    <h2>Projects in this browser</h2>
+    <button class="x" data-close>✕</button>
+  </div>
+  <p class="muted small">Projects save automatically to this browser's local storage. Use <b>Save JSON</b> to keep a file copy or move a project to another computer.</p>
+  <div id="projList"></div>
+  <div class="dlgfoot">
+    <button id="dlgNew" class="primary">+ New project</button>
+    <button id="dlgImport">Import JSON…</button>
+  </div>
+</dialog>
+
+<input type="file" id="fileIn" accept=".json,application/json" hidden>
+<div id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

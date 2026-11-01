@@ -152,5 +152,16 @@
         "image":"",
         "gradient":"linear-gradient(135deg, #250410 0%, #5e1030 100%)",
         "link":"/fam.html"
+    },
+    {
+        "title":"Floor Plan Studio",
+        "description":"Draw floor plans with walls, curves, doors, windows, labels and measurements; add markdown notes and print to PDF.",
+        "subtitle":"",
+        "footer":"",
+        "category": "Random",
+        "type":"link",
+        "image":"",
+        "gradient":"linear-gradient(135deg, #0b1f3a 0%, #2563eb 100%)",
+        "link":"/interior_design/"
     }
 ]
