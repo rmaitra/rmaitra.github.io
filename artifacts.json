@@ -66,17 +66,6 @@
         "link":"/cell.html"
     },
     {
-        "title":"Masterbook Season Creator",
-        "description":"Demo of the masterbook creator for frisbee seasons.",
-        "subtitle":"",
-        "footer":"",
-        "category": "Random",
-        "type":"link",
-        "image":"",
-        "gradient":"linear-gradient(135deg, #4a1800 0%, #9c3d00 100%)",
-        "link":"/frisbee-season.html"
-    },
-    {
         "title":"Audio Sequencer",
         "description":"Sequence your audio.",
         "subtitle":"",
@@ -86,17 +75,6 @@
         "image":"",
         "gradient":"linear-gradient(135deg, #0a0620 0%, #251060 100%)",
         "link":"/sequencer.html"
-    },
-    {
-        "title":"Resilience Report",
-        "description":"Strategic Financial Analysis: The 2026 Resilience Report",
-        "subtitle":"Navigating the gold rush, dollar devaluation, and the path to economic stability in an era of unprecedented change.",
-        "footer":"",
-        "category": "Random",
-        "type":"link",
-        "image":"",
-        "gradient":"linear-gradient(135deg, #180f00 0%, #4a3000 100%)",
-        "link":"/2026-resilience-report.html"
     },
     {
         "title":"Stumble",
@@ -132,7 +110,7 @@
         "link":"/language/"
     },
     {
-        "title":"GRE Words",
+        "title":"Vocabulary Building",
         "description":"Browse the GRE master wordlist and quiz yourself on definitions.",
         "subtitle":"",
         "footer":"",
@@ -141,17 +119,6 @@
         "image":"",
         "gradient":"linear-gradient(135deg, #1a0a2e 0%, #3a1263 100%)",
         "link":"/words/"
-    },
-    {
-        "title":"Grandpa Devine",
-        "description":"Life Events.",
-        "subtitle":"",
-        "footer":"",
-        "category": "Random",
-        "type":"link",
-        "image":"",
-        "gradient":"linear-gradient(135deg, #250410 0%, #5e1030 100%)",
-        "link":"/fam.html"
     },
     {
         "title":"Floor Plan Studio",
