@@ -22,6 +22,15 @@
       --bad-bg: #2c1414;
     }
     * { box-sizing: border-box; }
+    /* Dark scrollbars everywhere (tab bar, filter rows, tables). color-scheme darkens native
+       controls; scrollbar-color covers Firefox and Chrome; the -webkit rules cover Safari. */
+    :root { color-scheme: dark; }
+    * { scrollbar-color: #2a2d31 transparent; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #2a2d31; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a3e44; }
+    ::-webkit-scrollbar-corner { background: transparent; }
     body {
       font-family: 'Space Grotesk', sans-serif;
       background: var(--bg-primary);
