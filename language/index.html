@@ -48,6 +48,12 @@
       color: var(--text-tertiary); text-decoration: underline; cursor: pointer;
     }
     .link-btn:hover { color: var(--text-primary); }
+    .lang-pick select {
+      background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-primary);
+      border-radius: 8px; padding: 5px 8px; font: inherit; font-size: 0.85rem; cursor: pointer;
+    }
+    .lang-pick select:hover, .lang-pick select:focus { border-color: var(--accent); outline: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .toggle { font-size: 0.8rem; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px; cursor: pointer; }
 
     .mode-tabs { display: flex; gap: 8px; padding: 14px 24px 0 24px; overflow-x: auto; scrollbar-width: thin; }
@@ -358,6 +364,7 @@
       <h1>Italiano Studio</h1>
     </div>
     <div class="scoreboard">
+      <label class="lang-pick"><span class="sr-only">Language</span><select id="langSelect" aria-label="Language"></select></label>
       <span id="scoreText">0/0 correct</span>
       <label class="toggle" id="autoplayToggle" hidden><input type="checkbox" id="autoplay"> Auto-play audio</label>
       <button class="link-btn" id="resetLink">reset progress</button>

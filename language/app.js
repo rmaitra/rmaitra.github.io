@@ -1,13 +1,33 @@
 (() => {
   'use strict';
 
-  const STORE_KEY = 'italiano.v1';
+  // Languages the app can teach. Each has its own data file and its own saved progress
+  // (Italian keeps its original storage key so existing progress still loads).
+  const LANGS = [
+    { code: 'it', name: 'Italiano', app: 'Italiano Studio', file: 'data/italian.json', storeKey: 'italiano.v1', backup: 'italiano-studio' },
+    { code: 'es', name: 'Español', app: 'Español Studio', file: 'data/spanish.json', storeKey: 'espanol.v1', backup: 'espanol-studio' },
+  ];
+  const LANG_KEY = 'studio.lang';
+  const LANG = (() => {
+    const find = (code) => LANGS.find((l) => l.code === code);
+    const fromUrl = find(new URLSearchParams(location.search).get('lang'));
+    let stored = null;
+    try { stored = find(localStorage.getItem(LANG_KEY)); } catch (e) { /* storage unavailable */ }
+    const lang = fromUrl || stored || LANGS[0];
+    try { localStorage.setItem(LANG_KEY, lang.code); } catch (e) { /* ignore */ }
+    return lang;
+  })();
+  const STORE_KEY = LANG.storeKey;
   const DAY = 86400000;
   const BOX_DAYS = [0, 1, 3, 7, 14, 30]; // Leitner: days until next review, by box
   const MASTERED_BOX = 3;
   const RECENT_WINDOW = 3; // don't repeat an item within this many questions
-  const PERSON_LABEL = { io: 'io', tu: 'tu', lui: 'lui / lei', noi: 'noi', voi: 'voi', loro: 'loro' };
-  const ACCENTS = ['à', 'è', 'é', 'ì', 'ò', 'ù'];
+  // Filled from the language data in init(): subject pronoun per person, helper keys for typing
+  let PERSON_LABEL = {};
+  let ACCENTS = [];
+  let SUBJECT_RE = /^$/;
+  // UI text can say {lang} for the language name ("Italian", "Spanish")
+  const tl = (s) => String(s).replace(/\{lang\}/g, data ? data.name : '');
 
   const pane = document.getElementById('pane');
   let data = null;
@@ -30,7 +50,8 @@
   }
   const norm = (s) => s.normalize('NFC').toLowerCase().replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim();
   const stripAccents = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
-  const stripEnd = (s) => s.replace(/[.?!]+$/, '');
+  // Trailing . ? ! and Spanish-style leading ¿ ¡ (so the first tile doesn't give itself away)
+  const stripEnd = (s) => s.replace(/^[¿¡]+/, '').replace(/[.?!]+$/, '');
   const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const withArticle = (art, word) => (art.endsWith("'") ? art + word : art + ' ' + word);
   function shuffle(arr) {
@@ -50,8 +71,11 @@
       log: [], time: { total: 0, days: {} },
     };
   }
-  // Fill a stored (or imported) state with defaults for anything missing
-  const hydrate = (s) => ({ ...defaults(), ...s, time: { total: 0, days: {}, ...s.time }, log: Array.isArray(s.log) ? s.log : [] });
+  // Fill a stored (or imported) state with defaults for anything missing.
+  // A function declaration, not a const: load() runs at startup, above this line.
+  function hydrate(s) {
+    return { ...defaults(), ...s, time: { total: 0, days: {}, ...s.time }, log: Array.isArray(s.log) ? s.log : [] };
+  }
   function load() {
     try {
       const s = JSON.parse(localStorage.getItem(STORE_KEY));
@@ -130,7 +154,7 @@
     }],
     reading: [{
       key: 'direction', label: 'Direction', fallback: 'it-en',
-      options: [{ id: 'it-en', label: 'Italian → English' }, { id: 'en-it', label: 'English → Italian' }],
+      options: [{ id: 'it-en', label: '{lang} → English' }, { id: 'en-it', label: 'English → {lang}' }],
     }],
   };
   const getSetting = (mode, key) => ((state.settings && state.settings[mode]) || {})[key] || SETTINGS[mode].find((x) => x.key === key).fallback;
@@ -198,7 +222,7 @@
     },
     sentences: {
       label: 'Sentences',
-      desc: 'Translate by tapping the Italian words into the right order.',
+      desc: 'Translate by tapping the {lang} words into the right order.',
       build: () => [
         ...data.questions.map((s) => ({ id: `q:${s.id}`, rank: s.rank, topic: s.topic, type: s.type, function: s.function, s, isQuestion: true })),
         ...data.sentences.map((s) => ({ id: `s:${s.id}`, rank: s.rank, topic: s.topic, type: s.type, function: s.function, s, isQuestion: false })),
@@ -207,7 +231,7 @@
     },
     reading: {
       label: 'Reading',
-      desc: 'Real Italian, from Wikipedia — translate each sentence by tapping the words into order. Vocabulary here goes beyond the rest of the app.',
+      desc: 'Real {lang}, from Wikipedia — translate each sentence by tapping the words into order. Vocabulary here goes beyond the rest of the app.',
       build: () => data.readings.flatMap((r, ri) => r.sentences.map((s, si) => ({
         id: `r:${s.id}`, rank: s.rank, reading: r, sIndex: si, s,
       }))),
@@ -293,7 +317,7 @@
 
   function checkVerb(guess, item) {
     const targets = verbAnswers(item.form).map(norm);
-    const g = norm(guess).replace(/^(io|tu|lui|lei|noi|voi|loro)\s+/, '');
+    const g = norm(guess).replace(SUBJECT_RE, '');
     if (targets.includes(g)) return { ok: true };
     if (targets.map(stripAccents).includes(stripAccents(g))) return { ok: true, accentNote: true };
     return { ok: false };
@@ -391,30 +415,13 @@
   }
 
   // ---------- 2. noun articles ----------
-  const DEFINITE = ['il', 'lo', 'la', "l'"];
-  const INDEFINITE = ['un', 'uno', 'una', "un'"];
-  const ARTICLE_RULE = {
-    il: 'Masculine nouns starting with most consonants take il.',
-    lo: 'Masculine nouns starting with z, s + consonant, gn, ps or pn take lo.',
-    la: 'Feminine nouns starting with a consonant take la.',
-    "l'": 'Nouns of either gender starting with a vowel take l’.',
-    un: 'Masculine nouns starting with a vowel or most consonants take un.',
-    uno: 'Masculine nouns starting with z, s + consonant, gn or ps take uno.',
-    una: 'Feminine nouns starting with a consonant take una.',
-    "un'": 'Feminine nouns starting with a vowel take un’.',
-  };
-  function indefiniteFor(noun) {
-    if (noun.art === 'il') return 'un';
-    if (noun.art === 'lo') return 'uno';
-    if (noun.art === 'la') return 'una';
-    return noun.gender === 'm' ? 'un' : "un'";
-  }
-  function pluralArticle(noun) {
-    if (noun.art === 'il') return 'i';
-    if (noun.art === 'la') return 'le';
-    if (noun.art === 'lo') return 'gli';
-    return noun.gender === 'm' ? 'gli' : 'le';
-  }
+  // Article choices and rules come from data.grammar.articles. Lookups try "<article>|<gender>"
+  // first (Italian l' depends on gender; Spanish el agua is feminine), then the article alone.
+  const articles = () => data.grammar.articles;
+  const byArticle = (map, art, gender) => map[`${art}|${gender}`] || map[art];
+  const indefiniteFor = (noun) => noun.indef || byArticle(articles().indefiniteOf, noun.art, noun.gender);
+  const pluralArticle = (noun) => noun.plArt || byArticle(articles().pluralOf, noun.art, noun.gender);
+  const articleRule = (art, gender) => byArticle(articles().rules, art, gender) || '';
 
   function renderNoun(item, ctx) {
     const drill = getSetting('nouns', 'drill');
@@ -470,7 +477,7 @@
   function renderNounArticle(item, ctx) {
     const { noun } = item;
     const definite = Math.random() < 0.5;
-    const options = definite ? DEFINITE : INDEFINITE;
+    const options = definite ? articles().definite : articles().indefinite;
     const correct = definite ? noun.art : indefiniteFor(noun);
     let answered = false;
 
@@ -501,7 +508,7 @@
       const plural = withArticle(pluralArticle(noun), noun.plural);
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : 'Not quite',
         h('div', { class: 'answer' }, singular + '  ·  ' + plural),
-        h('div', { class: 'note' }, (noun.gender === 'm' ? 'masculine' : 'feminine') + ' — ' + ARTICLE_RULE[correct]),
+        h('div', { class: 'note' }, (noun.gender === 'm' ? 'masculine' : 'feminine') + ' — ' + articleRule(correct, noun.gender)),
         h('div', { class: 'example' }, speakBtn(withArticle(noun.art, noun.id)))));
       autoSpeak(withArticle(noun.art, noun.id));
       afterAnswer(ctx, actions, nextButton(ctx));
@@ -509,15 +516,11 @@
   }
 
   // ---------- 5. numbers ----------
+  // First matching rule in data.grammar.numberNotes: { from, to, lastDigit?, text }
   function numberNote(v) {
-    if (v >= 11 && v <= 16) return 'Eleven to sixteen end in -dici.';
-    if (v >= 17 && v <= 19) return 'Seventeen to nineteen are dici- plus the digit: diciassette, diciotto, diciannove.';
-    if (v > 20 && v < 100 && v % 10 === 1) return 'Before uno the ten drops its last vowel: ventuno, trentuno.';
-    if (v > 20 && v < 100 && v % 10 === 8) return 'Before otto the ten drops its last vowel: ventotto, trentotto.';
-    if (v > 20 && v < 100 && v % 10 === 3) return 'A final tre takes an accent: ventitré, trentatré.';
-    if (v >= 30 && v <= 90 && v % 10 === 0) return 'Trenta ends in -enta; quaranta to novanta end in -anta.';
-    if (v > 20 && v < 100) return 'Join the ten and the unit into one word: trenta + due = trentadue.';
-    return null;
+    const rule = (data.grammar.numberNotes || []).find((r) =>
+      v >= r.from && v <= r.to && (r.lastDigit == null || v % 10 === r.lastDigit));
+    return rule ? rule.text : null;
   }
 
   function renderNumber(item, ctx) {
@@ -538,12 +541,12 @@
     };
 
     if (typed) {
-      const input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Number in Italian' });
+      const input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': tl('Number in {lang}') });
       actions.append(
         h('button', { class: 'btn', onclick: () => finish(input.value, false) }, 'Check'),
         h('button', { class: 'btn secondary', onclick: () => finish('', true) }, "I don't know"));
       pane.append(h('div', { class: 'card' },
-        h('div', { class: 'eyebrow' }, 'Write this number in Italian'),
+        h('div', { class: 'eyebrow' }, tl('Write this number in {lang}')),
         h('div', { class: 'big' }, String(num.value)),
         h('div', { class: 'prompt-row' }, input), actions, feedback));
       input.focus();
@@ -758,7 +761,7 @@
       h('button', { class: 'btn secondary', onclick: () => finish(false, true) }, 'Show answer'));
 
     pane.append(h('div', { class: 'card' },
-      h('div', { class: 'eyebrow' }, `Reading · ${reading.title} · sentence ${sIndex + 1} of ${reading.sentences.length} · ${itToEn ? 'Italian → English' : 'English → Italian'}`),
+      h('div', { class: 'eyebrow' }, `Reading · ${reading.title} · sentence ${sIndex + 1} of ${reading.sentences.length} · ${tl(itToEn ? '{lang} → English' : 'English → {lang}')}`),
       h('div', { class: 'big' }, prompt, itToEn ? speakBtn(s.it) : null), zone, bank, actions, feedback));
     refresh();
     keyHandler = (e) => { if (e.key === 'Enter') check(); };
@@ -787,9 +790,9 @@
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
         h('div', { class: 'answer' }, target),
         h('div', { class: 'example' }, speakBtn(s.it), h('span', {}, s.it + ' — ' + s.en)),
-        h('div', { class: 'note' }, 'Source: Wikipedia — ',
+        reading.source ? h('div', { class: 'note' }, 'Source: Wikipedia — ',
           h('a', { href: reading.source.url, target: '_blank', rel: 'noopener' }, reading.source.title),
-          ' (', reading.license, ')')));
+          ' (', reading.license, ')') : null));
       autoSpeak(s.it);
       afterAnswer(ctx, actions, nextButton(ctx));
     }
@@ -908,7 +911,7 @@
     verbs: {
       label: 'Verbs',
       note: 'Pick a tense. Irregular verbs are highlighted in blue.',
-      head: ['#', 'Infinitive', 'English', 'io', 'tu', 'lui / lei', 'noi', 'voi', 'loro', 'Aux.', 'Participle', 'Mastered'],
+      head: () => ['#', 'Infinitive', 'English', ...data.persons.map((p) => PERSON_LABEL[p]), 'Aux.', 'Participle', 'Mastered'],
       rows: () => {
         const tense = tableTense();
         return data.verbs.map((v, i) => {
@@ -926,7 +929,7 @@
     nouns: {
       label: 'Nouns',
       note: 'Singular and plural with definite article, plus the indefinite article.',
-      head: ['#', 'Italian', 'English', 'Topic', 'Gender', 'Plural', 'A / an', 'Status'],
+      head: ['#', '{lang}', 'English', 'Topic', 'Gender', 'Plural', 'A / an', 'Status'],
       rows: () => data.nouns.map((n, i) => ({
         search: [n.id, n.plural, n.en, labelOf(data.topics, n.topic)].join(' '),
         cells: [i + 1, it(withArticle(n.art, n.id)), n.en, labelOf(data.topics, n.topic), n.gender === 'm' ? 'masc.' : 'fem.',
@@ -945,7 +948,7 @@
     articles: {
       label: 'Articles',
       note: 'Definite (the), indefinite (a / an) and partitive (some). The article depends on the gender, the number and the first letters of the next word.',
-      head: ['#', 'Italian', 'English', 'Type', 'Agreement', 'When to use'],
+      head: ['#', '{lang}', 'English', 'Type', 'Agreement', 'When to use'],
       rows: () => data.articles.map((a, i) => ({
         search: [a.it, a.en, a.type, a.note].join(' '),
         cells: [i + 1, it(a.it), a.en, a.type, articleAgreement(a), a.note],
@@ -954,7 +957,7 @@
     prepositions: {
       label: 'Prepositions',
       note: 'Simple prepositions, the articulated forms they make with the definite article (di + il = del), and common prepositional phrases.',
-      head: ['#', 'Italian', 'English', 'Type', 'Notes'],
+      head: ['#', '{lang}', 'English', 'Type', 'Notes'],
       rows: () => data.prepositions.map((p, i) => ({
         search: [p.it, p.en, p.type, p.note].join(' '),
         cells: [i + 1, it(p.it), p.en, p.type, p.note],
@@ -963,7 +966,7 @@
     conjunctions: {
       label: 'Conjunctions',
       note: 'Coordinating conjunctions join equal parts; subordinating ones introduce a dependent clause.',
-      head: ['#', 'Italian', 'English', 'Type', 'Example'],
+      head: ['#', '{lang}', 'English', 'Type', 'Example'],
       rows: () => data.conjunctions.map((c, i) => ({
         search: [c.it, c.en, c.type, c.note].join(' '),
         cells: [i + 1, it(c.it), c.en, c.type, it(c.note)],
@@ -972,7 +975,7 @@
     numbers: {
       label: 'Numbers',
       note: '1\u2013100. Compound numbers join the ten and the unit into one word.',
-      head: ['#', 'Digits', 'Italian', 'Status'],
+      head: ['#', 'Digits', '{lang}', 'Status'],
       rows: () => data.numbers.map((n, i) => ({
         search: [n.value, n.it].join(' '),
         cells: [i + 1, String(n.value), it(n.it), statusCell(`#:${n.value}`)],
@@ -981,7 +984,7 @@
     questions: {
       label: 'Questions',
       note: 'Common questions with a sample reply.',
-      head: ['#', 'Italian', 'English', 'Sample reply', 'Status'],
+      head: ['#', '{lang}', 'English', 'Sample reply', 'Status'],
       rows: () => data.questions.map((q, i) => ({
         search: [q.it, q.en, q.answers[0].it].join(' '),
         cells: [i + 1, it(q.it), q.en, it(q.answers[0].it), statusCell(`q:${q.id}`)],
@@ -990,7 +993,7 @@
     sentences: {
       label: 'Sentences',
       note: 'Practice sentences from the sentence builder, labelled by type, topic and function.',
-      head: ['#', 'Italian', 'English', 'Type', 'Topic', 'Function', 'Status'],
+      head: ['#', '{lang}', 'English', 'Type', 'Topic', 'Function', 'Status'],
       rows: () => data.sentences.map((s, i) => ({
         search: [s.it, s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : ''].join(' '),
         cells: [i + 1, it(s.it), s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : '\u2014', statusCell(`s:${s.id}`)],
@@ -998,8 +1001,8 @@
     },
     readings: {
       label: 'Readings',
-      note: 'Real Italian text from Wikipedia, sentence by sentence, used by the Reading tab.',
-      head: ['#', 'Italian', 'English', 'Source', 'Status'],
+      note: 'Real {lang} text from Wikipedia, sentence by sentence, used by the Reading tab.',
+      head: ['#', '{lang}', 'English', 'Source', 'Status'],
       rows: () => data.readings.flatMap((r) => r.sentences.map((s, i) => ({
         search: [s.it, s.en, r.title].join(' '),
         cells: [`${r.title} ${i + 1}`, it(s.it), s.en, r.title, statusCell(`r:${s.id}`)],
@@ -1007,13 +1010,15 @@
     },
   };
 
+  // Tables with nothing to show in this language (e.g. no readings yet) are left out
+  const tableKeys = () => Object.keys(TABLES).filter((k) => k !== 'readings' || (data.readings || []).length);
   function renderTables() {
-    const key = TABLES[state.table] ? state.table : 'verbs';
+    const key = tableKeys().includes(state.table) ? state.table : 'verbs';
     const spec = TABLES[key];
     const rows = spec.rows();
     const tbody = h('tbody');
     const count = h('span', { class: 'count' });
-    const search = h('input', { type: 'text', class: 'search', placeholder: 'Search Italian or English…', 'aria-label': 'Search words', autocomplete: 'off', spellcheck: 'false' });
+    const search = h('input', { type: 'text', class: 'search', placeholder: tl('Search {lang} or English…'), 'aria-label': 'Search words', autocomplete: 'off', spellcheck: 'false' });
     const plain = (s) => stripAccents(norm(s));
     const td = (c) => {
       if (typeof c !== 'object') c = { t: String(c) };
@@ -1028,20 +1033,20 @@
     search.addEventListener('input', fill);
 
     pane.append(...[
-      h('div', { class: 'table-tabs' }, Object.entries(TABLES).map(([k, t]) =>
-        h('button', { class: 'pill-btn' + (k === key ? ' active' : ''), onclick: () => { state.table = k; save(); show(); } }, t.label))),
+      h('div', { class: 'table-tabs' }, tableKeys().map((k) =>
+        h('button', { class: 'pill-btn' + (k === key ? ' active' : ''), onclick: () => { state.table = k; save(); show(); } }, TABLES[k].label))),
       key === 'verbs' ? h('div', { class: 'table-tabs' }, data.tenseOptions.map((t) =>
         h('button', { class: 'pill-btn' + (t.id === tableTense() ? ' active' : ''), onclick: () => { state.tableTense = t.id; save(); show(); } }, t.label))) : null,
-      h('p', { class: 'mode-desc' }, spec.note),
+      h('p', { class: 'mode-desc' }, tl((data.ui.tableNotes || {})[key] || spec.note)),
       h('div', { class: 'table-tools' }, search, count),
       h('div', { class: 'table-wrap' }, h('table', { class: 'words' },
-        h('thead', {}, h('tr', {}, spec.head.map((x) => h('th', {}, x)))), tbody)),
+        h('thead', {}, h('tr', {}, (typeof spec.head === 'function' ? spec.head() : spec.head).map((x) => h('th', {}, tl(x))))), tbody)),
     ].filter(Boolean));
     fill();
   }
 
   // ---------- 7. progress (learning metrics) ----------
-  const PROGRESS_DESC = 'How much Italian you know, measured the way fluency research does: word families, how much of a real text you can read, how well reviews stick, and time spent.';
+  const PROGRESS_DESC = 'How much {lang} you know, measured the way fluency research does: word families, how much of a real text you can read, how well reviews stick, and time spent.';
   const KNOWN_BOX = 2; // an item counts as known once it has been answered right on a spaced review
   const FAMILY_TYPES = [['v', 'Verbs'], ['n', 'Nouns'], ['a', 'Adjectives'], ['#', 'Numbers'], ['other', 'Other words']];
   const familyType = (f) => { const p = f.split(':')[0]; return ['v', 'n', 'a', '#'].includes(p) ? p : 'other'; };
@@ -1200,7 +1205,7 @@
       h('tbody', {}, retRows));
 
     // Check any text
-    const area = h('textarea', { class: 'ptext', rows: '5', placeholder: 'Paste some Italian: a news paragraph, a song verse, a menu…', 'aria-label': 'Italian text to check', spellcheck: 'false' });
+    const area = h('textarea', { class: 'ptext', rows: '5', placeholder: tl('Paste some {lang}: a news paragraph, a song verse, a menu…'), 'aria-label': tl('{lang} text to check'), spellcheck: 'false' });
     const result = h('div', { class: 'presult' });
     const check = () => {
       const text = area.value.trim();
@@ -1221,16 +1226,16 @@
 
     pane.append(
       hero, tiles, hoursBlock,
-      psection('Word families', 'A word family is a word with all its forms: mangiare, mangio and mangiato count once. Known means answered right on a spaced review (box 2 or higher), in its own drill or inside a sentence.', familiesTable),
-      psection('Reading coverage', `The share of words in each passage that you know. At ${ready}% you can follow a text and guess the rest; at ${comfortable}% reading is comfortable. First try is how many sentences you got right on the first attempt in the Reading tab.`, readingTable),
+      psection('Word families', `A word family is a word with all its forms: ${data.ui.familyExample} count once. Known means answered right on a spaced review (box 2 or higher), in its own drill or inside a sentence.`, familiesTable),
+      !data.readings.length ? psection('Reading coverage', tl('There are no {lang} readings yet.')) : psection('Reading coverage', `The share of words in each passage that you know. At ${ready}% you can follow a text and guess the rest; at ${comfortable}% reading is comfortable. First try is how many sentences you got right on the first attempt in the Reading tab.`, readingTable),
       psection('Retention by tab', 'How often you remembered an item when it came back after a spaced interval. Around 85–90% means reviews are well paced.', retTable),
-      psection('Check any text', 'Paste Italian from anywhere to see how much of it you could read today.', checker),
+      psection('Check any text', tl('Paste {lang} from anywhere to see how much of it you could read today.'), checker),
       backupSection(),
       targets.sourceNote ? h('p', { class: 'psec-note' }, targets.sourceNote) : null);
   }
 
   // ---------- progress backup (export / import a file) ----------
-  const BACKUP_APP = 'italiano-studio';
+  const BACKUP_APP = LANG.backup;
   let backupNotice = ''; // shown under the buttons; survives the re-render after an import
   function exportProgress() {
     save();
@@ -1248,7 +1253,7 @@
     const s = file && file.app === BACKUP_APP ? file.state : file;
     const plain = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
     if (file && file.app && file.app !== BACKUP_APP) throw new Error('This file is from a different app.');
-    if (!plain(s) || !plain(s.srs)) throw new Error('This file does not contain Italiano Studio progress.');
+    if (!plain(s) || !plain(s.srs)) throw new Error(`This file does not contain ${LANG.app} progress.`);
     if (file.language && file.language !== data.language) throw new Error(`This backup is for another language (${file.language}).`);
     const srs = {};
     for (const [id, r] of Object.entries(s.srs)) {
@@ -1686,7 +1691,7 @@
     statsEl.replaceChildren(stat('New', fresh), stat('Learning', learning), stat('Mastered', mastered), stat('Due', due));
   }
   function renderTabs() {
-    const tabs = [['lessons', 'Lessons'], ...Object.entries(MODES).map(([key, m]) => [key, m.label]), ['tables', 'Word tables'], ['progress', 'Progress']];
+    const tabs = [['lessons', 'Lessons'], ...activeModes().map((key) => [key, MODES[key].label]), ['tables', 'Word tables'], ['progress', 'Progress']];
     document.getElementById('modeTabs').replaceChildren(...tabs.map(([key, label]) =>
       h('button', {
         class: 'mode-btn' + (key === state.mode ? ' active' : ''),
@@ -1697,8 +1702,9 @@
           show();
         },
       }, label)));
-    const desc = state.mode === 'tables' ? '' : state.mode === 'progress' ? PROGRESS_DESC : state.mode === 'lessons' ? (state.lesson ? '' : LESSONS_DESC) : MODES[state.mode].desc;
-    document.getElementById('modeDesc').textContent = desc;
+    const desc = state.mode === 'tables' ? '' : state.mode === 'progress' ? PROGRESS_DESC : state.mode === 'lessons' ? (state.lesson ? '' : LESSONS_DESC)
+      : (data.ui.modeDesc || {})[state.mode] || MODES[state.mode].desc;
+    document.getElementById('modeDesc').textContent = tl(desc);
     document.querySelector('main').classList.toggle('wide', state.mode === 'tables');
   }
 
@@ -1731,7 +1737,7 @@
           recent[mode] = [];
           save(); renderFilters(); ask();
         },
-      }, o.label))));
+      }, tl(o.label)))));
     el.replaceChildren(...filterRows, ...settingRows);
   }
 
@@ -1770,9 +1776,19 @@
     renderStats();
   }
 
+  // Drill tabs that have items in this language (a language without readings has no Reading tab)
+  const activeModes = () => Object.keys(MODES).filter((key) => getItems(key).length);
+
   function init(json) {
     data = json;
-    if (!MODES[state.mode] && !['tables', 'lessons', 'progress'].includes(state.mode)) state.mode = 'lessons';
+    data.ui = data.ui || {};
+    data.readings = data.readings || [];
+    PERSON_LABEL = Object.fromEntries(data.personOptions.map((o) => [o.id, o.pronoun || o.id]));
+    ACCENTS = data.ui.accents || [];
+    // A typed verb may start with its subject pronoun ("noi parliamo", "él habla", "usted habla")
+    const pronouns = [...new Set(Object.values(PERSON_LABEL).flatMap((p) => p.split(' / ')).flatMap((p) => [norm(p), stripAccents(norm(p))]))];
+    SUBJECT_RE = new RegExp(`^(${pronouns.join('|')})\\s+`);
+    if (!activeModes().includes(state.mode) && !['tables', 'lessons', 'progress'].includes(state.mode)) state.mode = 'lessons';
     startTimeTracking();
     document.addEventListener('keydown', (e) => {
       if (!keyHandler || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -1803,11 +1819,28 @@
     show();
   }
 
-  fetch('data/italian.json')
+  // Header: app name and the language switcher (switching reloads with ?lang=, since
+  // every cache and the saved state belong to one language)
+  function renderLanguagePicker() {
+    document.title = LANG.app;
+    document.querySelector('.topbar h1').textContent = LANG.app;
+    document.documentElement.lang = LANG.code;
+    const select = document.getElementById('langSelect');
+    select.replaceChildren(...LANGS.map((l) => h('option', { value: l.code, selected: l === LANG }, l.name)));
+    select.addEventListener('change', () => {
+      try { localStorage.setItem(LANG_KEY, select.value); } catch (e) { /* ignore */ }
+      const url = new URL(location.href);
+      url.searchParams.set('lang', select.value);
+      location.href = url.href;
+    });
+  }
+  renderLanguagePicker();
+
+  fetch(LANG.file)
     .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(init)
     .catch((err) => {
       pane.replaceChildren(h('div', { class: 'error' },
-        'Could not load data/italian.json (' + err.message + '). Serve this folder over http (e.g. node server.js) instead of opening the file directly.'));
+        'Could not load ' + LANG.file + ' (' + err.message + '). Serve this folder over http (e.g. node server.js) instead of opening the file directly.'));
     });
 })();

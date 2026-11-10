@@ -2,14 +2,47 @@
   "language": "it",
   "name": "Italian",
   "speechLang": "it-IT",
+  "ui": {
+    "accents": ["à", "è", "é", "ì", "ò", "ù"],
+    "familyExample": "mangiare, mangio and mangiato",
+    "modeDesc": {},
+    "tableNotes": {}
+  },
+  "grammar": {
+    "articles": {
+      "definite": ["il", "lo", "la", "l'"],
+      "indefinite": ["un", "uno", "una", "un'"],
+      "indefiniteOf": { "il": "un", "lo": "uno", "la": "una", "l'|m": "un", "l'|f": "un'" },
+      "pluralOf": { "il": "i", "lo": "gli", "la": "le", "l'|m": "gli", "l'|f": "le" },
+      "rules": {
+        "il": "Masculine nouns starting with most consonants take il.",
+        "lo": "Masculine nouns starting with z, s + consonant, gn, ps or pn take lo.",
+        "la": "Feminine nouns starting with a consonant take la.",
+        "l'": "Nouns of either gender starting with a vowel take l’.",
+        "un": "Masculine nouns starting with a vowel or most consonants take un.",
+        "uno": "Masculine nouns starting with z, s + consonant, gn or ps take uno.",
+        "una": "Feminine nouns starting with a consonant take una.",
+        "un'": "Feminine nouns starting with a vowel take un’."
+      }
+    },
+    "numberNotes": [
+      { "from": 11, "to": 16, "text": "Eleven to sixteen end in -dici." },
+      { "from": 17, "to": 19, "text": "Seventeen to nineteen are dici- plus the digit: diciassette, diciotto, diciannove." },
+      { "from": 21, "to": 99, "lastDigit": 1, "text": "Before uno the ten drops its last vowel: ventuno, trentuno." },
+      { "from": 21, "to": 99, "lastDigit": 8, "text": "Before otto the ten drops its last vowel: ventotto, trentotto." },
+      { "from": 21, "to": 99, "lastDigit": 3, "text": "A final tre takes an accent: ventitré, trentatré." },
+      { "from": 30, "to": 90, "lastDigit": 0, "text": "Trenta ends in -enta; quaranta to novanta end in -anta." },
+      { "from": 21, "to": 99, "text": "Join the ten and the unit into one word: trenta + due = trentadue." }
+    ]
+  },
   "persons": ["io", "tu", "lui", "noi", "voi", "loro"],
   "personOptions": [
-    { "id": "io", "label": "I (io)", "en": "I" },
-    { "id": "tu", "label": "you (tu)", "en": "you" },
-    { "id": "lui", "label": "he / she (lui / lei)", "en": "he / she" },
-    { "id": "noi", "label": "we (noi)", "en": "we" },
-    { "id": "voi", "label": "you all (voi)", "en": "you all" },
-    { "id": "loro", "label": "they (loro)", "en": "they" }
+    { "id": "io", "label": "I (io)", "en": "I", "pronoun": "io" },
+    { "id": "tu", "label": "you (tu)", "en": "you", "pronoun": "tu" },
+    { "id": "lui", "label": "he / she (lui / lei)", "en": "he / she", "pronoun": "lui / lei" },
+    { "id": "noi", "label": "we (noi)", "en": "we", "pronoun": "noi" },
+    { "id": "voi", "label": "you all (voi)", "en": "you all", "pronoun": "voi" },
+    { "id": "loro", "label": "they (loro)", "en": "they", "pronoun": "loro" }
   ],
   "tenseOptions": [
     { "id": "present", "label": "Present", "title": "Present (presente)", "description": "Current or habitual actions: parlo = I speak / I am speaking." },
