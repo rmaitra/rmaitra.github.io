@@ -6,6 +6,7 @@
   const LANGS = [
     { code: 'it', name: 'Italiano', app: 'Italiano Studio', file: 'data/italian.json', storeKey: 'italiano.v1', backup: 'italiano-studio' },
     { code: 'es', name: 'Español', app: 'Español Studio', file: 'data/spanish.json', storeKey: 'espanol.v1', backup: 'espanol-studio' },
+    { code: 'ar', name: 'العربية', app: 'Arabic Studio', file: 'data/arabic.json', storeKey: 'arabiya.v1', backup: 'arabic-studio', uiLang: 'en' },
   ];
   const LANG_KEY = 'studio.lang';
   const LANG = (() => {
@@ -28,6 +29,9 @@
   let SUBJECT_RE = /^$/;
   // UI text can say {lang} for the language name ("Italian", "Spanish")
   const tl = (s) => String(s).replace(/\{lang\}/g, data ? data.name : '');
+  // Arabic script (data.script === 'arabic'): right-to-left text, romanization, lenient matching
+  let AR = false;
+  const AT = window.ArabicText;
 
   const pane = document.getElementById('pane');
   let data = null;
@@ -50,10 +54,30 @@
   }
   const norm = (s) => s.normalize('NFC').toLowerCase().replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim();
   const stripAccents = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
-  // Trailing . ? ! and Spanish-style leading ¿ ¡ (so the first tile doesn't give itself away)
-  const stripEnd = (s) => s.replace(/^[¿¡]+/, '').replace(/[.?!]+$/, '');
+  // Trailing . ? ! (and Arabic ؟) and Spanish-style leading ¿ ¡ (so the first tile doesn't give itself away)
+  const stripEnd = (s) => s.replace(/^[¿¡]+/, '').replace(/[.?!؟]+$/, '');
   const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const withArticle = (art, word) => (art.endsWith("'") ? art + word : art + ' ' + word);
+  // The word a verb or noun is shown as. Italian and Spanish ids are the words themselves;
+  // Arabic entries have ascii ids and the Arabic in `it`.
+  const vw = (v) => v.it || v.id;
+  const nw = (n) => n.it || n.id;
+  const nounDisplay = (n) => (n.art ? withArticle(n.art, nw(n)) : nw(n));
+  const pluralDisplay = (n) => (n.plural == null ? null : n.art ? withArticle(pluralArticle(n), n.plural) : n.plural);
+  const romanOf = (text, tr) => (AR ? tr || AT.romanize(text) : '');
+  // Target-language text. Latin languages: the plain string. Arabic: the Arabic (right to left,
+  // vowel marks unless turned off) with its romanization underneath (or beside, `inline`).
+  function target(text, opts = {}) {
+    if (!AR || text == null) return text;
+    const shown = opts.marks || !state.hideMarks ? text : AT.stripMarks(text);
+    const tr = opts.tr === false ? '' : romanOf(text, opts.tr);
+    return h('span', { class: 'tgt' + (opts.inline ? ' inline' : '') },
+      h('bdi', { class: 'ar', lang: 'ar', dir: 'rtl' }, shown), tr ? h('span', { class: 'tr' }, tr) : null);
+  }
+  // Arabic without romanization (alphabet prompts), always with vowel marks
+  const arOnly = (text, cls) => h('bdi', { class: 'ar' + (cls ? ' ' + cls : ''), lang: 'ar', dir: 'rtl' }, text);
+  // Target text inside a plain-text note: romanized for Arabic, so English lines stay left to right
+  const plainTarget = (text) => (AR ? AT.romanize(text) : text);
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -138,10 +162,13 @@
   }
 
   // ---------- topic / type filters ----------
-  const FILTER_KEYS = { verbs: ['tense', 'person'], nouns: ['topic'], sentences: ['topic', 'type', 'function'], listening: ['kind', 'topic'] };
-  const FILTER_LABEL = { tense: 'Tense', person: 'Person', topic: 'Topic', type: 'Type', function: 'Function', kind: 'Hear' };
-  const DEFAULT_FILTERS = { verbs: { tense: 'present' } };
-  const filterList = (key) => ({ topic: data.topics, type: data.sentenceTypes, tense: data.tenseOptions, person: data.personOptions, function: data.functions, kind: LISTEN_KINDS })[key];
+  const FILTER_KEYS = { alphabet: ['akind', 'group'], verbs: ['tense', 'person'], nouns: ['topic'], sentences: ['topic', 'type', 'function'], listening: ['kind', 'topic'] };
+  const FILTER_LABEL = { tense: 'Tense', person: 'Person', topic: 'Topic', type: 'Type', function: 'Function', kind: 'Hear', akind: 'Drill', group: 'Letters' };
+  const DEFAULT_FILTERS = { verbs: { tense: 'present' }, alphabet: { group: 'g1' } };
+  const filterList = (key) => ({
+    topic: data.topics, type: data.sentenceTypes, tense: data.tenseOptions, person: data.personOptions, function: data.functions, kind: LISTEN_KINDS,
+    akind: ALPHA_KINDS, group: data.alphabet ? data.alphabet.groups : [],
+  })[key];
   // Non-filtering options shown as extra pill rows (persisted in state.settings)
   const SETTINGS = {
     verbs: [{
@@ -150,7 +177,12 @@
     }],
     nouns: [{
       key: 'drill', label: 'Drill', fallback: 'mixed',
-      options: [{ id: 'mixed', label: 'Mixed' }, { id: 'article', label: 'Article' }, { id: 'meaning', label: 'Meaning' }],
+      // Languages without articles (Arabic) drill reading and plurals instead
+      get options() {
+        return data && !data.grammar.articles
+          ? [{ id: 'mixed', label: 'Mixed' }, { id: 'meaning', label: 'English → {lang}' }, { id: 'reading', label: '{lang} → English' }, { id: 'plural', label: 'Plural' }]
+          : [{ id: 'mixed', label: 'Mixed' }, { id: 'article', label: 'Article' }, { id: 'meaning', label: 'Meaning' }];
+      },
     }],
     reading: [{
       key: 'direction', label: 'Direction', fallback: 'it-en',
@@ -198,6 +230,12 @@
 
   // ---------- exercise item pools ----------
   const MODES = {
+    alphabet: {
+      label: 'Alphabet',
+      desc: 'Learn the letters: their sounds, their shapes at the start, middle and end of a word, the vowel marks, and then read real words. Pick a letter group to focus on.',
+      build: alphabetItems,
+      render: renderAlphabet,
+    },
     verbs: {
       label: 'Verbs',
       desc: 'Conjugate the most common verbs. Pick a tense and person, and choose whether to select or type the answer.',
@@ -252,6 +290,7 @@
   // A segment is { text, lang: 'target' | 'en', voice?, pitch?, rate? }; 'target' is the
   // language being learned (data.speechLang), 'en' is used for lesson narration.
   const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+  let noTargetVoice = false; // Arabic only: the browser has voices, but none for the language
   let speechRun = 0;
   const speechLang = (seg) => (seg.lang === 'en' ? 'en-US' : data.speechLang || data.language);
   function pickVoice(lang, n) {
@@ -267,6 +306,8 @@
       const u = new SpeechSynthesisUtterance(seg.text.replace(/\s*\/\s*/g, ', ').replace(/…/g, ' '));
       u.lang = speechLang(seg);
       const voice = pickVoice(u.lang, seg.voice || 0);
+      // With no Arabic voice the default (English) voice would read garbage: stay silent
+      if (!voice && AR && seg.lang !== 'en' && speechSynthesis.getVoices().length) { resolve(); return; }
       if (voice) u.voice = voice;
       u.rate = seg.rate || (seg.lang === 'en' ? 1 : 0.9);
       u.pitch = seg.pitch || 1;
@@ -283,6 +324,18 @@
     speechSynthesis.cancel();
     return segments.reduce((p, seg) => p.then(() => run === speechRun && utter(seg)), Promise.resolve())
       .then(() => run === speechRun);
+  }
+  // Many desktop browsers ship no Arabic voice: hide the audio controls and say so
+  function checkVoices() {
+    if (!canSpeak || !AR || !speechSynthesis.getVoices().length) return;
+    const none = !pickVoice(data.speechLang, 0);
+    if (none === noTargetVoice) return;
+    noTargetVoice = none;
+    document.body.classList.toggle('no-voice', none);
+    const note = document.getElementById('voiceNote');
+    note.hidden = !none;
+    note.textContent = tl('This browser has no {lang} voice, so audio is off. Microsoft Edge, Safari and Chrome on Android include one.');
+    if (state.mode === 'listening') show();
   }
   function stopSpeech() {
     speechRun++;
@@ -305,6 +358,167 @@
     keyHandler = (e) => { if (e.key === 'Enter') ctx.next(); };
   }
 
+  // ---------- 0. alphabet (Arabic script) ----------
+  // Four drills over data.alphabet: letter and sound (ab:<letter>), letter shapes by position
+  // (ab:<letter>:i|m|f), vowel marks on a syllable (ab:mark:<id>), and reading real words from
+  // the vocabulary (ab:w:n|a|v:<id>). Items carry the letter group they need, for the filter.
+  const ALPHA_KINDS = [{ id: 'letter', label: 'Letters' }, { id: 'form', label: 'Shapes' }, { id: 'mark', label: 'Vowel marks' }, { id: 'word', label: 'Read words' }];
+  const POS_LABEL = { i: 'at the start of a word', m: 'in the middle of a word', f: 'at the end of a word' };
+  const POS_SHORT = { i: 'start', m: 'middle', f: 'end' };
+  const TATWEEL = 'ـ';
+  const letterForm = (L, pos) => (pos === 'i' ? L.ch + TATWEEL : pos === 'm' ? TATWEEL + L.ch + TATWEEL : pos === 'f' ? TATWEEL + L.ch : L.ch);
+  const groupNum = (g) => Number(String(g).replace(/\D/g, '')) || 1;
+  const letterById = (id) => data.alphabet.letters.find((L) => L.id === id);
+  const letterOfChar = (ch) => data.alphabet.letters.find((L) => L.ch === ch) || ('أإآؤئ'.includes(ch) ? letterById('hamza') : null);
+  // The letter group a word needs: its hardest letter or mark (hamza seats count as hamza)
+  function wordGroup(text) {
+    const markGroup = (id) => groupNum((data.alphabet.marks.find((m) => m.id === id) || { group: 'g1' }).group);
+    let g = 1;
+    for (const u of AT.units(text)) {
+      const L = u.ch && letterOfChar(u.ch);
+      if (L) g = Math.max(g, groupNum(L.group));
+      if (u.marks.includes('ّ')) g = Math.max(g, markGroup('shadda'));
+      if (u.marks.some((m) => 'ًٌٍ'.includes(m))) g = Math.max(g, markGroup('tanwin_a'));
+    }
+    return g;
+  }
+  function alphabetItems() {
+    if (!data.alphabet) return [];
+    const items = [];
+    data.alphabet.letters.forEach((L) => {
+      items.push({ id: `ab:${L.id}`, akind: 'letter', group: L.group, L });
+      L.positions.forEach((pos) => items.push({ id: `ab:${L.id}:${pos}`, akind: 'form', group: L.group, L, pos }));
+    });
+    data.alphabet.marks.forEach((M) => items.push({ id: `ab:mark:${M.id}`, akind: 'mark', group: M.group, M }));
+    const seen = new Set();
+    [
+      ...data.nouns.map((n) => ({ key: `n:${n.id}`, it: nw(n), en: n.en })),
+      ...data.adjectives.map((a) => ({ key: `a:${a.id}`, it: a.forms.ms, en: a.en })),
+      ...data.verbs.map((v) => ({ key: `v:${v.id}`, it: vw(v), en: `${v.en} (he did it, past)` })),
+    ].forEach((w) => {
+      if (seen.has(AT.fold(w.it))) return;
+      seen.add(AT.fold(w.it));
+      items.push({ id: `ab:w:${w.key}`, akind: 'word', group: `g${wordGroup(w.it)}`, w });
+    });
+    return items;
+  }
+  // Up to n other letters with different sounds: look-alikes first, then the same group
+  function similarLetters(L, n, allow = () => true) {
+    const all = data.alphabet.letters.filter((x) => x !== L && x.sound !== L.sound && allow(x));
+    const sim = shuffle(L.similar.map(letterById).filter((x) => x && all.includes(x)));
+    const same = shuffle(all.filter((x) => x.group === L.group && !sim.includes(x)));
+    const rest = shuffle(all.filter((x) => !sim.includes(x) && !same.includes(x)));
+    const out = [];
+    for (const x of [...sim, ...same, ...rest]) if (out.length < n && !out.some((o) => o.sound === x.sound)) out.push(x);
+    return out;
+  }
+  // A letter's shapes (alone, start, middle, end), name, sound, tip and an example word
+  function letterCard(L, pos) {
+    const shapes = [['alone', L.ch, null], ...L.positions.map((p) => [POS_SHORT[p], letterForm(L, p), p])];
+    return h('div', { class: 'letter-card' },
+      h('div', { class: 'shapes', dir: 'rtl' }, shapes.map(([label, glyph, p]) =>
+        h('div', { class: 'shape' + (p === (pos || null) ? ' on' : '') }, arOnly(glyph, 'glyph-shape'), h('span', {}, label)))),
+      h('div', { class: 'note' }, target(L.name, { inline: true, marks: true }), ` · sound: ${L.sound}`, !L.joins && L.positions.length ? ' · doesn’t join the next letter' : ''),
+      h('div', { class: 'note' }, L.tip),
+      h('div', { class: 'example' }, speakBtn(L.example.it), h('span', {}, target(L.example.it, { inline: true, tr: L.example.tr, marks: true }), ' — ' + L.example.en)));
+  }
+  function renderAlphaLetter(item, ctx) {
+    const { L } = item;
+    const showGlyph = Math.random() < 0.5;
+    choiceCard(ctx, {
+      eyebrow: showGlyph ? 'What sound does this letter make?' : 'Which letter makes this sound?',
+      prompt: showGlyph ? arOnly(L.ch, 'glyph')
+        : [h('span', { class: 'sound-prompt' }, L.sound), h('span', { class: 'gloss-inline' }, AT.romanize(L.name)), speakBtn(L.name)],
+      options: shuffle([L, ...similarLetters(L, 3)]), correct: L, say: L.name,
+      label: showGlyph ? (o) => [h('span', { class: 'opt-main' }, o.sound), h('span', { class: 'opt-sub' }, AT.romanize(o.name))] : (o) => arOnly(o.ch, 'glyph-opt'),
+      feedback: (ok, pick) => [letterCard(L),
+        !ok ? h('div', { class: 'note' }, 'You picked ', arOnly(pick.ch), ` (${AT.romanize(pick.name)}, ${pick.sound}).`) : null],
+    });
+  }
+  function renderAlphaForm(item, ctx) {
+    const { L, pos } = item;
+    choiceCard(ctx, {
+      eyebrow: `Which letter is this? · ${POS_LABEL[pos]}`, prompt: arOnly(letterForm(L, pos), 'glyph'),
+      options: shuffle([L, ...similarLetters(L, 3, (x) => x.positions.includes(pos))]), correct: L, say: L.name,
+      label: (o) => arOnly(o.ch, 'glyph-opt'),
+      feedback: (ok, pick) => [letterCard(L, pos),
+        !ok ? h('div', { class: 'note' }, 'You picked ', arOnly(pick.ch), ` (${AT.romanize(pick.name)}), which looks like `, arOnly(letterForm(pick, pos)), ' here.') : null],
+    });
+  }
+  // A syllable built from the mark's template (C and D are random consonants the learner knows)
+  function renderAlphaMark(item, ctx) {
+    const { M } = item;
+    // Consonants from the letter group being practised (all of them under "All")
+    const chosen = activeFilters('alphabet').group;
+    const upTo = Math.min(4, Math.max(groupNum(M.group), chosen && chosen !== 'all' ? groupNum(chosen) : 4));
+    const pool = data.alphabet.letters.filter((x) => x.consonant && groupNum(x.group) <= upTo);
+    const [C, D] = shuffle(pool);
+    const fill = (tpl) => tpl.replace('C', C.ch).replace('D', D.ch);
+    const text = fill(M.tpl);
+    const answer = AT.romanize(text);
+    const others = shuffle(data.alphabet.marks.filter((x) => x !== M)).sort((a, b) => (b.set === M.set) - (a.set === M.set));
+    const options = [answer];
+    for (const o of others) { const r = AT.romanize(fill(o.tpl)); if (options.length < 4 && !options.includes(r)) options.push(r); }
+    choiceCard(ctx, {
+      eyebrow: 'How do you read this?', prompt: arOnly(text, 'glyph'), options: shuffle(options), correct: answer, label: (o) => o, say: text,
+      feedback: () => [h('div', { class: 'answer' }, target(text, { marks: true, inline: true })),
+        h('div', { class: 'note' }, target(M.name, { inline: true, marks: true }), ' — ' + M.en), h('div', { class: 'example' }, speakBtn(text))],
+    });
+  }
+  // Each letter of a word with its sound and vowel
+  function spellOut(word) {
+    const vowel = { 'َ': 'a', 'ِ': 'i', 'ُ': 'u', 'ً': 'an', 'ٍ': 'in', 'ٌ': 'un', 'ٰ': 'ā' };
+    return AT.units(word).filter((u) => u.ch).map((u) => {
+      const L = letterOfChar(u.ch);
+      const v = u.marks.map((m) => vowel[m] || '').join('');
+      return h('span', { class: 'spell-chip' }, arOnly(u.ch + u.marks.join('')),
+        h('span', {}, (L ? L.sound : u.ch) + (u.marks.includes('ّ') ? ' ×2' : '') + (v ? ' + ' + v : '')));
+    });
+  }
+  const accentBar = (input) => h('div', { class: 'accents' }, ACCENTS.map((ch) =>
+    h('button', {
+      class: 'accent-btn', type: 'button', tabindex: '-1',
+      onclick: () => { input.setRangeText(ch, input.selectionStart, input.selectionEnd, 'end'); input.focus(); },
+    }, ch)));
+  function renderAlphaWord(item, ctx) {
+    const { w } = item;
+    let answered = false;
+    const input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'How the word sounds', placeholder: 'Type it in Latin letters…' });
+    const accents = accentBar(input);
+    const feedback = h('div');
+    const actions = h('div', { class: 'actions' },
+      h('button', { class: 'btn', onclick: check }, 'Check'),
+      h('button', { class: 'btn secondary', onclick: () => finish('', true) }, "I don't know"));
+    pane.append(h('div', { class: 'card' },
+      h('div', { class: 'eyebrow' }, 'Read this word'),
+      h('div', { class: 'big' }, arOnly(w.it, 'glyph-word')),
+      h('div', { class: 'gloss' }, 'Type how it sounds. Long-vowel lines, dots and ʿ are optional: kitab is fine for kitāb.'),
+      h('div', { class: 'prompt-row' }, input), accents, actions, feedback));
+    input.focus();
+    keyHandler = (e) => { if (e.key === 'Enter') check(); };
+    function check() { if (!answered && input.value.trim()) finish(input.value, false); }
+    function finish(guess, gaveUp) {
+      if (answered) return;
+      answered = true;
+      input.disabled = true;
+      accents.remove();
+      const res = gaveUp || AT.hasArabic(guess) ? { ok: false } : AT.match(guess, [w.it]);
+      ctx.grade(res.ok, 'typed');
+      feedback.replaceChildren(feedbackBox(res.ok, res.ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
+        h('div', { class: 'answer' }, target(w.it, { marks: true, inline: true })),
+        res.close ? h('div', { class: 'note' }, 'Spelled exactly: ' + res.close) : null,
+        !res.ok && !gaveUp ? h('div', { class: 'note' }, 'You typed: ' + guess.trim()) : null,
+        h('div', { class: 'note' }, 'It means: ' + w.en),
+        h('div', { class: 'spell', dir: 'rtl' }, spellOut(w.it)),
+        h('div', { class: 'example' }, speakBtn(w.it))));
+      autoSpeak(w.it);
+      afterAnswer(ctx, actions, nextButton(ctx));
+    }
+  }
+  function renderAlphabet(item, ctx) {
+    ({ letter: renderAlphaLetter, form: renderAlphaForm, mark: renderAlphaMark, word: renderAlphaWord })[item.akind](item, ctx);
+  }
+
   // ---------- 1. verb conjugation ----------
   // Accepted spellings of a form; "andato/a" also accepts "andato" and "andata"
   const verbAnswers = (form) => {
@@ -316,6 +530,15 @@
   const personEn = (p) => (data.personOptions.find((o) => o.id === p) || {}).en || '';
 
   function checkVerb(guess, item) {
+    if (AR) {
+      // Arabic or romanized, with or without the subject pronoun (anā aktubu)
+      const words = guess.trim().split(/\s+/);
+      const pron = AT.fold(PERSON_LABEL[item.person]);
+      const romanPron = AT.foldRoman(AT.romanize(PERSON_LABEL[item.person]));
+      if (words.length > 1 && (AT.fold(words[0]) === pron || AT.foldRoman(words[0]) === romanPron)) words.shift();
+      const res = AT.match(words.join(' '), [item.form]);
+      return { ok: res.ok, romanNote: res.close };
+    }
     const targets = verbAnswers(item.form).map(norm);
     const g = norm(guess).replace(SUBJECT_RE, '');
     if (targets.includes(g)) return { ok: true };
@@ -343,7 +566,7 @@
     const feedback = h('div');
     const actions = h('div', { class: 'actions' });
     const prompt = h('div', { class: 'prompt-row' }, h('div', { class: 'pronoun-block' },
-      h('div', { class: 'pronoun' }, PERSON_LABEL[person]), h('div', { class: 'pronoun-en' }, personEn(person))));
+      h('div', { class: 'pronoun' }, target(PERSON_LABEL[person])), h('div', { class: 'pronoun-en' }, personEn(person))));
     let input = null;
     let accents = null;
     let options = [];
@@ -353,11 +576,11 @@
     if (choosing) {
       options = verbChoices(item);
       buttons = options.map((opt, i) =>
-        h('button', { class: 'option', onclick: () => finish(opt, false) }, opt, h('span', { class: 'key' }, String(i + 1))));
+        h('button', { class: 'option', onclick: () => finish(opt, false) }, target(opt), h('span', { class: 'key' }, String(i + 1))));
       body.push(h('div', { class: 'options two' }, buttons));
       keyHandler = (e) => { const n = Number(e.key); if (n >= 1 && n <= options.length) finish(options[n - 1], false); };
     } else {
-      input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Conjugated form' });
+      input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Conjugated form', placeholder: data.ui.inputHint || null });
       prompt.append(input);
       accents = h('div', { class: 'accents' }, ACCENTS.map((ch) =>
         h('button', {
@@ -373,7 +596,7 @@
 
     pane.append(h('div', { class: 'card' },
       h('div', { class: 'eyebrow' }, 'Conjugate · ' + (tenseInfo.title || tense) + (choosing ? ' · choose' : ' · type')),
-      h('div', { class: 'big' }, verb.id),
+      h('div', { class: 'big' }, target(verb.cite || vw(verb))),
       h('div', { class: 'gloss' }, verb.en + (verb.irregular ? ' · irregular' : '')),
       ...body, actions, feedback));
     if (input) input.focus();
@@ -402,13 +625,14 @@
       const table = verb.tenses[tense];
       const example = verb.examples.find((x) => x.tense === tense);
       feedback.replaceChildren(feedbackBox(res.ok, res.ok ? 'Correct!' : 'Not quite',
-        h('div', { class: 'answer' }, spokenPerson(person) + ' ' + form),
+        h('div', { class: 'answer' }, target(spokenPerson(person) + ' ' + form)),
         res.accentNote ? h('div', { class: 'note' }, 'Mind the accent: ' + form) : null,
+        res.romanNote ? h('div', { class: 'note' }, 'Spelled exactly: ' + res.romanNote) : null,
         tenseInfo.description ? h('div', { class: 'note' }, tenseInfo.description) : null,
         h('table', { class: 'conj' }, data.persons.map((p) =>
-          h('tr', { class: p === person ? 'asked' : '' }, h('td', {}, PERSON_LABEL[p]), h('td', {}, table[p])))),
+          h('tr', { class: p === person ? 'asked' : '' }, h('td', {}, target(PERSON_LABEL[p], { inline: true })), h('td', {}, target(table[p], { inline: true }))))),
         example ? h('div', { class: 'example' }, speakBtn(example.it),
-          h('span', {}, h('span', { class: 'it' }, example.it), ' — ' + example.en)) : null));
+          h('span', {}, h('span', { class: 'it' }, target(example.it, { tr: example.tr })), ' — ' + example.en)) : null));
       autoSpeak(spokenPerson(person) + ' ' + spokenForm(form));
       afterAnswer(ctx, actions, nextButton(ctx));
     }
@@ -425,8 +649,77 @@
 
   function renderNoun(item, ctx) {
     const drill = getSetting('nouns', 'drill');
+    if (!data.grammar.articles) {
+      const pick = drill === 'mixed' ? pickRandom(['meaning', 'reading', 'plural']) : drill;
+      if (pick === 'plural' && item.noun.plural) renderNounPlural(item, ctx);
+      else if (pick === 'reading') renderNounReading(item, ctx);
+      else renderNounMeaning(item, ctx);
+      return;
+    }
     if (drill === 'meaning' || (drill === 'mixed' && Math.random() < 0.5)) renderNounMeaning(item, ctx);
     else renderNounArticle(item, ctx);
+  }
+  const genderLabel = (n) => (n.gender === 'm' ? 'masculine' : 'feminine');
+  // Singular · plural, as shown in noun feedback
+  const nounForms = (n) => [target(nounDisplay(n)), ...(pluralDisplay(n) ? ['  ·  ', target(pluralDisplay(n))] : [])];
+  // A small choice drill: options are rendered by `label`, `correct` is the right option
+  function choiceCard(ctx, { eyebrow, prompt, sub, options, correct, label, kind, feedback: explain, say }) {
+    let answered = false;
+    const feedback = h('div');
+    const actions = h('div', { class: 'actions' });
+    const buttons = options.map((o, i) => h('button', { class: 'option', onclick: () => choose(o) }, label(o), h('span', { class: 'key' }, String(i + 1))));
+    pane.append(h('div', { class: 'card' },
+      h('div', { class: 'eyebrow' }, eyebrow), h('div', { class: 'big' }, prompt), sub ? h('div', { class: 'gloss' }, sub) : null,
+      h('div', { class: 'options' }, buttons), feedback, actions));
+    keyHandler = (e) => { const n = Number(e.key); if (n >= 1 && n <= options.length) choose(options[n - 1]); };
+    function choose(pick) {
+      if (answered) return;
+      answered = true;
+      const ok = pick === correct;
+      ctx.grade(ok, kind || 'choice');
+      buttons.forEach((b, i) => {
+        b.disabled = true;
+        if (options[i] === correct) b.classList.add('correct');
+        else if (options[i] === pick) b.classList.add('wrong');
+      });
+      feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : 'Not quite', ...explain(ok, pick)));
+      if (say) autoSpeak(say);
+      afterAnswer(ctx, actions, nextButton(ctx));
+    }
+  }
+  // Arabic → English
+  function renderNounReading(item, ctx) {
+    const { noun } = item;
+    choiceCard(ctx, {
+      eyebrow: tl('What does this {lang} word mean?'), prompt: [target(nw(noun)), speakBtn(nw(noun))],
+      options: nounChoices(noun), correct: noun, label: (n) => n.en, say: nw(noun),
+      feedback: (ok, pick) => [
+        h('div', { class: 'answer' }, nounForms(noun)),
+        h('div', { class: 'note' }, `${genderLabel(noun)} — ${noun.en}${noun.root ? ' · root ' : ''}`, noun.root ? target(noun.root, { tr: false }) : null),
+        !ok ? h('div', { class: 'note' }, target(nw(pick), { inline: true }), ' means ' + pick.en + '.') : null],
+    });
+  }
+  // Singular → plural (Arabic broken plurals)
+  function renderNounPlural(item, ctx) {
+    const { noun } = item;
+    const others = shuffle(data.nouns.filter((n) => n.plural && n.plural !== noun.plural));
+    const options = shuffle([noun, ...others.slice(0, 3)]);
+    choiceCard(ctx, {
+      eyebrow: 'What is the plural?', prompt: target(nw(noun)), sub: noun.en,
+      options, correct: noun, label: (n) => target(n.plural), say: noun.plural,
+      feedback: (ok, pick) => [
+        h('div', { class: 'answer' }, nounForms(noun)),
+        h('div', { class: 'note' }, pluralNote(noun)),
+        !ok ? h('div', { class: 'note' }, target(pick.plural, { inline: true }), ' is the plural of ', target(nw(pick), { inline: true }), ' (' + pick.en + ').') : null,
+        h('div', { class: 'example' }, speakBtn(noun.plural))],
+    });
+  }
+  // Sound plurals add an ending; broken plurals rearrange the vowels
+  function pluralNote(n) {
+    const bare = AR ? AT.fold(n.plural) : n.plural;
+    if (AR && /ون$/.test(bare)) return 'Sound masculine plural: add -ūn. Used for male people (muʿallim → muʿallimūn).';
+    if (AR && /ات$/.test(bare)) return 'Sound feminine plural: -a becomes -āt. Common for words ending in tāʾ marbūṭa.';
+    return AR ? 'Broken plural: the consonants stay, the vowels and the pattern change. Learn it with the word.' : '';
   }
 
   // Three wrong nouns, preferring the same topic
@@ -444,7 +737,7 @@
     const feedback = h('div');
     const actions = h('div', { class: 'actions' });
     const buttons = options.map((n, i) =>
-      h('button', { class: 'option', onclick: () => choose(n) }, withArticle(n.art, n.id), h('span', { class: 'key' }, String(i + 1))));
+      h('button', { class: 'option', onclick: () => choose(n) }, target(nounDisplay(n)), h('span', { class: 'key' }, String(i + 1))));
 
     pane.append(h('div', { class: 'card' },
       h('div', { class: 'eyebrow' }, 'Which noun means'),
@@ -463,11 +756,11 @@
         if (options[i] === noun) b.classList.add('correct');
         else if (options[i] === pick) b.classList.add('wrong');
       });
-      const singular = withArticle(noun.art, noun.id);
+      const singular = nounDisplay(noun);
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : 'Not quite',
-        h('div', { class: 'answer' }, singular + '  ·  ' + withArticle(pluralArticle(noun), noun.plural)),
-        h('div', { class: 'note' }, (noun.gender === 'm' ? 'masculine' : 'feminine') + ' — ' + noun.en),
-        !ok ? h('div', { class: 'note' }, withArticle(pick.art, pick.id) + ' means ' + pick.en + '.') : null,
+        h('div', { class: 'answer' }, nounForms(noun)),
+        h('div', { class: 'note' }, genderLabel(noun) + ' — ' + noun.en),
+        !ok ? h('div', { class: 'note' }, target(nounDisplay(pick), { inline: true }), ' means ' + pick.en + '.') : null,
         h('div', { class: 'example' }, speakBtn(singular))));
       autoSpeak(singular);
       afterAnswer(ctx, actions, nextButton(ctx));
@@ -532,8 +825,8 @@
     const showFeedback = (ok, accentNote) => {
       const note = numberNote(num.value);
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : 'Not quite',
-        h('div', { class: 'answer' }, `${num.value} = ${num.it}`),
-        accentNote ? h('div', { class: 'note' }, 'Mind the accent: ' + num.it) : null,
+        h('div', { class: 'answer' }, `${num.value} = `, target(num.it, { tr: num.tr })),
+        accentNote ? h('div', { class: 'note' }, (AR ? 'Spelled exactly: ' + romanOf(num.it, num.tr) : 'Mind the accent: ' + num.it)) : null,
         note ? h('div', { class: 'note' }, note) : null,
         h('div', { class: 'example' }, speakBtn(num.it))));
       autoSpeak(num.it);
@@ -541,7 +834,7 @@
     };
 
     if (typed) {
-      const input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': tl('Number in {lang}') });
+      const input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': tl('Number in {lang}'), placeholder: data.ui.inputHint || null });
       actions.append(
         h('button', { class: 'btn', onclick: () => finish(input.value, false) }, 'Check'),
         h('button', { class: 'btn secondary', onclick: () => finish('', true) }, "I don't know"));
@@ -556,6 +849,12 @@
         if (answered || (!gaveUp && !guess.trim())) return;
         answered = true;
         input.disabled = true;
+        if (AR) {
+          const res = gaveUp ? { ok: false } : AT.match(guess, [num.it], [romanOf(num.it, num.tr)]);
+          ctx.grade(res.ok, 'typed');
+          showFeedback(res.ok, !!res.close);
+          return;
+        }
         const exact = !gaveUp && norm(guess) === num.it;
         const ok = exact || (!gaveUp && stripAccents(norm(guess)) === stripAccents(num.it));
         ctx.grade(ok, 'typed');
@@ -569,7 +868,7 @@
         h('button', { class: 'option', onclick: () => choose(v) }, String(v), h('span', { class: 'key' }, String(i + 1))));
       pane.append(h('div', { class: 'card' },
         h('div', { class: 'eyebrow' }, 'Which number is this?'),
-        h('div', { class: 'big' }, num.it, ' ', speakBtn(num.it)),
+        h('div', { class: 'big' }, target(num.it, { tr: num.tr }), ' ', speakBtn(num.it)),
         h('div', { class: 'options' }, buttons), feedback, actions));
       keyHandler = (e) => { const n = Number(e.key); if (n >= 1 && n <= options.length) choose(options[n - 1]); };
 
@@ -594,17 +893,24 @@
   // `lemma` is the word family the form belongs to (v:mangiare, n:casa, a:buono, #:20, w:di,
   // g:mio …); multi-word glossary phrases get a p: family of their own.
   let lexicon = null;
+  let lexiconFold = null;
   const articleAgreement = (a) => a.gender.split('/').map((g) => (g === 'm' ? 'masc.' : 'fem.')).join(' / ') + ' ' + (a.number === 'pl' ? 'pl.' : 'sing.');
   // Compound numbers (ventitré) count toward their ten (venti)
   const numberFamily = (v) => `#:${v <= 20 || v % 10 === 0 ? v : v - (v % 10)}`;
   function getLexicon() {
     if (lexicon) return lexicon;
     lexicon = new Map();
-    const add = (word, en, note, lemma) => { const k = norm(word); if (!lexicon.has(k)) lexicon.set(k, { en, note, lemma }); };
+    // Arabic also gets a lookup without vowel marks (a word can be marked differently in a sentence)
+    lexiconFold = new Map();
+    const add = (word, en, note, lemma) => {
+      const k = norm(word);
+      if (!lexicon.has(k)) lexicon.set(k, { en, note, lemma });
+      if (AR && !lexiconFold.has(AT.fold(word))) lexiconFold.set(AT.fold(word), { en, note, lemma });
+    };
     // A glossary word joins an existing family when one matches (euro → n:euro, vada → v:andare)
     const families = new Map();
-    data.verbs.forEach((v) => families.set(norm(v.id), `v:${v.id}`));
-    data.nouns.forEach((n) => [n.id, n.plural].forEach((f) => families.has(norm(f)) || families.set(norm(f), `n:${n.id}`)));
+    data.verbs.forEach((v) => families.set(norm(vw(v)), `v:${v.id}`));
+    data.nouns.forEach((n) => [nw(n), n.plural, n.fem].filter(Boolean).forEach((f) => families.has(norm(f)) || families.set(norm(f), `n:${n.id}`)));
     data.adjectives.forEach((a) => Object.values(a.forms).forEach((f) => families.has(norm(f)) || families.set(norm(f), `a:${a.id}`)));
     (data.glossary || []).forEach((w) => {
       const base = norm(w.lemma || w.it);
@@ -619,7 +925,7 @@
     const verbForms = new Map();
     data.verbs.forEach((v) => {
       const lemma = `v:${v.id}`;
-      add(v.id, v.en, 'verb · infinitive', lemma);
+      add(vw(v), v.en, AR ? 'verb · past, he (dictionary form)' : 'verb · infinitive', lemma);
       Object.entries(v.tenses).forEach(([tense, forms]) => data.persons.forEach((p) => {
         const words = forms[p].split(' ');
         const main = words[words.length - 1];
@@ -629,14 +935,15 @@
         if (words.length > 1) return variants.forEach((w) => add(w, v.en, `verb · participle of ${v.id}`, lemma));
         const key = norm(main) + '|' + tense;
         if (!verbForms.has(key)) verbForms.set(key, { word: main, v, tense, persons: [] });
-        if (verbForms.get(key).v === v) verbForms.get(key).persons.push(PERSON_LABEL[p]);
+        if (verbForms.get(key).v === v) verbForms.get(key).persons.push(plainTarget(PERSON_LABEL[p]));
       }));
     });
     verbForms.forEach(({ word, v, tense, persons }) =>
-      add(word, v.en, `verb · ${v.id}, ${labelOf(data.tenseOptions, tense).toLowerCase()}, ${persons.join(' / ')}`, `v:${v.id}`));
+      add(word, v.en, `verb · ${plainTarget(vw(v))}, ${labelOf(data.tenseOptions, tense).toLowerCase()}, ${persons.join(' / ')}`, `v:${v.id}`));
     data.nouns.forEach((n) => {
-      add(n.id, n.en, `noun · ${n.gender === 'm' ? 'masc.' : 'fem.'}`, `n:${n.id}`);
-      add(n.plural, n.en, `noun · plural of ${n.id}`, `n:${n.id}`);
+      add(nw(n), n.en, `noun · ${n.gender === 'm' ? 'masc.' : 'fem.'}`, `n:${n.id}`);
+      if (n.plural) add(n.plural, n.en + ' (pl.)', `noun · plural of ${plainTarget(nw(n))}`, `n:${n.id}`);
+      if (n.fem) add(n.fem, n.en + ' (f.)', `noun · feminine of ${plainTarget(nw(n))}`, `n:${n.id}`);
     });
     data.adjectives.forEach((a) => Object.values(a.forms).forEach((f) => add(f, a.en, 'adjective', `a:${a.id}`)));
     data.numbers.forEach((n) => add(n.it, String(n.value), 'number', numberFamily(n.value)));
@@ -651,7 +958,7 @@
     const tokens = [];
     let start = true; // at the start of a sentence (capitals there aren't names)
     sentence.split(/\s+/).forEach((raw) => {
-      const w = raw.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}'’]+$/gu, '');
+      const w = raw.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{M}\p{N}'’]+$/gu, '');
       const ends = /[.?!…]["»”)]*$/.test(raw);
       if (w) {
         const m = w.match(/^(\p{L}+['’])(\p{L}.*)$/u);
@@ -664,9 +971,9 @@
     const out = [];
     for (let i = 0; i < tokens.length;) {
       let n = Math.min(4, tokens.length - i);
-      for (; n > 1 && !lex.has(norm(join(tokens.slice(i, i + n)))); n--);
+      for (; n > 1 && !lookupWord(join(tokens.slice(i, i + n)), false); n--);
       const text = join(tokens.slice(i, i + n));
-      const hit = lex.get(norm(text));
+      const hit = lookupWord(text, n === 1);
       const isName = !hit && !tokens[i].start && /^\p{Lu}/u.test(text);
       out.push({
         it: text, en: hit ? hit.en : isName ? text : '—', note: hit ? hit.note : isName ? 'name' : '',
@@ -678,8 +985,24 @@
     }
     return out;
   }
+  // Exact form, then (Arabic) without vowel marks, then with clitics split off: wa- + al- + bayt
+  function lookupWord(text, split) {
+    const lex = getLexicon();
+    const hit = lex.get(norm(text));
+    if (hit || !AR) return hit;
+    const folded = lexiconFold.get(AT.fold(text));
+    if (folded || !split) return folded;
+    for (const sp of AT.splits(text)) {
+      const base = lexiconFold.get(sp.stem);
+      if (!base) continue;
+      const pieces = [...sp.pre.map((p) => p.form), sp.suf && sp.suf.form].filter(Boolean).join(' ');
+      const en = [...sp.pre.map((p) => p.en), base.en].join(' ') + (sp.suf ? ` + ${sp.suf.en}` : '');
+      return { en, note: base.note + (pieces ? ' · with ' + pieces : ''), lemma: base.lemma };
+    }
+    return null;
+  }
   const glossList = (sentence) => h('div', { class: 'gloss-list' }, glossWords(sentence).map((g) =>
-    h('div', { class: 'gloss-row' }, h('span', { class: 'it' }, g.it), h('span', {}, g.en), h('span', { class: 'gloss-note' }, g.note))));
+    h('div', { class: 'gloss-row' }, h('span', { class: 'it' }, target(g.it, { inline: true })), h('span', {}, g.en), h('span', { class: 'gloss-note' }, g.note))));
 
   // ---------- 3. sentence builder ----------
   function renderSentence(item, ctx) {
@@ -690,8 +1013,8 @@
     let placed = [];
     let answered = false;
 
-    const zone = h('div', { class: 'answer-zone' });
-    const bank = h('div', { class: 'bank' });
+    const zone = h('div', { class: 'answer-zone', dir: AR ? 'rtl' : null });
+    const bank = h('div', { class: 'bank', dir: AR ? 'rtl' : null });
     const feedback = h('div');
     const checkBtn = h('button', { class: 'btn', onclick: check, disabled: true }, 'Check');
     const actions = h('div', { class: 'actions' }, checkBtn,
@@ -711,8 +1034,8 @@
     }
     function refresh() {
       const inZone = new Set(placed.map((t) => t.id));
-      zone.replaceChildren(...placed.map((t) => h('button', { class: 'tile', disabled: answered, onclick: () => { placed = placed.filter((p) => p !== t); refresh(); } }, t.text)));
-      bank.replaceChildren(...tiles.filter((t) => !inZone.has(t.id)).map((t) => h('button', { class: 'tile', disabled: answered, onclick: () => { placed.push(t); refresh(); } }, t.text)));
+      zone.replaceChildren(...placed.map((t) => h('button', { class: 'tile', disabled: answered, onclick: () => { placed = placed.filter((p) => p !== t); refresh(); } }, target(t.text))));
+      bank.replaceChildren(...tiles.filter((t) => !inZone.has(t.id)).map((t) => h('button', { class: 'tile', disabled: answered, onclick: () => { placed.push(t); refresh(); } }, target(t.text))));
       checkBtn.disabled = answered || placed.length !== tiles.length;
     }
     function check() {
@@ -728,13 +1051,13 @@
       const alt = (s.accepted || []);
       const fnInfo = s.function && data.functions.find((f) => f.id === s.function);
       feedback.replaceChildren(feedbackBox(ok, ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
-        h('div', { class: 'answer' }, s.it),
+        h('div', { class: 'answer' }, target(s.it, { tr: s.tr })),
         alt.length ? h('div', { class: 'note' }, 'Also accepted: ' + alt.join(' / ')) : null,
         fnInfo ? h('div', { class: 'note' }, fnInfo.label + ' \u2014 ' + fnInfo.description) : null,
         h('div', { class: 'example' }, speakBtn(s.it), h('span', {}, s.en)),
         glossList(s.it),
         s.answers ? h('div', { class: 'example' }, speakBtn(s.answers[0].it),
-          h('span', {}, 'Possible reply: ', h('span', { class: 'it' }, s.answers[0].it), ' — ' + s.answers[0].en)) : null));
+          h('span', {}, 'Possible reply: ', h('span', { class: 'it' }, target(s.answers[0].it, { tr: s.answers[0].tr })), ' — ' + s.answers[0].en)) : null));
       autoSpeak(s.it);
       afterAnswer(ctx, actions, nextButton(ctx));
     }
@@ -806,23 +1129,29 @@
   function listeningItems() {
     const word = (id, rank, extra) => ({ id: `l:${id}`, rank, kind: 'word', ...extra });
     const sentence = (p, s) => ({
-      id: `l:${p}:${s.id}`, rank: s.rank, kind: 'sentence', topic: s.topic, say: s.it, answers: [s.it], show: s.it, en: s.en, gloss: true,
+      id: `l:${p}:${s.id}`, rank: s.rank, kind: 'sentence', topic: s.topic, say: s.it, answers: [s.it], show: s.it, tr: s.tr, en: s.en, gloss: true,
     });
     return [
       ...data.nouns.map((n) => word(`n:${n.id}`, n.rank, {
-        topic: n.topic, say: withArticle(n.art, n.id), answers: [withArticle(n.art, n.id), n.id], show: withArticle(n.art, n.id), en: n.en,
-        hint: 'A noun. The article is optional.',
+        topic: n.topic, say: nounDisplay(n), answers: [nounDisplay(n), nw(n)], show: nounDisplay(n), en: n.en,
+        hint: n.art ? 'A noun. The article is optional.' : 'A noun.',
       })),
-      ...data.verbs.map((v) => word(`v:${v.id}`, v.rank, { say: v.id, answers: [v.id], show: v.id, en: v.en, hint: 'A verb in the infinitive.' })),
+      ...data.verbs.map((v) => word(`v:${v.id}`, v.rank, { say: vw(v), answers: [vw(v)], show: vw(v), en: v.en, hint: AR ? 'A verb: he did it (past).' : 'A verb in the infinitive.' })),
       ...data.numbers.map((n) => word(`#:${n.value}`, n.rank, {
-        say: n.it, answers: [n.it, String(n.value)], show: `${n.it} = ${n.value}`, en: String(n.value), hint: 'A number. Type the word or the digits.',
+        say: n.it, answers: [n.it, String(n.value)], show: AR ? n.it : `${n.it} = ${n.value}`, tr: n.tr, value: n.value, en: String(n.value), hint: 'A number. Type the word or the digits.',
       })),
       ...data.questions.map((s) => sentence('q', s)),
       ...data.sentences.map((s) => sentence('s', s)),
     ];
   }
   const dictationWords = (s) => norm(s.replace(/[^\p{L}\p{N}'’‘`´\s]/gu, ' ')).split(' ').filter(Boolean);
-  function checkDictation(guess, answers) {
+  function checkDictation(guess, answers, item) {
+    if (AR) {
+      if (item && item.value != null && guess.trim() === String(item.value)) return { ok: true };
+      const res = AT.match(guess.replace(/[.?!؟،,]/g, ' '), answers.map((a) => a.replace(/[.?!؟،,]/g, ' ')),
+        answers.map((a, i) => (i === 0 && item && item.tr ? item.tr : AT.romanize(a))));
+      return { ok: res.ok, romanNote: res.close };
+    }
     const g = dictationWords(guess).join(' ');
     const targets = answers.map((a) => dictationWords(a).join(' '));
     if (targets.includes(g)) return { ok: true };
@@ -846,13 +1175,13 @@
   }
 
   function renderListening(item, ctx) {
-    if (!canSpeak) {
-      pane.append(h('div', { class: 'empty' }, 'Listening needs speech synthesis, which this browser does not offer.'));
+    if (!canSpeak || noTargetVoice) {
+      pane.append(h('div', { class: 'empty' }, noTargetVoice ? tl('Listening needs a {lang} voice, and this browser doesn’t have one.') : 'Listening needs speech synthesis, which this browser does not offer.'));
       return;
     }
     let answered = false;
     const play = (rate) => { say([{ text: item.say, lang: 'target', rate }]); if (!answered) input.focus(); };
-    const input = h('input', { type: 'text', class: 'dictation', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false', 'aria-label': 'What you heard', placeholder: 'Type what you hear…' });
+    const input = h('input', { type: 'text', class: 'dictation', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false', 'aria-label': 'What you heard', placeholder: AR ? 'Type what you hear, in Arabic or romanized…' : 'Type what you hear…' });
     const accents = h('div', { class: 'accents' }, ACCENTS.map((ch) =>
       h('button', {
         class: 'accent-btn', type: 'button', tabindex: '-1',
@@ -884,12 +1213,14 @@
       answered = true;
       input.disabled = true;
       accents.remove();
-      const res = gaveUp ? { ok: false } : checkDictation(guess, item.answers);
+      const res = gaveUp ? { ok: false } : checkDictation(guess, item.answers, item);
       ctx.grade(res.ok, 'typed');
-      const diff = !res.ok && !gaveUp && item.kind === 'sentence' ? dictationDiff(guess, item.show) : null;
+      const diff = !AR && !res.ok && !gaveUp && item.kind === 'sentence' ? dictationDiff(guess, item.show) : null;
       feedback.replaceChildren(feedbackBox(res.ok, res.ok ? 'Correct!' : gaveUp ? 'Answer' : 'Not quite',
-        h('div', { class: 'answer' }, diff ? diff.flatMap((w, i) => [i ? ' ' : '', h('span', { class: w.ok ? '' : 'missed' }, w.text)]) : item.show),
+        h('div', { class: 'answer' }, diff ? diff.flatMap((w, i) => [i ? ' ' : '', h('span', { class: w.ok ? '' : 'missed' }, w.text)])
+          : AR ? [target(item.show, { tr: item.tr }), item.value != null ? ` = ${item.value}` : null] : item.show),
         res.accentNote ? h('div', { class: 'note' }, 'Mind the accents: ' + item.show) : null,
+        res.romanNote ? h('div', { class: 'note' }, 'Spelled exactly: ' + res.romanNote) : null,
         !res.ok && !gaveUp ? h('div', { class: 'note' }, 'You typed: ' + guess.trim()) : null,
         h('div', { class: 'example' }, speakBtn(item.say), h('span', {}, item.en)),
         item.gloss ? glossList(item.say) : null));
@@ -903,15 +1234,29 @@
     return !r ? 'New' : r.box >= MASTERED_BOX ? 'Mastered' : 'Learning';
   }
   const statusCell = (id) => { const st = statusOf(id); return { node: h('span', { class: 'pill ' + st.toLowerCase() }, st) }; };
-  const it = (t, speakText) => ({ t, cls: 'it', speak: speakText === undefined ? t : speakText });
+  const it = (t, speakText, tr) => ({ t, cls: 'it', speak: speakText === undefined ? t : speakText, tr });
+  const hasField = (list, key) => list.some((x) => x[key]);
 
   const tableTense = () => (data.tenseOptions.some((t) => t.id === state.tableTense) ? state.tableTense : 'present');
 
   const TABLES = {
+    letters: {
+      label: 'Letters',
+      note: 'The alphabet, read right to left. Most letters change shape depending on where they sit in a word; six never join the letter after them. The l of al- (the) merges into a following sun letter.',
+      head: ['#', 'Letter', 'Name', 'Sound', 'Start', 'Middle', 'End', 'al-', 'Example', 'Status'],
+      rows: () => (data.alphabet ? data.alphabet.letters : []).map((L, i) => ({
+        search: [L.ch, L.name, AT.romanize(L.name), L.sound, L.example.en].join(' '),
+        cells: [i + 1, { node: arOnly(L.ch, 'glyph-cell'), speak: L.name }, it(L.name, null), L.sound,
+          ...['i', 'm', 'f'].map((p) => (L.positions.includes(p) ? { node: arOnly(letterForm(L, p), 'glyph-cell small') } : '—')),
+          L.sun == null ? '—' : L.sun ? 'sun' : 'moon', { node: [target(L.example.it, { inline: true, tr: L.example.tr }), ' ' + L.example.en], speak: L.example.it },
+          statusCell(`ab:${L.id}`)],
+      })),
+    },
     verbs: {
       label: 'Verbs',
       note: 'Pick a tense. Irregular verbs are highlighted in blue.',
-      head: () => ['#', 'Infinitive', 'English', ...data.persons.map((p) => PERSON_LABEL[p]), 'Aux.', 'Participle', 'Mastered'],
+      head: () => ['#', AR ? 'Verb' : 'Infinitive', 'English', ...data.persons.map((p) => (AR ? target(PERSON_LABEL[p], { inline: true }) : PERSON_LABEL[p])),
+        ...(hasField(data.verbs, 'auxiliary') ? ['Aux.', 'Participle'] : []), ...(hasField(data.verbs, 'root') ? ['Root'] : []), 'Mastered'],
       rows: () => {
         const tense = tableTense();
         return data.verbs.map((v, i) => {
@@ -919,21 +1264,30 @@
           const mastered = ids.filter((id) => statusOf(id) === 'Mastered').length;
           const forms = v.tenses[tense];
           return {
-            search: [v.id, v.en, ...Object.values(forms)].join(' '),
-            cells: [i + 1, { t: v.id, cls: v.irregular ? 'it irr' : 'it', speak: v.id }, v.en,
-              ...data.persons.map((p) => it(forms[p], null)), v.auxiliary, v.participle, `${mastered}/${ids.length}`],
+            search: [vw(v), v.en, ...Object.values(forms)].join(' '),
+            cells: [i + 1, { t: v.cite || vw(v), cls: v.irregular ? 'it irr' : 'it', speak: vw(v) }, v.en,
+              ...data.persons.map((p) => it(forms[p], null)),
+              ...(hasField(data.verbs, 'auxiliary') ? [v.auxiliary, v.participle] : []),
+              ...(hasField(data.verbs, 'root') ? [v.root ? { node: arOnly(v.root) } : '—'] : []),
+              `${mastered}/${ids.length}`],
           };
         });
       },
     },
     nouns: {
       label: 'Nouns',
-      note: 'Singular and plural with definite article, plus the indefinite article.',
-      head: ['#', '{lang}', 'English', 'Topic', 'Gender', 'Plural', 'A / an', 'Status'],
+      get note() { return data.grammar.articles ? 'Singular and plural with definite article, plus the indefinite article.' : 'Singular and plural.'; },
+      get head() {
+        return data.grammar.articles ? ['#', '{lang}', 'English', 'Topic', 'Gender', 'Plural', 'A / an', 'Status']
+          : ['#', '{lang}', 'English', 'Topic', 'Gender', 'Plural', 'Root', 'Status'];
+      },
       rows: () => data.nouns.map((n, i) => ({
-        search: [n.id, n.plural, n.en, labelOf(data.topics, n.topic)].join(' '),
-        cells: [i + 1, it(withArticle(n.art, n.id)), n.en, labelOf(data.topics, n.topic), n.gender === 'm' ? 'masc.' : 'fem.',
-          it(withArticle(pluralArticle(n), n.plural)), it(withArticle(indefiniteFor(n), n.id), null), statusCell(`n:${n.id}`)],
+        search: [nw(n), n.plural || '', n.en, labelOf(data.topics, n.topic)].join(' '),
+        cells: data.grammar.articles
+          ? [i + 1, it(withArticle(n.art, n.id)), n.en, labelOf(data.topics, n.topic), n.gender === 'm' ? 'masc.' : 'fem.',
+            it(withArticle(pluralArticle(n), n.plural)), it(withArticle(indefiniteFor(n), n.id), null), statusCell(`n:${n.id}`)]
+          : [i + 1, it(nw(n)), n.en, labelOf(data.topics, n.topic), n.gender === 'm' ? 'masc.' : 'fem.',
+            n.plural ? it(n.plural) : '—', n.root ? { node: arOnly(n.root) } : '—', statusCell(`n:${n.id}`)],
       })),
     },
     adjectives: {
@@ -949,7 +1303,7 @@
       label: 'Articles',
       note: 'Definite (the), indefinite (a / an) and partitive (some). The article depends on the gender, the number and the first letters of the next word.',
       head: ['#', '{lang}', 'English', 'Type', 'Agreement', 'When to use'],
-      rows: () => data.articles.map((a, i) => ({
+      rows: () => (data.articles || []).map((a, i) => ({
         search: [a.it, a.en, a.type, a.note].join(' '),
         cells: [i + 1, it(a.it), a.en, a.type, articleAgreement(a), a.note],
       })),
@@ -958,18 +1312,18 @@
       label: 'Prepositions',
       note: 'Simple prepositions, the articulated forms they make with the definite article (di + il = del), and common prepositional phrases.',
       head: ['#', '{lang}', 'English', 'Type', 'Notes'],
-      rows: () => data.prepositions.map((p, i) => ({
+      rows: () => (data.prepositions || []).map((p, i) => ({
         search: [p.it, p.en, p.type, p.note].join(' '),
-        cells: [i + 1, it(p.it), p.en, p.type, p.note],
+        cells: [i + 1, it(p.it, undefined, p.tr), p.en, p.type, p.note],
       })),
     },
     conjunctions: {
       label: 'Conjunctions',
       note: 'Coordinating conjunctions join equal parts; subordinating ones introduce a dependent clause.',
       head: ['#', '{lang}', 'English', 'Type', 'Example'],
-      rows: () => data.conjunctions.map((c, i) => ({
+      rows: () => (data.conjunctions || []).map((c, i) => ({
         search: [c.it, c.en, c.type, c.note].join(' '),
-        cells: [i + 1, it(c.it), c.en, c.type, it(c.note)],
+        cells: [i + 1, it(c.it, undefined, c.tr), c.en, c.type, AR ? c.note : it(c.note)],
       })),
     },
     numbers: {
@@ -978,7 +1332,7 @@
       head: ['#', 'Digits', '{lang}', 'Status'],
       rows: () => data.numbers.map((n, i) => ({
         search: [n.value, n.it].join(' '),
-        cells: [i + 1, String(n.value), it(n.it), statusCell(`#:${n.value}`)],
+        cells: [i + 1, String(n.value), it(n.it, undefined, n.tr), statusCell(`#:${n.value}`)],
       })),
     },
     questions: {
@@ -987,7 +1341,7 @@
       head: ['#', '{lang}', 'English', 'Sample reply', 'Status'],
       rows: () => data.questions.map((q, i) => ({
         search: [q.it, q.en, q.answers[0].it].join(' '),
-        cells: [i + 1, it(q.it), q.en, it(q.answers[0].it), statusCell(`q:${q.id}`)],
+        cells: [i + 1, it(q.it, undefined, q.tr), q.en, it(q.answers[0].it, undefined, q.answers[0].tr), statusCell(`q:${q.id}`)],
       })),
     },
     sentences: {
@@ -996,7 +1350,7 @@
       head: ['#', '{lang}', 'English', 'Type', 'Topic', 'Function', 'Status'],
       rows: () => data.sentences.map((s, i) => ({
         search: [s.it, s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : ''].join(' '),
-        cells: [i + 1, it(s.it), s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : '\u2014', statusCell(`s:${s.id}`)],
+        cells: [i + 1, it(s.it, undefined, s.tr), s.en, labelOf(data.sentenceTypes, s.type), labelOf(data.topics, s.topic), s.function ? labelOf(data.functions, s.function) : '\u2014', statusCell(`s:${s.id}`)],
       })),
     },
     readings: {
@@ -1010,19 +1364,22 @@
     },
   };
 
-  // Tables with nothing to show in this language (e.g. no readings yet) are left out
-  const tableKeys = () => Object.keys(TABLES).filter((k) => k !== 'readings' || (data.readings || []).length);
+  // Tables with nothing to show in this language (no readings yet, no articles in Arabic) are left out
+  const tableKeys = () => Object.keys(TABLES).filter((k) => TABLES[k].rows().length);
   function renderTables() {
     const key = tableKeys().includes(state.table) ? state.table : 'verbs';
     const spec = TABLES[key];
-    const rows = spec.rows();
+    // Arabic rows can also be searched by their romanization, with or without macrons
+    const rows = spec.rows().map((r) => (AR ? { ...r, search: r.search + ' ' + AT.romanize(r.search) } : r));
     const tbody = h('tbody');
     const count = h('span', { class: 'count' });
     const search = h('input', { type: 'text', class: 'search', placeholder: tl('Search {lang} or English…'), 'aria-label': 'Search words', autocomplete: 'off', spellcheck: 'false' });
-    const plain = (s) => stripAccents(norm(s));
+    const plain = (s) => (AR ? AT.foldRoman(AT.fold(s)) : stripAccents(norm(s)));
     const td = (c) => {
+      if (c == null) c = '—';
       if (typeof c !== 'object') c = { t: String(c) };
-      return h('td', { class: c.cls || '' }, c.node || c.t, c.speak ? speakBtn(c.speak) : null);
+      const content = c.node || (AR && /\bit\b/.test(c.cls || '') ? target(c.t, { inline: true, tr: c.tr }) : c.t);
+      return h('td', { class: c.cls || '' }, content, c.speak ? speakBtn(c.speak) : null);
     };
     function fill() {
       const q = plain(search.value);
@@ -1040,7 +1397,7 @@
       h('p', { class: 'mode-desc' }, tl((data.ui.tableNotes || {})[key] || spec.note)),
       h('div', { class: 'table-tools' }, search, count),
       h('div', { class: 'table-wrap' }, h('table', { class: 'words' },
-        h('thead', {}, h('tr', {}, (typeof spec.head === 'function' ? spec.head() : spec.head).map((x) => h('th', {}, tl(x))))), tbody)),
+        h('thead', {}, h('tr', {}, (typeof spec.head === 'function' ? spec.head() : spec.head).map((x) => h('th', {}, typeof x === 'string' ? tl(x) : x)))), tbody)),
     ].filter(Boolean));
     fill();
   }
@@ -1196,7 +1553,7 @@
       h('tbody', {}, readingRows)));
 
     // Retention by tab
-    const retRows = Object.entries(MODES).map(([key, m]) => {
+    const retRows = Object.entries(MODES).filter(([key]) => activeModes().includes(key)).map(([key, m]) => {
       const r = retention(0, (id) => PRACTICE_MODE[id.split(':')[0]] === key);
       return h('tr', {}, h('td', {}, m.label), h('td', { class: 'num' }, fmtInt(r.n)), h('td', { class: 'num' }, fmtPct(r.pct)));
     });
@@ -1205,7 +1562,7 @@
       h('tbody', {}, retRows));
 
     // Check any text
-    const area = h('textarea', { class: 'ptext', rows: '5', placeholder: tl('Paste some {lang}: a news paragraph, a song verse, a menu…'), 'aria-label': tl('{lang} text to check'), spellcheck: 'false' });
+    const area = h('textarea', { class: 'ptext', rows: '5', dir: 'auto', placeholder: tl('Paste some {lang}: a news paragraph, a song verse, a menu…'), 'aria-label': tl('{lang} text to check'), spellcheck: 'false' });
     const result = h('div', { class: 'presult' });
     const check = () => {
       const text = area.value.trim();
@@ -1215,7 +1572,7 @@
       result.replaceChildren(
         h('div', { class: 'plevel-row' }, h('span', {}, `You know ${fmtInt(cov.known)} of ${fmtInt(cov.total)} words: ${verdict}.`), h('span', { class: 'num' }, fmtPct(cov.pct))),
         pmeter(cov.pct, 100, `${Math.floor(cov.pct)}% of words known`, [ready, comfortable]),
-        h('p', { class: 'ptokens' }, cov.tokens.flatMap((t, i) => [i ? ' ' : '', h('span', { class: 'tok ' + t.status, title: t.status === 'new' ? 'Not in the app yet' : `${t.en}${t.note ? ' · ' + t.note : ''}` }, t.it)])),
+        h('p', { class: 'ptokens', dir: AR ? 'rtl' : null }, cov.tokens.flatMap((t, i) => [i ? ' ' : '', h('span', { class: 'tok ' + t.status, title: t.status === 'new' ? 'Not in the app yet' : `${t.en}${t.note ? ' · ' + t.note : ''}` }, t.it)])),
         h('div', { class: 'plegend' },
           h('span', {}, h('span', { class: 'tok known' }, 'known')),
           h('span', {}, h('span', { class: 'tok learning' }, 'in the app, not known yet')),
@@ -1310,17 +1667,20 @@
   // Lesson text marks target-language phrases with *asterisks*: they are highlighted,
   // tappable to hear, and read with the target-language voice when narrating.
   const LESSONS_DESC = 'Short guided lessons in a suggested order: new words, examples and quick checks, then a real conversation. Read along, or turn on Read aloud and listen.';
-  const PRACTICE_MODE = { v: 'verbs', n: 'nouns', '#': 'numbers', q: 'sentences', s: 'sentences', r: 'reading', l: 'listening' };
+  const PRACTICE_MODE = { ab: 'alphabet', v: 'verbs', n: 'nouns', '#': 'numbers', q: 'sentences', s: 'sentences', r: 'reading', l: 'listening' };
   const T = (text, extra) => ({ text, lang: 'target', ...extra });
   const E = (text) => ({ text, lang: 'en' });
   const speechOf = (text) => (text || '').split(/\*([^*]+)\*/)
     .map((t, i) => (i % 2 ? T(t) : E(t)))
     .filter((s) => /[\p{L}\p{N}]/u.test(s.text));
-  const rich = (text) => (text || '').split(/\*([^*]+)\*/)
-    .map((t, i) => (i % 2 ? h('span', { class: 'tl', title: 'Listen', onclick: () => speak(t) }, t) : t))
+  // Arabic phrases show their romanization after them, except in quick checks (`noTr`),
+  // where it would give the answer away
+  const rich = (text, noTr) => (text || '').split(/\*([^*]+)\*/)
+    .map((t, i) => (i % 2 ? h('span', { class: 'tl', title: 'Listen', onclick: () => speak(t) },
+      AR && AT.hasArabic(t) ? [arOnly(state.hideMarks ? AT.stripMarks(t) : t), noTr ? null : h('span', { class: 'tr-inline' }, AT.romanize(t))] : t) : t))
     .filter((x) => x !== '');
-  const cell = (x) => h('button', { class: 'cell', title: 'Listen', onclick: () => speak(x.it) },
-    h('span', { class: 'c-it' }, x.it), h('span', { class: 'c-en' }, x.en));
+  const cell = (x) => h('button', { class: 'cell', title: 'Listen', onclick: () => speak(x.say || x.it) },
+    h('span', { class: 'c-it' }, target(x.it, { tr: x.tr })), h('span', { class: 'c-en' }, x.en));
 
   const lessonList = () => (data.lessons || []).slice().sort((a, b) => a.order - b.order);
   const lessonProgress = (id) => (state.lessons && state.lessons[id]) || { pos: 0, done: false };
@@ -1508,7 +1868,7 @@
       if (line.narration) return h('div', { class: 'narr' }, line.narration);
       return h('div', { class: 'bubble ' + (isRight(step, line.s) ? 'right' : 'left'), title: 'Listen', onclick: () => say(lineSpeech(step, line)) },
         h('div', { class: 'who' }, step.speakers[line.s].name),
-        h('div', { class: 'b-it' }, line.it),
+        h('div', { class: 'b-it' }, target(line.it, { tr: line.tr })),
         h('div', { class: 'en' }, line.en));
     }
     const wrongLines = (line) => (line.wrong && line.wrong.length ? line.wrong
@@ -1533,14 +1893,14 @@
           break;
         case 'word':
           el = add(h('div', { class: 'blk word' },
-            h('div', { class: 'w-it' }, step.it, speakBtn(step.it)),
+            h('div', { class: 'w-it' }, target(step.it, { tr: step.tr, marks: true }), speakBtn(step.say || step.it)),
             h('div', { class: 'w-en' }, step.en),
             step.note ? h('div', { class: 'w-note' }, rich(step.note)) : null));
-          speech = [T(step.it), E(step.en), ...speechOf(step.note)];
+          speech = [T(step.say || step.it), E(step.en), ...speechOf(step.note)];
           break;
         case 'example':
           el = add(h('div', { class: 'blk ex' }, speakBtn(step.it),
-            h('div', {}, h('div', { class: 'ex-it' }, step.it), h('div', { class: 'ex-en' }, step.en))));
+            h('div', {}, h('div', { class: 'ex-it' }, target(step.it, { tr: step.tr })), h('div', { class: 'ex-en' }, step.en))));
           speech = [T(step.it), E(step.en)];
           break;
         case 'note':
@@ -1552,7 +1912,7 @@
           el = add(h('div', { class: 'blk' },
             step.title ? h('div', { class: 'list-title' }, rich(step.title)) : null,
             h('div', { class: 'list-grid' }, step.items.map(cell))));
-          speech = [...speechOf(step.title), ...step.items.map((x) => T(x.it))];
+          speech = [...speechOf(step.title), ...step.items.map((x) => T(x.say || x.it))];
           break;
         case 'check': {
           const fb = h('div', { class: 'check-fb' });
@@ -1575,9 +1935,9 @@
             fb.replaceChildren(h('span', { class: 'verdict ' + (ok ? 'good' : 'bad') }, ok ? 'Yes! ' : 'Not quite. '), ...rich(explain));
             answered([E(ok ? 'Yes!' : 'Not quite.'), ...speechOf(explain)]);
           };
-          const buttons = order.map((j, k) => choiceBtn(rich(step.options[j]), k, pick));
+          const buttons = order.map((j, k) => choiceBtn(rich(step.options[j], true), k, pick));
           el = add(h('div', { class: 'blk check' }, h('div', { class: 'eyebrow' }, 'Quick check'),
-            h('div', { class: 'check-q' }, rich(step.prompt)), h('div', { class: 'choices' }, buttons), fb));
+            h('div', { class: 'check-q' }, rich(step.prompt, true)), h('div', { class: 'choices' }, buttons), fb));
           if (live) {
             blocked = true;
             choose = pick;
@@ -1623,7 +1983,7 @@
             answered([...(ok ? [] : [E(`Not quite. ${name} would say:`)]), ...lineSpeech(step, beat.line)]);
           };
           el = thread.appendChild(h('div', { class: 'turn' }, h('div', { class: 'who' }, `You (${name})`),
-            options.map((o, k) => choiceBtn(o, k, pick))));
+            options.map((o, k) => choiceBtn(target(o), k, pick))));
           blocked = true;
           choose = pick;
           break;
@@ -1640,7 +2000,8 @@
           const next = lessons[number];
           const practise = (m) => {
             state.mode = m;
-            state.filters = { ...state.filters, [m]: DEFAULT_FILTERS[m] || {} };
+            // The alphabet recap opens on every group; the lesson's items are due first anyway
+            state.filters = { ...state.filters, [m]: m === 'alphabet' ? {} : DEFAULT_FILTERS[m] || {} };
             recent[m] = [];
             save();
             show();
@@ -1719,6 +2080,7 @@
     const filterRows = keys.map((key) => {
       const present = new Set(items.map((i) => i[key]));
       const options = [{ id: 'all', label: 'All' }, ...filterList(key).filter((o) => present.has(o.id))];
+      if (options.length === 1) return null; // nothing to choose between (no functions tagged yet)
       return h('div', { class: 'filter-row' }, h('span', { class: 'filter-label' }, FILTER_LABEL[key]),
         options.map((o) => {
           const active = (cur[key] || 'all') === o.id;
@@ -1726,7 +2088,7 @@
           return h('button', {
             class: 'pill-btn' + (active ? ' active' : ''), disabled: n === 0 && !active,
             onclick: () => { state.filters = { ...state.filters, [mode]: { ...cur, [key]: o.id } }; recent[mode] = []; save(); renderFilters(); ask(); },
-          }, o.label, h('span', { class: 'n' }, String(n)));
+          }, AR && AT.hasArabic(o.label) ? h('bdi', { dir: 'ltr' }, o.label) : o.label, h('span', { class: 'n' }, String(n)));
         }));
     });
     const settingRows = settings.map((set) => h('div', { class: 'filter-row' }, h('span', { class: 'filter-label' }, set.label),
@@ -1738,7 +2100,7 @@
           save(); renderFilters(); ask();
         },
       }, tl(o.label)))));
-    el.replaceChildren(...filterRows, ...settingRows);
+    el.replaceChildren(...filterRows.filter(Boolean), ...settingRows);
   }
 
   function show() {
@@ -1782,7 +2144,9 @@
   function init(json) {
     data = json;
     data.ui = data.ui || {};
-    data.readings = data.readings || [];
+    data.grammar = data.grammar || {};
+    ['readings', 'articles', 'prepositions', 'conjunctions', 'adjectives', 'questions', 'sentences', 'glossary', 'lessons'].forEach((k) => { data[k] = data[k] || []; });
+    AR = data.script === 'arabic';
     PERSON_LABEL = Object.fromEntries(data.personOptions.map((o) => [o.id, o.pronoun || o.id]));
     ACCENTS = data.ui.accents || [];
     // A typed verb may start with its subject pronoun ("noi parliamo", "él habla", "usted habla")
@@ -1804,12 +2168,27 @@
       box.checked = !!state.autoplay;
       box.addEventListener('change', () => { state.autoplay = box.checked; save(); });
       speechSynthesis.getVoices(); // warm up the async voice list
+      speechSynthesis.addEventListener('voiceschanged', checkVoices);
+      checkVoices();
+    }
+    if (AR) {
+      // Romanization can be blurred (hover or tap to peek); vowel marks can be hidden
+      const trBox = document.getElementById('showTr');
+      const marksBox = document.getElementById('showMarks');
+      document.getElementById('trToggle').hidden = false;
+      document.getElementById('marksToggle').hidden = false;
+      trBox.checked = !state.hideTr;
+      marksBox.checked = !state.hideMarks;
+      document.body.classList.toggle('hide-tr', !!state.hideTr);
+      trBox.addEventListener('change', () => { state.hideTr = !trBox.checked; document.body.classList.toggle('hide-tr', state.hideTr); save(); });
+      marksBox.addEventListener('change', () => { state.hideMarks = !marksBox.checked; save(); show(); });
     }
     document.getElementById('resetLink').addEventListener('click', () => {
       if (!confirm('Reset all progress and scores?')) return;
       state = {
         ...defaults(), mode: state.mode, table: state.table, tableTense: state.tableTense, filters: state.filters, settings: state.settings, autoplay: state.autoplay,
         lessonAudio: state.lessonAudio, lessonHandsFree: state.lessonHandsFree, lessonHideEn: state.lessonHideEn,
+        hideTr: state.hideTr, hideMarks: state.hideMarks,
       };
       save();
       renderScore();
@@ -1824,7 +2203,7 @@
   function renderLanguagePicker() {
     document.title = LANG.app;
     document.querySelector('.topbar h1').textContent = LANG.app;
-    document.documentElement.lang = LANG.code;
+    document.documentElement.lang = LANG.uiLang || LANG.code;
     const select = document.getElementById('langSelect');
     select.replaceChildren(...LANGS.map((l) => h('option', { value: l.code, selected: l === LANG }, l.name)));
     select.addEventListener('change', () => {

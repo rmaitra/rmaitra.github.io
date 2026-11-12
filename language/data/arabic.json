@@ -1,0 +1,7762 @@
+{
+ "language": "ar",
+ "name": "Arabic",
+ "script": "arabic",
+ "speechLang": "ar-SA",
+ "ui": {
+  "accents": [
+   "ā",
+   "ī",
+   "ū",
+   "ḥ",
+   "ṣ",
+   "ḍ",
+   "ṭ",
+   "ẓ",
+   "ʿ",
+   "ʾ"
+  ],
+  "inputHint": "Arabic or romanized…",
+  "familyExample": "kataba, yaktubu and katabtu",
+  "modeDesc": {
+   "verbs": "Conjugate common verbs in the past, present and future. Type in Arabic or in romanization (katabtu; macrons and dots are optional), or pick from four.",
+   "nouns": "Pick the Arabic for an English word, read an Arabic word, or find its plural. Many plurals are “broken”: the vowels inside the word change (kitāb → kutub).",
+   "numbers": "Numbers 1–100 in their counting forms. Type the Arabic or its romanization, or pick the digits.",
+   "sentences": "Translate by tapping the Arabic words into order. Arabic runs right to left, so the first word goes on the right.",
+   "listening": "Dictation: listen to a word or a sentence and type it, in Arabic or in romanization."
+  },
+  "tableNotes": {
+   "verbs": "Pick a tense. Weak and irregular verbs are highlighted in blue. The root is the three consonants that related words share.",
+   "nouns": "Singular, plural and the three-letter root. “Broken” plurals change the vowels inside the word.",
+   "adjectives": "Adjectives follow the noun and agree with it in gender, number and definiteness. Plurals of things take the feminine singular.",
+   "prepositions": "Most prepositions are separate words; bi- and li- are written joined to the next word.",
+   "conjunctions": "wa- (and) and fa- (so) are written joined to the next word.",
+   "numbers": "Counting forms, 1–100. Compound numbers say the unit first: wāḥid wa-ʿishrūn = “one and twenty”."
+  }
+ },
+ "grammar": {
+  "numberNotes": [
+   {
+    "from": 1,
+    "to": 2,
+    "text": "One and two follow the noun like adjectives (kitāb wāḥid) and are often left out: kitāb = a book; two books has its own ending, kitābān."
+   },
+   {
+    "from": 3,
+    "to": 10,
+    "text": "3–10 take the opposite gender of the noun they count: thalāthat kutub (books, masc.), thalāth banāt (girls, fem.). The noun is plural."
+   },
+   {
+    "from": 11,
+    "to": 19,
+    "text": "11–19 are two words, unit then ten: thalāthata ʿashar = “three-ten”. The counted noun is singular."
+   },
+   {
+    "from": 20,
+    "to": 90,
+    "lastDigit": 0,
+    "text": "The tens end in -ūn: ʿishrūn, thalāthūn, arbaʿūn… The counted noun is singular."
+   },
+   {
+    "from": 21,
+    "to": 99,
+    "text": "Say the unit first, then wa- (and), then the ten: khamsa wa-ʿishrūn = “five and twenty”."
+   },
+   {
+    "from": 100,
+    "to": 100,
+    "text": "miʾa is also spelled مائة, with a silent alif, in many texts."
+   }
+  ]
+ },
+ "persons": [
+  "ana",
+  "anta",
+  "anti",
+  "huwa",
+  "hiya",
+  "nahnu",
+  "antum",
+  "hum"
+ ],
+ "personOptions": [
+  {
+   "id": "ana",
+   "label": "I (anā)",
+   "en": "I",
+   "pronoun": "أَنَا"
+  },
+  {
+   "id": "anta",
+   "label": "you, m. (anta)",
+   "en": "you (to a man)",
+   "pronoun": "أَنْتَ"
+  },
+  {
+   "id": "anti",
+   "label": "you, f. (anti)",
+   "en": "you (to a woman)",
+   "pronoun": "أَنْتِ"
+  },
+  {
+   "id": "huwa",
+   "label": "he (huwa)",
+   "en": "he / it",
+   "pronoun": "هُوَ"
+  },
+  {
+   "id": "hiya",
+   "label": "she (hiya)",
+   "en": "she / it",
+   "pronoun": "هِيَ"
+  },
+  {
+   "id": "nahnu",
+   "label": "we (naḥnu)",
+   "en": "we",
+   "pronoun": "نَحْنُ"
+  },
+  {
+   "id": "antum",
+   "label": "you all (antum)",
+   "en": "you all",
+   "pronoun": "أَنْتُمْ"
+  },
+  {
+   "id": "hum",
+   "label": "they (hum)",
+   "en": "they",
+   "pronoun": "هُمْ"
+  }
+ ],
+ "tenseOptions": [
+  {
+   "id": "past",
+   "label": "Past",
+   "title": "Past (al-māḍī)",
+   "description": "Finished actions: katabtu = I wrote. Endings show the person: -tu I, -ta you (m.), -ti you (f.), -a he, -at she, -nā we, -tum you all, -ū they."
+  },
+  {
+   "id": "present",
+   "label": "Present",
+   "title": "Present (al-muḍāriʿ)",
+   "description": "Now or usually: aktubu = I write / I am writing. Prefixes show the person: a- I, ta- you or she, ya- he, na- we; -īna marks you (f.), -ūna you all and they."
+  },
+  {
+   "id": "future",
+   "label": "Future",
+   "title": "Future (sa- + present)",
+   "description": "Put sa- in front of the present: sa-aktubu = I will write. To say “will not”, use lan + the verb: lan aktuba."
+  }
+ ],
+ "functions": [
+  {
+   "id": "nominal",
+   "label": "No “is” (nominal)",
+   "description": "In the present, Arabic has no verb “to be”: al-bayt kabīr = the house (is) big. A definite noun followed by an indefinite word makes a sentence. To negate it, use laysa (is not)."
+  },
+  {
+   "id": "agreement",
+   "label": "Adjective agreement",
+   "description": "Adjectives come after the noun and match it in gender and in definiteness: bayt kabīr (a big house), al-bayt al-kabīr (the big house), sayyāra jadīda (a new car)."
+  },
+  {
+   "id": "idafa",
+   "label": "X of Y (iḍāfa)",
+   "description": "Two nouns side by side mean “X of Y”: bayt aṭ-ṭālib = the student’s house. Only the second noun can take al-, and a final -a on the first is said -at: sayyārat al-muʿallim."
+  },
+  {
+   "id": "pronoun_suffix",
+   "label": "Possessive endings",
+   "description": "Endings for “my, your, his…”: -ī my, -ka / -ki your, -hu his, -hā her, -nā our, -kum your (pl.), -hum their. kitābī = my book. A final -a becomes -at first: sayyāratī."
+  },
+  {
+   "id": "possession",
+   "label": "Having (ʿinda)",
+   "description": "There is no verb “to have”. Use ʿinda (at, with) + an ending: ʿindī = I have, ʿindaka = you have, ʿindahum = they have."
+  },
+  {
+   "id": "existence",
+   "label": "There is (hunāka)",
+   "description": "hunāka = there is / there are. Negative: laysa hunāka."
+  },
+  {
+   "id": "word_order",
+   "label": "Verb first",
+   "description": "Formal Arabic often puts the verb first: kataba aṭ-ṭālib ad-dars = the student wrote the lesson. A verb that comes first stays singular even with a plural subject: dhahaba al-awlād = the boys went."
+  },
+  {
+   "id": "desire",
+   "label": "Wanting (urīdu)",
+   "description": "urīdu = I want / I’d like. Before another verb, add an: urīdu an adhhaba = I want to go."
+  },
+  {
+   "id": "preference",
+   "label": "Likes (uḥibbu)",
+   "description": "uḥibbu = I like / I love. The thing you like takes al-: uḥibbu al-qahwa = I like coffee."
+  },
+  {
+   "id": "future_plans",
+   "label": "Future (sa-)",
+   "description": "Put sa- in front of the present for the future: sa-adhhabu = I will go. For “will not”, use lan: lan adhhaba."
+  },
+  {
+   "id": "ability",
+   "label": "Can (yumkinu)",
+   "description": "hal yumkinu an … ? = is it possible to … ? A polite way to ask for help."
+  }
+ ],
+ "topics": [
+  {
+   "id": "everyday",
+   "label": "Everyday"
+  },
+  {
+   "id": "food",
+   "label": "Food & drink"
+  },
+  {
+   "id": "directions",
+   "label": "Places & directions"
+  },
+  {
+   "id": "social",
+   "label": "Meeting people"
+  },
+  {
+   "id": "time",
+   "label": "Time"
+  }
+ ],
+ "sentenceTypes": [
+  {
+   "id": "statement",
+   "label": "Statement",
+   "description": "A plain affirmative sentence."
+  },
+  {
+   "id": "negative",
+   "label": "Negative",
+   "description": "Negated with lā (present), lam (past), lan (future) or laysa (sentences without a verb)."
+  },
+  {
+   "id": "question",
+   "label": "Question",
+   "description": "A yes/no question starts with hal; others start with a question word."
+  },
+  {
+   "id": "request",
+   "label": "Request / command",
+   "description": "Asks for something or tells someone what to do."
+  }
+ ],
+ "progress": {
+  "coverage": {
+   "ready": 95,
+   "comfortable": 98
+  },
+  "levels": [
+   {
+    "id": "A1",
+    "label": "A1 · Beginner",
+    "families": 500,
+    "hours": 200
+   },
+   {
+    "id": "A2",
+    "label": "A2 · Elementary",
+    "families": 1000,
+    "hours": 400
+   },
+   {
+    "id": "B1",
+    "label": "B1 · Intermediate",
+    "families": 2000,
+    "hours": 750
+   },
+   {
+    "id": "B2",
+    "label": "B2 · Upper intermediate",
+    "families": 4000,
+    "hours": 1100
+   },
+   {
+    "id": "C1",
+    "label": "C1 · Advanced",
+    "families": 8000,
+    "hours": 1600
+   }
+  ],
+  "sourceNote": "Rough guides only. Word-family targets follow vocabulary-size research (Nation, Laufer). Hours are scaled up from the European estimates: the US Foreign Service Institute puts Arabic in its hardest group for English speakers (about 2,200 class hours to professional level)."
+ },
+ "verbs": [
+  {
+   "id": "kataba",
+   "it": "كَتَبَ",
+   "cite": "كَتَبَ / يَكْتُبُ",
+   "en": "to write",
+   "rank": 1,
+   "root": "ك ت ب",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "كَتَبْتُ",
+     "anta": "كَتَبْتَ",
+     "anti": "كَتَبْتِ",
+     "huwa": "كَتَبَ",
+     "hiya": "كَتَبَتْ",
+     "nahnu": "كَتَبْنَا",
+     "antum": "كَتَبْتُمْ",
+     "hum": "كَتَبُوا"
+    },
+    "present": {
+     "ana": "أَكْتُبُ",
+     "anta": "تَكْتُبُ",
+     "anti": "تَكْتُبِينَ",
+     "huwa": "يَكْتُبُ",
+     "hiya": "تَكْتُبُ",
+     "nahnu": "نَكْتُبُ",
+     "antum": "تَكْتُبُونَ",
+     "hum": "يَكْتُبُونَ"
+    },
+    "future": {
+     "ana": "سَأَكْتُبُ",
+     "anta": "سَتَكْتُبُ",
+     "anti": "سَتَكْتُبِينَ",
+     "huwa": "سَيَكْتُبُ",
+     "hiya": "سَتَكْتُبُ",
+     "nahnu": "سَنَكْتُبُ",
+     "antum": "سَتَكْتُبُونَ",
+     "hum": "سَيَكْتُبُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "أَكْتُبُ رِسَالَة لِأُمِّي.",
+     "tr": "aktubu risāla li-ummī.",
+     "en": "I’m writing a letter to my mother."
+    }
+   ]
+  },
+  {
+   "id": "dhahaba",
+   "it": "ذَهَبَ",
+   "cite": "ذَهَبَ / يَذْهَبُ",
+   "en": "to go",
+   "rank": 2,
+   "root": "ذ ه ب",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "ذَهَبْتُ",
+     "anta": "ذَهَبْتَ",
+     "anti": "ذَهَبْتِ",
+     "huwa": "ذَهَبَ",
+     "hiya": "ذَهَبَتْ",
+     "nahnu": "ذَهَبْنَا",
+     "antum": "ذَهَبْتُمْ",
+     "hum": "ذَهَبُوا"
+    },
+    "present": {
+     "ana": "أَذْهَبُ",
+     "anta": "تَذْهَبُ",
+     "anti": "تَذْهَبِينَ",
+     "huwa": "يَذْهَبُ",
+     "hiya": "تَذْهَبُ",
+     "nahnu": "نَذْهَبُ",
+     "antum": "تَذْهَبُونَ",
+     "hum": "يَذْهَبُونَ"
+    },
+    "future": {
+     "ana": "سَأَذْهَبُ",
+     "anta": "سَتَذْهَبُ",
+     "anti": "سَتَذْهَبِينَ",
+     "huwa": "سَيَذْهَبُ",
+     "hiya": "سَتَذْهَبُ",
+     "nahnu": "سَنَذْهَبُ",
+     "antum": "سَتَذْهَبُونَ",
+     "hum": "سَيَذْهَبُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "أَذْهَبُ إِلَى الْعَمَل بِالْقِطَار.",
+     "en": "I go to work by train."
+    }
+   ]
+  },
+  {
+   "id": "darasa",
+   "it": "دَرَسَ",
+   "cite": "دَرَسَ / يَدْرُسُ",
+   "en": "to study",
+   "rank": 3,
+   "root": "د ر س",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "دَرَسْتُ",
+     "anta": "دَرَسْتَ",
+     "anti": "دَرَسْتِ",
+     "huwa": "دَرَسَ",
+     "hiya": "دَرَسَتْ",
+     "nahnu": "دَرَسْنَا",
+     "antum": "دَرَسْتُمْ",
+     "hum": "دَرَسُوا"
+    },
+    "present": {
+     "ana": "أَدْرُسُ",
+     "anta": "تَدْرُسُ",
+     "anti": "تَدْرُسِينَ",
+     "huwa": "يَدْرُسُ",
+     "hiya": "تَدْرُسُ",
+     "nahnu": "نَدْرُسُ",
+     "antum": "تَدْرُسُونَ",
+     "hum": "يَدْرُسُونَ"
+    },
+    "future": {
+     "ana": "سَأَدْرُسُ",
+     "anta": "سَتَدْرُسُ",
+     "anti": "سَتَدْرُسِينَ",
+     "huwa": "سَيَدْرُسُ",
+     "hiya": "سَتَدْرُسُ",
+     "nahnu": "سَنَدْرُسُ",
+     "antum": "سَتَدْرُسُونَ",
+     "hum": "سَيَدْرُسُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "تَدْرُسُ أُخْتِي فِي الْجَامِعَة.",
+     "en": "My sister studies at the university."
+    }
+   ]
+  },
+  {
+   "id": "shariba",
+   "it": "شَرِبَ",
+   "cite": "شَرِبَ / يَشْرَبُ",
+   "en": "to drink",
+   "rank": 4,
+   "root": "ش ر ب",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "شَرِبْتُ",
+     "anta": "شَرِبْتَ",
+     "anti": "شَرِبْتِ",
+     "huwa": "شَرِبَ",
+     "hiya": "شَرِبَتْ",
+     "nahnu": "شَرِبْنَا",
+     "antum": "شَرِبْتُمْ",
+     "hum": "شَرِبُوا"
+    },
+    "present": {
+     "ana": "أَشْرَبُ",
+     "anta": "تَشْرَبُ",
+     "anti": "تَشْرَبِينَ",
+     "huwa": "يَشْرَبُ",
+     "hiya": "تَشْرَبُ",
+     "nahnu": "نَشْرَبُ",
+     "antum": "تَشْرَبُونَ",
+     "hum": "يَشْرَبُونَ"
+    },
+    "future": {
+     "ana": "سَأَشْرَبُ",
+     "anta": "سَتَشْرَبُ",
+     "anti": "سَتَشْرَبِينَ",
+     "huwa": "سَيَشْرَبُ",
+     "hiya": "سَتَشْرَبُ",
+     "nahnu": "سَنَشْرَبُ",
+     "antum": "سَتَشْرَبُونَ",
+     "hum": "سَيَشْرَبُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "أَشْرَبُ الشَّاي كُلّ صَبَاح.",
+     "en": "I drink tea every morning."
+    }
+   ]
+  },
+  {
+   "id": "akala",
+   "it": "أَكَلَ",
+   "cite": "أَكَلَ / يَأْكُلُ",
+   "en": "to eat",
+   "rank": 5,
+   "root": "ء ك ل",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "أَكَلْتُ",
+     "anta": "أَكَلْتَ",
+     "anti": "أَكَلْتِ",
+     "huwa": "أَكَلَ",
+     "hiya": "أَكَلَتْ",
+     "nahnu": "أَكَلْنَا",
+     "antum": "أَكَلْتُمْ",
+     "hum": "أَكَلُوا"
+    },
+    "present": {
+     "ana": "آكُلُ",
+     "anta": "تَأْكُلُ",
+     "anti": "تَأْكُلِينَ",
+     "huwa": "يَأْكُلُ",
+     "hiya": "تَأْكُلُ",
+     "nahnu": "نَأْكُلُ",
+     "antum": "تَأْكُلُونَ",
+     "hum": "يَأْكُلُونَ"
+    },
+    "future": {
+     "ana": "سَآكُلُ",
+     "anta": "سَتَأْكُلُ",
+     "anti": "سَتَأْكُلِينَ",
+     "huwa": "سَيَأْكُلُ",
+     "hiya": "سَتَأْكُلُ",
+     "nahnu": "سَنَأْكُلُ",
+     "antum": "سَتَأْكُلُونَ",
+     "hum": "سَيَأْكُلُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "لَا آكُلُ اللَّحْم.",
+     "en": "I don’t eat meat."
+    }
+   ]
+  },
+  {
+   "id": "fahima",
+   "it": "فَهِمَ",
+   "cite": "فَهِمَ / يَفْهَمُ",
+   "en": "to understand",
+   "rank": 6,
+   "root": "ف ه م",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "فَهِمْتُ",
+     "anta": "فَهِمْتَ",
+     "anti": "فَهِمْتِ",
+     "huwa": "فَهِمَ",
+     "hiya": "فَهِمَتْ",
+     "nahnu": "فَهِمْنَا",
+     "antum": "فَهِمْتُمْ",
+     "hum": "فَهِمُوا"
+    },
+    "present": {
+     "ana": "أَفْهَمُ",
+     "anta": "تَفْهَمُ",
+     "anti": "تَفْهَمِينَ",
+     "huwa": "يَفْهَمُ",
+     "hiya": "تَفْهَمُ",
+     "nahnu": "نَفْهَمُ",
+     "antum": "تَفْهَمُونَ",
+     "hum": "يَفْهَمُونَ"
+    },
+    "future": {
+     "ana": "سَأَفْهَمُ",
+     "anta": "سَتَفْهَمُ",
+     "anti": "سَتَفْهَمِينَ",
+     "huwa": "سَيَفْهَمُ",
+     "hiya": "سَتَفْهَمُ",
+     "nahnu": "سَنَفْهَمُ",
+     "antum": "سَتَفْهَمُونَ",
+     "hum": "سَيَفْهَمُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "هَلْ تَفْهَمُ؟",
+     "en": "Do you understand?"
+    }
+   ]
+  },
+  {
+   "id": "arada",
+   "it": "أَرَادَ",
+   "cite": "أَرَادَ / يُرِيدُ",
+   "en": "to want",
+   "rank": 7,
+   "root": "ر و د",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "أَرَدْتُ",
+     "anta": "أَرَدْتَ",
+     "anti": "أَرَدْتِ",
+     "huwa": "أَرَادَ",
+     "hiya": "أَرَادَتْ",
+     "nahnu": "أَرَدْنَا",
+     "antum": "أَرَدْتُمْ",
+     "hum": "أَرَادُوا"
+    },
+    "present": {
+     "ana": "أُرِيدُ",
+     "anta": "تُرِيدُ",
+     "anti": "تُرِيدِينَ",
+     "huwa": "يُرِيدُ",
+     "hiya": "تُرِيدُ",
+     "nahnu": "نُرِيدُ",
+     "antum": "تُرِيدُونَ",
+     "hum": "يُرِيدُونَ"
+    },
+    "future": {
+     "ana": "سَأُرِيدُ",
+     "anta": "سَتُرِيدُ",
+     "anti": "سَتُرِيدِينَ",
+     "huwa": "سَيُرِيدُ",
+     "hiya": "سَتُرِيدُ",
+     "nahnu": "سَنُرِيدُ",
+     "antum": "سَتُرِيدُونَ",
+     "hum": "سَيُرِيدُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "أُرِيدُ قَهْوَة، مِنْ فَضْلِكَ.",
+     "en": "I’d like a coffee, please."
+    }
+   ]
+  },
+  {
+   "id": "ahabba",
+   "it": "أَحَبَّ",
+   "cite": "أَحَبَّ / يُحِبُّ",
+   "en": "to like / to love",
+   "rank": 8,
+   "root": "ح ب ب",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "أَحْبَبْتُ",
+     "anta": "أَحْبَبْتَ",
+     "anti": "أَحْبَبْتِ",
+     "huwa": "أَحَبَّ",
+     "hiya": "أَحَبَّتْ",
+     "nahnu": "أَحْبَبْنَا",
+     "antum": "أَحْبَبْتُمْ",
+     "hum": "أَحَبُّوا"
+    },
+    "present": {
+     "ana": "أُحِبُّ",
+     "anta": "تُحِبُّ",
+     "anti": "تُحِبِّينَ",
+     "huwa": "يُحِبُّ",
+     "hiya": "تُحِبُّ",
+     "nahnu": "نُحِبُّ",
+     "antum": "تُحِبُّونَ",
+     "hum": "يُحِبُّونَ"
+    },
+    "future": {
+     "ana": "سَأُحِبُّ",
+     "anta": "سَتُحِبُّ",
+     "anti": "سَتُحِبِّينَ",
+     "huwa": "سَيُحِبُّ",
+     "hiya": "سَتُحِبُّ",
+     "nahnu": "سَنُحِبُّ",
+     "antum": "سَتُحِبُّونَ",
+     "hum": "سَيُحِبُّونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "أُحِبُّ الْقَهْوَة.",
+     "en": "I like coffee."
+    }
+   ]
+  },
+  {
+   "id": "kana",
+   "it": "كَانَ",
+   "cite": "كَانَ / يَكُونُ",
+   "en": "to be (past)",
+   "rank": 9,
+   "root": "ك و ن",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "كُنْتُ",
+     "anta": "كُنْتَ",
+     "anti": "كُنْتِ",
+     "huwa": "كَانَ",
+     "hiya": "كَانَتْ",
+     "nahnu": "كُنَّا",
+     "antum": "كُنْتُمْ",
+     "hum": "كَانُوا"
+    },
+    "present": {
+     "ana": "أَكُونُ",
+     "anta": "تَكُونُ",
+     "anti": "تَكُونِينَ",
+     "huwa": "يَكُونُ",
+     "hiya": "تَكُونُ",
+     "nahnu": "نَكُونُ",
+     "antum": "تَكُونُونَ",
+     "hum": "يَكُونُونَ"
+    },
+    "future": {
+     "ana": "سَأَكُونُ",
+     "anta": "سَتَكُونُ",
+     "anti": "سَتَكُونِينَ",
+     "huwa": "سَيَكُونُ",
+     "hiya": "سَتَكُونُ",
+     "nahnu": "سَنَكُونُ",
+     "antum": "سَتَكُونُونَ",
+     "hum": "سَيَكُونُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "qala",
+   "it": "قَالَ",
+   "cite": "قَالَ / يَقُولُ",
+   "en": "to say",
+   "rank": 10,
+   "root": "ق و ل",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "قُلْتُ",
+     "anta": "قُلْتَ",
+     "anti": "قُلْتِ",
+     "huwa": "قَالَ",
+     "hiya": "قَالَتْ",
+     "nahnu": "قُلْنَا",
+     "antum": "قُلْتُمْ",
+     "hum": "قَالُوا"
+    },
+    "present": {
+     "ana": "أَقُولُ",
+     "anta": "تَقُولُ",
+     "anti": "تَقُولِينَ",
+     "huwa": "يَقُولُ",
+     "hiya": "تَقُولُ",
+     "nahnu": "نَقُولُ",
+     "antum": "تَقُولُونَ",
+     "hum": "يَقُولُونَ"
+    },
+    "future": {
+     "ana": "سَأَقُولُ",
+     "anta": "سَتَقُولُ",
+     "anti": "سَتَقُولِينَ",
+     "huwa": "سَيَقُولُ",
+     "hiya": "سَتَقُولُ",
+     "nahnu": "سَنَقُولُ",
+     "antum": "سَتَقُولُونَ",
+     "hum": "سَيَقُولُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "sakana",
+   "it": "سَكَنَ",
+   "cite": "سَكَنَ / يَسْكُنُ",
+   "en": "to live (somewhere)",
+   "rank": 11,
+   "root": "س ك ن",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "سَكَنْتُ",
+     "anta": "سَكَنْتَ",
+     "anti": "سَكَنْتِ",
+     "huwa": "سَكَنَ",
+     "hiya": "سَكَنَتْ",
+     "nahnu": "سَكَنَّا",
+     "antum": "سَكَنْتُمْ",
+     "hum": "سَكَنُوا"
+    },
+    "present": {
+     "ana": "أَسْكُنُ",
+     "anta": "تَسْكُنُ",
+     "anti": "تَسْكُنِينَ",
+     "huwa": "يَسْكُنُ",
+     "hiya": "تَسْكُنُ",
+     "nahnu": "نَسْكُنُ",
+     "antum": "تَسْكُنُونَ",
+     "hum": "يَسْكُنُونَ"
+    },
+    "future": {
+     "ana": "سَأَسْكُنُ",
+     "anta": "سَتَسْكُنُ",
+     "anti": "سَتَسْكُنِينَ",
+     "huwa": "سَيَسْكُنُ",
+     "hiya": "سَتَسْكُنُ",
+     "nahnu": "سَنَسْكُنُ",
+     "antum": "سَتَسْكُنُونَ",
+     "hum": "سَيَسْكُنُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "أَسْكُنُ فِي الْقَاهِرَة.",
+     "en": "I live in Cairo."
+    }
+   ]
+  },
+  {
+   "id": "amila",
+   "it": "عَمِلَ",
+   "cite": "عَمِلَ / يَعْمَلُ",
+   "en": "to work",
+   "rank": 12,
+   "root": "ع م ل",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "عَمِلْتُ",
+     "anta": "عَمِلْتَ",
+     "anti": "عَمِلْتِ",
+     "huwa": "عَمِلَ",
+     "hiya": "عَمِلَتْ",
+     "nahnu": "عَمِلْنَا",
+     "antum": "عَمِلْتُمْ",
+     "hum": "عَمِلُوا"
+    },
+    "present": {
+     "ana": "أَعْمَلُ",
+     "anta": "تَعْمَلُ",
+     "anti": "تَعْمَلِينَ",
+     "huwa": "يَعْمَلُ",
+     "hiya": "تَعْمَلُ",
+     "nahnu": "نَعْمَلُ",
+     "antum": "تَعْمَلُونَ",
+     "hum": "يَعْمَلُونَ"
+    },
+    "future": {
+     "ana": "سَأَعْمَلُ",
+     "anta": "سَتَعْمَلُ",
+     "anti": "سَتَعْمَلِينَ",
+     "huwa": "سَيَعْمَلُ",
+     "hiya": "سَتَعْمَلُ",
+     "nahnu": "سَنَعْمَلُ",
+     "antum": "سَتَعْمَلُونَ",
+     "hum": "سَيَعْمَلُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "تَعْمَلُ فِي مُسْتَشْفَى.",
+     "en": "She works in a hospital."
+    }
+   ]
+  },
+  {
+   "id": "arafa",
+   "it": "عَرَفَ",
+   "cite": "عَرَفَ / يَعْرِفُ",
+   "en": "to know",
+   "rank": 13,
+   "root": "ع ر ف",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "عَرَفْتُ",
+     "anta": "عَرَفْتَ",
+     "anti": "عَرَفْتِ",
+     "huwa": "عَرَفَ",
+     "hiya": "عَرَفَتْ",
+     "nahnu": "عَرَفْنَا",
+     "antum": "عَرَفْتُمْ",
+     "hum": "عَرَفُوا"
+    },
+    "present": {
+     "ana": "أَعْرِفُ",
+     "anta": "تَعْرِفُ",
+     "anti": "تَعْرِفِينَ",
+     "huwa": "يَعْرِفُ",
+     "hiya": "تَعْرِفُ",
+     "nahnu": "نَعْرِفُ",
+     "antum": "تَعْرِفُونَ",
+     "hum": "يَعْرِفُونَ"
+    },
+    "future": {
+     "ana": "سَأَعْرِفُ",
+     "anta": "سَتَعْرِفُ",
+     "anti": "سَتَعْرِفِينَ",
+     "huwa": "سَيَعْرِفُ",
+     "hiya": "سَتَعْرِفُ",
+     "nahnu": "سَنَعْرِفُ",
+     "antum": "سَتَعْرِفُونَ",
+     "hum": "سَيَعْرِفُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "لَا أَعْرِفُ.",
+     "en": "I don’t know."
+    }
+   ]
+  },
+  {
+   "id": "takallama",
+   "it": "تَكَلَّمَ",
+   "cite": "تَكَلَّمَ / يَتَكَلَّمُ",
+   "en": "to speak",
+   "rank": 14,
+   "root": "ك ل م",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "تَكَلَّمْتُ",
+     "anta": "تَكَلَّمْتَ",
+     "anti": "تَكَلَّمْتِ",
+     "huwa": "تَكَلَّمَ",
+     "hiya": "تَكَلَّمَتْ",
+     "nahnu": "تَكَلَّمْنَا",
+     "antum": "تَكَلَّمْتُمْ",
+     "hum": "تَكَلَّمُوا"
+    },
+    "present": {
+     "ana": "أَتَكَلَّمُ",
+     "anta": "تَتَكَلَّمُ",
+     "anti": "تَتَكَلَّمِينَ",
+     "huwa": "يَتَكَلَّمُ",
+     "hiya": "تَتَكَلَّمُ",
+     "nahnu": "نَتَكَلَّمُ",
+     "antum": "تَتَكَلَّمُونَ",
+     "hum": "يَتَكَلَّمُونَ"
+    },
+    "future": {
+     "ana": "سَأَتَكَلَّمُ",
+     "anta": "سَتَتَكَلَّمُ",
+     "anti": "سَتَتَكَلَّمِينَ",
+     "huwa": "سَيَتَكَلَّمُ",
+     "hiya": "سَتَتَكَلَّمُ",
+     "nahnu": "سَنَتَكَلَّمُ",
+     "antum": "سَتَتَكَلَّمُونَ",
+     "hum": "سَيَتَكَلَّمُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "هَلْ تَتَكَلَّمُ الْعَرَبِيَّة؟",
+     "en": "Do you speak Arabic?"
+    }
+   ]
+  },
+  {
+   "id": "taallama",
+   "it": "تَعَلَّمَ",
+   "cite": "تَعَلَّمَ / يَتَعَلَّمُ",
+   "en": "to learn",
+   "rank": 15,
+   "root": "ع ل م",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "تَعَلَّمْتُ",
+     "anta": "تَعَلَّمْتَ",
+     "anti": "تَعَلَّمْتِ",
+     "huwa": "تَعَلَّمَ",
+     "hiya": "تَعَلَّمَتْ",
+     "nahnu": "تَعَلَّمْنَا",
+     "antum": "تَعَلَّمْتُمْ",
+     "hum": "تَعَلَّمُوا"
+    },
+    "present": {
+     "ana": "أَتَعَلَّمُ",
+     "anta": "تَتَعَلَّمُ",
+     "anti": "تَتَعَلَّمِينَ",
+     "huwa": "يَتَعَلَّمُ",
+     "hiya": "تَتَعَلَّمُ",
+     "nahnu": "نَتَعَلَّمُ",
+     "antum": "تَتَعَلَّمُونَ",
+     "hum": "يَتَعَلَّمُونَ"
+    },
+    "future": {
+     "ana": "سَأَتَعَلَّمُ",
+     "anta": "سَتَتَعَلَّمُ",
+     "anti": "سَتَتَعَلَّمِينَ",
+     "huwa": "سَيَتَعَلَّمُ",
+     "hiya": "سَتَتَعَلَّمُ",
+     "nahnu": "سَنَتَعَلَّمُ",
+     "antum": "سَتَتَعَلَّمُونَ",
+     "hum": "سَيَتَعَلَّمُونَ"
+    }
+   },
+   "examples": [
+    {
+     "tense": "present",
+     "it": "أَتَعَلَّمُ الْعَرَبِيَّة.",
+     "en": "I’m learning Arabic."
+    }
+   ]
+  },
+  {
+   "id": "qaraa",
+   "it": "قَرَأَ",
+   "cite": "قَرَأَ / يَقْرَأُ",
+   "en": "to read",
+   "rank": 16,
+   "root": "ق ر ء",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "قَرَأْتُ",
+     "anta": "قَرَأْتَ",
+     "anti": "قَرَأْتِ",
+     "huwa": "قَرَأَ",
+     "hiya": "قَرَأَتْ",
+     "nahnu": "قَرَأْنَا",
+     "antum": "قَرَأْتُمْ",
+     "hum": "قَرَؤُوا"
+    },
+    "present": {
+     "ana": "أَقْرَأُ",
+     "anta": "تَقْرَأُ",
+     "anti": "تَقْرَئِينَ",
+     "huwa": "يَقْرَأُ",
+     "hiya": "تَقْرَأُ",
+     "nahnu": "نَقْرَأُ",
+     "antum": "تَقْرَؤُونَ",
+     "hum": "يَقْرَؤُونَ"
+    },
+    "future": {
+     "ana": "سَأَقْرَأُ",
+     "anta": "سَتَقْرَأُ",
+     "anti": "سَتَقْرَئِينَ",
+     "huwa": "سَيَقْرَأُ",
+     "hiya": "سَتَقْرَأُ",
+     "nahnu": "سَنَقْرَأُ",
+     "antum": "سَتَقْرَؤُونَ",
+     "hum": "سَيَقْرَؤُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "saala",
+   "it": "سَأَلَ",
+   "cite": "سَأَلَ / يَسْأَلُ",
+   "en": "to ask",
+   "rank": 17,
+   "root": "س ء ل",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "سَأَلْتُ",
+     "anta": "سَأَلْتَ",
+     "anti": "سَأَلْتِ",
+     "huwa": "سَأَلَ",
+     "hiya": "سَأَلَتْ",
+     "nahnu": "سَأَلْنَا",
+     "antum": "سَأَلْتُمْ",
+     "hum": "سَأَلُوا"
+    },
+    "present": {
+     "ana": "أَسْأَلُ",
+     "anta": "تَسْأَلُ",
+     "anti": "تَسْأَلِينَ",
+     "huwa": "يَسْأَلُ",
+     "hiya": "تَسْأَلُ",
+     "nahnu": "نَسْأَلُ",
+     "antum": "تَسْأَلُونَ",
+     "hum": "يَسْأَلُونَ"
+    },
+    "future": {
+     "ana": "سَأَسْأَلُ",
+     "anta": "سَتَسْأَلُ",
+     "anti": "سَتَسْأَلِينَ",
+     "huwa": "سَيَسْأَلُ",
+     "hiya": "سَتَسْأَلُ",
+     "nahnu": "سَنَسْأَلُ",
+     "antum": "سَتَسْأَلُونَ",
+     "hum": "سَيَسْأَلُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "jalasa",
+   "it": "جَلَسَ",
+   "cite": "جَلَسَ / يَجْلِسُ",
+   "en": "to sit",
+   "rank": 18,
+   "root": "ج ل س",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "جَلَسْتُ",
+     "anta": "جَلَسْتَ",
+     "anti": "جَلَسْتِ",
+     "huwa": "جَلَسَ",
+     "hiya": "جَلَسَتْ",
+     "nahnu": "جَلَسْنَا",
+     "antum": "جَلَسْتُمْ",
+     "hum": "جَلَسُوا"
+    },
+    "present": {
+     "ana": "أَجْلِسُ",
+     "anta": "تَجْلِسُ",
+     "anti": "تَجْلِسِينَ",
+     "huwa": "يَجْلِسُ",
+     "hiya": "تَجْلِسُ",
+     "nahnu": "نَجْلِسُ",
+     "antum": "تَجْلِسُونَ",
+     "hum": "يَجْلِسُونَ"
+    },
+    "future": {
+     "ana": "سَأَجْلِسُ",
+     "anta": "سَتَجْلِسُ",
+     "anti": "سَتَجْلِسِينَ",
+     "huwa": "سَيَجْلِسُ",
+     "hiya": "سَتَجْلِسُ",
+     "nahnu": "سَنَجْلِسُ",
+     "antum": "سَتَجْلِسُونَ",
+     "hum": "سَيَجْلِسُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "samia",
+   "it": "سَمِعَ",
+   "cite": "سَمِعَ / يَسْمَعُ",
+   "en": "to hear",
+   "rank": 19,
+   "root": "س م ع",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "سَمِعْتُ",
+     "anta": "سَمِعْتَ",
+     "anti": "سَمِعْتِ",
+     "huwa": "سَمِعَ",
+     "hiya": "سَمِعَتْ",
+     "nahnu": "سَمِعْنَا",
+     "antum": "سَمِعْتُمْ",
+     "hum": "سَمِعُوا"
+    },
+    "present": {
+     "ana": "أَسْمَعُ",
+     "anta": "تَسْمَعُ",
+     "anti": "تَسْمَعِينَ",
+     "huwa": "يَسْمَعُ",
+     "hiya": "تَسْمَعُ",
+     "nahnu": "نَسْمَعُ",
+     "antum": "تَسْمَعُونَ",
+     "hum": "يَسْمَعُونَ"
+    },
+    "future": {
+     "ana": "سَأَسْمَعُ",
+     "anta": "سَتَسْمَعُ",
+     "anti": "سَتَسْمَعِينَ",
+     "huwa": "سَيَسْمَعُ",
+     "hiya": "سَتَسْمَعُ",
+     "nahnu": "سَنَسْمَعُ",
+     "antum": "سَتَسْمَعُونَ",
+     "hum": "سَيَسْمَعُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "fataha",
+   "it": "فَتَحَ",
+   "cite": "فَتَحَ / يَفْتَحُ",
+   "en": "to open",
+   "rank": 20,
+   "root": "ف ت ح",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "فَتَحْتُ",
+     "anta": "فَتَحْتَ",
+     "anti": "فَتَحْتِ",
+     "huwa": "فَتَحَ",
+     "hiya": "فَتَحَتْ",
+     "nahnu": "فَتَحْنَا",
+     "antum": "فَتَحْتُمْ",
+     "hum": "فَتَحُوا"
+    },
+    "present": {
+     "ana": "أَفْتَحُ",
+     "anta": "تَفْتَحُ",
+     "anti": "تَفْتَحِينَ",
+     "huwa": "يَفْتَحُ",
+     "hiya": "تَفْتَحُ",
+     "nahnu": "نَفْتَحُ",
+     "antum": "تَفْتَحُونَ",
+     "hum": "يَفْتَحُونَ"
+    },
+    "future": {
+     "ana": "سَأَفْتَحُ",
+     "anta": "سَتَفْتَحُ",
+     "anti": "سَتَفْتَحِينَ",
+     "huwa": "سَيَفْتَحُ",
+     "hiya": "سَتَفْتَحُ",
+     "nahnu": "سَنَفْتَحُ",
+     "antum": "سَتَفْتَحُونَ",
+     "hum": "سَيَفْتَحُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "dakhala",
+   "it": "دَخَلَ",
+   "cite": "دَخَلَ / يَدْخُلُ",
+   "en": "to enter",
+   "rank": 21,
+   "root": "د خ ل",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "دَخَلْتُ",
+     "anta": "دَخَلْتَ",
+     "anti": "دَخَلْتِ",
+     "huwa": "دَخَلَ",
+     "hiya": "دَخَلَتْ",
+     "nahnu": "دَخَلْنَا",
+     "antum": "دَخَلْتُمْ",
+     "hum": "دَخَلُوا"
+    },
+    "present": {
+     "ana": "أَدْخُلُ",
+     "anta": "تَدْخُلُ",
+     "anti": "تَدْخُلِينَ",
+     "huwa": "يَدْخُلُ",
+     "hiya": "تَدْخُلُ",
+     "nahnu": "نَدْخُلُ",
+     "antum": "تَدْخُلُونَ",
+     "hum": "يَدْخُلُونَ"
+    },
+    "future": {
+     "ana": "سَأَدْخُلُ",
+     "anta": "سَتَدْخُلُ",
+     "anti": "سَتَدْخُلِينَ",
+     "huwa": "سَيَدْخُلُ",
+     "hiya": "سَتَدْخُلُ",
+     "nahnu": "سَنَدْخُلُ",
+     "antum": "سَتَدْخُلُونَ",
+     "hum": "سَيَدْخُلُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "kharaja",
+   "it": "خَرَجَ",
+   "cite": "خَرَجَ / يَخْرُجُ",
+   "en": "to go out / to leave",
+   "rank": 22,
+   "root": "خ ر ج",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "خَرَجْتُ",
+     "anta": "خَرَجْتَ",
+     "anti": "خَرَجْتِ",
+     "huwa": "خَرَجَ",
+     "hiya": "خَرَجَتْ",
+     "nahnu": "خَرَجْنَا",
+     "antum": "خَرَجْتُمْ",
+     "hum": "خَرَجُوا"
+    },
+    "present": {
+     "ana": "أَخْرُجُ",
+     "anta": "تَخْرُجُ",
+     "anti": "تَخْرُجِينَ",
+     "huwa": "يَخْرُجُ",
+     "hiya": "تَخْرُجُ",
+     "nahnu": "نَخْرُجُ",
+     "antum": "تَخْرُجُونَ",
+     "hum": "يَخْرُجُونَ"
+    },
+    "future": {
+     "ana": "سَأَخْرُجُ",
+     "anta": "سَتَخْرُجُ",
+     "anti": "سَتَخْرُجِينَ",
+     "huwa": "سَيَخْرُجُ",
+     "hiya": "سَتَخْرُجُ",
+     "nahnu": "سَنَخْرُجُ",
+     "antum": "سَتَخْرُجُونَ",
+     "hum": "سَيَخْرُجُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "laiba",
+   "it": "لَعِبَ",
+   "cite": "لَعِبَ / يَلْعَبُ",
+   "en": "to play",
+   "rank": 23,
+   "root": "ل ع ب",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "لَعِبْتُ",
+     "anta": "لَعِبْتَ",
+     "anti": "لَعِبْتِ",
+     "huwa": "لَعِبَ",
+     "hiya": "لَعِبَتْ",
+     "nahnu": "لَعِبْنَا",
+     "antum": "لَعِبْتُمْ",
+     "hum": "لَعِبُوا"
+    },
+    "present": {
+     "ana": "أَلْعَبُ",
+     "anta": "تَلْعَبُ",
+     "anti": "تَلْعَبِينَ",
+     "huwa": "يَلْعَبُ",
+     "hiya": "تَلْعَبُ",
+     "nahnu": "نَلْعَبُ",
+     "antum": "تَلْعَبُونَ",
+     "hum": "يَلْعَبُونَ"
+    },
+    "future": {
+     "ana": "سَأَلْعَبُ",
+     "anta": "سَتَلْعَبُ",
+     "anti": "سَتَلْعَبِينَ",
+     "huwa": "سَيَلْعَبُ",
+     "hiya": "سَتَلْعَبُ",
+     "nahnu": "سَنَلْعَبُ",
+     "antum": "سَتَلْعَبُونَ",
+     "hum": "سَيَلْعَبُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "tabakha",
+   "it": "طَبَخَ",
+   "cite": "طَبَخَ / يَطْبُخُ",
+   "en": "to cook",
+   "rank": 24,
+   "root": "ط ب خ",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "طَبَخْتُ",
+     "anta": "طَبَخْتَ",
+     "anti": "طَبَخْتِ",
+     "huwa": "طَبَخَ",
+     "hiya": "طَبَخَتْ",
+     "nahnu": "طَبَخْنَا",
+     "antum": "طَبَخْتُمْ",
+     "hum": "طَبَخُوا"
+    },
+    "present": {
+     "ana": "أَطْبُخُ",
+     "anta": "تَطْبُخُ",
+     "anti": "تَطْبُخِينَ",
+     "huwa": "يَطْبُخُ",
+     "hiya": "تَطْبُخُ",
+     "nahnu": "نَطْبُخُ",
+     "antum": "تَطْبُخُونَ",
+     "hum": "يَطْبُخُونَ"
+    },
+    "future": {
+     "ana": "سَأَطْبُخُ",
+     "anta": "سَتَطْبُخُ",
+     "anti": "سَتَطْبُخِينَ",
+     "huwa": "سَيَطْبُخُ",
+     "hiya": "سَتَطْبُخُ",
+     "nahnu": "سَنَطْبُخُ",
+     "antum": "سَتَطْبُخُونَ",
+     "hum": "سَيَطْبُخُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "rakiba",
+   "it": "رَكِبَ",
+   "cite": "رَكِبَ / يَرْكَبُ",
+   "en": "to ride / to take (a bus, train)",
+   "rank": 25,
+   "root": "ر ك ب",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "رَكِبْتُ",
+     "anta": "رَكِبْتَ",
+     "anti": "رَكِبْتِ",
+     "huwa": "رَكِبَ",
+     "hiya": "رَكِبَتْ",
+     "nahnu": "رَكِبْنَا",
+     "antum": "رَكِبْتُمْ",
+     "hum": "رَكِبُوا"
+    },
+    "present": {
+     "ana": "أَرْكَبُ",
+     "anta": "تَرْكَبُ",
+     "anti": "تَرْكَبِينَ",
+     "huwa": "يَرْكَبُ",
+     "hiya": "تَرْكَبُ",
+     "nahnu": "نَرْكَبُ",
+     "antum": "تَرْكَبُونَ",
+     "hum": "يَرْكَبُونَ"
+    },
+    "future": {
+     "ana": "سَأَرْكَبُ",
+     "anta": "سَتَرْكَبُ",
+     "anti": "سَتَرْكَبِينَ",
+     "huwa": "سَيَرْكَبُ",
+     "hiya": "سَتَرْكَبُ",
+     "nahnu": "سَنَرْكَبُ",
+     "antum": "سَتَرْكَبُونَ",
+     "hum": "سَيَرْكَبُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "akhadha",
+   "it": "أَخَذَ",
+   "cite": "أَخَذَ / يَأْخُذُ",
+   "en": "to take",
+   "rank": 26,
+   "root": "ء خ ذ",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "أَخَذْتُ",
+     "anta": "أَخَذْتَ",
+     "anti": "أَخَذْتِ",
+     "huwa": "أَخَذَ",
+     "hiya": "أَخَذَتْ",
+     "nahnu": "أَخَذْنَا",
+     "antum": "أَخَذْتُمْ",
+     "hum": "أَخَذُوا"
+    },
+    "present": {
+     "ana": "آخُذُ",
+     "anta": "تَأْخُذُ",
+     "anti": "تَأْخُذِينَ",
+     "huwa": "يَأْخُذُ",
+     "hiya": "تَأْخُذُ",
+     "nahnu": "نَأْخُذُ",
+     "antum": "تَأْخُذُونَ",
+     "hum": "يَأْخُذُونَ"
+    },
+    "future": {
+     "ana": "سَآخُذُ",
+     "anta": "سَتَأْخُذُ",
+     "anti": "سَتَأْخُذِينَ",
+     "huwa": "سَيَأْخُذُ",
+     "hiya": "سَتَأْخُذُ",
+     "nahnu": "سَنَأْخُذُ",
+     "antum": "سَتَأْخُذُونَ",
+     "hum": "سَيَأْخُذُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "wajada",
+   "it": "وَجَدَ",
+   "cite": "وَجَدَ / يَجِدُ",
+   "en": "to find",
+   "rank": 27,
+   "root": "و ج د",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "وَجَدْتُ",
+     "anta": "وَجَدْتَ",
+     "anti": "وَجَدْتِ",
+     "huwa": "وَجَدَ",
+     "hiya": "وَجَدَتْ",
+     "nahnu": "وَجَدْنَا",
+     "antum": "وَجَدْتُمْ",
+     "hum": "وَجَدُوا"
+    },
+    "present": {
+     "ana": "أَجِدُ",
+     "anta": "تَجِدُ",
+     "anti": "تَجِدِينَ",
+     "huwa": "يَجِدُ",
+     "hiya": "تَجِدُ",
+     "nahnu": "نَجِدُ",
+     "antum": "تَجِدُونَ",
+     "hum": "يَجِدُونَ"
+    },
+    "future": {
+     "ana": "سَأَجِدُ",
+     "anta": "سَتَجِدُ",
+     "anti": "سَتَجِدِينَ",
+     "huwa": "سَيَجِدُ",
+     "hiya": "سَتَجِدُ",
+     "nahnu": "سَنَجِدُ",
+     "antum": "سَتَجِدُونَ",
+     "hum": "سَيَجِدُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "wasala",
+   "it": "وَصَلَ",
+   "cite": "وَصَلَ / يَصِلُ",
+   "en": "to arrive",
+   "rank": 28,
+   "root": "و ص ل",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "وَصَلْتُ",
+     "anta": "وَصَلْتَ",
+     "anti": "وَصَلْتِ",
+     "huwa": "وَصَلَ",
+     "hiya": "وَصَلَتْ",
+     "nahnu": "وَصَلْنَا",
+     "antum": "وَصَلْتُمْ",
+     "hum": "وَصَلُوا"
+    },
+    "present": {
+     "ana": "أَصِلُ",
+     "anta": "تَصِلُ",
+     "anti": "تَصِلِينَ",
+     "huwa": "يَصِلُ",
+     "hiya": "تَصِلُ",
+     "nahnu": "نَصِلُ",
+     "antum": "تَصِلُونَ",
+     "hum": "يَصِلُونَ"
+    },
+    "future": {
+     "ana": "سَأَصِلُ",
+     "anta": "سَتَصِلُ",
+     "anti": "سَتَصِلِينَ",
+     "huwa": "سَيَصِلُ",
+     "hiya": "سَتَصِلُ",
+     "nahnu": "سَنَصِلُ",
+     "antum": "سَتَصِلُونَ",
+     "hum": "سَيَصِلُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "zara",
+   "it": "زَارَ",
+   "cite": "زَارَ / يَزُورُ",
+   "en": "to visit",
+   "rank": 29,
+   "root": "ز و ر",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "زُرْتُ",
+     "anta": "زُرْتَ",
+     "anti": "زُرْتِ",
+     "huwa": "زَارَ",
+     "hiya": "زَارَتْ",
+     "nahnu": "زُرْنَا",
+     "antum": "زُرْتُمْ",
+     "hum": "زَارُوا"
+    },
+    "present": {
+     "ana": "أَزُورُ",
+     "anta": "تَزُورُ",
+     "anti": "تَزُورِينَ",
+     "huwa": "يَزُورُ",
+     "hiya": "تَزُورُ",
+     "nahnu": "نَزُورُ",
+     "antum": "تَزُورُونَ",
+     "hum": "يَزُورُونَ"
+    },
+    "future": {
+     "ana": "سَأَزُورُ",
+     "anta": "سَتَزُورُ",
+     "anti": "سَتَزُورِينَ",
+     "huwa": "سَيَزُورُ",
+     "hiya": "سَتَزُورُ",
+     "nahnu": "سَنَزُورُ",
+     "antum": "سَتَزُورُونَ",
+     "hum": "سَيَزُورُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "nama",
+   "it": "نَامَ",
+   "cite": "نَامَ / يَنَامُ",
+   "en": "to sleep",
+   "rank": 30,
+   "root": "ن و م",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "نِمْتُ",
+     "anta": "نِمْتَ",
+     "anti": "نِمْتِ",
+     "huwa": "نَامَ",
+     "hiya": "نَامَتْ",
+     "nahnu": "نِمْنَا",
+     "antum": "نِمْتُمْ",
+     "hum": "نَامُوا"
+    },
+    "present": {
+     "ana": "أَنَامُ",
+     "anta": "تَنَامُ",
+     "anti": "تَنَامِينَ",
+     "huwa": "يَنَامُ",
+     "hiya": "تَنَامُ",
+     "nahnu": "نَنَامُ",
+     "antum": "تَنَامُونَ",
+     "hum": "يَنَامُونَ"
+    },
+    "future": {
+     "ana": "سَأَنَامُ",
+     "anta": "سَتَنَامُ",
+     "anti": "سَتَنَامِينَ",
+     "huwa": "سَيَنَامُ",
+     "hiya": "سَتَنَامُ",
+     "nahnu": "سَنَنَامُ",
+     "antum": "سَتَنَامُونَ",
+     "hum": "سَيَنَامُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "baa",
+   "it": "بَاعَ",
+   "cite": "بَاعَ / يَبِيعُ",
+   "en": "to sell",
+   "rank": 31,
+   "root": "ب ي ع",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "بِعْتُ",
+     "anta": "بِعْتَ",
+     "anti": "بِعْتِ",
+     "huwa": "بَاعَ",
+     "hiya": "بَاعَتْ",
+     "nahnu": "بِعْنَا",
+     "antum": "بِعْتُمْ",
+     "hum": "بَاعُوا"
+    },
+    "present": {
+     "ana": "أَبِيعُ",
+     "anta": "تَبِيعُ",
+     "anti": "تَبِيعِينَ",
+     "huwa": "يَبِيعُ",
+     "hiya": "تَبِيعُ",
+     "nahnu": "نَبِيعُ",
+     "antum": "تَبِيعُونَ",
+     "hum": "يَبِيعُونَ"
+    },
+    "future": {
+     "ana": "سَأَبِيعُ",
+     "anta": "سَتَبِيعُ",
+     "anti": "سَتَبِيعِينَ",
+     "huwa": "سَيَبِيعُ",
+     "hiya": "سَتَبِيعُ",
+     "nahnu": "سَنَبِيعُ",
+     "antum": "سَتَبِيعُونَ",
+     "hum": "سَيَبِيعُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "masha",
+   "it": "مَشَى",
+   "cite": "مَشَى / يَمْشِي",
+   "en": "to walk",
+   "rank": 32,
+   "root": "م ش ي",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "مَشَيْتُ",
+     "anta": "مَشَيْتَ",
+     "anti": "مَشَيْتِ",
+     "huwa": "مَشَى",
+     "hiya": "مَشَتْ",
+     "nahnu": "مَشَيْنَا",
+     "antum": "مَشَيْتُمْ",
+     "hum": "مَشَوْا"
+    },
+    "present": {
+     "ana": "أَمْشِي",
+     "anta": "تَمْشِي",
+     "anti": "تَمْشِينَ",
+     "huwa": "يَمْشِي",
+     "hiya": "تَمْشِي",
+     "nahnu": "نَمْشِي",
+     "antum": "تَمْشُونَ",
+     "hum": "يَمْشُونَ"
+    },
+    "future": {
+     "ana": "سَأَمْشِي",
+     "anta": "سَتَمْشِي",
+     "anti": "سَتَمْشِينَ",
+     "huwa": "سَيَمْشِي",
+     "hiya": "سَتَمْشِي",
+     "nahnu": "سَنَمْشِي",
+     "antum": "سَتَمْشُونَ",
+     "hum": "سَيَمْشُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "ishtara",
+   "it": "اِشْتَرَى",
+   "cite": "اِشْتَرَى / يَشْتَرِي",
+   "en": "to buy",
+   "rank": 33,
+   "root": "ش ر ي",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "اِشْتَرَيْتُ",
+     "anta": "اِشْتَرَيْتَ",
+     "anti": "اِشْتَرَيْتِ",
+     "huwa": "اِشْتَرَى",
+     "hiya": "اِشْتَرَتْ",
+     "nahnu": "اِشْتَرَيْنَا",
+     "antum": "اِشْتَرَيْتُمْ",
+     "hum": "اِشْتَرَوْا"
+    },
+    "present": {
+     "ana": "أَشْتَرِي",
+     "anta": "تَشْتَرِي",
+     "anti": "تَشْتَرِينَ",
+     "huwa": "يَشْتَرِي",
+     "hiya": "تَشْتَرِي",
+     "nahnu": "نَشْتَرِي",
+     "antum": "تَشْتَرُونَ",
+     "hum": "يَشْتَرُونَ"
+    },
+    "future": {
+     "ana": "سَأَشْتَرِي",
+     "anta": "سَتَشْتَرِي",
+     "anti": "سَتَشْتَرِينَ",
+     "huwa": "سَيَشْتَرِي",
+     "hiya": "سَتَشْتَرِي",
+     "nahnu": "سَنَشْتَرِي",
+     "antum": "سَتَشْتَرُونَ",
+     "hum": "سَيَشْتَرُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "jaa",
+   "it": "جَاءَ",
+   "cite": "جَاءَ / يَجِيءُ",
+   "en": "to come",
+   "rank": 34,
+   "root": "ج ي ء",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "جِئْتُ",
+     "anta": "جِئْتَ",
+     "anti": "جِئْتِ",
+     "huwa": "جَاءَ",
+     "hiya": "جَاءَتْ",
+     "nahnu": "جِئْنَا",
+     "antum": "جِئْتُمْ",
+     "hum": "جَاؤُوا"
+    },
+    "present": {
+     "ana": "أَجِيءُ",
+     "anta": "تَجِيءُ",
+     "anti": "تَجِيئِينَ",
+     "huwa": "يَجِيءُ",
+     "hiya": "تَجِيءُ",
+     "nahnu": "نَجِيءُ",
+     "antum": "تَجِيئُونَ",
+     "hum": "يَجِيئُونَ"
+    },
+    "future": {
+     "ana": "سَأَجِيءُ",
+     "anta": "سَتَجِيءُ",
+     "anti": "سَتَجِيئِينَ",
+     "huwa": "سَيَجِيءُ",
+     "hiya": "سَتَجِيءُ",
+     "nahnu": "سَنَجِيءُ",
+     "antum": "سَتَجِيئُونَ",
+     "hum": "سَيَجِيئُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "raa",
+   "it": "رَأَى",
+   "cite": "رَأَى / يَرَى",
+   "en": "to see",
+   "rank": 35,
+   "root": "ر ء ي",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "رَأَيْتُ",
+     "anta": "رَأَيْتَ",
+     "anti": "رَأَيْتِ",
+     "huwa": "رَأَى",
+     "hiya": "رَأَتْ",
+     "nahnu": "رَأَيْنَا",
+     "antum": "رَأَيْتُمْ",
+     "hum": "رَأَوْا"
+    },
+    "present": {
+     "ana": "أَرَى",
+     "anta": "تَرَى",
+     "anti": "تَرَيْنَ",
+     "huwa": "يَرَى",
+     "hiya": "تَرَى",
+     "nahnu": "نَرَى",
+     "antum": "تَرَوْنَ",
+     "hum": "يَرَوْنَ"
+    },
+    "future": {
+     "ana": "سَأَرَى",
+     "anta": "سَتَرَى",
+     "anti": "سَتَرَيْنَ",
+     "huwa": "سَيَرَى",
+     "hiya": "سَتَرَى",
+     "nahnu": "سَنَرَى",
+     "antum": "سَتَرَوْنَ",
+     "hum": "سَيَرَوْنَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "nasiya",
+   "it": "نَسِيَ",
+   "cite": "نَسِيَ / يَنْسَى",
+   "en": "to forget",
+   "rank": 36,
+   "root": "ن س ي",
+   "irregular": true,
+   "tenses": {
+    "past": {
+     "ana": "نَسِيتُ",
+     "anta": "نَسِيتَ",
+     "anti": "نَسِيتِ",
+     "huwa": "نَسِيَ",
+     "hiya": "نَسِيَتْ",
+     "nahnu": "نَسِينَا",
+     "antum": "نَسِيتُمْ",
+     "hum": "نَسُوا"
+    },
+    "present": {
+     "ana": "أَنْسَى",
+     "anta": "تَنْسَى",
+     "anti": "تَنْسَيْنَ",
+     "huwa": "يَنْسَى",
+     "hiya": "تَنْسَى",
+     "nahnu": "نَنْسَى",
+     "antum": "تَنْسَوْنَ",
+     "hum": "يَنْسَوْنَ"
+    },
+    "future": {
+     "ana": "سَأَنْسَى",
+     "anta": "سَتَنْسَى",
+     "anti": "سَتَنْسَيْنَ",
+     "huwa": "سَيَنْسَى",
+     "hiya": "سَتَنْسَى",
+     "nahnu": "سَنَنْسَى",
+     "antum": "سَتَنْسَوْنَ",
+     "hum": "سَيَنْسَوْنَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "safara",
+   "it": "سَافَرَ",
+   "cite": "سَافَرَ / يُسَافِرُ",
+   "en": "to travel",
+   "rank": 37,
+   "root": "س ف ر",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "سَافَرْتُ",
+     "anta": "سَافَرْتَ",
+     "anti": "سَافَرْتِ",
+     "huwa": "سَافَرَ",
+     "hiya": "سَافَرَتْ",
+     "nahnu": "سَافَرْنَا",
+     "antum": "سَافَرْتُمْ",
+     "hum": "سَافَرُوا"
+    },
+    "present": {
+     "ana": "أُسَافِرُ",
+     "anta": "تُسَافِرُ",
+     "anti": "تُسَافِرِينَ",
+     "huwa": "يُسَافِرُ",
+     "hiya": "تُسَافِرُ",
+     "nahnu": "نُسَافِرُ",
+     "antum": "تُسَافِرُونَ",
+     "hum": "يُسَافِرُونَ"
+    },
+    "future": {
+     "ana": "سَأُسَافِرُ",
+     "anta": "سَتُسَافِرُ",
+     "anti": "سَتُسَافِرِينَ",
+     "huwa": "سَيُسَافِرُ",
+     "hiya": "سَتُسَافِرُ",
+     "nahnu": "سَنُسَافِرُ",
+     "antum": "سَتُسَافِرُونَ",
+     "hum": "سَيُسَافِرُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "saada",
+   "it": "سَاعَدَ",
+   "cite": "سَاعَدَ / يُسَاعِدُ",
+   "en": "to help",
+   "rank": 38,
+   "root": "س ع د",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "سَاعَدْتُ",
+     "anta": "سَاعَدْتَ",
+     "anti": "سَاعَدْتِ",
+     "huwa": "سَاعَدَ",
+     "hiya": "سَاعَدَتْ",
+     "nahnu": "سَاعَدْنَا",
+     "antum": "سَاعَدْتُمْ",
+     "hum": "سَاعَدُوا"
+    },
+    "present": {
+     "ana": "أُسَاعِدُ",
+     "anta": "تُسَاعِدُ",
+     "anti": "تُسَاعِدِينَ",
+     "huwa": "يُسَاعِدُ",
+     "hiya": "تُسَاعِدُ",
+     "nahnu": "نُسَاعِدُ",
+     "antum": "تُسَاعِدُونَ",
+     "hum": "يُسَاعِدُونَ"
+    },
+    "future": {
+     "ana": "سَأُسَاعِدُ",
+     "anta": "سَتُسَاعِدُ",
+     "anti": "سَتُسَاعِدِينَ",
+     "huwa": "سَيُسَاعِدُ",
+     "hiya": "سَتُسَاعِدُ",
+     "nahnu": "سَنُسَاعِدُ",
+     "antum": "سَتُسَاعِدُونَ",
+     "hum": "سَيُسَاعِدُونَ"
+    }
+   },
+   "examples": []
+  },
+  {
+   "id": "intazara",
+   "it": "اِنْتَظَرَ",
+   "cite": "اِنْتَظَرَ / يَنْتَظِرُ",
+   "en": "to wait (for)",
+   "rank": 39,
+   "root": "ن ظ ر",
+   "irregular": false,
+   "tenses": {
+    "past": {
+     "ana": "اِنْتَظَرْتُ",
+     "anta": "اِنْتَظَرْتَ",
+     "anti": "اِنْتَظَرْتِ",
+     "huwa": "اِنْتَظَرَ",
+     "hiya": "اِنْتَظَرَتْ",
+     "nahnu": "اِنْتَظَرْنَا",
+     "antum": "اِنْتَظَرْتُمْ",
+     "hum": "اِنْتَظَرُوا"
+    },
+    "present": {
+     "ana": "أَنْتَظِرُ",
+     "anta": "تَنْتَظِرُ",
+     "anti": "تَنْتَظِرِينَ",
+     "huwa": "يَنْتَظِرُ",
+     "hiya": "تَنْتَظِرُ",
+     "nahnu": "نَنْتَظِرُ",
+     "antum": "تَنْتَظِرُونَ",
+     "hum": "يَنْتَظِرُونَ"
+    },
+    "future": {
+     "ana": "سَأَنْتَظِرُ",
+     "anta": "سَتَنْتَظِرُ",
+     "anti": "سَتَنْتَظِرِينَ",
+     "huwa": "سَيَنْتَظِرُ",
+     "hiya": "سَتَنْتَظِرُ",
+     "nahnu": "سَنَنْتَظِرُ",
+     "antum": "سَتَنْتَظِرُونَ",
+     "hum": "سَيَنْتَظِرُونَ"
+    }
+   },
+   "examples": []
+  }
+ ],
+ "nouns": [
+  {
+   "id": "rajul",
+   "it": "رَجُل",
+   "en": "man",
+   "rank": 1,
+   "topic": "social",
+   "gender": "m",
+   "plural": "رِجَال",
+   "root": "ر ج ل"
+  },
+  {
+   "id": "imraa",
+   "it": "اِمْرَأَة",
+   "en": "woman",
+   "rank": 2,
+   "topic": "social",
+   "gender": "f",
+   "plural": "نِسَاء",
+   "root": "م ر ء"
+  },
+  {
+   "id": "walad",
+   "it": "وَلَد",
+   "en": "boy / child",
+   "rank": 3,
+   "topic": "social",
+   "gender": "m",
+   "plural": "أَوْلَاد",
+   "root": "و ل د"
+  },
+  {
+   "id": "bint",
+   "it": "بِنْت",
+   "en": "girl / daughter",
+   "rank": 4,
+   "topic": "social",
+   "gender": "f",
+   "plural": "بَنَات"
+  },
+  {
+   "id": "tifl",
+   "it": "طِفْل",
+   "en": "child",
+   "rank": 5,
+   "topic": "social",
+   "gender": "m",
+   "plural": "أَطْفَال",
+   "root": "ط ف ل"
+  },
+  {
+   "id": "ab",
+   "it": "أَب",
+   "en": "father",
+   "rank": 6,
+   "topic": "social",
+   "gender": "m",
+   "plural": "آبَاء"
+  },
+  {
+   "id": "umm",
+   "it": "أُمّ",
+   "en": "mother",
+   "rank": 7,
+   "topic": "social",
+   "gender": "f",
+   "plural": "أُمَّهَات"
+  },
+  {
+   "id": "akh",
+   "it": "أَخ",
+   "en": "brother",
+   "rank": 8,
+   "topic": "social",
+   "gender": "m",
+   "plural": "إِخْوَة"
+  },
+  {
+   "id": "ukht",
+   "it": "أُخْت",
+   "en": "sister",
+   "rank": 9,
+   "topic": "social",
+   "gender": "f",
+   "plural": "أَخَوَات"
+  },
+  {
+   "id": "zawj",
+   "it": "زَوْج",
+   "en": "husband",
+   "rank": 10,
+   "topic": "social",
+   "gender": "m",
+   "plural": "أَزْوَاج",
+   "root": "ز و ج"
+  },
+  {
+   "id": "zawja",
+   "it": "زَوْجَة",
+   "en": "wife",
+   "rank": 11,
+   "topic": "social",
+   "gender": "f",
+   "plural": "زَوْجَات",
+   "root": "ز و ج"
+  },
+  {
+   "id": "aila",
+   "it": "عَائِلَة",
+   "en": "family",
+   "rank": 12,
+   "topic": "social",
+   "gender": "f",
+   "plural": "عَائِلَات",
+   "root": "ع و ل"
+  },
+  {
+   "id": "sadiq",
+   "it": "صَدِيق",
+   "en": "friend",
+   "rank": 13,
+   "topic": "social",
+   "gender": "m",
+   "plural": "أَصْدِقَاء",
+   "root": "ص د ق",
+   "fem": "صَدِيقَة"
+  },
+  {
+   "id": "talib",
+   "it": "طَالِب",
+   "en": "student",
+   "rank": 14,
+   "topic": "social",
+   "gender": "m",
+   "plural": "طُلَّاب",
+   "root": "ط ل ب",
+   "fem": "طَالِبَة"
+  },
+  {
+   "id": "muallim",
+   "it": "مُعَلِّم",
+   "en": "teacher",
+   "rank": 15,
+   "topic": "social",
+   "gender": "m",
+   "plural": "مُعَلِّمُون",
+   "root": "ع ل م",
+   "fem": "مُعَلِّمَة"
+  },
+  {
+   "id": "tabib",
+   "it": "طَبِيب",
+   "en": "doctor",
+   "rank": 16,
+   "topic": "social",
+   "gender": "m",
+   "plural": "أَطِبَّاء",
+   "root": "ط ب ب",
+   "fem": "طَبِيبَة"
+  },
+  {
+   "id": "dayf",
+   "it": "ضَيْف",
+   "en": "guest",
+   "rank": 17,
+   "topic": "social",
+   "gender": "m",
+   "plural": "ضُيُوف",
+   "root": "ض ي ف"
+  },
+  {
+   "id": "ism",
+   "it": "اِسْم",
+   "en": "name",
+   "rank": 18,
+   "topic": "social",
+   "gender": "m",
+   "plural": "أَسْمَاء",
+   "root": "س م و"
+  },
+  {
+   "id": "umr",
+   "it": "عُمْر",
+   "en": "age",
+   "rank": 19,
+   "topic": "social",
+   "gender": "m",
+   "plural": "أَعْمَار",
+   "root": "ع م ر"
+  },
+  {
+   "id": "bayt",
+   "it": "بَيْت",
+   "en": "house / home",
+   "rank": 20,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "بُيُوت",
+   "root": "ب ي ت"
+  },
+  {
+   "id": "kitab",
+   "it": "كِتَاب",
+   "en": "book",
+   "rank": 21,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "كُتُب",
+   "root": "ك ت ب"
+  },
+  {
+   "id": "qalam",
+   "it": "قَلَم",
+   "en": "pen",
+   "rank": 22,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "أَقْلَام",
+   "root": "ق ل م"
+  },
+  {
+   "id": "risala",
+   "it": "رِسَالَة",
+   "en": "letter / message",
+   "rank": 23,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "رَسَائِل",
+   "root": "ر س ل"
+  },
+  {
+   "id": "bab",
+   "it": "بَاب",
+   "en": "door",
+   "rank": 24,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "أَبْوَاب",
+   "root": "ب و ب"
+  },
+  {
+   "id": "nafidha",
+   "it": "نَافِذَة",
+   "en": "window",
+   "rank": 25,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "نَوَافِذ",
+   "root": "ن ف ذ"
+  },
+  {
+   "id": "ghurfa",
+   "it": "غُرْفَة",
+   "en": "room",
+   "rank": 26,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "غُرَف",
+   "root": "غ ر ف"
+  },
+  {
+   "id": "sayyara",
+   "it": "سَيَّارَة",
+   "en": "car",
+   "rank": 27,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "سَيَّارَات",
+   "root": "س ي ر"
+  },
+  {
+   "id": "hatif",
+   "it": "هَاتِف",
+   "en": "phone",
+   "rank": 28,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "هَوَاتِف",
+   "root": "ه ت ف"
+  },
+  {
+   "id": "miftah",
+   "it": "مِفْتَاح",
+   "en": "key",
+   "rank": 29,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "مَفَاتِيح",
+   "root": "ف ت ح"
+  },
+  {
+   "id": "kursi",
+   "it": "كُرْسِيّ",
+   "en": "chair",
+   "rank": 30,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "كَرَاسِيّ",
+   "root": "ك ر س"
+  },
+  {
+   "id": "tawila",
+   "it": "طَاوِلَة",
+   "en": "table",
+   "rank": 31,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "طَاوِلَات",
+   "root": "ط و ل"
+  },
+  {
+   "id": "sarir",
+   "it": "سَرِير",
+   "en": "bed",
+   "rank": 32,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "أَسِرَّة",
+   "root": "س ر ر"
+  },
+  {
+   "id": "lugha",
+   "it": "لُغَة",
+   "en": "language",
+   "rank": 33,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "لُغَات"
+  },
+  {
+   "id": "amal",
+   "it": "عَمَل",
+   "en": "work / job",
+   "rank": 34,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "أَعْمَال",
+   "root": "ع م ل"
+  },
+  {
+   "id": "dars",
+   "it": "دَرْس",
+   "en": "lesson",
+   "rank": 35,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "دُرُوس",
+   "root": "د ر س"
+  },
+  {
+   "id": "sual",
+   "it": "سُؤَال",
+   "en": "question",
+   "rank": 36,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "أَسْئِلَة",
+   "root": "س ء ل"
+  },
+  {
+   "id": "kalb",
+   "it": "كَلْب",
+   "en": "dog",
+   "rank": 37,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "كِلَاب",
+   "root": "ك ل ب"
+  },
+  {
+   "id": "qitta",
+   "it": "قِطَّة",
+   "en": "cat",
+   "rank": 38,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "قِطَط",
+   "root": "ق ط ط"
+  },
+  {
+   "id": "shams",
+   "it": "شَمْس",
+   "en": "sun",
+   "rank": 39,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "شُمُوس",
+   "root": "ش م س"
+  },
+  {
+   "id": "qamar",
+   "it": "قَمَر",
+   "en": "moon",
+   "rank": 40,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "أَقْمَار",
+   "root": "ق م ر"
+  },
+  {
+   "id": "ayn",
+   "it": "عَيْن",
+   "en": "eye",
+   "rank": 41,
+   "topic": "everyday",
+   "gender": "f",
+   "plural": "عُيُون",
+   "root": "ع ي ن"
+  },
+  {
+   "id": "mal",
+   "it": "مَال",
+   "en": "money",
+   "rank": 42,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "أَمْوَال",
+   "root": "م و ل"
+  },
+  {
+   "id": "dinar",
+   "it": "دِينَار",
+   "en": "dinar",
+   "rank": 43,
+   "topic": "everyday",
+   "gender": "m",
+   "plural": "دَنَانِير"
+  },
+  {
+   "id": "maa",
+   "it": "مَاء",
+   "en": "water",
+   "rank": 44,
+   "topic": "food",
+   "gender": "m",
+   "plural": "مِيَاه"
+  },
+  {
+   "id": "khubz",
+   "it": "خُبْز",
+   "en": "bread",
+   "rank": 45,
+   "topic": "food",
+   "gender": "m",
+   "plural": null,
+   "root": "خ ب ز"
+  },
+  {
+   "id": "qahwa",
+   "it": "قَهْوَة",
+   "en": "coffee",
+   "rank": 46,
+   "topic": "food",
+   "gender": "f",
+   "plural": null
+  },
+  {
+   "id": "shay",
+   "it": "شَاي",
+   "en": "tea",
+   "rank": 47,
+   "topic": "food",
+   "gender": "m",
+   "plural": null
+  },
+  {
+   "id": "halib",
+   "it": "حَلِيب",
+   "en": "milk",
+   "rank": 48,
+   "topic": "food",
+   "gender": "m",
+   "plural": null,
+   "root": "ح ل ب"
+  },
+  {
+   "id": "lahm",
+   "it": "لَحْم",
+   "en": "meat",
+   "rank": 49,
+   "topic": "food",
+   "gender": "m",
+   "plural": "لُحُوم",
+   "root": "ل ح م"
+  },
+  {
+   "id": "dajaj",
+   "it": "دَجَاج",
+   "en": "chicken",
+   "rank": 50,
+   "topic": "food",
+   "gender": "m",
+   "plural": null
+  },
+  {
+   "id": "samak",
+   "it": "سَمَك",
+   "en": "fish",
+   "rank": 51,
+   "topic": "food",
+   "gender": "m",
+   "plural": "أَسْمَاك"
+  },
+  {
+   "id": "tuffaha",
+   "it": "تُفَّاحَة",
+   "en": "apple",
+   "rank": 52,
+   "topic": "food",
+   "gender": "f",
+   "plural": "تُفَّاحَات"
+  },
+  {
+   "id": "aruzz",
+   "it": "أَرُزّ",
+   "en": "rice",
+   "rank": 53,
+   "topic": "food",
+   "gender": "m",
+   "plural": null
+  },
+  {
+   "id": "sukkar",
+   "it": "سُكَّر",
+   "en": "sugar",
+   "rank": 54,
+   "topic": "food",
+   "gender": "m",
+   "plural": null
+  },
+  {
+   "id": "milh",
+   "it": "مِلْح",
+   "en": "salt",
+   "rank": 55,
+   "topic": "food",
+   "gender": "m",
+   "plural": null,
+   "root": "م ل ح"
+  },
+  {
+   "id": "asir",
+   "it": "عَصِير",
+   "en": "juice",
+   "rank": 56,
+   "topic": "food",
+   "gender": "m",
+   "plural": null,
+   "root": "ع ص ر"
+  },
+  {
+   "id": "jubn",
+   "it": "جُبْن",
+   "en": "cheese",
+   "rank": 57,
+   "topic": "food",
+   "gender": "m",
+   "plural": null
+  },
+  {
+   "id": "bayda",
+   "it": "بَيْضَة",
+   "en": "egg",
+   "rank": 58,
+   "topic": "food",
+   "gender": "f",
+   "plural": "بَيْض",
+   "root": "ب ي ض"
+  },
+  {
+   "id": "taam",
+   "it": "طَعَام",
+   "en": "food",
+   "rank": 59,
+   "topic": "food",
+   "gender": "m",
+   "plural": null,
+   "root": "ط ع م"
+  },
+  {
+   "id": "futur",
+   "it": "فُطُور",
+   "en": "breakfast",
+   "rank": 60,
+   "topic": "food",
+   "gender": "m",
+   "plural": null,
+   "root": "ف ط ر"
+  },
+  {
+   "id": "ghada",
+   "it": "غَدَاء",
+   "en": "lunch",
+   "rank": 61,
+   "topic": "food",
+   "gender": "m",
+   "plural": null
+  },
+  {
+   "id": "asha",
+   "it": "عَشَاء",
+   "en": "dinner",
+   "rank": 62,
+   "topic": "food",
+   "gender": "m",
+   "plural": null
+  },
+  {
+   "id": "kub",
+   "it": "كُوب",
+   "en": "cup / glass",
+   "rank": 63,
+   "topic": "food",
+   "gender": "m",
+   "plural": "أَكْوَاب"
+  },
+  {
+   "id": "hisab",
+   "it": "حِسَاب",
+   "en": "bill / account",
+   "rank": 64,
+   "topic": "food",
+   "gender": "m",
+   "plural": "حِسَابَات",
+   "root": "ح س ب"
+  },
+  {
+   "id": "matam",
+   "it": "مَطْعَم",
+   "en": "restaurant",
+   "rank": 65,
+   "topic": "food",
+   "gender": "m",
+   "plural": "مَطَاعِم",
+   "root": "ط ع م"
+  },
+  {
+   "id": "maqha",
+   "it": "مَقْهَى",
+   "en": "café",
+   "rank": 66,
+   "topic": "food",
+   "gender": "m",
+   "plural": "مَقَاهٍ"
+  },
+  {
+   "id": "madina",
+   "it": "مَدِينَة",
+   "en": "city",
+   "rank": 67,
+   "topic": "directions",
+   "gender": "f",
+   "plural": "مُدُن"
+  },
+  {
+   "id": "madrasa",
+   "it": "مَدْرَسَة",
+   "en": "school",
+   "rank": 68,
+   "topic": "directions",
+   "gender": "f",
+   "plural": "مَدَارِس",
+   "root": "د ر س"
+  },
+  {
+   "id": "jamia",
+   "it": "جَامِعَة",
+   "en": "university",
+   "rank": 69,
+   "topic": "directions",
+   "gender": "f",
+   "plural": "جَامِعَات",
+   "root": "ج م ع"
+  },
+  {
+   "id": "suq",
+   "it": "سُوق",
+   "en": "market",
+   "rank": 70,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "أَسْوَاق",
+   "root": "س و ق"
+  },
+  {
+   "id": "sharia",
+   "it": "شَارِع",
+   "en": "street",
+   "rank": 71,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "شَوَارِع",
+   "root": "ش ر ع"
+  },
+  {
+   "id": "funduq",
+   "it": "فُنْدُق",
+   "en": "hotel",
+   "rank": 72,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "فَنَادِق"
+  },
+  {
+   "id": "maktab",
+   "it": "مَكْتَب",
+   "en": "office / desk",
+   "rank": 73,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "مَكَاتِب",
+   "root": "ك ت ب"
+  },
+  {
+   "id": "maktaba",
+   "it": "مَكْتَبَة",
+   "en": "library / bookshop",
+   "rank": 74,
+   "topic": "directions",
+   "gender": "f",
+   "plural": "مَكْتَبَات",
+   "root": "ك ت ب"
+  },
+  {
+   "id": "mustashfa",
+   "it": "مُسْتَشْفَى",
+   "en": "hospital",
+   "rank": 75,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "مُسْتَشْفَيَات",
+   "root": "ش ف ي"
+  },
+  {
+   "id": "matar",
+   "it": "مَطَار",
+   "en": "airport",
+   "rank": 76,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "مَطَارَات",
+   "root": "ط ي ر"
+  },
+  {
+   "id": "mahatta",
+   "it": "مَحَطَّة",
+   "en": "station",
+   "rank": 77,
+   "topic": "directions",
+   "gender": "f",
+   "plural": "مَحَطَّات"
+  },
+  {
+   "id": "masjid",
+   "it": "مَسْجِد",
+   "en": "mosque",
+   "rank": 78,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "مَسَاجِد",
+   "root": "س ج د"
+  },
+  {
+   "id": "bank",
+   "it": "بَنْك",
+   "en": "bank",
+   "rank": 79,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "بُنُوك"
+  },
+  {
+   "id": "balad",
+   "it": "بَلَد",
+   "en": "country",
+   "rank": 80,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "بِلَاد",
+   "root": "ب ل د"
+  },
+  {
+   "id": "bahr",
+   "it": "بَحْر",
+   "en": "sea",
+   "rank": 81,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "بِحَار",
+   "root": "ب ح ر"
+  },
+  {
+   "id": "qitar",
+   "it": "قِطَار",
+   "en": "train",
+   "rank": 82,
+   "topic": "directions",
+   "gender": "m",
+   "plural": "قِطَارَات",
+   "root": "ق ط ر"
+  },
+  {
+   "id": "taira",
+   "it": "طَائِرَة",
+   "en": "plane",
+   "rank": 83,
+   "topic": "directions",
+   "gender": "f",
+   "plural": "طَائِرَات",
+   "root": "ط ي ر"
+  },
+  {
+   "id": "yawm",
+   "it": "يَوْم",
+   "en": "day",
+   "rank": 84,
+   "topic": "time",
+   "gender": "m",
+   "plural": "أَيَّام",
+   "root": "ي و م"
+  },
+  {
+   "id": "layl",
+   "it": "لَيْل",
+   "en": "night",
+   "rank": 85,
+   "topic": "time",
+   "gender": "m",
+   "plural": null,
+   "root": "ل ي ل"
+  },
+  {
+   "id": "sabah",
+   "it": "صَبَاح",
+   "en": "morning",
+   "rank": 86,
+   "topic": "time",
+   "gender": "m",
+   "plural": null,
+   "root": "ص ب ح"
+  },
+  {
+   "id": "masa",
+   "it": "مَسَاء",
+   "en": "evening",
+   "rank": 87,
+   "topic": "time",
+   "gender": "m",
+   "plural": null
+  },
+  {
+   "id": "usbu",
+   "it": "أُسْبُوع",
+   "en": "week",
+   "rank": 88,
+   "topic": "time",
+   "gender": "m",
+   "plural": "أَسَابِيع",
+   "root": "س ب ع"
+  },
+  {
+   "id": "shahr",
+   "it": "شَهْر",
+   "en": "month",
+   "rank": 89,
+   "topic": "time",
+   "gender": "m",
+   "plural": "أَشْهُر",
+   "root": "ش ه ر"
+  },
+  {
+   "id": "sana",
+   "it": "سَنَة",
+   "en": "year",
+   "rank": 90,
+   "topic": "time",
+   "gender": "f",
+   "plural": "سَنَوَات"
+  },
+  {
+   "id": "saa",
+   "it": "سَاعَة",
+   "en": "hour / clock",
+   "rank": 91,
+   "topic": "time",
+   "gender": "f",
+   "plural": "سَاعَات"
+  },
+  {
+   "id": "daqiqa",
+   "it": "دَقِيقَة",
+   "en": "minute",
+   "rank": 92,
+   "topic": "time",
+   "gender": "f",
+   "plural": "دَقَائِق",
+   "root": "د ق ق"
+  },
+  {
+   "id": "waqt",
+   "it": "وَقْت",
+   "en": "time",
+   "rank": 93,
+   "topic": "time",
+   "gender": "m",
+   "plural": "أَوْقَات",
+   "root": "و ق ت"
+  }
+ ],
+ "adjectives": [
+  {
+   "id": "kabir",
+   "en": "big / old (age)",
+   "rank": 1,
+   "forms": {
+    "ms": "كَبِير",
+    "fs": "كَبِيرَة",
+    "mp": "كِبَار",
+    "fp": "كَبِيرَات"
+   }
+  },
+  {
+   "id": "saghir",
+   "en": "small / young",
+   "rank": 2,
+   "forms": {
+    "ms": "صَغِير",
+    "fs": "صَغِيرَة",
+    "mp": "صِغَار",
+    "fp": "صَغِيرَات"
+   }
+  },
+  {
+   "id": "jadid",
+   "en": "new",
+   "rank": 3,
+   "forms": {
+    "ms": "جَدِيد",
+    "fs": "جَدِيدَة",
+    "mp": "جُدُد",
+    "fp": "جَدِيدَات"
+   }
+  },
+  {
+   "id": "qadim",
+   "en": "old (things)",
+   "rank": 4,
+   "forms": {
+    "ms": "قَدِيم",
+    "fs": "قَدِيمَة",
+    "mp": "قُدَمَاء",
+    "fp": "قَدِيمَات"
+   }
+  },
+  {
+   "id": "jamil",
+   "en": "beautiful / nice",
+   "rank": 5,
+   "forms": {
+    "ms": "جَمِيل",
+    "fs": "جَمِيلَة",
+    "mp": "جَمِيلُون",
+    "fp": "جَمِيلَات"
+   }
+  },
+  {
+   "id": "tawil",
+   "en": "tall / long",
+   "rank": 6,
+   "forms": {
+    "ms": "طَوِيل",
+    "fs": "طَوِيلَة",
+    "mp": "طِوَال",
+    "fp": "طَوِيلَات"
+   }
+  },
+  {
+   "id": "qasir",
+   "en": "short",
+   "rank": 7,
+   "forms": {
+    "ms": "قَصِير",
+    "fs": "قَصِيرَة",
+    "mp": "قِصَار",
+    "fp": "قَصِيرَات"
+   }
+  },
+  {
+   "id": "kathir",
+   "en": "many / a lot",
+   "rank": 8,
+   "forms": {
+    "ms": "كَثِير",
+    "fs": "كَثِيرَة",
+    "mp": "كَثِيرُون",
+    "fp": "كَثِيرَات"
+   }
+  },
+  {
+   "id": "qalil",
+   "en": "few / little",
+   "rank": 9,
+   "forms": {
+    "ms": "قَلِيل",
+    "fs": "قَلِيلَة",
+    "mp": "قَلِيلُون",
+    "fp": "قَلِيلَات"
+   }
+  },
+  {
+   "id": "harr",
+   "en": "hot",
+   "rank": 10,
+   "forms": {
+    "ms": "حَارّ",
+    "fs": "حَارَّة",
+    "mp": "حَارُّون",
+    "fp": "حَارَّات"
+   }
+  },
+  {
+   "id": "barid",
+   "en": "cold",
+   "rank": 11,
+   "forms": {
+    "ms": "بَارِد",
+    "fs": "بَارِدَة",
+    "mp": "بَارِدُون",
+    "fp": "بَارِدَات"
+   }
+  },
+  {
+   "id": "sahl",
+   "en": "easy",
+   "rank": 12,
+   "forms": {
+    "ms": "سَهْل",
+    "fs": "سَهْلَة",
+    "mp": "سَهْلُون",
+    "fp": "سَهْلَات"
+   }
+  },
+  {
+   "id": "sab",
+   "en": "difficult",
+   "rank": 13,
+   "forms": {
+    "ms": "صَعْب",
+    "fs": "صَعْبَة",
+    "mp": "صِعَاب",
+    "fp": "صَعْبَات"
+   }
+  },
+  {
+   "id": "jayyid",
+   "en": "good",
+   "rank": 14,
+   "forms": {
+    "ms": "جَيِّد",
+    "fs": "جَيِّدَة",
+    "mp": "جَيِّدُون",
+    "fp": "جَيِّدَات"
+   }
+  },
+  {
+   "id": "latif",
+   "en": "kind / pleasant",
+   "rank": 15,
+   "forms": {
+    "ms": "لَطِيف",
+    "fs": "لَطِيفَة",
+    "mp": "لُطَفَاء",
+    "fp": "لَطِيفَات"
+   }
+  },
+  {
+   "id": "said",
+   "en": "happy",
+   "rank": 16,
+   "forms": {
+    "ms": "سَعِيد",
+    "fs": "سَعِيدَة",
+    "mp": "سُعَدَاء",
+    "fp": "سَعِيدَات"
+   }
+  },
+  {
+   "id": "mutab",
+   "en": "tired",
+   "rank": 17,
+   "forms": {
+    "ms": "مُتْعَب",
+    "fs": "مُتْعَبَة",
+    "mp": "مُتْعَبُون",
+    "fp": "مُتْعَبَات"
+   }
+  },
+  {
+   "id": "jaii",
+   "en": "hungry",
+   "rank": 18,
+   "forms": {
+    "ms": "جَائِع",
+    "fs": "جَائِعَة",
+    "mp": "جِيَاع",
+    "fp": "جَائِعَات"
+   }
+  },
+  {
+   "id": "ladhidh",
+   "en": "delicious",
+   "rank": 19,
+   "forms": {
+    "ms": "لَذِيذ",
+    "fs": "لَذِيذَة",
+    "mp": "لَذِيذُون",
+    "fp": "لَذِيذَات"
+   }
+  },
+  {
+   "id": "qarib",
+   "en": "near",
+   "rank": 20,
+   "forms": {
+    "ms": "قَرِيب",
+    "fs": "قَرِيبَة",
+    "mp": "قَرِيبُون",
+    "fp": "قَرِيبَات"
+   }
+  },
+  {
+   "id": "baid",
+   "en": "far",
+   "rank": 21,
+   "forms": {
+    "ms": "بَعِيد",
+    "fs": "بَعِيدَة",
+    "mp": "بَعِيدُون",
+    "fp": "بَعِيدَات"
+   }
+  },
+  {
+   "id": "mashghul",
+   "en": "busy",
+   "rank": 22,
+   "forms": {
+    "ms": "مَشْغُول",
+    "fs": "مَشْغُولَة",
+    "mp": "مَشْغُولُون",
+    "fp": "مَشْغُولَات"
+   }
+  },
+  {
+   "id": "maftuh",
+   "en": "open",
+   "rank": 23,
+   "forms": {
+    "ms": "مَفْتُوح",
+    "fs": "مَفْتُوحَة",
+    "mp": "مَفْتُوحُون",
+    "fp": "مَفْتُوحَات"
+   }
+  },
+  {
+   "id": "mughlaq",
+   "en": "closed",
+   "rank": 24,
+   "forms": {
+    "ms": "مُغْلَق",
+    "fs": "مُغْلَقَة",
+    "mp": "مُغْلَقُون",
+    "fp": "مُغْلَقَات"
+   }
+  },
+  {
+   "id": "arabi",
+   "en": "Arab / Arabic",
+   "rank": 25,
+   "forms": {
+    "ms": "عَرَبِيّ",
+    "fs": "عَرَبِيَّة",
+    "mp": "عَرَب",
+    "fp": "عَرَبِيَّات"
+   }
+  },
+  {
+   "id": "amriki",
+   "en": "American",
+   "rank": 26,
+   "forms": {
+    "ms": "أَمْرِيكِيّ",
+    "fs": "أَمْرِيكِيَّة",
+    "mp": "أَمْرِيكِيُّون",
+    "fp": "أَمْرِيكِيَّات"
+   }
+  }
+ ],
+ "numbers": [
+  {
+   "value": 1,
+   "it": "وَاحِد",
+   "rank": 1
+  },
+  {
+   "value": 2,
+   "it": "اِثْنَان",
+   "rank": 2
+  },
+  {
+   "value": 3,
+   "it": "ثَلَاثَة",
+   "rank": 3
+  },
+  {
+   "value": 4,
+   "it": "أَرْبَعَة",
+   "rank": 4
+  },
+  {
+   "value": 5,
+   "it": "خَمْسَة",
+   "rank": 5
+  },
+  {
+   "value": 6,
+   "it": "سِتَّة",
+   "rank": 6
+  },
+  {
+   "value": 7,
+   "it": "سَبْعَة",
+   "rank": 7
+  },
+  {
+   "value": 8,
+   "it": "ثَمَانِيَة",
+   "rank": 8
+  },
+  {
+   "value": 9,
+   "it": "تِسْعَة",
+   "rank": 9
+  },
+  {
+   "value": 10,
+   "it": "عَشَرَة",
+   "rank": 10
+  },
+  {
+   "value": 11,
+   "it": "أَحَدَ عَشَر",
+   "rank": 11
+  },
+  {
+   "value": 12,
+   "it": "اِثْنَا عَشَر",
+   "rank": 12
+  },
+  {
+   "value": 13,
+   "it": "ثَلَاثَةَ عَشَر",
+   "rank": 13
+  },
+  {
+   "value": 14,
+   "it": "أَرْبَعَةَ عَشَر",
+   "rank": 14
+  },
+  {
+   "value": 15,
+   "it": "خَمْسَةَ عَشَر",
+   "rank": 15
+  },
+  {
+   "value": 16,
+   "it": "سِتَّةَ عَشَر",
+   "rank": 16
+  },
+  {
+   "value": 17,
+   "it": "سَبْعَةَ عَشَر",
+   "rank": 17
+  },
+  {
+   "value": 18,
+   "it": "ثَمَانِيَةَ عَشَر",
+   "rank": 18
+  },
+  {
+   "value": 19,
+   "it": "تِسْعَةَ عَشَر",
+   "rank": 19
+  },
+  {
+   "value": 20,
+   "it": "عِشْرُون",
+   "rank": 20
+  },
+  {
+   "value": 21,
+   "it": "وَاحِد وَعِشْرُون",
+   "tr": "wāḥid wa-ʿishrūn",
+   "rank": 21
+  },
+  {
+   "value": 22,
+   "it": "اِثْنَان وَعِشْرُون",
+   "tr": "ithnān wa-ʿishrūn",
+   "rank": 22
+  },
+  {
+   "value": 23,
+   "it": "ثَلَاثَة وَعِشْرُون",
+   "tr": "thalātha wa-ʿishrūn",
+   "rank": 23
+  },
+  {
+   "value": 24,
+   "it": "أَرْبَعَة وَعِشْرُون",
+   "tr": "arbaʿa wa-ʿishrūn",
+   "rank": 24
+  },
+  {
+   "value": 25,
+   "it": "خَمْسَة وَعِشْرُون",
+   "tr": "khamsa wa-ʿishrūn",
+   "rank": 25
+  },
+  {
+   "value": 26,
+   "it": "سِتَّة وَعِشْرُون",
+   "tr": "sitta wa-ʿishrūn",
+   "rank": 26
+  },
+  {
+   "value": 27,
+   "it": "سَبْعَة وَعِشْرُون",
+   "tr": "sabʿa wa-ʿishrūn",
+   "rank": 27
+  },
+  {
+   "value": 28,
+   "it": "ثَمَانِيَة وَعِشْرُون",
+   "tr": "thamāniya wa-ʿishrūn",
+   "rank": 28
+  },
+  {
+   "value": 29,
+   "it": "تِسْعَة وَعِشْرُون",
+   "tr": "tisʿa wa-ʿishrūn",
+   "rank": 29
+  },
+  {
+   "value": 30,
+   "it": "ثَلَاثُون",
+   "rank": 30
+  },
+  {
+   "value": 31,
+   "it": "وَاحِد وَثَلَاثُون",
+   "tr": "wāḥid wa-thalāthūn",
+   "rank": 31
+  },
+  {
+   "value": 32,
+   "it": "اِثْنَان وَثَلَاثُون",
+   "tr": "ithnān wa-thalāthūn",
+   "rank": 32
+  },
+  {
+   "value": 33,
+   "it": "ثَلَاثَة وَثَلَاثُون",
+   "tr": "thalātha wa-thalāthūn",
+   "rank": 33
+  },
+  {
+   "value": 34,
+   "it": "أَرْبَعَة وَثَلَاثُون",
+   "tr": "arbaʿa wa-thalāthūn",
+   "rank": 34
+  },
+  {
+   "value": 35,
+   "it": "خَمْسَة وَثَلَاثُون",
+   "tr": "khamsa wa-thalāthūn",
+   "rank": 35
+  },
+  {
+   "value": 36,
+   "it": "سِتَّة وَثَلَاثُون",
+   "tr": "sitta wa-thalāthūn",
+   "rank": 36
+  },
+  {
+   "value": 37,
+   "it": "سَبْعَة وَثَلَاثُون",
+   "tr": "sabʿa wa-thalāthūn",
+   "rank": 37
+  },
+  {
+   "value": 38,
+   "it": "ثَمَانِيَة وَثَلَاثُون",
+   "tr": "thamāniya wa-thalāthūn",
+   "rank": 38
+  },
+  {
+   "value": 39,
+   "it": "تِسْعَة وَثَلَاثُون",
+   "tr": "tisʿa wa-thalāthūn",
+   "rank": 39
+  },
+  {
+   "value": 40,
+   "it": "أَرْبَعُون",
+   "rank": 40
+  },
+  {
+   "value": 41,
+   "it": "وَاحِد وَأَرْبَعُون",
+   "tr": "wāḥid wa-arbaʿūn",
+   "rank": 41
+  },
+  {
+   "value": 42,
+   "it": "اِثْنَان وَأَرْبَعُون",
+   "tr": "ithnān wa-arbaʿūn",
+   "rank": 42
+  },
+  {
+   "value": 43,
+   "it": "ثَلَاثَة وَأَرْبَعُون",
+   "tr": "thalātha wa-arbaʿūn",
+   "rank": 43
+  },
+  {
+   "value": 44,
+   "it": "أَرْبَعَة وَأَرْبَعُون",
+   "tr": "arbaʿa wa-arbaʿūn",
+   "rank": 44
+  },
+  {
+   "value": 45,
+   "it": "خَمْسَة وَأَرْبَعُون",
+   "tr": "khamsa wa-arbaʿūn",
+   "rank": 45
+  },
+  {
+   "value": 46,
+   "it": "سِتَّة وَأَرْبَعُون",
+   "tr": "sitta wa-arbaʿūn",
+   "rank": 46
+  },
+  {
+   "value": 47,
+   "it": "سَبْعَة وَأَرْبَعُون",
+   "tr": "sabʿa wa-arbaʿūn",
+   "rank": 47
+  },
+  {
+   "value": 48,
+   "it": "ثَمَانِيَة وَأَرْبَعُون",
+   "tr": "thamāniya wa-arbaʿūn",
+   "rank": 48
+  },
+  {
+   "value": 49,
+   "it": "تِسْعَة وَأَرْبَعُون",
+   "tr": "tisʿa wa-arbaʿūn",
+   "rank": 49
+  },
+  {
+   "value": 50,
+   "it": "خَمْسُون",
+   "rank": 50
+  },
+  {
+   "value": 51,
+   "it": "وَاحِد وَخَمْسُون",
+   "tr": "wāḥid wa-khamsūn",
+   "rank": 51
+  },
+  {
+   "value": 52,
+   "it": "اِثْنَان وَخَمْسُون",
+   "tr": "ithnān wa-khamsūn",
+   "rank": 52
+  },
+  {
+   "value": 53,
+   "it": "ثَلَاثَة وَخَمْسُون",
+   "tr": "thalātha wa-khamsūn",
+   "rank": 53
+  },
+  {
+   "value": 54,
+   "it": "أَرْبَعَة وَخَمْسُون",
+   "tr": "arbaʿa wa-khamsūn",
+   "rank": 54
+  },
+  {
+   "value": 55,
+   "it": "خَمْسَة وَخَمْسُون",
+   "tr": "khamsa wa-khamsūn",
+   "rank": 55
+  },
+  {
+   "value": 56,
+   "it": "سِتَّة وَخَمْسُون",
+   "tr": "sitta wa-khamsūn",
+   "rank": 56
+  },
+  {
+   "value": 57,
+   "it": "سَبْعَة وَخَمْسُون",
+   "tr": "sabʿa wa-khamsūn",
+   "rank": 57
+  },
+  {
+   "value": 58,
+   "it": "ثَمَانِيَة وَخَمْسُون",
+   "tr": "thamāniya wa-khamsūn",
+   "rank": 58
+  },
+  {
+   "value": 59,
+   "it": "تِسْعَة وَخَمْسُون",
+   "tr": "tisʿa wa-khamsūn",
+   "rank": 59
+  },
+  {
+   "value": 60,
+   "it": "سِتُّون",
+   "rank": 60
+  },
+  {
+   "value": 61,
+   "it": "وَاحِد وَسِتُّون",
+   "tr": "wāḥid wa-sittūn",
+   "rank": 61
+  },
+  {
+   "value": 62,
+   "it": "اِثْنَان وَسِتُّون",
+   "tr": "ithnān wa-sittūn",
+   "rank": 62
+  },
+  {
+   "value": 63,
+   "it": "ثَلَاثَة وَسِتُّون",
+   "tr": "thalātha wa-sittūn",
+   "rank": 63
+  },
+  {
+   "value": 64,
+   "it": "أَرْبَعَة وَسِتُّون",
+   "tr": "arbaʿa wa-sittūn",
+   "rank": 64
+  },
+  {
+   "value": 65,
+   "it": "خَمْسَة وَسِتُّون",
+   "tr": "khamsa wa-sittūn",
+   "rank": 65
+  },
+  {
+   "value": 66,
+   "it": "سِتَّة وَسِتُّون",
+   "tr": "sitta wa-sittūn",
+   "rank": 66
+  },
+  {
+   "value": 67,
+   "it": "سَبْعَة وَسِتُّون",
+   "tr": "sabʿa wa-sittūn",
+   "rank": 67
+  },
+  {
+   "value": 68,
+   "it": "ثَمَانِيَة وَسِتُّون",
+   "tr": "thamāniya wa-sittūn",
+   "rank": 68
+  },
+  {
+   "value": 69,
+   "it": "تِسْعَة وَسِتُّون",
+   "tr": "tisʿa wa-sittūn",
+   "rank": 69
+  },
+  {
+   "value": 70,
+   "it": "سَبْعُون",
+   "rank": 70
+  },
+  {
+   "value": 71,
+   "it": "وَاحِد وَسَبْعُون",
+   "tr": "wāḥid wa-sabʿūn",
+   "rank": 71
+  },
+  {
+   "value": 72,
+   "it": "اِثْنَان وَسَبْعُون",
+   "tr": "ithnān wa-sabʿūn",
+   "rank": 72
+  },
+  {
+   "value": 73,
+   "it": "ثَلَاثَة وَسَبْعُون",
+   "tr": "thalātha wa-sabʿūn",
+   "rank": 73
+  },
+  {
+   "value": 74,
+   "it": "أَرْبَعَة وَسَبْعُون",
+   "tr": "arbaʿa wa-sabʿūn",
+   "rank": 74
+  },
+  {
+   "value": 75,
+   "it": "خَمْسَة وَسَبْعُون",
+   "tr": "khamsa wa-sabʿūn",
+   "rank": 75
+  },
+  {
+   "value": 76,
+   "it": "سِتَّة وَسَبْعُون",
+   "tr": "sitta wa-sabʿūn",
+   "rank": 76
+  },
+  {
+   "value": 77,
+   "it": "سَبْعَة وَسَبْعُون",
+   "tr": "sabʿa wa-sabʿūn",
+   "rank": 77
+  },
+  {
+   "value": 78,
+   "it": "ثَمَانِيَة وَسَبْعُون",
+   "tr": "thamāniya wa-sabʿūn",
+   "rank": 78
+  },
+  {
+   "value": 79,
+   "it": "تِسْعَة وَسَبْعُون",
+   "tr": "tisʿa wa-sabʿūn",
+   "rank": 79
+  },
+  {
+   "value": 80,
+   "it": "ثَمَانُون",
+   "rank": 80
+  },
+  {
+   "value": 81,
+   "it": "وَاحِد وَثَمَانُون",
+   "tr": "wāḥid wa-thamānūn",
+   "rank": 81
+  },
+  {
+   "value": 82,
+   "it": "اِثْنَان وَثَمَانُون",
+   "tr": "ithnān wa-thamānūn",
+   "rank": 82
+  },
+  {
+   "value": 83,
+   "it": "ثَلَاثَة وَثَمَانُون",
+   "tr": "thalātha wa-thamānūn",
+   "rank": 83
+  },
+  {
+   "value": 84,
+   "it": "أَرْبَعَة وَثَمَانُون",
+   "tr": "arbaʿa wa-thamānūn",
+   "rank": 84
+  },
+  {
+   "value": 85,
+   "it": "خَمْسَة وَثَمَانُون",
+   "tr": "khamsa wa-thamānūn",
+   "rank": 85
+  },
+  {
+   "value": 86,
+   "it": "سِتَّة وَثَمَانُون",
+   "tr": "sitta wa-thamānūn",
+   "rank": 86
+  },
+  {
+   "value": 87,
+   "it": "سَبْعَة وَثَمَانُون",
+   "tr": "sabʿa wa-thamānūn",
+   "rank": 87
+  },
+  {
+   "value": 88,
+   "it": "ثَمَانِيَة وَثَمَانُون",
+   "tr": "thamāniya wa-thamānūn",
+   "rank": 88
+  },
+  {
+   "value": 89,
+   "it": "تِسْعَة وَثَمَانُون",
+   "tr": "tisʿa wa-thamānūn",
+   "rank": 89
+  },
+  {
+   "value": 90,
+   "it": "تِسْعُون",
+   "rank": 90
+  },
+  {
+   "value": 91,
+   "it": "وَاحِد وَتِسْعُون",
+   "tr": "wāḥid wa-tisʿūn",
+   "rank": 91
+  },
+  {
+   "value": 92,
+   "it": "اِثْنَان وَتِسْعُون",
+   "tr": "ithnān wa-tisʿūn",
+   "rank": 92
+  },
+  {
+   "value": 93,
+   "it": "ثَلَاثَة وَتِسْعُون",
+   "tr": "thalātha wa-tisʿūn",
+   "rank": 93
+  },
+  {
+   "value": 94,
+   "it": "أَرْبَعَة وَتِسْعُون",
+   "tr": "arbaʿa wa-tisʿūn",
+   "rank": 94
+  },
+  {
+   "value": 95,
+   "it": "خَمْسَة وَتِسْعُون",
+   "tr": "khamsa wa-tisʿūn",
+   "rank": 95
+  },
+  {
+   "value": 96,
+   "it": "سِتَّة وَتِسْعُون",
+   "tr": "sitta wa-tisʿūn",
+   "rank": 96
+  },
+  {
+   "value": 97,
+   "it": "سَبْعَة وَتِسْعُون",
+   "tr": "sabʿa wa-tisʿūn",
+   "rank": 97
+  },
+  {
+   "value": 98,
+   "it": "ثَمَانِيَة وَتِسْعُون",
+   "tr": "thamāniya wa-tisʿūn",
+   "rank": 98
+  },
+  {
+   "value": 99,
+   "it": "تِسْعَة وَتِسْعُون",
+   "tr": "tisʿa wa-tisʿūn",
+   "rank": 99
+  },
+  {
+   "value": 100,
+   "it": "مِئَة",
+   "rank": 100
+  }
+ ],
+ "prepositions": [
+  {
+   "it": "فِي",
+   "en": "in / at",
+   "type": "simple",
+   "note": "fī al-bayt = in the house."
+  },
+  {
+   "it": "عَلَى",
+   "en": "on",
+   "type": "simple",
+   "note": "ʿalā aṭ-ṭāwila = on the table."
+  },
+  {
+   "it": "مِنْ",
+   "en": "from / of",
+   "type": "simple",
+   "note": "Before al- it becomes mina: mina al-bayt."
+  },
+  {
+   "it": "إِلَى",
+   "en": "to (towards)",
+   "type": "simple",
+   "note": "ilā al-madrasa = to school."
+  },
+  {
+   "it": "مَعَ",
+   "en": "with (together with)",
+   "type": "simple",
+   "note": "maʿa ṣadīqī = with my friend."
+  },
+  {
+   "it": "عِنْدَ",
+   "en": "at / with (someone)",
+   "type": "simple",
+   "note": "With an ending it means “have”: ʿindī = I have."
+  },
+  {
+   "it": "عَنْ",
+   "en": "about / from",
+   "type": "simple",
+   "note": "ʿan al-ʿamal = about work."
+  },
+  {
+   "it": "بِ",
+   "en": "with / by / in",
+   "type": "attached",
+   "note": "Written joined to the next word: bi-s-sayyāra = by car."
+  },
+  {
+   "it": "لِ",
+   "en": "for / to",
+   "type": "attached",
+   "note": "Written joined to the next word; li + al- = lil-: li-l-bayt."
+  },
+  {
+   "it": "تَحْتَ",
+   "en": "under",
+   "type": "simple",
+   "note": "taḥta as-sarīr = under the bed."
+  },
+  {
+   "it": "فَوْقَ",
+   "en": "above",
+   "type": "simple",
+   "note": "fawqa al-bāb = above the door."
+  },
+  {
+   "it": "أَمَامَ",
+   "en": "in front of",
+   "type": "simple",
+   "note": "amāma al-funduq = in front of the hotel."
+  },
+  {
+   "it": "وَرَاءَ",
+   "en": "behind",
+   "type": "simple",
+   "note": "warāʾa al-bayt = behind the house."
+  },
+  {
+   "it": "بَيْنَ",
+   "en": "between",
+   "type": "simple",
+   "note": "bayna al-bank wa-l-madrasa = between the bank and the school."
+  },
+  {
+   "it": "قَبْلَ",
+   "en": "before",
+   "type": "simple",
+   "note": "qabla al-ghadāʾ = before lunch."
+  },
+  {
+   "it": "بَعْدَ",
+   "en": "after / in (time)",
+   "type": "simple",
+   "note": "baʿda sāʿa = in an hour."
+  }
+ ],
+ "conjunctions": [
+  {
+   "it": "وَ",
+   "en": "and",
+   "type": "coordinating",
+   "note": "Written joined to the next word: kitāb wa-qalam."
+  },
+  {
+   "it": "فَ",
+   "en": "so / and then",
+   "type": "coordinating",
+   "note": "Written joined to the next word."
+  },
+  {
+   "it": "أَوْ",
+   "en": "or",
+   "type": "coordinating",
+   "note": "shāy aw qahwa? = tea or coffee?"
+  },
+  {
+   "it": "لٰكِنْ",
+   "en": "but",
+   "type": "coordinating",
+   "note": "Spelled with a small (dagger) alif: lākin."
+  },
+  {
+   "it": "ثُمَّ",
+   "en": "then",
+   "type": "coordinating",
+   "note": "One thing after another."
+  },
+  {
+   "it": "لِأَنَّ",
+   "en": "because",
+   "type": "subordinating",
+   "note": "Followed by a noun or a pronoun ending: li-anna-hu = because he…"
+  },
+  {
+   "it": "إِذَا",
+   "en": "if",
+   "type": "subordinating",
+   "note": "idhā kāna ʿindaka waqt = if you have time."
+  }
+ ],
+ "glossary": [
+  {
+   "it": "أَنَا",
+   "en": "I",
+   "pos": "pronoun"
+  },
+  {
+   "it": "أَنْتَ",
+   "en": "you (to a man)",
+   "pos": "pronoun"
+  },
+  {
+   "it": "أَنْتِ",
+   "en": "you (to a woman)",
+   "pos": "pronoun"
+  },
+  {
+   "it": "هُوَ",
+   "en": "he / it",
+   "pos": "pronoun"
+  },
+  {
+   "it": "هِيَ",
+   "en": "she / it",
+   "pos": "pronoun"
+  },
+  {
+   "it": "نَحْنُ",
+   "en": "we",
+   "pos": "pronoun"
+  },
+  {
+   "it": "أَنْتُمْ",
+   "en": "you all",
+   "pos": "pronoun"
+  },
+  {
+   "it": "هُمْ",
+   "en": "they",
+   "pos": "pronoun"
+  },
+  {
+   "it": "هٰذَا",
+   "en": "this (m.)",
+   "pos": "demonstrative"
+  },
+  {
+   "it": "هٰذِهِ",
+   "en": "this (f.)",
+   "pos": "demonstrative"
+  },
+  {
+   "it": "ذٰلِكَ",
+   "en": "that (m.)",
+   "pos": "demonstrative"
+  },
+  {
+   "it": "تِلْكَ",
+   "en": "that (f.)",
+   "pos": "demonstrative"
+  },
+  {
+   "it": "مَا",
+   "en": "what",
+   "pos": "question word"
+  },
+  {
+   "it": "مَاذَا",
+   "en": "what (with a verb)",
+   "pos": "question word"
+  },
+  {
+   "it": "مَنْ",
+   "en": "who",
+   "pos": "question word"
+  },
+  {
+   "it": "أَيْنَ",
+   "en": "where",
+   "pos": "question word"
+  },
+  {
+   "it": "مَتَى",
+   "en": "when",
+   "pos": "question word"
+  },
+  {
+   "it": "كَيْفَ",
+   "en": "how",
+   "pos": "question word"
+  },
+  {
+   "it": "كَمْ",
+   "en": "how many / how much",
+   "pos": "question word"
+  },
+  {
+   "it": "بِكَمْ",
+   "tr": "bi-kam",
+   "en": "how much (price)",
+   "pos": "question word"
+  },
+  {
+   "it": "لِمَاذَا",
+   "en": "why",
+   "pos": "question word"
+  },
+  {
+   "it": "هَلْ",
+   "en": "(yes/no question)",
+   "pos": "question word"
+  },
+  {
+   "it": "لَا",
+   "en": "no / not (present)",
+   "pos": "negation"
+  },
+  {
+   "it": "لَمْ",
+   "en": "did not (+ verb)",
+   "pos": "negation"
+  },
+  {
+   "it": "لَنْ",
+   "en": "will not (+ verb)",
+   "pos": "negation"
+  },
+  {
+   "it": "لَيْسَ",
+   "en": "is not (he)",
+   "pos": "negation"
+  },
+  {
+   "it": "لَيْسَتْ",
+   "en": "is not (she)",
+   "pos": "negation"
+  },
+  {
+   "it": "لَسْتُ",
+   "en": "am not",
+   "pos": "negation"
+  },
+  {
+   "it": "نَعَمْ",
+   "en": "yes",
+   "pos": "adverb"
+  },
+  {
+   "it": "هُنَا",
+   "en": "here",
+   "pos": "adverb"
+  },
+  {
+   "it": "هُنَاكَ",
+   "en": "there / there is",
+   "pos": "adverb"
+  },
+  {
+   "it": "الْآن",
+   "en": "now",
+   "pos": "adverb"
+  },
+  {
+   "it": "الْيَوْم",
+   "en": "today",
+   "pos": "adverb"
+  },
+  {
+   "it": "غَدًا",
+   "en": "tomorrow",
+   "pos": "adverb"
+  },
+  {
+   "it": "أَمْسِ",
+   "en": "yesterday",
+   "pos": "adverb"
+  },
+  {
+   "it": "جِدًّا",
+   "en": "very",
+   "pos": "adverb"
+  },
+  {
+   "it": "أَيْضًا",
+   "en": "also",
+   "pos": "adverb"
+  },
+  {
+   "it": "كُلّ",
+   "en": "every / all",
+   "pos": "adverb"
+  },
+  {
+   "it": "قَلِيلًا",
+   "en": "a little",
+   "pos": "adverb"
+  },
+  {
+   "it": "كَثِيرًا",
+   "en": "a lot",
+   "pos": "adverb"
+  },
+  {
+   "it": "دَائِمًا",
+   "en": "always",
+   "pos": "adverb"
+  },
+  {
+   "it": "جَيِّدًا",
+   "en": "well",
+   "pos": "adverb"
+  },
+  {
+   "it": "أَنْ",
+   "en": "to (before a verb)",
+   "pos": "particle"
+  },
+  {
+   "it": "يَا",
+   "en": "O (when calling someone)",
+   "pos": "particle"
+  },
+  {
+   "it": "يُمْكِنُ",
+   "en": "it is possible / can",
+   "pos": "verb"
+  },
+  {
+   "it": "اِذْهَبْ",
+   "en": "go! (to a man)",
+   "pos": "verb"
+  },
+  {
+   "it": "الْيَمِين",
+   "en": "the right",
+   "pos": "noun"
+  },
+  {
+   "it": "الْيَسَار",
+   "en": "the left",
+   "pos": "noun"
+  },
+  {
+   "it": "خَيْر",
+   "en": "good / well-being",
+   "pos": "noun"
+  },
+  {
+   "it": "حَال",
+   "en": "state / how someone is",
+   "pos": "noun"
+  },
+  {
+   "it": "الْعَرَبِيَّة",
+   "en": "Arabic (the language)",
+   "pos": "noun"
+  },
+  {
+   "it": "ثَلَاث",
+   "en": "three (with feminine nouns)",
+   "pos": "number"
+  },
+  {
+   "it": "ثَالِثَة",
+   "en": "third (f.)",
+   "pos": "number"
+  },
+  {
+   "it": "مَرْحَبًا",
+   "en": "hello",
+   "pos": "phrase"
+  },
+  {
+   "it": "أَهْلًا",
+   "en": "welcome / hi",
+   "pos": "phrase"
+  },
+  {
+   "it": "أَهْلًا وَسَهْلًا",
+   "tr": "ahlan wa-sahlan",
+   "en": "welcome",
+   "pos": "phrase"
+  },
+  {
+   "it": "السَّلَامُ عَلَيْكُمْ",
+   "en": "peace be upon you (hello)",
+   "pos": "phrase"
+  },
+  {
+   "it": "وَعَلَيْكُمُ السَّلَام",
+   "tr": "wa-ʿalaykum as-salām",
+   "en": "and upon you peace (reply)",
+   "pos": "phrase"
+  },
+  {
+   "it": "صَبَاح الْخَيْر",
+   "en": "good morning",
+   "pos": "phrase"
+  },
+  {
+   "it": "صَبَاح النُّور",
+   "en": "good morning (reply)",
+   "pos": "phrase"
+  },
+  {
+   "it": "مَسَاء الْخَيْر",
+   "en": "good evening",
+   "pos": "phrase"
+  },
+  {
+   "it": "مَسَاء النُّور",
+   "en": "good evening (reply)",
+   "pos": "phrase"
+  },
+  {
+   "it": "شُكْرًا",
+   "en": "thank you",
+   "pos": "phrase"
+  },
+  {
+   "it": "شُكْرًا جَزِيلًا",
+   "en": "thank you very much",
+   "pos": "phrase"
+  },
+  {
+   "it": "عَفْوًا",
+   "en": "you’re welcome / excuse me",
+   "pos": "phrase"
+  },
+  {
+   "it": "مِنْ فَضْلِكَ",
+   "en": "please",
+   "pos": "phrase"
+  },
+  {
+   "it": "مَعَ السَّلَامَة",
+   "en": "goodbye",
+   "pos": "phrase"
+  },
+  {
+   "it": "تَشَرَّفْنَا",
+   "en": "nice to meet you",
+   "pos": "phrase"
+  },
+  {
+   "it": "بِخَيْر",
+   "tr": "bi-khayr",
+   "en": "fine / well",
+   "pos": "phrase"
+  },
+  {
+   "it": "كَيْفَ الْحَال",
+   "en": "how are things?",
+   "pos": "phrase"
+  },
+  {
+   "it": "سَارَة",
+   "en": "Sara",
+   "pos": "name"
+  },
+  {
+   "it": "لَيْلَى",
+   "en": "Layla",
+   "pos": "name"
+  },
+  {
+   "it": "مُحَمَّد",
+   "en": "Muhammad",
+   "pos": "name"
+  },
+  {
+   "it": "مِصْر",
+   "en": "Egypt",
+   "pos": "name"
+  },
+  {
+   "it": "أَمْرِيكَا",
+   "en": "America",
+   "pos": "name"
+  },
+  {
+   "it": "الْقَاهِرَة",
+   "en": "Cairo",
+   "pos": "name"
+  },
+  {
+   "it": "دِمَشْق",
+   "en": "Damascus",
+   "pos": "name"
+  }
+ ],
+ "questions": [
+  {
+   "id": "q1",
+   "rank": 1,
+   "topic": "social",
+   "type": "question",
+   "function": null,
+   "it": "كَيْفَ حَالُكَ؟",
+   "en": "How are you? (to a man)",
+   "word": "كَيْفَ",
+   "answers": [
+    {
+     "it": "بِخَيْر، شُكْرًا.",
+     "tr": "bi-khayr, shukran.",
+     "en": "Fine, thanks."
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "rank": 2,
+   "topic": "social",
+   "type": "question",
+   "function": null,
+   "it": "مَا اِسْمُكَ؟",
+   "en": "What’s your name?",
+   "word": "مَا",
+   "answers": [
+    {
+     "it": "اِسْمِي سَارَة.",
+     "en": "My name is Sara."
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "rank": 3,
+   "topic": "social",
+   "type": "question",
+   "function": null,
+   "it": "مِنْ أَيْنَ أَنْتَ؟",
+   "en": "Where are you from?",
+   "word": "أَيْنَ",
+   "answers": [
+    {
+     "it": "أَنَا مِنْ أَمْرِيكَا.",
+     "en": "I’m from America."
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "rank": 4,
+   "topic": "social",
+   "type": "question",
+   "function": null,
+   "it": "هَلْ تَتَكَلَّمُ الْعَرَبِيَّة؟",
+   "en": "Do you speak Arabic?",
+   "word": "هَلْ",
+   "answers": [
+    {
+     "it": "نَعَمْ، قَلِيلًا.",
+     "en": "Yes, a little."
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "rank": 5,
+   "topic": "social",
+   "type": "question",
+   "function": null,
+   "it": "كَمْ عُمْرُكَ؟",
+   "en": "How old are you?",
+   "word": "كَمْ",
+   "answers": [
+    {
+     "it": "عُمْرِي ثَلَاثُون سَنَة.",
+     "en": "I’m thirty."
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "rank": 6,
+   "topic": "social",
+   "type": "question",
+   "function": null,
+   "it": "مَنْ هٰذَا؟",
+   "en": "Who is this?",
+   "word": "مَنْ",
+   "answers": [
+    {
+     "it": "هٰذَا أَخِي.",
+     "en": "This is my brother."
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "rank": 7,
+   "topic": "everyday",
+   "type": "question",
+   "function": null,
+   "it": "أَيْنَ تَسْكُنُ؟",
+   "en": "Where do you live?",
+   "word": "أَيْنَ",
+   "answers": [
+    {
+     "it": "أَسْكُنُ فِي الْقَاهِرَة.",
+     "en": "I live in Cairo."
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "rank": 8,
+   "topic": "everyday",
+   "type": "question",
+   "function": null,
+   "it": "مَا هٰذَا؟",
+   "en": "What is this?",
+   "word": "مَا",
+   "answers": [
+    {
+     "it": "هٰذَا كِتَاب.",
+     "en": "This is a book."
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "rank": 9,
+   "topic": "everyday",
+   "type": "question",
+   "function": null,
+   "it": "هَلْ عِنْدَكَ سَيَّارَة؟",
+   "en": "Do you have a car?",
+   "word": "هَلْ",
+   "answers": [
+    {
+     "it": "لَا، لَيْسَ عِنْدِي سَيَّارَة.",
+     "en": "No, I don’t have a car."
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "rank": 10,
+   "topic": "food",
+   "type": "question",
+   "function": null,
+   "it": "مَاذَا تُرِيدُ؟",
+   "en": "What would you like?",
+   "word": "مَاذَا",
+   "answers": [
+    {
+     "it": "أُرِيدُ قَهْوَة، مِنْ فَضْلِكَ.",
+     "en": "A coffee, please."
+    }
+   ]
+  },
+  {
+   "id": "q11",
+   "rank": 11,
+   "topic": "food",
+   "type": "question",
+   "function": null,
+   "it": "بِكَمْ هٰذَا؟",
+   "tr": "bi-kam hādhā?",
+   "en": "How much is this?",
+   "word": "بِكَمْ",
+   "answers": [
+    {
+     "it": "هٰذَا بِخَمْسَة دَنَانِير.",
+     "tr": "hādhā bi-khamsa danānīr.",
+     "en": "This is five dinars."
+    }
+   ]
+  },
+  {
+   "id": "q12",
+   "rank": 12,
+   "topic": "directions",
+   "type": "question",
+   "function": null,
+   "it": "أَيْنَ الْمَحَطَّة؟",
+   "en": "Where is the station?",
+   "word": "أَيْنَ",
+   "answers": [
+    {
+     "it": "الْمَحَطَّة قَرِيبَة مِنْ هُنَا.",
+     "en": "The station is close to here."
+    }
+   ]
+  },
+  {
+   "id": "q13",
+   "rank": 13,
+   "topic": "directions",
+   "type": "question",
+   "function": null,
+   "it": "كَيْفَ أَذْهَبُ إِلَى السُّوق؟",
+   "en": "How do I get to the market?",
+   "word": "كَيْفَ",
+   "answers": [
+    {
+     "it": "اِذْهَبْ إِلَى الْيَمِين.",
+     "en": "Go right."
+    }
+   ]
+  },
+  {
+   "id": "q14",
+   "rank": 14,
+   "topic": "time",
+   "type": "question",
+   "function": null,
+   "it": "مَتَى تَذْهَبُ إِلَى الْعَمَل؟",
+   "en": "When do you go to work?",
+   "word": "مَتَى",
+   "answers": [
+    {
+     "it": "أَذْهَبُ فِي الصَّبَاح.",
+     "en": "I go in the morning."
+    }
+   ]
+  },
+  {
+   "id": "q15",
+   "rank": 15,
+   "topic": "time",
+   "type": "question",
+   "function": null,
+   "it": "كَمِ السَّاعَة؟",
+   "tr": "kami s-sāʿa?",
+   "en": "What time is it?",
+   "word": "كَمْ",
+   "answers": [
+    {
+     "it": "السَّاعَة الثَّالِثَة.",
+     "en": "It’s three o’clock."
+    }
+   ]
+  }
+ ],
+ "sentences": [
+  {
+   "id": "s1",
+   "rank": 1,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "مَرْحَبًا، أَنَا سَارَة.",
+   "en": "Hello, I’m Sara.",
+   "accepted": []
+  },
+  {
+   "id": "s2",
+   "rank": 2,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "أَهْلًا وَسَهْلًا!",
+   "tr": "ahlan wa-sahlan!",
+   "en": "Welcome!",
+   "accepted": []
+  },
+  {
+   "id": "s3",
+   "rank": 3,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "السَّلَامُ عَلَيْكُمْ.",
+   "en": "Peace be upon you (hello).",
+   "accepted": []
+  },
+  {
+   "id": "s4",
+   "rank": 4,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "وَعَلَيْكُمُ السَّلَام.",
+   "tr": "wa-ʿalaykum as-salām.",
+   "en": "And upon you be peace (the reply).",
+   "accepted": []
+  },
+  {
+   "id": "s5",
+   "rank": 5,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "صَبَاح الْخَيْر.",
+   "en": "Good morning.",
+   "accepted": []
+  },
+  {
+   "id": "s6",
+   "rank": 6,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "مَسَاء الْخَيْر.",
+   "en": "Good evening.",
+   "accepted": []
+  },
+  {
+   "id": "s7",
+   "rank": 7,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "شُكْرًا جَزِيلًا.",
+   "en": "Thank you very much.",
+   "accepted": []
+  },
+  {
+   "id": "s8",
+   "rank": 8,
+   "topic": "social",
+   "type": "statement",
+   "function": "nominal",
+   "it": "أَنَا بِخَيْر، شُكْرًا.",
+   "tr": "anā bi-khayr, shukran.",
+   "en": "I’m fine, thanks.",
+   "accepted": []
+  },
+  {
+   "id": "s9",
+   "rank": 9,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "تَشَرَّفْنَا يَا سَارَة.",
+   "en": "Nice to meet you, Sara.",
+   "accepted": []
+  },
+  {
+   "id": "s10",
+   "rank": 10,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "مَعَ السَّلَامَة.",
+   "en": "Goodbye.",
+   "accepted": []
+  },
+  {
+   "id": "s11",
+   "rank": 11,
+   "topic": "social",
+   "type": "statement",
+   "function": "pronoun_suffix",
+   "it": "اِسْمِي مُحَمَّد.",
+   "en": "My name is Muhammad.",
+   "accepted": []
+  },
+  {
+   "id": "s12",
+   "rank": 12,
+   "topic": "social",
+   "type": "statement",
+   "function": "nominal",
+   "it": "أَنَا طَالِب.",
+   "en": "I am a student.",
+   "accepted": []
+  },
+  {
+   "id": "s13",
+   "rank": 13,
+   "topic": "social",
+   "type": "statement",
+   "function": "nominal",
+   "it": "هِيَ مُعَلِّمَة.",
+   "en": "She is a teacher.",
+   "accepted": []
+  },
+  {
+   "id": "s14",
+   "rank": 14,
+   "topic": "social",
+   "type": "statement",
+   "function": "nominal",
+   "it": "نَحْنُ مِنْ مِصْر.",
+   "en": "We are from Egypt.",
+   "accepted": []
+  },
+  {
+   "id": "s15",
+   "rank": 15,
+   "topic": "social",
+   "type": "statement",
+   "function": "pronoun_suffix",
+   "it": "هُوَ أَخِي الْكَبِير.",
+   "en": "He is my older brother.",
+   "accepted": []
+  },
+  {
+   "id": "s16",
+   "rank": 16,
+   "topic": "social",
+   "type": "statement",
+   "function": "pronoun_suffix",
+   "it": "أُمِّي طَبِيبَة.",
+   "en": "My mother is a doctor.",
+   "accepted": []
+  },
+  {
+   "id": "s17",
+   "rank": 17,
+   "topic": "social",
+   "type": "statement",
+   "function": "possession",
+   "it": "عِنْدِي أَخ وَأُخْت.",
+   "tr": "ʿindī akh wa-ukht.",
+   "en": "I have a brother and a sister.",
+   "accepted": []
+  },
+  {
+   "id": "s18",
+   "rank": 18,
+   "topic": "social",
+   "type": "statement",
+   "function": "pronoun_suffix",
+   "it": "زَوْجِي مُعَلِّم.",
+   "en": "My husband is a teacher.",
+   "accepted": []
+  },
+  {
+   "id": "s19",
+   "rank": 19,
+   "topic": "social",
+   "type": "statement",
+   "function": "pronoun_suffix",
+   "it": "عَائِلَتِي كَبِيرَة.",
+   "en": "My family is big.",
+   "accepted": []
+  },
+  {
+   "id": "s20",
+   "rank": 20,
+   "topic": "social",
+   "type": "statement",
+   "function": "possession",
+   "it": "عِنْدَهُمْ ثَلَاثَة أَطْفَال.",
+   "tr": "ʿindahum thalāthat aṭfāl.",
+   "en": "They have three children.",
+   "accepted": []
+  },
+  {
+   "id": "s21",
+   "rank": 21,
+   "topic": "social",
+   "type": "statement",
+   "function": "pronoun_suffix",
+   "it": "هٰذِهِ صَدِيقَتِي لَيْلَى.",
+   "en": "This is my friend Layla.",
+   "accepted": []
+  },
+  {
+   "id": "s22",
+   "rank": 22,
+   "topic": "social",
+   "type": "statement",
+   "function": null,
+   "it": "أَتَكَلَّمُ الْعَرَبِيَّة قَلِيلًا.",
+   "en": "I speak a little Arabic.",
+   "accepted": []
+  },
+  {
+   "id": "s23",
+   "rank": 23,
+   "topic": "social",
+   "type": "statement",
+   "function": "agreement",
+   "it": "أَتَعَلَّمُ اللُّغَة الْعَرَبِيَّة.",
+   "en": "I’m learning Arabic.",
+   "accepted": []
+  },
+  {
+   "id": "s24",
+   "rank": 24,
+   "topic": "social",
+   "type": "negative",
+   "function": null,
+   "it": "لَا أَفْهَمُ.",
+   "en": "I don’t understand.",
+   "accepted": []
+  },
+  {
+   "id": "s25",
+   "rank": 25,
+   "topic": "social",
+   "type": "negative",
+   "function": null,
+   "it": "لَمْ أَفْهَمْ.",
+   "en": "I didn’t understand.",
+   "accepted": []
+  },
+  {
+   "id": "s26",
+   "rank": 26,
+   "topic": "social",
+   "type": "negative",
+   "function": null,
+   "it": "لَا أَعْرِفُ.",
+   "en": "I don’t know.",
+   "accepted": []
+  },
+  {
+   "id": "s27",
+   "rank": 27,
+   "topic": "social",
+   "type": "statement",
+   "function": "nominal",
+   "it": "هُمْ سُعَدَاء جِدًّا.",
+   "en": "They are very happy.",
+   "accepted": []
+  },
+  {
+   "id": "s28",
+   "rank": 28,
+   "topic": "social",
+   "type": "request",
+   "function": "ability",
+   "it": "هَلْ يُمْكِنُ أَنْ تُسَاعِدَنِي؟",
+   "en": "Can you help me?",
+   "accepted": []
+  },
+  {
+   "id": "s29",
+   "rank": 29,
+   "topic": "social",
+   "type": "statement",
+   "function": "possession",
+   "it": "عِنْدِي سُؤَال.",
+   "en": "I have a question.",
+   "accepted": []
+  },
+  {
+   "id": "s30",
+   "rank": 30,
+   "topic": "social",
+   "type": "negative",
+   "function": "nominal",
+   "it": "هُوَ لَيْسَ هُنَا.",
+   "en": "He isn’t here.",
+   "accepted": []
+  },
+  {
+   "id": "s31",
+   "rank": 31,
+   "topic": "social",
+   "type": "negative",
+   "function": "nominal",
+   "it": "هِيَ لَيْسَتْ فِي الْبَيْت.",
+   "en": "She isn’t at home.",
+   "accepted": []
+  },
+  {
+   "id": "s32",
+   "rank": 32,
+   "topic": "food",
+   "type": "statement",
+   "function": "nominal",
+   "it": "أَنَا جَائِع.",
+   "en": "I’m hungry.",
+   "accepted": []
+  },
+  {
+   "id": "s33",
+   "rank": 33,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "nominal",
+   "it": "نَحْنُ مُتْعَبُون.",
+   "en": "We are tired.",
+   "accepted": []
+  },
+  {
+   "id": "s34",
+   "rank": 34,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "agreement",
+   "it": "هٰذَا بَيْت كَبِير.",
+   "en": "This is a big house.",
+   "accepted": []
+  },
+  {
+   "id": "s35",
+   "rank": 35,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْبَيْت كَبِير.",
+   "en": "The house is big.",
+   "accepted": []
+  },
+  {
+   "id": "s36",
+   "rank": 36,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "agreement",
+   "it": "السَّيَّارَة الْجَدِيدَة جَمِيلَة.",
+   "en": "The new car is beautiful.",
+   "accepted": []
+  },
+  {
+   "id": "s37",
+   "rank": 37,
+   "topic": "directions",
+   "type": "statement",
+   "function": "agreement",
+   "it": "هٰذِهِ مَدْرَسَة قَدِيمَة.",
+   "en": "This is an old school.",
+   "accepted": []
+  },
+  {
+   "id": "s38",
+   "rank": 38,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْكِتَاب عَلَى الطَّاوِلَة.",
+   "en": "The book is on the table.",
+   "accepted": []
+  },
+  {
+   "id": "s39",
+   "rank": 39,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْقِطَّة تَحْتَ السَّرِير.",
+   "en": "The cat is under the bed.",
+   "accepted": []
+  },
+  {
+   "id": "s40",
+   "rank": 40,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْمِفْتَاح فِي الْغُرْفَة.",
+   "en": "The key is in the room.",
+   "accepted": []
+  },
+  {
+   "id": "s41",
+   "rank": 41,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "existence",
+   "it": "هُنَاكَ قَلَم عَلَى الْكُرْسِيّ.",
+   "en": "There is a pen on the chair.",
+   "accepted": []
+  },
+  {
+   "id": "s42",
+   "rank": 42,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "idafa",
+   "it": "بَيْت الطَّالِب صَغِير.",
+   "en": "The student’s house is small.",
+   "accepted": []
+  },
+  {
+   "id": "s43",
+   "rank": 43,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "idafa",
+   "it": "سَيَّارَة الْمُعَلِّم جَدِيدَة.",
+   "en": "The teacher’s car is new.",
+   "accepted": []
+  },
+  {
+   "id": "s44",
+   "rank": 44,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "idafa",
+   "it": "بَاب الْبَيْت مَفْتُوح.",
+   "en": "The door of the house is open.",
+   "accepted": []
+  },
+  {
+   "id": "s45",
+   "rank": 45,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "أَكْتُبُ رِسَالَة.",
+   "en": "I’m writing a letter.",
+   "accepted": []
+  },
+  {
+   "id": "s46",
+   "rank": 46,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "هُوَ يَدْرُسُ فِي الْجَامِعَة.",
+   "en": "He studies at the university.",
+   "accepted": []
+  },
+  {
+   "id": "s47",
+   "rank": 47,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "هِيَ تَعْمَلُ فِي مُسْتَشْفَى.",
+   "en": "She works in a hospital.",
+   "accepted": []
+  },
+  {
+   "id": "s48",
+   "rank": 48,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "agreement",
+   "it": "نَحْنُ نَسْكُنُ فِي مَدِينَة كَبِيرَة.",
+   "en": "We live in a big city.",
+   "accepted": []
+  },
+  {
+   "id": "s49",
+   "rank": 49,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "هُمْ يَلْعَبُونَ فِي الشَّارِع.",
+   "en": "They are playing in the street.",
+   "accepted": []
+  },
+  {
+   "id": "s50",
+   "rank": 50,
+   "topic": "everyday",
+   "type": "question",
+   "function": "pronoun_suffix",
+   "it": "أَيْنَ هَاتِفِي؟",
+   "en": "Where is my phone?",
+   "accepted": []
+  },
+  {
+   "id": "s51",
+   "rank": 51,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "أَخِي يَتَكَلَّمُ ثَلَاث لُغَات.",
+   "en": "My brother speaks three languages.",
+   "accepted": []
+  },
+  {
+   "id": "s52",
+   "rank": 52,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "أَقْرَأُ كُلّ يَوْم.",
+   "en": "I read every day.",
+   "accepted": []
+  },
+  {
+   "id": "s53",
+   "rank": 53,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "agreement",
+   "it": "هٰذِهِ الْغُرْفَة صَغِيرَة.",
+   "en": "This room is small.",
+   "accepted": []
+  },
+  {
+   "id": "s54",
+   "rank": 54,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "رَأَيْتُ قِطَّة فِي الشَّارِع.",
+   "en": "I saw a cat in the street.",
+   "accepted": []
+  },
+  {
+   "id": "s55",
+   "rank": 55,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "agreement",
+   "it": "اِشْتَرَيْتُ سَيَّارَة جَدِيدَة.",
+   "en": "I bought a new car.",
+   "accepted": []
+  },
+  {
+   "id": "s56",
+   "rank": 56,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "الْوَلَد يَلْعَبُ مَعَ الْكَلْب.",
+   "en": "The boy is playing with the dog.",
+   "accepted": []
+  },
+  {
+   "id": "s57",
+   "rank": 57,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "وَجَدْتُ الْمِفْتَاح.",
+   "en": "I found the key.",
+   "accepted": []
+  },
+  {
+   "id": "s58",
+   "rank": 58,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "نَسِيتُ الْمِفْتَاح فِي السَّيَّارَة.",
+   "en": "I left the key in the car.",
+   "accepted": []
+  },
+  {
+   "id": "s59",
+   "rank": 59,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "word_order",
+   "it": "كَتَبَ الطَّالِب الدَّرْس.",
+   "en": "The student wrote the lesson.",
+   "accepted": []
+  },
+  {
+   "id": "s60",
+   "rank": 60,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "word_order",
+   "it": "ذَهَبَ الْأَوْلَاد إِلَى الْمَدْرَسَة.",
+   "en": "The boys went to school.",
+   "accepted": []
+  },
+  {
+   "id": "s61",
+   "rank": 61,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "word_order",
+   "it": "جَاءَ الْمُعَلِّم.",
+   "en": "The teacher came.",
+   "accepted": []
+  },
+  {
+   "id": "s62",
+   "rank": 62,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "word_order",
+   "it": "خَرَجَتْ أُمِّي مِنَ الْبَيْت.",
+   "en": "My mother left the house.",
+   "accepted": []
+  },
+  {
+   "id": "s63",
+   "rank": 63,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "word_order",
+   "it": "فَتَحَ الْوَلَد الْبَاب.",
+   "en": "The boy opened the door.",
+   "accepted": []
+  },
+  {
+   "id": "s64",
+   "rank": 64,
+   "topic": "everyday",
+   "type": "statement",
+   "function": "word_order",
+   "it": "بَاعَ أَبِي سَيَّارَتَهُ.",
+   "en": "My father sold his car.",
+   "accepted": []
+  },
+  {
+   "id": "s65",
+   "rank": 65,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "أَخَذْتُ الْكِتَاب مِنَ الْمَكْتَبَة.",
+   "en": "I took the book from the library.",
+   "accepted": []
+  },
+  {
+   "id": "s66",
+   "rank": 66,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "سَأَلْتُ الْمُعَلِّم سُؤَال.",
+   "en": "I asked the teacher a question.",
+   "accepted": []
+  },
+  {
+   "id": "s67",
+   "rank": 67,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "فَهِمْتُ الدَّرْس.",
+   "en": "I understood the lesson.",
+   "accepted": []
+  },
+  {
+   "id": "s68",
+   "rank": 68,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "كُنْتُ فِي الْبَيْت.",
+   "en": "I was at home.",
+   "accepted": []
+  },
+  {
+   "id": "s69",
+   "rank": 69,
+   "topic": "everyday",
+   "type": "statement",
+   "function": null,
+   "it": "دَخَلْنَا الْغُرْفَة.",
+   "en": "We went into the room.",
+   "accepted": []
+  },
+  {
+   "id": "s70",
+   "rank": 70,
+   "topic": "food",
+   "type": "statement",
+   "function": null,
+   "it": "أَشْرَبُ الْقَهْوَة كُلّ صَبَاح.",
+   "en": "I drink coffee every morning.",
+   "accepted": []
+  },
+  {
+   "id": "s71",
+   "rank": 71,
+   "topic": "food",
+   "type": "request",
+   "function": "desire",
+   "it": "أُرِيدُ كُوب شَاي، مِنْ فَضْلِكَ.",
+   "en": "I’d like a cup of tea, please.",
+   "accepted": []
+  },
+  {
+   "id": "s72",
+   "rank": 72,
+   "topic": "food",
+   "type": "request",
+   "function": "desire",
+   "it": "أُرِيدُ مَاء بَارِد.",
+   "en": "I want cold water.",
+   "accepted": []
+  },
+  {
+   "id": "s73",
+   "rank": 73,
+   "topic": "food",
+   "type": "question",
+   "function": "possession",
+   "it": "هَلْ عِنْدَكُمْ دَجَاج؟",
+   "en": "Do you have chicken?",
+   "accepted": []
+  },
+  {
+   "id": "s74",
+   "rank": 74,
+   "topic": "food",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الطَّعَام لَذِيذ جِدًّا.",
+   "en": "The food is very good.",
+   "accepted": []
+  },
+  {
+   "id": "s75",
+   "rank": 75,
+   "topic": "food",
+   "type": "negative",
+   "function": null,
+   "it": "لَا آكُلُ اللَّحْم.",
+   "en": "I don’t eat meat.",
+   "accepted": []
+  },
+  {
+   "id": "s76",
+   "rank": 76,
+   "topic": "food",
+   "type": "statement",
+   "function": "preference",
+   "it": "أُحِبُّ الْقَهْوَة.",
+   "en": "I like coffee.",
+   "accepted": []
+  },
+  {
+   "id": "s77",
+   "rank": 77,
+   "topic": "food",
+   "type": "statement",
+   "function": "preference",
+   "it": "هِيَ تُحِبُّ الشَّاي مَعَ الْحَلِيب.",
+   "en": "She likes tea with milk.",
+   "accepted": []
+  },
+  {
+   "id": "s78",
+   "rank": 78,
+   "topic": "food",
+   "type": "negative",
+   "function": "preference",
+   "it": "لَا أُحِبُّ السَّمَك.",
+   "en": "I don’t like fish.",
+   "accepted": []
+  },
+  {
+   "id": "s79",
+   "rank": 79,
+   "topic": "food",
+   "type": "statement",
+   "function": "agreement",
+   "it": "أَكَلْنَا فِي مَطْعَم جَمِيل.",
+   "en": "We ate at a nice restaurant.",
+   "accepted": []
+  },
+  {
+   "id": "s80",
+   "rank": 80,
+   "topic": "food",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْعَصِير بَارِد.",
+   "en": "The juice is cold.",
+   "accepted": []
+  },
+  {
+   "id": "s81",
+   "rank": 81,
+   "topic": "food",
+   "type": "request",
+   "function": null,
+   "it": "الْحِسَاب، مِنْ فَضْلِكَ.",
+   "en": "The bill, please.",
+   "accepted": []
+  },
+  {
+   "id": "s82",
+   "rank": 82,
+   "topic": "food",
+   "type": "request",
+   "function": "desire",
+   "it": "أُرِيدُ خُبْز وَجُبْن.",
+   "tr": "urīdu khubz wa-jubn.",
+   "en": "I want bread and cheese.",
+   "accepted": []
+  },
+  {
+   "id": "s83",
+   "rank": 83,
+   "topic": "food",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْأَرُزّ مَعَ الدَّجَاج لَذِيذ.",
+   "en": "Rice with chicken is delicious.",
+   "accepted": []
+  },
+  {
+   "id": "s84",
+   "rank": 84,
+   "topic": "food",
+   "type": "question",
+   "function": "desire",
+   "it": "هَلْ تُرِيدُ سُكَّر؟",
+   "en": "Do you want sugar?",
+   "accepted": []
+  },
+  {
+   "id": "s85",
+   "rank": 85,
+   "topic": "food",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْقَهْوَة حَارَّة.",
+   "en": "The coffee is hot.",
+   "accepted": []
+  },
+  {
+   "id": "s86",
+   "rank": 86,
+   "topic": "food",
+   "type": "statement",
+   "function": "word_order",
+   "it": "طَبَخَ أَبِي الْعَشَاء.",
+   "en": "My father cooked dinner.",
+   "accepted": []
+  },
+  {
+   "id": "s87",
+   "rank": 87,
+   "topic": "food",
+   "type": "statement",
+   "function": null,
+   "it": "جَلَسْنَا فِي الْمَقْهَى.",
+   "en": "We sat in the café.",
+   "accepted": []
+  },
+  {
+   "id": "s88",
+   "rank": 88,
+   "topic": "directions",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْمَطَار بَعِيد.",
+   "en": "The airport is far.",
+   "accepted": []
+  },
+  {
+   "id": "s89",
+   "rank": 89,
+   "topic": "directions",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْبَنْك أَمَامَ الْفُنْدُق.",
+   "en": "The bank is in front of the hotel.",
+   "accepted": []
+  },
+  {
+   "id": "s90",
+   "rank": 90,
+   "topic": "directions",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْمَسْجِد بَيْنَ الْبَنْك وَالْمَدْرَسَة.",
+   "en": "The mosque is between the bank and the school.",
+   "accepted": []
+  },
+  {
+   "id": "s91",
+   "rank": 91,
+   "topic": "directions",
+   "type": "request",
+   "function": null,
+   "it": "اِذْهَبْ إِلَى الْيَمِين.",
+   "en": "Go right.",
+   "accepted": []
+  },
+  {
+   "id": "s92",
+   "rank": 92,
+   "topic": "directions",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْفُنْدُق عَلَى الْيَسَار.",
+   "en": "The hotel is on the left.",
+   "accepted": []
+  },
+  {
+   "id": "s93",
+   "rank": 93,
+   "topic": "directions",
+   "type": "statement",
+   "function": "desire",
+   "it": "أُرِيدُ أَنْ أَذْهَبَ إِلَى الْمَطَار.",
+   "en": "I want to go to the airport.",
+   "accepted": []
+  },
+  {
+   "id": "s94",
+   "rank": 94,
+   "topic": "directions",
+   "type": "statement",
+   "function": null,
+   "it": "سَافَرْتُ إِلَى مِصْر بِالطَّائِرَة.",
+   "en": "I traveled to Egypt by plane.",
+   "accepted": []
+  },
+  {
+   "id": "s95",
+   "rank": 95,
+   "topic": "directions",
+   "type": "statement",
+   "function": null,
+   "it": "نَذْهَبُ إِلَى الْمَدْرَسَة بِالسَّيَّارَة.",
+   "en": "We go to school by car.",
+   "accepted": []
+  },
+  {
+   "id": "s96",
+   "rank": 96,
+   "topic": "directions",
+   "type": "statement",
+   "function": "existence",
+   "it": "هُنَاكَ مَطْعَم قَرِيب.",
+   "en": "There is a restaurant nearby.",
+   "accepted": []
+  },
+  {
+   "id": "s97",
+   "rank": 97,
+   "topic": "directions",
+   "type": "negative",
+   "function": "existence",
+   "it": "لَيْسَ هُنَاكَ بَنْك هُنَا.",
+   "en": "There is no bank here.",
+   "accepted": []
+  },
+  {
+   "id": "s98",
+   "rank": 98,
+   "topic": "directions",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْمَكْتَبَة فِي هٰذَا الشَّارِع.",
+   "en": "The bookshop is on this street.",
+   "accepted": []
+  },
+  {
+   "id": "s99",
+   "rank": 99,
+   "topic": "directions",
+   "type": "statement",
+   "function": "nominal",
+   "it": "السُّوق مُغْلَق الْيَوْم.",
+   "en": "The market is closed today.",
+   "accepted": []
+  },
+  {
+   "id": "s100",
+   "rank": 100,
+   "topic": "directions",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْفُنْدُق قَرِيب مِنَ الْبَحْر.",
+   "en": "The hotel is close to the sea.",
+   "accepted": []
+  },
+  {
+   "id": "s101",
+   "rank": 101,
+   "topic": "directions",
+   "type": "statement",
+   "function": null,
+   "it": "وَصَلْنَا إِلَى الْمَطَار.",
+   "en": "We arrived at the airport.",
+   "accepted": []
+  },
+  {
+   "id": "s102",
+   "rank": 102,
+   "topic": "directions",
+   "type": "statement",
+   "function": null,
+   "it": "أَنْتَظِرُ الْقِطَار.",
+   "en": "I’m waiting for the train.",
+   "accepted": []
+  },
+  {
+   "id": "s103",
+   "rank": 103,
+   "topic": "directions",
+   "type": "statement",
+   "function": null,
+   "it": "يَرْكَبُ الْقِطَار إِلَى الْعَمَل.",
+   "en": "He takes the train to work.",
+   "accepted": []
+  },
+  {
+   "id": "s104",
+   "rank": 104,
+   "topic": "directions",
+   "type": "statement",
+   "function": null,
+   "it": "يَمْشِي إِلَى الْعَمَل كُلّ يَوْم.",
+   "en": "He walks to work every day.",
+   "accepted": []
+  },
+  {
+   "id": "s105",
+   "rank": 105,
+   "topic": "time",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الْيَوْم يَوْم جَمِيل.",
+   "en": "Today is a beautiful day.",
+   "accepted": []
+  },
+  {
+   "id": "s106",
+   "rank": 106,
+   "topic": "time",
+   "type": "statement",
+   "function": "future_plans",
+   "it": "سَأَذْهَبُ إِلَى السُّوق غَدًا.",
+   "en": "I’ll go to the market tomorrow.",
+   "accepted": []
+  },
+  {
+   "id": "s107",
+   "rank": 107,
+   "topic": "time",
+   "type": "statement",
+   "function": "future_plans",
+   "it": "سَنُسَافِرُ بَعْدَ أُسْبُوع.",
+   "en": "We’ll travel in a week.",
+   "accepted": []
+  },
+  {
+   "id": "s108",
+   "rank": 108,
+   "topic": "time",
+   "type": "statement",
+   "function": "future_plans",
+   "it": "سَأَزُورُ صَدِيقِي غَدًا.",
+   "en": "I’ll visit my friend tomorrow.",
+   "accepted": []
+  },
+  {
+   "id": "s109",
+   "rank": 109,
+   "topic": "time",
+   "type": "statement",
+   "function": null,
+   "it": "ذَهَبْتُ إِلَى الْبَنْك أَمْسِ.",
+   "en": "I went to the bank yesterday.",
+   "accepted": []
+  },
+  {
+   "id": "s110",
+   "rank": 110,
+   "topic": "time",
+   "type": "statement",
+   "function": null,
+   "it": "أَعْمَلُ مِنَ الصَّبَاح إِلَى الْمَسَاء.",
+   "en": "I work from morning to evening.",
+   "accepted": []
+  },
+  {
+   "id": "s111",
+   "rank": 111,
+   "topic": "time",
+   "type": "statement",
+   "function": "nominal",
+   "it": "الدَّرْس بَعْدَ سَاعَة.",
+   "en": "The lesson is in an hour.",
+   "accepted": []
+  },
+  {
+   "id": "s112",
+   "rank": 112,
+   "topic": "time",
+   "type": "statement",
+   "function": null,
+   "it": "أَنَامُ فِي اللَّيْل.",
+   "en": "I sleep at night.",
+   "accepted": []
+  },
+  {
+   "id": "s113",
+   "rank": 113,
+   "topic": "time",
+   "type": "negative",
+   "function": "future_plans",
+   "it": "لَنْ أَذْهَبَ إِلَى الْعَمَل غَدًا.",
+   "en": "I won’t go to work tomorrow.",
+   "accepted": []
+  },
+  {
+   "id": "s114",
+   "rank": 114,
+   "topic": "time",
+   "type": "statement",
+   "function": null,
+   "it": "نِمْتُ جَيِّدًا.",
+   "en": "I slept well.",
+   "accepted": []
+  }
+ ],
+ "alphabet": {
+  "groups": [
+   {
+    "id": "g1",
+    "label": "1 · ا ب ت ث ن ي",
+    "title": "ا ب ت ث ن ي and short vowels"
+   },
+   {
+    "id": "g2",
+    "label": "2 · ج ح خ د ذ ر ز و",
+    "title": "ج ح خ د ذ ر ز و"
+   },
+   {
+    "id": "g3",
+    "label": "3 · س ش ص ض ط ظ",
+    "title": "س ش ص ض ط ظ"
+   },
+   {
+    "id": "g4",
+    "label": "4 · ع غ ف ق ك ل م ه",
+    "title": "ع غ ف ق ك ل م ه"
+   },
+   {
+    "id": "g5",
+    "label": "5 · ء ة ى لا ّ ً",
+    "title": "hamza, tāʾ marbūṭa, alif maqṣūra, lām-alif, shadda, tanwīn"
+   }
+  ],
+  "letters": [
+   {
+    "id": "alif",
+    "ch": "ا",
+    "name": "أَلِف",
+    "sound": "ā",
+    "group": "g1",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": false,
+    "sun": null,
+    "similar": [
+     "lam",
+     "lam_alif",
+     "alif_maqsura"
+    ],
+    "tip": "A single upright stroke. Usually the long vowel ā; at the start of a word it carries a short vowel. Never joins the letter after it.",
+    "example": {
+     "it": "بَاب",
+     "en": "door"
+    }
+   },
+   {
+    "id": "ba",
+    "ch": "ب",
+    "name": "بَاء",
+    "sound": "b",
+    "group": "g1",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "ta",
+     "tha",
+     "nun",
+     "ya"
+    ],
+    "tip": "One dot below. Like English b.",
+    "example": {
+     "it": "بَيْت",
+     "en": "house"
+    }
+   },
+   {
+    "id": "ta",
+    "ch": "ت",
+    "name": "تَاء",
+    "sound": "t",
+    "group": "g1",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "ba",
+     "tha",
+     "nun",
+     "taa"
+    ],
+    "tip": "Two dots above. Like English t.",
+    "example": {
+     "it": "تِين",
+     "en": "figs"
+    }
+   },
+   {
+    "id": "tha",
+    "ch": "ث",
+    "name": "ثَاء",
+    "sound": "th",
+    "group": "g1",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "ta",
+     "ba",
+     "nun",
+     "shin"
+    ],
+    "tip": "Three dots above. th as in “think”, never as in “this”.",
+    "example": {
+     "it": "ثَلَاثَة",
+     "en": "three"
+    }
+   },
+   {
+    "id": "nun",
+    "ch": "ن",
+    "name": "نُون",
+    "sound": "n",
+    "group": "g1",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "ba",
+     "ta",
+     "ya"
+    ],
+    "tip": "One dot above, with a deeper bowl at the end of a word. Like English n.",
+    "example": {
+     "it": "نُور",
+     "en": "light"
+    }
+   },
+   {
+    "id": "ya",
+    "ch": "ي",
+    "name": "يَاء",
+    "sound": "y / ī",
+    "group": "g1",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "ba",
+     "nun",
+     "alif_maqsura"
+    ],
+    "tip": "Two dots below. A consonant y, or the long vowel ī after kasra.",
+    "example": {
+     "it": "يَوْم",
+     "en": "day"
+    }
+   },
+   {
+    "id": "jim",
+    "ch": "ج",
+    "name": "جِيم",
+    "sound": "j",
+    "group": "g2",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "ha",
+     "kha"
+    ],
+    "tip": "A dot inside the bowl. Like j in “jam”.",
+    "example": {
+     "it": "جَمِيل",
+     "en": "beautiful"
+    }
+   },
+   {
+    "id": "ha",
+    "ch": "ح",
+    "name": "حَاء",
+    "sound": "ḥ",
+    "group": "g2",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "jim",
+     "kha",
+     "haa"
+    ],
+    "tip": "No dot. A strong, breathy h from deep in the throat, like breathing on glasses to clean them.",
+    "example": {
+     "it": "حَلِيب",
+     "en": "milk"
+    }
+   },
+   {
+    "id": "kha",
+    "ch": "خ",
+    "name": "خَاء",
+    "sound": "kh",
+    "group": "g2",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "ha",
+     "jim",
+     "ghayn"
+    ],
+    "tip": "One dot above. Like ch in Scottish “loch” or German “Bach”.",
+    "example": {
+     "it": "خُبْز",
+     "en": "bread"
+    }
+   },
+   {
+    "id": "dal",
+    "ch": "د",
+    "name": "دَال",
+    "sound": "d",
+    "group": "g2",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "dhal",
+     "ra",
+     "dad"
+    ],
+    "tip": "Like English d. Never joins the letter after it.",
+    "example": {
+     "it": "دَرْس",
+     "en": "lesson"
+    }
+   },
+   {
+    "id": "dhal",
+    "ch": "ذ",
+    "name": "ذَال",
+    "sound": "dh",
+    "group": "g2",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "dal",
+     "zay",
+     "zaa"
+    ],
+    "tip": "dāl with a dot. th as in “this”. Never joins the letter after it.",
+    "example": {
+     "it": "ذَهَبَ",
+     "en": "he went"
+    }
+   },
+   {
+    "id": "ra",
+    "ch": "ر",
+    "name": "رَاء",
+    "sound": "r",
+    "group": "g2",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "zay",
+     "dal",
+     "waw"
+    ],
+    "tip": "Dips below the line. A tapped r, like in Spanish “pero”. Never joins the letter after it.",
+    "example": {
+     "it": "رَجُل",
+     "en": "man"
+    }
+   },
+   {
+    "id": "zay",
+    "ch": "ز",
+    "name": "زَاي",
+    "sound": "z",
+    "group": "g2",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "ra",
+     "dhal"
+    ],
+    "tip": "rāʾ with a dot. Like English z. Never joins the letter after it.",
+    "example": {
+     "it": "زَوْج",
+     "en": "husband"
+    }
+   },
+   {
+    "id": "waw",
+    "ch": "و",
+    "name": "وَاو",
+    "sound": "w / ū",
+    "group": "g2",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "ra",
+     "mim",
+     "qaf"
+    ],
+    "tip": "A consonant w, or the long vowel ū after ḍamma. Never joins the letter after it.",
+    "example": {
+     "it": "وَلَد",
+     "en": "boy"
+    }
+   },
+   {
+    "id": "sin",
+    "ch": "س",
+    "name": "سِين",
+    "sound": "s",
+    "group": "g3",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "shin",
+     "sad"
+    ],
+    "tip": "Three small teeth. Like English s.",
+    "example": {
+     "it": "سَمَك",
+     "en": "fish"
+    }
+   },
+   {
+    "id": "shin",
+    "ch": "ش",
+    "name": "شِين",
+    "sound": "sh",
+    "group": "g3",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "sin",
+     "sad",
+     "tha"
+    ],
+    "tip": "sīn with three dots above. Like English sh.",
+    "example": {
+     "it": "شَمْس",
+     "en": "sun"
+    }
+   },
+   {
+    "id": "sad",
+    "ch": "ص",
+    "name": "صَاد",
+    "sound": "ṣ",
+    "group": "g3",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "dad",
+     "sin"
+    ],
+    "tip": "Heavy s: pull the back of the tongue up. Vowels next to it sound darker.",
+    "example": {
+     "it": "صَدِيق",
+     "en": "friend"
+    }
+   },
+   {
+    "id": "dad",
+    "ch": "ض",
+    "name": "ضَاد",
+    "sound": "ḍ",
+    "group": "g3",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "sad",
+     "dal"
+    ],
+    "tip": "Heavy d. So typical of Arabic that it’s called “the language of ḍād”.",
+    "example": {
+     "it": "ضَيْف",
+     "en": "guest"
+    }
+   },
+   {
+    "id": "taa",
+    "ch": "ط",
+    "name": "طَاء",
+    "sound": "ṭ",
+    "group": "g3",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "zaa",
+     "ta"
+    ],
+    "tip": "Heavy t.",
+    "example": {
+     "it": "طَالِب",
+     "en": "student"
+    }
+   },
+   {
+    "id": "zaa",
+    "ch": "ظ",
+    "name": "ظَاء",
+    "sound": "ẓ",
+    "group": "g3",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "taa",
+     "dhal"
+    ],
+    "tip": "Heavy dh (as in “this”); many speakers say a heavy z.",
+    "example": {
+     "it": "ظُهْر",
+     "en": "noon"
+    }
+   },
+   {
+    "id": "ayn",
+    "ch": "ع",
+    "name": "عَيْن",
+    "sound": "ʿ",
+    "group": "g4",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "ghayn",
+     "hamza",
+     "ha"
+    ],
+    "tip": "A voiced squeeze in the middle of the throat. No English equivalent: say “ah” while tightening your throat.",
+    "example": {
+     "it": "عَيْن",
+     "en": "eye"
+    }
+   },
+   {
+    "id": "ghayn",
+    "ch": "غ",
+    "name": "غَيْن",
+    "sound": "gh",
+    "group": "g4",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "ayn",
+     "kha"
+    ],
+    "tip": "ʿayn with a dot. A gargled sound, like a French r.",
+    "example": {
+     "it": "غُرْفَة",
+     "en": "room"
+    }
+   },
+   {
+    "id": "fa",
+    "ch": "ف",
+    "name": "فَاء",
+    "sound": "f",
+    "group": "g4",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "qaf",
+     "waw"
+    ],
+    "tip": "One dot above a small loop. Like English f.",
+    "example": {
+     "it": "فُنْدُق",
+     "en": "hotel"
+    }
+   },
+   {
+    "id": "qaf",
+    "ch": "ق",
+    "name": "قَاف",
+    "sound": "q",
+    "group": "g4",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "fa",
+     "kaf"
+    ],
+    "tip": "Two dots above and a deep tail. A k made far back in the throat.",
+    "example": {
+     "it": "قَلَم",
+     "en": "pen"
+    }
+   },
+   {
+    "id": "kaf",
+    "ch": "ك",
+    "name": "كَاف",
+    "sound": "k",
+    "group": "g4",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "lam",
+     "qaf"
+    ],
+    "tip": "Like English k. At the start or in the middle it looks like كـ.",
+    "example": {
+     "it": "كِتَاب",
+     "en": "book"
+    }
+   },
+   {
+    "id": "lam",
+    "ch": "ل",
+    "name": "لَام",
+    "sound": "l",
+    "group": "g4",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": true,
+    "similar": [
+     "kaf",
+     "alif"
+    ],
+    "tip": "Tall, with a hook below at the end of a word. Like English l.",
+    "example": {
+     "it": "لَيْل",
+     "en": "night"
+    }
+   },
+   {
+    "id": "mim",
+    "ch": "م",
+    "name": "مِيم",
+    "sound": "m",
+    "group": "g4",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "waw",
+     "haa"
+    ],
+    "tip": "A small round loop. Like English m.",
+    "example": {
+     "it": "مَاء",
+     "en": "water"
+    }
+   },
+   {
+    "id": "haa",
+    "ch": "ه",
+    "name": "هَاء",
+    "sound": "h",
+    "group": "g4",
+    "positions": [
+     "i",
+     "m",
+     "f"
+    ],
+    "joins": true,
+    "consonant": true,
+    "sun": false,
+    "similar": [
+     "ta_marbuta",
+     "ha"
+    ],
+    "tip": "A light h, as in “hat”. Its shape changes more than any other letter’s.",
+    "example": {
+     "it": "هُنَا",
+     "en": "here"
+    }
+   },
+   {
+    "id": "hamza",
+    "ch": "ء",
+    "name": "هَمْزَة",
+    "sound": "ʾ",
+    "group": "g5",
+    "positions": [],
+    "joins": false,
+    "consonant": false,
+    "sun": null,
+    "similar": [
+     "ayn",
+     "alif"
+    ],
+    "tip": "The catch in “uh-oh”. Often sits on a seat: أ إ ؤ ئ. Not written in romanization at the start of a word.",
+    "example": {
+     "it": "سُؤَال",
+     "en": "question"
+    }
+   },
+   {
+    "id": "ta_marbuta",
+    "ch": "ة",
+    "name": "تَاء مَرْبُوطَة",
+    "sound": "-a / -at",
+    "group": "g5",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": false,
+    "sun": null,
+    "similar": [
+     "haa",
+     "ta"
+    ],
+    "tip": "Only at the end of a word, mostly feminine nouns. Said -a at the end of a phrase, -at when linked to the next word.",
+    "example": {
+     "it": "مَدْرَسَة",
+     "en": "school"
+    }
+   },
+   {
+    "id": "alif_maqsura",
+    "ch": "ى",
+    "name": "أَلِف مَقْصُورَة",
+    "sound": "ā",
+    "group": "g5",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": false,
+    "sun": null,
+    "similar": [
+     "ya",
+     "alif"
+    ],
+    "tip": "A yāʾ without dots, only at the end of a word. Sounds like alif: ā.",
+    "example": {
+     "it": "عَلَى",
+     "en": "on"
+    }
+   },
+   {
+    "id": "lam_alif",
+    "ch": "لا",
+    "name": "لَام أَلِف",
+    "sound": "lā",
+    "group": "g5",
+    "positions": [
+     "f"
+    ],
+    "joins": false,
+    "consonant": false,
+    "sun": null,
+    "similar": [
+     "lam",
+     "alif"
+    ],
+    "tip": "lām + alif always join into this one shape. Also the word for “no”.",
+    "example": {
+     "it": "لَا",
+     "en": "no"
+    }
+   }
+  ],
+  "marks": [
+   {
+    "id": "fatha",
+    "name": "فَتْحَة",
+    "tpl": "Cَ",
+    "group": "g1",
+    "set": "short",
+    "en": "fatḥa: a short a. A small stroke above the letter."
+   },
+   {
+    "id": "kasra",
+    "name": "كَسْرَة",
+    "tpl": "Cِ",
+    "group": "g1",
+    "set": "short",
+    "en": "kasra: a short i. A small stroke below the letter."
+   },
+   {
+    "id": "damma",
+    "name": "ضَمَّة",
+    "tpl": "Cُ",
+    "group": "g1",
+    "set": "short",
+    "en": "ḍamma: a short u. A tiny wāw above the letter."
+   },
+   {
+    "id": "sukun",
+    "name": "سُكُون",
+    "tpl": "CَDْ",
+    "group": "g1",
+    "set": "short",
+    "en": "sukūn: no vowel. A small circle above; the letter closes the syllable."
+   },
+   {
+    "id": "long_a",
+    "name": "أَلِف مَدّ",
+    "tpl": "Cَا",
+    "group": "g1",
+    "set": "long",
+    "en": "fatḥa + alif = long ā."
+   },
+   {
+    "id": "long_i",
+    "name": "يَاء مَدّ",
+    "tpl": "Cِي",
+    "group": "g1",
+    "set": "long",
+    "en": "kasra + yāʾ = long ī."
+   },
+   {
+    "id": "long_u",
+    "name": "وَاو مَدّ",
+    "tpl": "Cُو",
+    "group": "g2",
+    "set": "long",
+    "en": "ḍamma + wāw = long ū."
+   },
+   {
+    "id": "shadda",
+    "name": "شَدَّة",
+    "tpl": "CَDَّ",
+    "group": "g5",
+    "set": "extra",
+    "en": "shadda: a doubled consonant. A small w-shape above; hold the sound twice as long."
+   },
+   {
+    "id": "tanwin_a",
+    "name": "تَنْوِين فَتْح",
+    "tpl": "Cًا",
+    "group": "g5",
+    "set": "extra",
+    "en": "tanwīn fatḥ: a doubled fatḥa adds -an. The alif after it is silent."
+   },
+   {
+    "id": "tanwin_i",
+    "name": "تَنْوِين كَسْر",
+    "tpl": "Cٍ",
+    "group": "g5",
+    "set": "extra",
+    "en": "tanwīn kasr: a doubled kasra adds -in."
+   },
+   {
+    "id": "tanwin_u",
+    "name": "تَنْوِين ضَمّ",
+    "tpl": "Cٌ",
+    "group": "g5",
+    "set": "extra",
+    "en": "tanwīn ḍamm: a doubled ḍamma adds -un."
+   }
+  ]
+ },
+ "lessonUnits": [
+  {
+   "id": 1,
+   "title": "The alphabet"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "alphabet-1",
+   "order": 1,
+   "unit": 1,
+   "title": "Dots make the difference",
+   "subtitle": "ا ب ت ث ن ي and short vowels",
+   "goals": [
+    "Read the five letters that share one shape: *ب ت ث ن ي*",
+    "Read the short vowels a, i, u and the no-vowel mark",
+    "Read your first words: *بَاب*, *بِنْت*, *بَيْت*"
+   ],
+   "practice": [
+    "ab:alif",
+    "ab:ba",
+    "ab:ta",
+    "ab:tha",
+    "ab:nun",
+    "ab:ya",
+    "ab:ba:i",
+    "ab:ta:i",
+    "ab:nun:i",
+    "ab:ya:i",
+    "ab:mark:fatha",
+    "ab:mark:kasra",
+    "ab:mark:damma",
+    "ab:mark:sukun",
+    "ab:mark:long_a",
+    "ab:mark:long_i"
+   ],
+   "steps": [
+    {
+     "type": "heading",
+     "text": "Right to left, no capitals"
+    },
+    {
+     "type": "text",
+     "text": "Arabic is written and read from right to left. The alphabet has 28 letters and no capital letters. Inside a word most letters join the next one, so a letter’s shape changes a little depending on whether it comes at the start, in the middle or at the end of a word."
+    },
+    {
+     "type": "text",
+     "text": "Short vowels aren’t letters. They are small marks above or below a letter. Newspapers and street signs leave them out; beginners’ books include them, and so does this app. When you’re ready, turn off Vowel marks at the top of the page."
+    },
+    {
+     "type": "heading",
+     "text": "Five letters, one shape"
+    },
+    {
+     "type": "text",
+     "text": "These five letters share one basic shape. Only the dots tell them apart: how many, and whether they sit above or below."
+    },
+    {
+     "type": "word",
+     "it": "ب",
+     "en": "bāʾ",
+     "note": "One dot below. Like English b.",
+     "say": "بَاء"
+    },
+    {
+     "type": "word",
+     "it": "ت",
+     "en": "tāʾ",
+     "note": "Two dots above. Like English t.",
+     "say": "تَاء"
+    },
+    {
+     "type": "word",
+     "it": "ث",
+     "en": "thāʾ",
+     "note": "Three dots above. th as in “think”, never as in “this”.",
+     "say": "ثَاء"
+    },
+    {
+     "type": "word",
+     "it": "ن",
+     "en": "nūn",
+     "note": "One dot above, with a deeper, rounder bowl. Like English n.",
+     "say": "نُون"
+    },
+    {
+     "type": "word",
+     "it": "ي",
+     "en": "yāʾ",
+     "note": "Two dots below. A consonant y as in “yes”, or the long vowel ī.",
+     "say": "يَاء"
+    },
+    {
+     "type": "check",
+     "prompt": "Which letter has three dots above?",
+     "options": [
+      "*ث*",
+      "*ت*",
+      "*ن*"
+     ],
+     "answer": 0,
+     "why": "Three dots above is *ث* (th). Two dots above is *ت*, and one is *ن*."
+    },
+    {
+     "type": "heading",
+     "text": "Shapes inside a word"
+    },
+    {
+     "type": "text",
+     "text": "At the start or in the middle of a word, these letters shrink to a small tooth with dots, and only the dots tell them apart. At the end of a word they keep their full shape. The line ـ shows where a letter joins its neighbours; it isn’t a letter."
+    },
+    {
+     "type": "list",
+     "title": "ب in each position (read right to left)",
+     "items": [
+      {
+       "it": "بـ",
+       "en": "start"
+      },
+      {
+       "it": "ـبـ",
+       "en": "middle"
+      },
+      {
+       "it": "ـب",
+       "en": "end"
+      },
+      {
+       "it": "ب",
+       "en": "alone"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "title": "The five letters at the start of a word",
+     "items": [
+      {
+       "it": "بـ",
+       "en": "b"
+      },
+      {
+       "it": "تـ",
+       "en": "t"
+      },
+      {
+       "it": "ثـ",
+       "en": "th"
+      },
+      {
+       "it": "نـ",
+       "en": "n"
+      },
+      {
+       "it": "يـ",
+       "en": "y"
+      }
+     ]
+    },
+    {
+     "type": "word",
+     "it": "ا",
+     "en": "alif",
+     "note": "A single upright stroke, usually the long vowel ā. Alif never joins the letter after it.",
+     "say": "أَلِف"
+    },
+    {
+     "type": "heading",
+     "text": "Short vowels"
+    },
+    {
+     "type": "word",
+     "it": "بَ",
+     "en": "fatḥa: short a",
+     "note": "A small stroke above the letter."
+    },
+    {
+     "type": "word",
+     "it": "بِ",
+     "en": "kasra: short i",
+     "note": "A small stroke below the letter."
+    },
+    {
+     "type": "word",
+     "it": "بُ",
+     "en": "ḍamma: short u",
+     "note": "A tiny wāw above the letter."
+    },
+    {
+     "type": "word",
+     "it": "بَتْ",
+     "en": "sukūn: no vowel",
+     "note": "A small circle above a letter means no vowel follows it. Here it closes the syllable: bat."
+    },
+    {
+     "type": "check",
+     "prompt": "How do you read *تُ*?",
+     "options": [
+      "tu",
+      "ta",
+      "ti"
+     ],
+     "answer": 0,
+     "why": "The tiny wāw above the letter is ḍamma, a short u."
+    },
+    {
+     "type": "heading",
+     "text": "Long vowels"
+    },
+    {
+     "type": "text",
+     "text": "A short vowel followed by the letter that matches it makes a long vowel: fatḥa + alif = ā, and kasra + yāʾ = ī. ḍamma + wāw = ū comes in the next lesson."
+    },
+    {
+     "type": "example",
+     "it": "بَاب",
+     "en": "door"
+    },
+    {
+     "type": "example",
+     "it": "تِين",
+     "en": "figs"
+    },
+    {
+     "type": "example",
+     "it": "بِنْت",
+     "en": "girl"
+    },
+    {
+     "type": "example",
+     "it": "بَيْت",
+     "en": "house"
+    },
+    {
+     "type": "note",
+     "label": "ay and aw",
+     "text": "In *بَيْت* the yāʾ has a sukūn, so it doesn’t make a long ī. Fatḥa + yāʾ with sukūn sounds like “ay”: bayt. Fatḥa + wāw with sukūn is “aw”: *يَوْم* (yawm, day)."
+    },
+    {
+     "type": "check",
+     "prompt": "How do you read *بِنْت*?",
+     "options": [
+      "bint",
+      "bant",
+      "bunt"
+     ],
+     "answer": 0,
+     "why": "kasra under the bāʾ, sukūn on the nūn: bint, “girl”."
+    }
+   ]
+  },
+  {
+   "id": "alphabet-2",
+   "order": 2,
+   "unit": 1,
+   "title": "Letters that stand apart",
+   "subtitle": "ج ح خ د ذ ر ز و",
+   "goals": [
+    "Tell *ج ح خ* apart, including the throat sound ḥ",
+    "Know the six letters that never join the next letter",
+    "Read long ū"
+   ],
+   "practice": [
+    "ab:jim",
+    "ab:ha",
+    "ab:kha",
+    "ab:dal",
+    "ab:dhal",
+    "ab:ra",
+    "ab:zay",
+    "ab:waw",
+    "ab:jim:i",
+    "ab:ha:i",
+    "ab:kha:m",
+    "ab:dal:f",
+    "ab:ra:f",
+    "ab:mark:long_u"
+   ],
+   "steps": [
+    {
+     "type": "heading",
+     "text": "Three letters, one bowl"
+    },
+    {
+     "type": "text",
+     "text": "Like the dot family, these three share a shape: a hook with a bowl underneath."
+    },
+    {
+     "type": "word",
+     "it": "ج",
+     "en": "jīm",
+     "note": "A dot inside the bowl. Like j in “jam”.",
+     "say": "جِيم"
+    },
+    {
+     "type": "word",
+     "it": "ح",
+     "en": "ḥāʾ",
+     "note": "No dot. A strong, breathy h from deep in the throat, like breathing on glasses to clean them. Romanized ḥ, with a dot below.",
+     "say": "حَاء"
+    },
+    {
+     "type": "word",
+     "it": "خ",
+     "en": "khāʾ",
+     "note": "One dot above. Like ch in Scottish “loch” or German “Bach”.",
+     "say": "خَاء"
+    },
+    {
+     "type": "check",
+     "prompt": "Which letter makes the sound in “Bach”?",
+     "options": [
+      "*خ*",
+      "*ح*",
+      "*ج*"
+     ],
+     "answer": 0,
+     "why": "One dot above: *خ* (kh)."
+    },
+    {
+     "type": "heading",
+     "text": "Letters that never join forward"
+    },
+    {
+     "type": "text",
+     "text": "Six letters join the letter before them but never the letter after: alif and the five below. After one of them, the next letter starts again in its starting shape. That’s why Arabic words have small gaps inside them."
+    },
+    {
+     "type": "word",
+     "it": "د",
+     "en": "dāl",
+     "note": "Like English d.",
+     "say": "دَال"
+    },
+    {
+     "type": "word",
+     "it": "ذ",
+     "en": "dhāl",
+     "note": "One dot above. th as in “this”.",
+     "say": "ذَال"
+    },
+    {
+     "type": "word",
+     "it": "ر",
+     "en": "rāʾ",
+     "note": "Dips below the line. A tapped r, like the r in Spanish “pero”.",
+     "say": "رَاء"
+    },
+    {
+     "type": "word",
+     "it": "ز",
+     "en": "zāy",
+     "note": "rāʾ with a dot. Like English z.",
+     "say": "زَاي"
+    },
+    {
+     "type": "word",
+     "it": "و",
+     "en": "wāw",
+     "note": "A consonant w, or the long vowel ū.",
+     "say": "وَاو"
+    },
+    {
+     "type": "list",
+     "title": "The six letters that don’t join the next one",
+     "items": [
+      {
+       "it": "ا",
+       "en": "ā"
+      },
+      {
+       "it": "د",
+       "en": "d"
+      },
+      {
+       "it": "ذ",
+       "en": "dh"
+      },
+      {
+       "it": "ر",
+       "en": "r"
+      },
+      {
+       "it": "ز",
+       "en": "z"
+      },
+      {
+       "it": "و",
+       "en": "w / ū"
+      }
+     ]
+    },
+    {
+     "type": "check",
+     "prompt": "In *وَرْد* (roses), how many letters join the letter after them?",
+     "options": [
+      "None",
+      "One",
+      "Two"
+     ],
+     "answer": 0,
+     "why": "wāw, rāʾ and dāl are all non-joiners, so every letter in *وَرْد* stands on its own."
+    },
+    {
+     "type": "heading",
+     "text": "Long ū"
+    },
+    {
+     "type": "text",
+     "text": "ḍamma followed by wāw makes a long ū."
+    },
+    {
+     "type": "example",
+     "it": "نُور",
+     "en": "light"
+    },
+    {
+     "type": "example",
+     "it": "خُبْز",
+     "en": "bread"
+    },
+    {
+     "type": "example",
+     "it": "بَحْر",
+     "en": "sea"
+    },
+    {
+     "type": "example",
+     "it": "دَجَاج",
+     "en": "chicken"
+    },
+    {
+     "type": "example",
+     "it": "جَدِيد",
+     "en": "new"
+    },
+    {
+     "type": "example",
+     "it": "وَزِير",
+     "en": "minister"
+    },
+    {
+     "type": "check",
+     "prompt": "How do you read *خُبْز*?",
+     "options": [
+      "khubz",
+      "ḥubz",
+      "jubz"
+     ],
+     "answer": 0,
+     "why": "One dot above is *خ* (kh). Then ḍamma, bāʾ with sukūn, and zāy: khubz, “bread”."
+    }
+   ]
+  },
+  {
+   "id": "alphabet-3",
+   "order": 3,
+   "unit": 1,
+   "title": "S, sh and the heavy letters",
+   "subtitle": "س ش ص ض ط ظ",
+   "goals": [
+    "Read *س* and *ش*",
+    "Hear and say the four heavy (emphatic) letters",
+    "Read the dot under ṣ ḍ ṭ ẓ in romanization"
+   ],
+   "practice": [
+    "ab:sin",
+    "ab:shin",
+    "ab:sad",
+    "ab:dad",
+    "ab:taa",
+    "ab:zaa",
+    "ab:sin:i",
+    "ab:shin:m",
+    "ab:sad:i",
+    "ab:taa:m"
+   ],
+   "steps": [
+    {
+     "type": "heading",
+     "text": "Teeth"
+    },
+    {
+     "type": "word",
+     "it": "س",
+     "en": "sīn",
+     "note": "Three small teeth. Like English s.",
+     "say": "سِين"
+    },
+    {
+     "type": "word",
+     "it": "ش",
+     "en": "shīn",
+     "note": "sīn with three dots above. Like English sh.",
+     "say": "شِين"
+    },
+    {
+     "type": "heading",
+     "text": "The heavy letters"
+    },
+    {
+     "type": "text",
+     "text": "Four letters are “heavy” (emphatic) partners of lighter sounds. To say them, pull the back of your tongue up and back, as if starting to say “oo”. The vowels next to them sound darker: the a in *صَبَاح* is closer to the a in “father” than in “cat”."
+    },
+    {
+     "type": "word",
+     "it": "ص",
+     "en": "ṣād",
+     "note": "Heavy s.",
+     "say": "صَاد"
+    },
+    {
+     "type": "word",
+     "it": "ض",
+     "en": "ḍād",
+     "note": "Heavy d. Arabic is sometimes called “the language of ḍād”, because the sound is so rare elsewhere.",
+     "say": "ضَاد"
+    },
+    {
+     "type": "word",
+     "it": "ط",
+     "en": "ṭāʾ",
+     "note": "Heavy t.",
+     "say": "طَاء"
+    },
+    {
+     "type": "word",
+     "it": "ظ",
+     "en": "ẓāʾ",
+     "note": "Heavy dh (as in “this”). Many speakers say it as a heavy z.",
+     "say": "ظَاء"
+    },
+    {
+     "type": "note",
+     "label": "Romanization",
+     "text": "A dot under a Latin letter marks a heavy sound: ṣ ḍ ṭ ẓ. The ḥ of *ح* has the same dot but is a throat sound, not a heavy one."
+    },
+    {
+     "type": "list",
+     "title": "Light and heavy pairs",
+     "items": [
+      {
+       "it": "س",
+       "en": "s"
+      },
+      {
+       "it": "ص",
+       "en": "ṣ (heavy)"
+      },
+      {
+       "it": "ت",
+       "en": "t"
+      },
+      {
+       "it": "ط",
+       "en": "ṭ (heavy)"
+      },
+      {
+       "it": "د",
+       "en": "d"
+      },
+      {
+       "it": "ض",
+       "en": "ḍ (heavy)"
+      },
+      {
+       "it": "ذ",
+       "en": "dh"
+      },
+      {
+       "it": "ظ",
+       "en": "ẓ (heavy)"
+      }
+     ]
+    },
+    {
+     "type": "check",
+     "prompt": "Which letter is the heavy s?",
+     "options": [
+      "*ص*",
+      "*س*",
+      "*ش*"
+     ],
+     "answer": 0,
+     "why": "*ص* (ṣād) is the heavy partner of *س* (sīn)."
+    },
+    {
+     "type": "heading",
+     "text": "Reading practice"
+    },
+    {
+     "type": "example",
+     "it": "شَاي",
+     "en": "tea"
+    },
+    {
+     "type": "example",
+     "it": "سَرِير",
+     "en": "bed"
+    },
+    {
+     "type": "example",
+     "it": "صَبَاح",
+     "en": "morning"
+    },
+    {
+     "type": "example",
+     "it": "طَبِيب",
+     "en": "doctor"
+    },
+    {
+     "type": "example",
+     "it": "ضَبَاب",
+     "en": "fog"
+    },
+    {
+     "type": "check",
+     "prompt": "How do you read *طَبِيب*?",
+     "options": [
+      "ṭabīb",
+      "tabīb",
+      "ṭabab"
+     ],
+     "answer": 0,
+     "why": "Heavy ṭ, then kasra + yāʾ for a long ī: ṭabīb, “doctor”."
+    }
+   ]
+  },
+  {
+   "id": "alphabet-4",
+   "order": 4,
+   "unit": 1,
+   "title": "The last eight letters",
+   "subtitle": "ع غ ف ق ك ل م ه",
+   "goals": [
+    "Say ʿayn and ghayn",
+    "Tell *ف* from *ق* and *ك*",
+    "Recognise hāʾ in all its shapes"
+   ],
+   "practice": [
+    "ab:ayn",
+    "ab:ghayn",
+    "ab:fa",
+    "ab:qaf",
+    "ab:kaf",
+    "ab:lam",
+    "ab:mim",
+    "ab:haa",
+    "ab:ayn:m",
+    "ab:kaf:i",
+    "ab:haa:i",
+    "ab:haa:m",
+    "ab:haa:f"
+   ],
+   "steps": [
+    {
+     "type": "heading",
+     "text": "Two throat sounds"
+    },
+    {
+     "type": "word",
+     "it": "ع",
+     "en": "ʿayn",
+     "note": "The hardest sound for English speakers: a tight squeeze in the middle of the throat, with the voice on. Romanized ʿ. Practise by saying “ah” while tightening your throat.",
+     "say": "عَيْن"
+    },
+    {
+     "type": "word",
+     "it": "غ",
+     "en": "ghayn",
+     "note": "ʿayn with a dot. A gargled sound, like a French r.",
+     "say": "غَيْن"
+    },
+    {
+     "type": "check",
+     "prompt": "Which letter is ʿayn?",
+     "options": [
+      "*ع*",
+      "*غ*",
+      "*ح*"
+     ],
+     "answer": 0,
+     "why": "No dot: *ع* (ʿayn). With a dot it’s *غ* (gh)."
+    },
+    {
+     "type": "heading",
+     "text": "f, q and k"
+    },
+    {
+     "type": "word",
+     "it": "ف",
+     "en": "fāʾ",
+     "note": "One dot above a small loop. Like English f.",
+     "say": "فَاء"
+    },
+    {
+     "type": "word",
+     "it": "ق",
+     "en": "qāf",
+     "note": "Two dots above and a deeper tail. A k made far back in the throat.",
+     "say": "قَاف"
+    },
+    {
+     "type": "word",
+     "it": "ك",
+     "en": "kāf",
+     "note": "Like English k. At the start or in the middle of a word it looks quite different: كـ.",
+     "say": "كَاف"
+    },
+    {
+     "type": "heading",
+     "text": "l, m and h"
+    },
+    {
+     "type": "word",
+     "it": "ل",
+     "en": "lām",
+     "note": "Tall, with a hook below at the end of a word. Like English l.",
+     "say": "لَام"
+    },
+    {
+     "type": "word",
+     "it": "م",
+     "en": "mīm",
+     "note": "A small round loop. Like English m.",
+     "say": "مِيم"
+    },
+    {
+     "type": "word",
+     "it": "ه",
+     "en": "hāʾ",
+     "note": "A light h, as in “hat”. Its shape changes more than any other letter’s.",
+     "say": "هَاء"
+    },
+    {
+     "type": "list",
+     "title": "hāʾ in each position",
+     "items": [
+      {
+       "it": "هـ",
+       "en": "start"
+      },
+      {
+       "it": "ـهـ",
+       "en": "middle"
+      },
+      {
+       "it": "ـه",
+       "en": "end"
+      },
+      {
+       "it": "ه",
+       "en": "alone"
+      }
+     ]
+    },
+    {
+     "type": "note",
+     "label": "Two h’s",
+     "text": "*ه* is a light h, as in “hat”. *ح* is the strong, breathy ḥ from the throat. Mixing them up changes the word."
+    },
+    {
+     "type": "heading",
+     "text": "Reading practice"
+    },
+    {
+     "type": "example",
+     "it": "كِتَاب",
+     "en": "book"
+    },
+    {
+     "type": "example",
+     "it": "قَلَم",
+     "en": "pen"
+    },
+    {
+     "type": "example",
+     "it": "عَيْن",
+     "en": "eye"
+    },
+    {
+     "type": "example",
+     "it": "لَيْل",
+     "en": "night"
+    },
+    {
+     "type": "example",
+     "it": "كَلْب",
+     "en": "dog"
+    },
+    {
+     "type": "example",
+     "it": "فِيل",
+     "en": "elephant"
+    },
+    {
+     "type": "check",
+     "prompt": "How do you read *قَلَم*?",
+     "options": [
+      "qalam",
+      "kalam",
+      "qalām"
+     ],
+     "answer": 0,
+     "why": "qāf, lām and mīm, with fatḥa on the first two: qalam, “pen”."
+    }
+   ]
+  },
+  {
+   "id": "alphabet-5",
+   "order": 5,
+   "unit": 1,
+   "title": "Hamza, tāʾ marbūṭa and doubled letters",
+   "subtitle": "ء ة ى لا  ّ  ً",
+   "goals": [
+    "Read hamza on its different seats",
+    "Say tāʾ marbūṭa and alif maqṣūra at the end of a word",
+    "Read shadda (doubling) and tanwīn (-an)"
+   ],
+   "practice": [
+    "ab:hamza",
+    "ab:ta_marbuta",
+    "ab:alif_maqsura",
+    "ab:lam_alif",
+    "ab:ta_marbuta:f",
+    "ab:mark:shadda",
+    "ab:mark:tanwin_a",
+    "ab:mark:tanwin_i",
+    "ab:mark:tanwin_u"
+   ],
+   "steps": [
+    {
+     "type": "heading",
+     "text": "Hamza: the catch in the throat"
+    },
+    {
+     "type": "word",
+     "it": "ء",
+     "en": "hamza",
+     "note": "The catch in “uh-oh”. It often sits on a seat: alif, wāw or a dotless yāʾ. Romanized ʾ, and not written at all at the start of a word.",
+     "say": "هَمْزَة"
+    },
+    {
+     "type": "list",
+     "title": "Hamza and its seats",
+     "items": [
+      {
+       "it": "أ",
+       "en": "on alif"
+      },
+      {
+       "it": "إ",
+       "en": "under alif (i)"
+      },
+      {
+       "it": "ؤ",
+       "en": "on wāw"
+      },
+      {
+       "it": "ئ",
+       "en": "on yāʾ"
+      },
+      {
+       "it": "ء",
+       "en": "alone"
+      }
+     ]
+    },
+    {
+     "type": "example",
+     "it": "أَنَا",
+     "en": "I"
+    },
+    {
+     "type": "example",
+     "it": "سُؤَال",
+     "en": "question"
+    },
+    {
+     "type": "example",
+     "it": "مَاء",
+     "en": "water"
+    },
+    {
+     "type": "heading",
+     "text": "Letters only found at the end"
+    },
+    {
+     "type": "word",
+     "it": "ة",
+     "en": "tāʾ marbūṭa",
+     "note": "Only at the end of a word, mostly on feminine nouns. It looks like hāʾ with two dots. At the end of a phrase it’s said -a; when the word is linked to the next one, -at.",
+     "say": "تَاء مَرْبُوطَة"
+    },
+    {
+     "type": "example",
+     "it": "مَدْرَسَة",
+     "en": "school"
+    },
+    {
+     "type": "example",
+     "it": "سَيَّارَة الْمُعَلِّم",
+     "en": "the teacher’s car"
+    },
+    {
+     "type": "word",
+     "it": "ى",
+     "en": "alif maqṣūra",
+     "note": "A yāʾ without dots, only at the end of a word. It sounds like alif: ā.",
+     "say": "أَلِف مَقْصُورَة"
+    },
+    {
+     "type": "example",
+     "it": "عَلَى",
+     "en": "on"
+    },
+    {
+     "type": "example",
+     "it": "مُسْتَشْفَى",
+     "en": "hospital"
+    },
+    {
+     "type": "word",
+     "it": "لا",
+     "en": "lām-alif",
+     "note": "lām followed by alif always join into this special shape. On its own it’s the word for “no”.",
+     "say": "لَا"
+    },
+    {
+     "type": "check",
+     "prompt": "How does *ة* sound at the end of *مَدِينَة* (city), said on its own?",
+     "options": [
+      "-a: madīna",
+      "-at: madīnat",
+      "-h: madīnah"
+     ],
+     "answer": 0,
+     "why": "At the end of a phrase tāʾ marbūṭa is just -a. It becomes -at when the word is linked to the next one: *مَدِينَة الْقَاهِرَة* (the city of Cairo)."
+    },
+    {
+     "type": "heading",
+     "text": "Doubling and the -n ending"
+    },
+    {
+     "type": "word",
+     "it": "بَبَّ",
+     "en": "shadda: a doubled letter",
+     "note": "A small w-shape above a letter means say it twice as long, as in “book-case”. Here: babba."
+    },
+    {
+     "type": "example",
+     "it": "سَيَّارَة",
+     "en": "car"
+    },
+    {
+     "type": "example",
+     "it": "مُعَلِّم",
+     "en": "teacher"
+    },
+    {
+     "type": "word",
+     "it": "بًا",
+     "en": "tanwīn: -an",
+     "note": "A doubled vowel mark adds -n. You’ll mostly see -an, written with an extra silent alif, in set phrases."
+    },
+    {
+     "type": "example",
+     "it": "شُكْرًا",
+     "en": "thank you"
+    },
+    {
+     "type": "example",
+     "it": "أَهْلًا",
+     "en": "welcome"
+    },
+    {
+     "type": "example",
+     "it": "جِدًّا",
+     "en": "very"
+    },
+    {
+     "type": "check",
+     "prompt": "How do you read *مُعَلِّم*?",
+     "options": [
+      "muʿallim",
+      "muʿalim",
+      "maʿlim"
+     ],
+     "answer": 0,
+     "why": "The shadda doubles the lām: muʿallim, “teacher”."
+    }
+   ]
+  },
+  {
+   "id": "alphabet-6",
+   "order": 6,
+   "unit": 1,
+   "title": "Sun and moon letters",
+   "subtitle": "al- (“the”) and how it’s said",
+   "goals": [
+    "Say “the” in Arabic",
+    "Know when the l of al- is silent",
+    "Read any vowelled word"
+   ],
+   "practice": [
+    "ab:w:n:shams",
+    "ab:w:n:qamar",
+    "ab:w:n:kitab",
+    "ab:w:n:sayyara",
+    "ab:w:n:talib",
+    "ab:w:n:walad"
+   ],
+   "steps": [
+    {
+     "type": "heading",
+     "text": "al- means “the”"
+    },
+    {
+     "type": "text",
+     "text": "Arabic has no word for “a”: *كِتَاب* is “a book”. For “the”, add *ال* (al-) to the front of the word, written joined to it."
+    },
+    {
+     "type": "example",
+     "it": "كِتَاب",
+     "en": "a book"
+    },
+    {
+     "type": "example",
+     "it": "الْكِتَاب",
+     "en": "the book"
+    },
+    {
+     "type": "heading",
+     "text": "Moon letters and sun letters"
+    },
+    {
+     "type": "text",
+     "text": "Before 14 letters, the l of al- isn’t said. It merges into the next letter, which is doubled instead and gets a shadda. These are the sun letters, named after *الشَّمْس* (the sun). Before the other 14, the moon letters, you say the l, as in *الْقَمَر* (the moon)."
+    },
+    {
+     "type": "example",
+     "it": "الشَّمْس",
+     "en": "the sun"
+    },
+    {
+     "type": "example",
+     "it": "الْقَمَر",
+     "en": "the moon"
+    },
+    {
+     "type": "list",
+     "title": "The 14 sun letters",
+     "items": [
+      {
+       "it": "ت",
+       "en": "t"
+      },
+      {
+       "it": "ث",
+       "en": "th"
+      },
+      {
+       "it": "د",
+       "en": "d"
+      },
+      {
+       "it": "ذ",
+       "en": "dh"
+      },
+      {
+       "it": "ر",
+       "en": "r"
+      },
+      {
+       "it": "ز",
+       "en": "z"
+      },
+      {
+       "it": "س",
+       "en": "s"
+      },
+      {
+       "it": "ش",
+       "en": "sh"
+      },
+      {
+       "it": "ص",
+       "en": "ṣ"
+      },
+      {
+       "it": "ض",
+       "en": "ḍ"
+      },
+      {
+       "it": "ط",
+       "en": "ṭ"
+      },
+      {
+       "it": "ظ",
+       "en": "ẓ"
+      },
+      {
+       "it": "ل",
+       "en": "l"
+      },
+      {
+       "it": "ن",
+       "en": "n"
+      }
+     ]
+    },
+    {
+     "type": "note",
+     "label": "Tip",
+     "text": "Sun letters are all made with the tip of the tongue near the teeth, like t, d, s, n and l. The l would get in the way, so it merges."
+    },
+    {
+     "type": "example",
+     "it": "الطَّالِب",
+     "en": "the student"
+    },
+    {
+     "type": "example",
+     "it": "السَّيَّارَة",
+     "en": "the car"
+    },
+    {
+     "type": "example",
+     "it": "الْبَيْت",
+     "en": "the house"
+    },
+    {
+     "type": "example",
+     "it": "الْوَلَد",
+     "en": "the boy"
+    },
+    {
+     "type": "check",
+     "prompt": "How do you say *الرَّجُل* (the man)?",
+     "options": [
+      "ar-rajul",
+      "al-rajul",
+      "a-rajul"
+     ],
+     "answer": 0,
+     "why": "rāʾ is a sun letter, so the l merges into it. The shadda on the rāʾ shows that."
+    },
+    {
+     "type": "check",
+     "prompt": "And *الْبِنْت* (the girl)?",
+     "options": [
+      "al-bint",
+      "ab-bint",
+      "a-bint"
+     ],
+     "answer": 0,
+     "why": "bāʾ is a moon letter: the l is said, and it carries a sukūn."
+    },
+    {
+     "type": "heading",
+     "text": "You can read Arabic"
+    },
+    {
+     "type": "text",
+     "text": "That’s the whole alphabet. You can now read any word written with vowel marks. Practise in the Alphabet tab (Read words uses real words from the app), then try Nouns and Sentences. When reading feels easy, turn off Vowel marks at the top of the page and read the way Arabic speakers do, from memory and context."
+    }
+   ]
+  }
+ ]
+}
